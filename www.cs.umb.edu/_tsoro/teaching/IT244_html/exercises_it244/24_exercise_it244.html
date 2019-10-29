@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/24_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:47 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title> IT 244: Introduction to Linux/Unix - Class 24 Exercise</title>
+</head>
+<body>
+	<header>
+		<h2>IT 244: Introduction to Linux/Unix <br>
+		    Class 24 Exercise
+		</h2>	
+	</header>
+
+	<h3>Log in to <span class="host">users3.cs.umb.edu</span></h3>
+    <ul>
+    	<li><span class="under">Run the ssh client</span><br><br>
+        	Connect to <span class="host">users3.cs.umb.edu</span>.
+        </li>
+    </ul>
+	
+	<h3>Directory for this Exercise</h3>
+    <ul>
+        <li><span class="under">Go to your <span class="path">ex</span> directory</span>
+            <pre>
+cd  ~/it244/ex</pre>
+        </li>
+        <li><span class="under">Create an <span class="path">ex24</span> directory</span><br>
+            <pre>
+mkdir  ex24</pre>
+        </li>       
+        <li><span class="under">Go to your <span class="path">ex24</span> directory</span><br>
+            <pre>
+cd  ex24</pre>
+        </li>
+    </ul>
+	
+    <h3>Simple <code>for</code> Loop</h3>
+    <ul>
+        <li><span class="under">Using your favorite editor, create the script <span class="path">for_1.sh</span></span></li>
+    </ul>
+    <img src="exercise_images_it244/24_exercise_for_1_it244.html" height="50%"/>
+    <ul class='flat'>        
+        <li><span class="under">Make this script executable</span><br>
+            <pre>
+chmod 755 for_1.sh</pre>
+        </li>
+        <li><span class="under">Run this script with an ambiguous file reference</span><br>
+            <pre>
+./for_1.sh  ~/*</pre>
+        The ambiguous file reference ~/* is expanded into a list of all files in your home directory
+        </li>
+     </ul>
+     
+     <h3><code>for ... in ...</code> Loop</h3>
+     <ul>
+        <li><span class="under">Using your favorite editor, create the script <span class="path">for_2.sh</span></span><br>
+            Notice that here the list created by the expansion of ~/* is written in the script itself, 
+            and is not taken from the command line.
+        </li>
+    </ul>
+    <img src="exercise_images_it244/24_exercise_for_2_it244.html" height="50%"/>
+    <ul class='flat'>          
+        <li><span class="under">Make this script executable</span><br>
+            <pre>
+chmod 755 for_2.sh</pre>
+        </li>
+        <li><span class="under">Run this script without arguments</span><br>
+            <pre>
+./for_2.sh</pre>
+            You get the same results as with <span class="path">for_1.sh</span>.
+            <br><br>
+            But here the arguments come expanding the ambigous file reference inside the script itself.
+        </li>
+    </ul>    
+        
+    <h3>Three Expression <code>for</code> Loop</h3>
+    <ul>  
+        <li><span class="under">Using your favorite editor, create the script <span class="path">for_3.sh</span></span></li>
+    </ul>
+    <img src="exercise_images_it244/24_exercise_for_3_it244.html" height="50%"/>
+    <ul class='flat'>        
+        <li><span class="under">Make this script executable</span><br>
+            <pre>
+chmod 755 for_3.sh</pre>
+        </li>
+        <li><span class="under">Run this script</span><br>
+            <pre>
+./for_3.sh</pre>
+    			You should see
+    			<pre>
+0
+1
+2
+3
+4</pre>
+        </li>
+
+    </ul>
+    
+    <h3><code>while</code> Loops</h3>
+    <ul>
+        <li><span class="under">Using your favorite editor, create the script <span class="path">count_to_five.sh</span></span></li>
+    </ul>
+    <img src="exercise_images_it244/24_exercise_count_to_five_it244.html" height="50%"/>
+    <ul class='flat'>        
+        <li><span class="under">Make this script executable</span><br>
+            <pre>
+chmod 755 count_to_five.sh</pre>
+        </li>
+        <li><span class="under">Run this script</span><br>
+            <pre>
+./count_to_five.sh</pre>
+    			You should see
+    			<pre>
+1
+2
+3
+4
+5</pre>
+        </li>
+    </ul>
+        
+    <h3>Practice using the debugging feature</h3>
+    <ul>
+        <li><span class="under">Run <span class="path">count_to_five.sh</span> using the debugging feature</span><br>
+            <pre>
+bash -x count_to_five.sh</pre>
+            Notice that each line of code is printed as it is executed,
+            with the current value of the variable substituted for the
+            variable name.
+        </li>
+    </ul>
+    
+    
+    <h3><code>until</code> Loop</h3>
+    <ul>
+        <li><span class="under">Using your favorite editor, create the script <span class="path">count_until.sh</span></span><br>
+            Notice that this script uses the -gt, greater than, option, as opposed to the
+            -lt, less than, option employed in the <code>while</code> loop script above.
+        </li>
+    </ul>
+    <img src="exercise_images_it244/24_exercise_count_until_it244.html" height="50%"/>
+    <ul class='flat'>        
+        <li><span class="under">Make this script executable</span><br>
+            <pre>
+chmod 755 count_until.sh</pre>
+        </li>
+        <li><span class="under">Run this script</span><br>
+            <pre>
+./count_until.sh 10</pre>
+    			You should see
+    			<pre>
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10</pre>
+        </li>
+    </ul>
+    
+    <h3><code>continue</code></h3>
+    <ul>
+        <li><span class="under">Using <code>nano</code>, or your favorite editor, 
+        create the script <span class="path">continue.sh</span></span></li>
+    </ul>
+    <img src="exercise_images_it244/24_exercise_continue_it244.html" height="50%"/>
+    <ul class='flat'>        
+        <li><span class="under">Make this script executable</span><br>
+            <pre>
+chmod 755 continue.sh</pre>
+        </li>
+        <li><span class="under">Run the script continue.sh</span><br>
+            <pre>
+./continue.sh</pre>
+    			You should see
+    			<pre>
+Adding 1 to 0
+Adding 3 to 1
+Adding 5 to 4
+Adding 7 to 9
+Adding 9 to 16
+Adding 10 to 25
+
+total: 35</pre>
+            Notice that the echo command is not run for the values of 2, 4, 6 and 8. 
+            <br><br>
+            Instead, the loop progresses to the next value of the loop variable.
+        </li>
+    </ul>
+    
+    <h3><code>break</code></h3>
+    <ul>
+        <li><span class="under">Using <code>nano</code>, or your favorite editor, 
+            create the script <span class="path">break.sh</span></span>
+        </li>
+    </ul>
+    <img src="exercise_images_it244/24_exercise_break_it244.html" height="50%"/>
+    <ul class='flat'>        
+        <li><span class="under">Make this script executable</span><br>
+            <pre>
+chmod 755 break.sh</pre>
+        </li>
+        <li><span class="under">Create two dummy files</span><br>
+			<pre>
+touch 1 1.sh</pre>
+		</li>
+		<li><span class="under">Make the dummy file 1.sh executable</span><br>
+			<pre>
+chmod 755 1.sh</pre>
+		</li>
+        <li><span class="under">Run the script break.sh</span><br>
+            <pre>
+./break.sh</pre>
+			You should see
+			<pre>
+First executable file: 1.sh</pre>
+        </li>
+    </ul>
+    
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/24_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:54 GMT -->
+</html>

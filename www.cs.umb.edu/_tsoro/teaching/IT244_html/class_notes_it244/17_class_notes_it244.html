@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/17_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:39 GMT -->
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="../class_notes.css">
+<title> IT 244: Introduction to Linux/Unix - Class 16</title>
+</head>
+<body>
+	<header>
+		<h2>
+		    IT 244: Introduction to Linux/Unix <br>
+		    Class 16
+		</h2>	
+	</header>
+
+	<!-- MAKING SCRIPT EXECUTABLE ALLOWS ME TO PUT IT IN PATH -->
+	<!-- NEED MORE -->
+	<!-- ADD &>> -->
+	<!-- DIAGRAM OF SHELL RUNNING SCRIPT -->
+	<!-- ADD type TO DISCUSSION OF BUILT-INS -->
+    <h3 class="section">Today's Topics</h3>
+    <h4 class="flat_under">Review</h4>
+    <ul class="flat_top">
+        	<li class="flat"><a href="#pathname_expansion">Pathname Expansion</a></li>
+        <li class="flat"><a href="#question_meta_char">The <span class="char">?</span> Meta-character</a></li>
+        <li class="flat"><a href="#*_meta_char">The <span class="char">*</span> Meta-character</a></li>
+        <li class="flat"><a href="#[]_meta_char">The <span class="char">[</span> and <span class="char">]</span> Meta-characters</a></li>
+        <li class="flat"><a href="#built-ins">Built-ins</a></li>
+        <li class="flat"><a href="#different_versions_of_shell">Different Versions of the Shell</a></li>
+        <li class="flat"><a href="#ways_shell_can_be_created">Ways a Shell Can Be Created</a></li>
+        <li class="flat"><a href="#your_login_shell">Your Login Shell</a></li>
+        <li class="flat"><a href="#interactive_non-login_shells">Interactive Non-login Shells</a></li>
+        <li class="flat"><a href="#non-interactive_shells">Non-interactive Shells</a></li>
+        <li class="flat"><a href="#creating_startup_files">Creating Startup Files</a></li>
+    </ul>
+    <br>
+    <h4 class="flat_under">New Material</h4>
+    <ul class="flat_top">
+    		<li class='flat'><a href="#running_startup_file_after_change">Running a Startup File after a Change has been Made</a></li>
+        <li class="flat"><a href="#commands_that_are_symbols">Commands that are Symbols</a></li> 
+        <li class="flat"><a href="#file_descriptors">File Descriptors</a></li>
+        <li class="flat"><a href="#redirecting_standard_error">Redirecting Standard Error</a></li>
+        <li class="flat"><a href="#shell_scripts">Shell Scripts</a></li>
+        <li class="flat"><a href="#making_shell_script_executable">Making a Shell Script Executable</a></li>
+        <li class="flat"><a href="#specifying_shell_to_run_script">Specifying Which Shell Will Run a Script</a></li>
+        <li class="flat"><a href="#shell_script_comments">Comments in Shell Scripts</a></li>
+    </ul>
+    
+    <h3 class="section">Reading Assignment</h3>
+    <p class="flat">You should have read chapter 8 of Sobell, <i>The Bourne Again Shell</i>.</p>
+    
+    <h3 class="section">Homework 8</h3>
+    <p class="flat">I have posted Homework 8 <a href="../hw_it244/08_hw_it244.html">here</a>.</p>
+    <p>As usual, it will be due next Sunday at 11:59 PM.</p>
+    
+    <h3 class="section">Mid-term</h3>
+    <p class="flat">Let's review the answers to the <a href="../midterm_answers_f17_it244.html">Mid-term</a>.</p>
+    
+    <h3 class="section">Your Current Standing in This Course</h3>
+    <p class="flat">If you want to know your grade as of this moment, send me an email.</p>
+    <p>In performing this calculation, I will assume that your score on the final
+    exam will be the same as that of you mid-term score.</p>
+    <p>I can do this only for your grade as of the mid-term.</p>
+    <p>I can't do this for your grade later in the semester.</p>
+    
+    <h3 class="section">Review</h3>    
+    
+    <h4 class="topic" id="pathname_expansion">Pathname Expansion</h4>
+    <ul class="flat">
+        <li><a class="def" href="../definitions.html#pathname_expansion">Pathname expansion</a> 
+            allows you to specify a file or directory ...
+        </li>
+        <li>without typing the full name</li>
+        <li>It also allows you to specify more than one file or directory ...</li>
+        <li>with a single string of characters</li>
+        <li>Pathname expansion uses characters with special meaning to the shell</li>
+        <li>These special characters are called 
+            <a class="def" href="../definitions.html#bash_meta-characters">meta-characters</a>
+        </li>
+        <li>Meta-characters are also sometimes called 
+            <a class="def" href="../definitions.html#wildcards">wildcards</a>
+        </li>
+        <li>They allow you to specify a pattern</li>
+        <li>When the shell sees meta-characters on the command line ...</li>
+        <li>it replaces the pattern with a sorted list ...</li>
+        <li>of all pathnames that match the pattern</li>
+        <li>The shell then runs this altered command line</li>
+        <li>The pattern is called an 
+            <a class="def" href="../definitions.html#ambiguous_file_reference">ambiguous file reference</a>
+        </li>
+        <li>You can use as many meta-characters as you want to form a pattern</li>
+        <li>Pathname expansion is different from 
+            <a class="def" href="../definitions.html#pathname_completion">pathname completion</a> ...
+        </li>
+        <li>which you get by hitting Tab</li>
+    </ul>
+    
+    <h4 class="topic" id="question_meta_char">The <span class="char">?</span> Meta-character</h4>
+    <ul class="flat">
+        <li>The question mark, <span class="char">?</span>, meta-character stands for a single instance of any character</li>
+        <li><span class="char">?</span> can be used with any command ...</li>
+        <li>even those that don't normally deal with files
+            <pre>
+    $ echo dir<span class="red">?</span>
+    dir1 dir2 dir3 dir4</pre>
+        </li>
+        <li>The <span class="char">?</span> meta-character <b>does not</b> match a leading period in a filename</li>
+        <li>You must explicitly enter a leading period, <span class="char">.</span> ...</li>
+        <li>when specifying an "invisible" file</li>
+    </ul>
+    
+    <h4 class="topic" id="*_meta_char">The <span class="char">*</span> Meta-character</h4>
+    <ul class="flat">     
+        <li>An asterisk, <span class="char">*</span> , will match any number of characters in a pathname</li>
+        <li>It will even match <b>no</b> characters</li>  
+        <li><span class="char">*</span> can be used with any command ...</li>
+        <li>even those that don't normally deal with files
+            <pre>
+    $ echo dir<span class="red">*</span>
+    dir dir1 dir10 dir2 dir3 dir4</pre>
+        </li>
+        <li><span class="char">*</span> cannot be used to match the initial period in a hidden filename</li>
+    </ul>
+    
+    <h4 class="topic" id="[]_meta_char">The <span class="char">[</span> and <span class="char">]</span> Meta-characters</h4>
+    <ul class="flat">
+        <li>The square brackets, <span class="char">[</span> 
+            and <span class="char">]</span>, are also meta-characters
+        </li>
+        <li>They work somewhat like <span class="char">?</span></li>
+        <li>They only match a single character in a pathname ...</li>
+        <li>but the pathname character must match <b>one</b> of the characters ...</li>
+        <li>within the brackets</li>
+        <li>No matter how many characters are within the bracket ...</li>
+        <li>the pattern can match only a <b>single character</b></li>
+        <li>You can use the bracket meta-characters with any program</li>
+        <li>You can use a range to avoid listing all characters</li>
+        <li>A range is specified by listing the first and last characters of a sequence ...</li>
+        <li>separated by a dash, <span class="char">-</span></li>
+        <li>The sequence is specified in alphabetical order</li>
+        <li>The square brackets provide another shortcut</li>
+        <li>If you insert an exclamation mark, <span class="char">!</span> , 
+            or a caret, <span class="char">^</span>  ...</li>
+            <li>immediately after the opening bracket ...</li>
+        <li>the shell will match any single character ...</li>
+        <li>that is NOT included within the brackets</li>
+    </ul>
+    
+    <h4 class="topic" id="built-ins">Built-ins</h4>
+    <ul class="flat">       
+        <li>Not all commands can be found on disk as executable files</li>
+        <li>Some are actually written as part of the shell</li>
+        <li>Such commands are called 
+            <a class="def" href="../definitions.html#built-in_command">built-ins</a>
+        </li>
+        <li>When you run a built-in ...</li>
+        <li>the shell does not have to create a new 
+            <a class="def" href="../definitions.html#process">process</a> ...
+        </li>
+        <li>when you run these programs</li>
+        <li>Instead the command runs in the same process as the shell</li>
+        <li>This makes execution faster</li>  
+        <li>You can use the <code>help</code> built-in command ...</li>
+        <li>like you would use <span class="iden">man</span> for normal commands
+            <pre>
+$ help cd
+cd: cd [-L|[-P [-e]] [-@]] [dir]
+    Change the shell working directory.
+    
+    Change the current directory to DIR.  The default DIR is the value of the
+    HOME shell variable.
+    ...</pre>
+        </li>
+    </ul>
+
+    <h4 class="topic" id="different_versions_of_shell">Different Versions of the Shell</h4>
+    <ul class="flat">       
+        <li>The shell we have been using is Bash</li>
+        <li>Bash stands for <b>B</b>ourne <b>a</b>gain <b>sh</b>ell</li>
+        <li>The original Bourne shell was written by Steve Bourne ...</li>
+        <li>at AT&amp;T's Bell Laboratories</li>
+        <li>The original Bourne shell </li>
+        <li>also called the <code>sh</code> shell ...</li>
+        <li>is still with us</li>
+        <li>Many important scripts were written using the <code>sh</code> shell</li>
+        <li>Those scripts are still in use to setup and maintain Unix</li>
+        <li>There are subtle differences between different shells</li>
+        <li>It is always best to run a script in the shell ...</li>
+        <li>in which it was originally written</li>
+        <li>A standard exists for how shells should run on Unix</li>
+        <li>It was created by Portable Application Standards Committee  ...</li>
+        <li>of the IEEE (Institute of Electrical and Electronics Engineers ) 
+        </li>
+        <li>It is POSIX (Portable Operating System Interface) 1003.2</li>
+        <li>The GNU community is working on making Bash fully compliant with POSIX</li>
+        <li>Until then you can run Bash with the <code>--posix</code> option</li>
+        <li>This will make Bash run in a way more compatible with the POSIX standard</li>
+    </ul>
+    
+    <h4 class="topic" id="ways_shell_can_be_created">Ways a Shell Can Be Created</h4>
+    <ul class="flat">       
+        <li>There are three ways a user can create a shell
+            <ul class="flat">
+                <li class="flat">Login shell</li>
+                <li class="flat">Interactive non-login shell</li>
+                <li class="flat">Non-interactive shell</li>
+            </ul>
+        </li>
+        <li>There are subtle differences between these three types of shells</li>
+    </ul>
+    
+    <h4 class="topic" id="your_login_shell">Your Login Shell</h4>
+    <ul class="flat">       
+        <li>The login shell is the shell you get ...</li>
+        <li>after your password has been accepted</li>
+        <li>Each login session has one, and only one, login shell</li>
+        <li>Your default shell version you run is set ...</li>
+        <li>when your account is created</li>
+        <li>The <a class="def" href="../definitions.html#absolute_pathname">absolute pathname</a>
+            of this shell is contained in the variable <span class="iden">SHELL</span>
+        </li>
+        <li>On <span class="host">users3</span> the default login shell version is Bash</li>
+        <li>When your login shell starts up ...</li>
+        <li>it runs the commands found in <span class="path">/etc/profile</span></li>
+        <li>This is a file customized by the system administrator ...</li>
+        <li>for all users</li>
+        <li>You can create your own customizations in a 
+            <a class="def" href="../definitions.html#startup_file">startup file</a> ...
+        </li>
+        <li>in you home directory</li>
+        <li>The file <b>must</b> have one of these names
+            <ul class="flat">       
+                <li class="flat"><span class="path">.bash_profile</span></li>
+                <li class="flat"><span class="path">.bash_login</span></li>
+                <li class="flat"><span class="path">.profile</span></li>
+            </ul>
+        </li>
+        <li>We will use <span class="path">.bash_profile</span></li>
+    </ul>
+    
+    <h4 class="topic" id="interactive_non-login_shells">Interactive Non-login Shells</h4>
+    <ul class="flat">       
+        <li>You can run another shell from your login shell</li>
+        <li>This is called a sub-shell
+            <pre>
+    $ ps
+      PID TTY          TIME CMD
+    12778 pts/1    00:00:00 bash
+    12969 pts/1    00:00:00 ps
+    
+    $ <span class="red">bash</span>
+    
+    $ ps
+      PID TTY          TIME CMD
+    12778 pts/1    00:00:00 bash
+    12970 pts/1    00:00:00 <span class="red">bash</span>
+    12973 pts/1    00:00:00 ps
+    
+    $</pre>
+        </li>
+        <li>Notice that the first entry for <code>bash</code> ...</li>
+        <li>has the same process ID each time you run <code>ps</code></li>
+        <li>This is your login shell</li>
+        <li>The second <code>bash</code> process is the sub-shell</li>
+        <li>So your login shell is still running ...</li>
+        <li>but you are talking to a sub-shell ...</li>
+        <li>and the login shell is sleeping ...</li>
+        <li>waiting for the sub-shell to finish</li>
+        <li>This sub-shell is the second type of shell</li>
+        <li>It is <b>not</b> a login shell</li>
+        <li>It is an interactive non-login shell</li>
+        <li>An interactive non-login shell is a shell that you create ...</li>
+        <li>without having to enter a password</li>
+        <li>Interactive non-login shells have their own startup file ...</li>
+        <li>called <span class="path">.bashrc</span> ...</li>
+        <li>and it must be in your home directory</li>
+    </ul>
+
+    <h4 class="topic" id="non-interactive_shells">Non-interactive Shells</h4>
+    <ul class="flat"> 
+        <li>A shell scripts is a file containing Unix commands</li>      
+        <li>When you run this file, all the commands in the file are executed</li>
+        <li>The program that understands these commands and runs them ...</li>
+        <li>is a shell</li>
+        <li>So your current shell has to create a sub-shell ...</li>
+        <li>to run the commands in the shell script</li>
+        <li>This sub-shell does not give you a prompt ...</li>
+        <li>so it is not an interactive shell</li>
+        <li>It is a non-interactive shell</li>
+        <li>There is no standard startup file for such a shell</li>
+    </ul>
+    
+    <h4 class="topic" id="creating_startup_files">Creating Startup Files</h4>
+    <ul class="flat">       
+        <li>A startup file contains Unix commands ...</li>
+        <li>that are run just before you get a prompt</li>
+        <li>The system administrator creates a startup file for all users ...</li>
+        <li>in <span class="path">/etc/profile</span></li>
+        <li>After you login shell runs the commands in this file ...</li>
+        <li>it looks for a startup file in your home directory</li>
+        <li>The user customizable startup file normally used by Bash</li>
+        <li>is <span class="path">.bash_profile</span></li>
+        <li>This file must be placed in your home directory</li>
+        <li>We'll discuss this more when we talk about shell variables and aliases</li>
+    </ul>
+    
+	<h3 class="section">New Material</h3>
+	
+	<h4 class="topic" id="running_startup_file_after_change">Running a Startup File after a Change has been Made</h4>
+    <ul class='flat'>       
+        <li>Usually, when you change a startup file ...</li>
+        <li>you want the changes to take place immediately</li>
+        <li>But if you made a change to <font color='blueviolet'>.bash_profile</font> ...</li>
+        <li>the changes won't take effect ...</li>
+        <li>until the next time you login</li>
+        <li>Unix gives away to make the changes take effect immediately ...</li>
+        <li>by running the <i>source</i> command
+            <pre>
+    <font color='red'>source</font> .bash_profile</pre>
+        </li>
+        <li><i>source</i> is a built-in
+        		<pre>
+$ help source
+source: source filename [arguments]
+    Execute commands from a file in the current shell.
+    
+    Read and execute commands from FILENAME in the current shell.  The
+    entries in $PATH are used to find the directory containing FILENAME.
+    If any ARGUMENTS are supplied, they become the positional parameters
+    when FILENAME is executed.
+    
+    Exit Status:
+    Returns the status of the last command executed in FILENAME; fails if
+    FILENAME cannot be read.</pre>
+    		</li>
+    </ul>
+
+    <h4 class="topic" id="commands_that_are_symbols">Commands that are Symbols</h4>
+    <h4 class="topic" id=""></h4>
+    <ul class="flat">       
+        <li>Unix has some commands that are symbols rather than words</li>
+        <li>I'll just mention them now and go into greater detail in future classes
+    </ul>
+        <table>
+            <tr>
+                <th align="left" width="50"><span class="char">( )</span></th>
+                <td>Runs whatever commands are enclosed in the parentheses in a sub-shell</td>
+            </tr>
+            <tr>
+                <th align="left" width="50"><span class="char">$( )</span></th>
+                <td>Command substitution: <br>
+                    runs the commands enclosed in the parentheses in a subshell and returns their value 
+                    to the command line, replacing the dollar sign, the parentheses and everything in them with this value
+                </td>
+            </tr>
+            <tr>
+                <th align="left" width="50"><span class="char">(( ))</span></th>
+                <td>Evaluates an arithmetic expression: <br>
+                    by default, Unix treats everything as text, but
+                    this command evaluates whatever it encloses as a <b>numerical</b>, rather than a string, expression
+                </td>
+            </tr>
+            <tr>
+                <th align="left" width="50"><span class="char">$(( ))</span></th>
+                <td>Arithmetic expansion: <br>
+                    evaluates an arithmetic expression and returns its value at that place on the command line
+                </td>
+            </tr>
+            <tr>
+                <th align="left" width="50"><span class="char">[ ]</span></th>
+                <td>The test command: <br>
+                    used to evaluate a boolean expression in constructs like <code>if</code> clauses
+                </td>
+            </tr>
+            <tr>
+                <th align="left" width="50"><span class="char">[[ ]]</span></th>
+                <td>The conditional expression: <br>
+                    similar to <span class="char">[ ]</span> but adds string comparisons
+                </td>
+            </tr>
+        </table>
+
+    <h4 class="topic" id="file_descriptors">File Descriptors</h4>
+    <ul class="flat">       
+        <li>Resources are given to each process when it is created</li>
+        <li>Every time the shell creates a process ...</li>
+        <li>it gives that process connections to three "files"
+            <ul class="flat">       
+                <li class="flat"><a class="def" href="../definitions.html#standard_input">Standard input</a></li>
+                <li class="flat"><a class="def" href="../definitions.html#standard_output">Standard output</a></li>
+                <li class="flat"><a class="def" href="../definitions.html#standard_error">Standard error</a></li>
+            </ul>
+        </li>
+        <li>Any program can open other files ...</li>
+        <li>besides these three standard "files"</li>
+        <li>So how does Unix keep track these multiple files?</li>
+        <li>It does so through <a class="def" href="../definitions.html#file_descriptor">file descriptors</a></li>
+        <li>File descriptors are data structures ...</li>
+        <li>that Unix creates to handle access to files for processes</li>
+        <li>File descriptors are the abstract representation ...</li>
+        <li>of the files that are connected to a process</li>
+         <!-- Sobell: Generally, a file descriptor is an index for an entry in a kernel-resident array data structure 
+            containing the details of open files. 
+         In POSIX this data structure is called a file descriptor table, and each process has its own file descriptor table 
+         Each process has its own set of open files and its own file descriptors. After
+opening a file, a process reads from and writes to that file by referring to its file
+descriptor. When it no longer needs the file, the process closes the file, freeing the file
+descriptor.
+        The Bourne Again Shell opens files using the exec builtin with the following syntax:
+exec n> outfile
+exec m< infile
+         -->
+        <!-- ADD THAT IT KEEPS TRACK OF THINGS LIKE WHERE YOU ARE IN A FILE -->
+        <li>Each file descriptor is assigned a positive number starting with 0</li>
+        <li>Think of a file descriptor as an integer ...</li>
+        <li>that represents a file</li>
+        <li>Standard input, standard output and standard error ...</li>
+        <li>each have their own file descriptors
+			<table>
+                   <tr><th>Name</th><th>File Descriptor</th></tr>
+                   <tr><td>Standard input</td><td align="center">0</td></tr>
+                   <tr><td>Standard output</td><td align="center">1</td></tr>
+                   <tr><td>Standard error</td><td align="center">2</td></tr>
+               </table>
+        </li>
+        <li>So while we think of standard input, standard output and standard error ...</li>
+        <li>Unix thinks of the file descriptors 0, 1 and 2</li>
+        <li>Most of the time, you do not have to worry about file descriptors ...</li>
+        <li>though they can appear in complex scripts.</li>
+    </ul>
+    
+    <h4 class="topic" id="redirecting_standard_error">Redirecting Standard Error</h4>
+    <ul class="flat">
+        <li>Standard error is the "file" into which error messages are usually sent</li>
+        <li>Redirecting standard error allows a program to separate its output ...</li>
+        <li>from its error messages</li>
+        <li>To redirect standard input we use the less than symbol, <span class="char">&lt;</span>  ...</li>
+        <li>followed by a file pathname
+            <pre>
+    $ ./repeat.sh <span class="red">&lt;</span> test.txt 
+    Enter several lines
+    Type X on a line by itself when done
+
+    You entered
+    -----------
+    123456789
+    abcdefg
+    987654321
+    hijklmnop
+    foo
+    bar
+    bletch
+    X</pre>
+        </li>
+        <li><span class="char">&lt;</span> is really a shorthand ...</li>
+        <li>for a notation using file descriptors</li>
+        <li>When you type
+            <pre>
+    ./repeat.sh  <span class="red">&lt;</span>  test.txt</pre>
+            Unix thinks of this as 
+            <pre>
+    ./repeat.sh  <span class="red">0&lt;</span>  test.txt</pre>
+            where the 0 in front of the greater than sign ...
+        </li>
+        <li>is the file descriptor for standard input</li>
+        <li>Similarly, when we use output redirection
+            <pre>
+    $ echo Hello there  <span class="red">&gt;</span>  hello.txt</pre>
+            Unix thinks of this as meaning 
+            <pre>
+    $ echo Hello there  <span class="red">1&gt;</span>  hello.txt</pre>
+        </li>
+        <li>Again the file descriptor precedes the redirection symbol, <span class="char">&gt;</span></li>
+        <li>So how do we redirect standard error?</li>
+        <li>We place a 2 in front of the greater than symbol, <span class="char">&gt;</span>
+            <pre>
+    $ ls xxxx
+    <span class="red">ls: cannot access xxxx: No such file or directory</span>
+
+    $ ls xxxx <span class="red">2&gt;</span> error.txt
+
+    $ cat error.txt 
+    ls: cannot access xxxx: No such file or directory</pre>
+        </li>
+        <li>When we redirected standard error using <span class="char">2&gt;</span> ...</li>
+        <li>Unix sent the error messages to the file <span class="path">error.txt</span> ...</li>
+        <li>not to the screen</li>
+        <li>You can redirect <b>both</b> standard output and standard error ...</li>
+        <li>to the same file</li>
+        <li>You do this with ampersand and greater than symbols together, <span class="char">&amp;&gt;</span> 
+            <pre> 
+    $ cat foo1.txt foo2.txt foo57.txt
+    foo to you
+    bar to everyone else
+    bletch to the universe foo foo foo
+    bar bar bar
+    bletch
+    <span class="red">cat: foo57.txt: No such file or directory</span>
+    
+    $ cat foo1.txt foo2.txt foo57.txt <span class="red">&amp;&gt;</span> error.txt
+    
+    $ cat error.txt 
+    foo to you
+    bar to everyone else
+    bletch to the universe foo foo foo
+    bar bar bar
+    bletch
+    <span class="red">cat: foo57.txt: No such file or directory</span></pre>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="shell_scripts">Shell Scripts</h4>
+    <ul class="flat">       
+        <li>A shell script is a file that contains Unix commands ...</li>
+        <li>along with their options and arguments</li>
+        <li>You can think of a shell script as a collection of command line entries</li>
+        <li>When the shell script is executed ...</li>
+        <li>each line of the script is run in turn</li>
+        <li>A shell script can use any shell feature ...</li>
+        <li>that is available at the command line ...</li>
+        <li><b>except</b> those features which are provided by <code>tty</code>
+            <ul class="flat">       
+                <li class="flat"><a class="def" href="../definitions.html#command_line_editing">Command line editing</a> 
+                    (arrow keys, control key combinations)
+                </li>
+                <li class="flat">Pathname completion (tab to get more of a filename)</li>
+                <li class="flat">The history mechanism (up arrow to recall previous command line)</li>
+            </ul>
+        </li>
+        <li>You can use ambiguous file references in a shell script</li>
+        <li>That is, you have full use of the metacharacters <span class="char">?</span>, 
+            <span class="char">*</span>; and <span class="char">[ ]</span>
+        </li>
+        <li>You can use redirection in a shell script ...</li>
+        <li>and pipes</li>
+        <li>Unix also provides <a class="def" href="../definitions.html#control_structure">control structures</a>
+            <ul class="flat">       
+                <li class="flat">If statements</li>
+                <li class="flat">Loops</li>
+            </ul>   
+        </li>
+        <li>Control structures allow you to change the path taken through the script</li>
+        <li>The shell executes the script one line at a time</li>
+        <li>The shell behaves exactly as it would ...</li>
+        <li>if you had typed in the line at the keyboard</li>
+    </ul>
+
+    <h4 class="topic" id="making_shell_script_executable">Making a Shell Script Executable</h4>
+    <ul class="flat">       
+        <li>You can run a shell script without using <code>bash</code></li>
+        <li>if you give the script both 
+            <a class="def" href="../definitions.html#read_permission">read</a> ...
+        </li>
+        <li>and <a class="def" href="../definitions.html#execute_permission">execute</a> permissions</li>
+        <li>You need read permission ...</li>
+        <li>because the shell has to read the contents of the script</li>
+        <li>You need execute permission so the script can be run ...</li>
+        <li>without explicitly using <code>bash</code></li>
+        <li>If you try to run a script without <b>both</b> permissions ...</li>
+        <li>you will get an error
+            <pre>
+    $ ls -l cheer.sh 
+    -<span class="red">rw-rw-r</span>-- 1 ghoffman grad 13 Oct 29 14:23 cheer.sh 
+    
+    $ cat cheer.sh 
+    #! /bin/bash
+
+    # this file roots for the home team
+
+    echo "Let's go Red Sox!"
+    
+    $ ./cheer.sh
+    <span class="red">-bash: ./cheer.sh: Permission denied</span></pre>
+        </li>
+        <li>Of course, you set these permissions using <code>chmod</code></li>
+        <li>Normally you would give a shell script file 755 permissions</li>
+        <li>The owner can read, write and execute</li>
+        <li>The group and everyone else can read and execute
+            <pre>
+    $ chmod 755 cheer.sh
+    
+    $ ls -l cheer.sh 
+    -<span class="red">rwxr-xr-x</span> 1 ghoffman grad 13 Oct 29 14:23 cheer.sh
+    
+    $ ./cheer.sh
+    Go Sox!</pre>
+        </li>
+        <li>All scripts for this course <b>must</b> have 755 permissions set</li>
+        <li>Points will be deducted if you don't</li>
+    </ul>
+    
+    <h4 class="topic" id="specifying_shell_to_run_script">Specifying Which Shell Will Run a Script</h4>
+    <ul class="flat">       
+        <li>The shell is just a program ...</li>
+        <li>that reads what you enter at the command line ...</li>
+        <li>and runs programs for you</li>
+        <li>It stands between you and the operating system</li>
+        <li>When the shell runs a program for you ...</li>
+        <li>it normally sleeps until the program is finished ... </li>
+        <li>unless you tell the shell to run the command in the background</li>
+        <li>When the shell runs a shell script ...</li>
+        <li>it creates a new shell inside the process ...</li>
+        <li>that will run the script</li>
+        <li>Normally this sub-shell will be the same kind of shell ...</li>
+        <li>as your login shell</li>
+        <li>So if your login shell is Bash ...</li>
+        <li>a Bash sub-shell will run the script</li>
+        <li>There are significant differences between the various shells ...</li>
+        <li>that come with Unix and Linux</li>
+        <li>What if you need to run the script in different shell?</li>
+        <li>It is always best to run a script ...</li>
+        <li>in the same shell used by the programmer ...</li>
+        <li>who wrote the script</li>
+        <li>Unix provides a way to to specify which shell to run ...</li>
+        <li>when a script is executed</li>
+        <li>It is called the <a class="def" href="../definitions.html#hashbang">hashbang</a> line ...</li>
+        <li>or sometimes the <a class="def" href="../definitions.html#shebang">shebang</a> line</li>
+        <li>That's because the first two characters on the line ...</li>
+        <li>must be a hash mark, <span class="char">#</span> ...</li>
+        <li>followed by an exclamation mark, <span class="char">!</span>
+        </li>
+        <li>The exclamation mark is sometimes called bang</li>
+        <li>After these two characters ...</li>
+        <li>comes the absolute pathname of the shell ...</li>
+        <li>which will run with the script</li>
+        <li>The pathname following <span class="char">#!</span> must be an absolute pathname ...</li>
+        <li>because you don't know where the user will be ...</li>
+        <li>when the script is run</li>
+        <li>The hashbang line tells your current shell ...</li>
+        <li>which shell to use to run your script</li>
+        <li>The hashbang line <b>must</b> be the first line in the script</li>
+        <li>Unix looks at the first few characters of a file ...</li>
+        <li>before running a script</li>
+        <li>If it sees <span class="char">#!</span> it interprets what follows ...</li>
+        <li>as the pathname of the program that should run the script</li>
+        <li>It is good form to always use a hashbang line</li>
+        <li>You may follow hashbang with a couple of spaces before the pathname</li>
+        <li>To show you that this really works ...</li>
+        <li>I'm going to run the script <span class="path">shell_test_1.sh</span>
+            <pre>
+    $ cat shell_test_1.sh
+    <span class="red">#! /bin/sh</span>
+    ps -f
+    
+    $ ./shell_test.sh 
+    UID        PID  PPID  C STIME TTY          TIME CMD
+    ghoffman    710   709  0 13:25 pts/1    00:00:00 -bash
+    ghoffman   2741   710  0 15:35 pts/1    00:00:00 <span class="red">/bin/sh ./shell_test.sh</span>
+    ghoffman   2742  2741  0 15:35 pts/1    00:00:00 ps -f</pre></li>
+    <li>I specified that this script should be run with the sh shell</li>
+    <li>I did this by specifying it in the hashbang line
+        <pre>
+    #! /bin/<span class="red">sh</span></pre>
+    </li>
+    <li>Now compare this with <span class="path">shell_test_2.sh</span>
+        <pre>
+    $ cat shell_test_2.sh
+    ps -f
+
+    $ ./shell_test_2.sh
+    UID        PID  PPID  C STIME TTY          TIME CMD
+    ghoffman    710   709  0 13:25 pts/1    00:00:00 -bash
+    ghoffman   2893   710  0 15:41 pts/1    00:00:00 <span class="red">-bash</span>
+    ghoffman   2894  2893  0 15:41 pts/1    00:00:00 ps -f</pre>
+    </li>
+    <li>The second script has no hashbang line ...</li>
+    <li>so the script was run in a Bash shell</li>
+    <li>The shell did this because I did not tell it otherwise</li>
+    <li>you can leave out the hashbang line ...</li>
+    <li>and still run a script without calling <code>bash</code> ...</li>
+    <li>But you <b>must</b> use a hashbang line for scripts ...</li>
+    <li>written in scripting languages like Perl and Python</li>
+    <li>Here is a simple Python script that <b>does not</b> have hashbang line
+        <pre>
+    $ cat hello_1.py
+    print Hello world!</pre>
+    </li>
+    <li>It has read and execute permissions
+        <pre>
+    $ ls -l hello_1.py 
+    -rwxrwxr-x 1 ghoffman grad 21 Jun 19 17:48 hello_1.py</pre>
+    </li>
+    <li>But when I try to run it, there is a problem
+        <pre>
+    $ ./hello_1.py 
+    Warning: unknown mime-type for "Hello world!" -- using "application/octet-stream"
+    Error: no such file "Hello world!"</pre>
+    </li>
+    <li>I can only run this script by calling the Python interpreter
+        <pre>
+    $ python hello_1.py 
+    Hello world!</pre>
+    </li>
+    <li>Here is the same script with a hashbang line ...</li>
+    <li>that uses the Python interpreter
+        <pre>
+    $ cat hello_2.py 
+    <span class="red">#! /usr/bin/python</span>
+
+    print "Hello world!"</pre>
+    </li>
+    <li>I can run this script directly
+        <pre>
+    $ ./hello_2.py 
+    Hello world!</pre>
+    </li>
+    </ul>
+    
+    <h4 class="topic" id="shell_script_comments">Comments in Shell Scripts</h4>
+    <ul class="flat">       
+        <li>Programs are written by people for machines</li>
+        <li>But programs also have to be read by the people
+            <ul class="flat">       
+                <li class="flat">Who write the program</li>
+                <li class="flat">Who maintain the program</li>
+                <li class="flat">Who use the program</li>
+            </ul>
+        </li>
+        <li>To make clear what is happening inside a program ...</li>
+        <li>use comments</li>
+        <li>Comments are text which is ignored ...</li>
+        <li>by whatever program is running the script</li>
+        <li>They are only meant for people to read</li>
+        <li>Anything following a hash mark, <span class="char">#</span>, is a comment ...</li>
+        <li>except for the hashbang line</li>
+        <li>Here is an example
+            <pre>
+    $ cat comment_test.sh 
+    #! /bin/sh
+    <span class="red">#  demonstrates that comments do not affect the
+    #  way the script runs</span>
+    echo Hello there
+    
+    $ ./comment_test.sh 
+    Hello there</pre>
+        </li>
+        <li>Comments are a way to document a program ...</li>
+        <li>within the text of the program itself</li>
+        <li>This sort of documentation is extremely important</li>
+        <li>You may create a script today and not use it for a couple of months</li>
+        <li>When you need to change it, you may have forgotten how it works</li>
+        <li>A few well placed comments can save you hours of work</li>
+        <li>It is good practice to place a comment at the top of the shell script ...</li>
+        <li>after the hashbang line</li>
+        <li>This comment should say what the script does
+            <pre>
+    $ cat bother.sh
+    #!/bin/bash
+    
+    <span class="red"># keeps printing something to the screen until it is killed</span>
+
+    while [ 6 -lt 10 ]
+        do
+        sleep 5
+        echo "Excuse me"    
+        done</pre>
+        </li>
+        <li>You should also comment any part of a script that ...</li>
+        <li>does something less than opathious</li>
+        <li>I'll take off points if you don't</li>
+    </ul>
+       
+    <h3 class="section">Attendance</h3>
+    
+    <h3 class="section">Class Quiz</h3>
+
+	<footer>
+		<a href="class_notes_it244.html" class="spacer">Class Notes</a>
+		<a href="class_notes_index_it244.html" class="spacer">Class Notes Index</a>
+	</footer>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/17_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:40 GMT -->
+</html>
+

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_quiz_answers_it244/17_class_quiz_answers_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:57 GMT -->
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="../class_notes.css">
+	<title>IT 244: Introduction to Linux/Unix - Answers to Class 16 Ungraded Quiz</title>
+</head>
+<body>
+	<header>
+		<h2>
+		    IT 244: Introduction to Linux/Unix <br>
+		    Answers to Class 17 Ungraded Quiz
+		</h2>	
+	</header>
+
+	<ol>
+        <li><!-- 17.1.0 -->
+            What is the value of the file descriptor for Standard Input?
+            <pre><span class="answer">0</span></pre>
+        </li>
+        <li><!-- 17.2.0 -->
+            What is the value of the file descriptor for Standard Output?
+            <pre><span class="answer">1</span></pre>
+        </li>
+        <li><!-- 17.3.0 -->
+            What is the value of the file descriptor for Standard Error?
+            <pre><span class="answer">2</span></pre>
+        </li>
+        <li><!-- 17.4.0 -->
+            If you wanted to run the executable file <span class="path">backup</span> in your current directory,
+            but wanted the error messages to disappear, what would you write at the command line?
+            <pre><span class="answer">./backup  2&gt;  /dev/null</span></pre>
+        </li>
+        <li><!-- 17.5.0 -->
+            If you wanted to run the executable file <span class="path">backup</span> in your current directory,
+            but wanted <b>both</b> the output and the error messages to go to the file <span class="path">results.txt</span>, 
+            what would you write at the command line?
+            <pre><span class="answer">./backup  &amp;&gt;  results.txt</span></pre>
+        </li>
+        <li><!-- 17.6.1 -->
+            What would you type at the command line, if you wanted to make the script <span class="path">cheer.sh</span> 
+            executable?
+            <pre><span class="answer">chmod  755 cheer.sh</span></pre>
+        </li>
+        <li><!-- 17.7.0 -->
+            Write the hashbang line we use for scripts in this course.
+            <pre><span class="answer">#! /bin/bash</span></pre>
+        </li>
+        <li><!-- 17.8.0 -->
+            Write the hashbang line you would use if you wanted a script to run using the <code>sh</code> shell.
+            <pre><span class="answer">#! /bin/sh</span></pre>
+        </li>
+        <li><!-- 17.9.0 -->
+            Name the three categories of people who might need to read a shell script.
+            <pre><span class="answer">the person who wrote the script, the persons who use the script and the person who maintains the script</span></pre>
+        </li>
+        <li><!-- 17.10.1 -->
+            What command would you use to make the changes you made in the startup file for your login shell take effect?
+            <pre><span class="answer">source .bash_profile</span></pre>
+        </li>
+	</ol>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_quiz_answers_it244/17_class_quiz_answers_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:57 GMT -->
+</html>
+

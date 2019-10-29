@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/Review_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+	<title> IT 244: Introduction to Linux/Unix - Class Review</title>
+</head>
+<body>
+	<header>
+		<h2> 
+		    IT 244: Introduction to Linux/Unix <br>
+		    Class Review Final
+		</h2>	
+	</header>
+
+	<!-- SIMPLIFY THIS -->
+    <h3 class="section">Today's Topics</h3>
+    <h4 class="flat_under">Review</h4>
+    <ul class="flat_top"> 
+        <!-- Class 13 -->
+        <li class="flat"><a href="#background">Running a Command in the Background</a></li>
+        <li class="flat"><a href="#jobs">Jobs</a></li>
+        <li class="flat"><a href="#moving_jobs">Moving a Job from the Foreground into the Background</a></li>
+        <li class="flat"><a href="#aborting_background">Aborting a Background Job</a></li>
+        <li class="flat"><a href="#pathname_expansion">Pathname Expansion</a></li>
+        <li class="flat"><a href="#question_meta_char">The <span class="char">?</span> Meta-character</a></li>
+        <li class="flat"><a href="#*_meta_char">The <span class="char">*</span> Meta-character</a></li>
+        <li class="flat"><a href="#[]_meta_char">The <span class="char">[</span> and <span class="char">]</span> Meta-characters</a></li>
+        <!-- Class 16 -->
+        <li class="flat"><a href="#built-ins">Built-ins</a></li>
+        <li class="flat"><a href="#creating_startup_files">Creating Startup Files</a></li>
+        <!-- Class 17 -->
+        <li class="flat"><a href="#redirecting_standard_error">Redirecting Standard Error</a></li>
+        <li class="flat"><a href="#shell_scripts">Shell Scripts</a></li>
+        <li class="flat"><a href="#making_shell_script_executable">Making a Shell Script Executable</a></li>
+        <li class="flat"><a href="#specifying_shell_to_run_script">Specifying Which Version of the Shell Will Run a Script</a></li>
+        <li class="flat"><a href="#shell_script_comments">Comments in Shell Scripts</a></li>
+        <!-- Class 18 -->
+        <li class="flat"><a href="#separating_grouping_commands">Separating and Grouping Commands</a></li>
+        <li class="flat"><a href="#pipe_ampersand_command_separators"><span class="char">|</span> (pipe) and <span class="char">&amp;</span> (ampersand) as Command Separators</a></li>
+        <li class="flat"><a href="#continuing_command_next_line">Continuing a Command onto the Next Line</a></li>
+        <li class="flat"><a href="#shell_variables">Shell Variables</a></li>
+        <li class="flat"><a href="#local_variables">Local Variables</a></li>
+        <li class="flat"><a href="#global_variables">Global Variables</a></li>
+        <li class="flat"><a href="#keyword_shell_variables">Keyword Shell Variables</a></li>
+        <li class="flat"><a href="#important_keyword_shell_variables">Important Keyword Shell Variables</a></li>
+        <li class="flat"><a href="#user-created_variables">User-created Variables</a></li>
+        <!-- Class 19 -->
+        <li class="flat"><a href="#quoting_variable_values">Quoting and the Evaluation of Variables</a></li> <!-- MOVE THIS TO PREVIOUS NOTES -->
+        <li class="flat"><a href="#removing_variable_value">Removing a Variable's Value</a></li>
+        <li class="flat"><a href="#processes">Processes</a></li>
+        <li class="flat"><a href="#process_structure">Process Structure</a></li>
+        <li class="flat"><a href="#process_identification">Process Identification</a></li>
+        <li class="flat"><a href="#executing_command">Executing a Command</a></li>        
+        <!-- Class 20 -->
+        <li class="flat"><a href="#history">History</a></li>
+        <li class="flat"><a href="#using_hstory">Using the History Mechanism</a></li>
+        <li class="flat"><a href="#readline_library">The Readline Library</a></li>
+        <li class="flat"><a href="#readline_completion">Readline Completion</a></li>
+        <li class="flat"><a href="#pathname_completion">Pathname Completion</a></li>
+        <li class="flat"><a href="#command_completion">Command Completion</a></li>
+        <li class="flat"><a href="#variable_completion">Variable Completion</a></li>
+        <li class="flat"><a href="#aliases">Aliases</a></li>
+        <li class="flat"><a href="#functions">Functions</a></li>
+        <!-- Class 21 -->
+        <li class="flat"><a href="#shell_modifies_command_line">Shell Modification of the Command Line</a></li>
+        <li class="flat"><a href="#history_expansion">History Expansion</a></li>
+        <li class="flat"><a href="#alias_substitution">Alias Substitution</a></li>
+        <li class="flat"><a href="#brace_expansion">Brace Expansion</a></li>
+        <li class="flat"><a href="#tilde_expansion">Tilde, <span class="char">~</span>, Expansion</a></li>
+        <li class="flat"><a href="#parameter_and_variable_expansion">Parameter and Variable Expansion</a></li>
+        <li class="flat"><a href="#command_substitution">Command Substitution</a></li>
+        <li class="flat"><a href="#pathname_expansion">Pathname Expansion</a></li>
+        <!-- Class 22 -->
+        <li class="flat"><a href="#shell_script_control_structures">Shell Script Control Structures</a></li>
+        <li class="flat"><a href="#if_then_construct">The <code>if ... then ...</code> Construct</a></li>
+        <li class="flat"><a href="#test"><code>test</code></a></li>
+        <li class="flat"><a href="#test_operators">The <code>test</code> Operators</a></li>
+        <!-- Class 23 -->
+        <li class="flat"><a href="#using_test_in_scripts">Using <code>test</code> in Scripts</a></li>
+        <li class="flat"><a href="#if_then_else">The <code>if ... then ... else ...</code> Construct</a></li>
+        <li class="flat"><a href="#if_then_elif">The <code>if ... then ... elif ...</code> Construct</a></li>
+        <!-- Class 24 -->
+        <li class="flat"><a href="#for_in_loops"><code>for ... in ...</code> Loops</a></li>
+        <li class="flat"><a href="#for_loops"><code>for</code> Loops</a></li>
+        <li class="flat"><a href="#while_loops"><code>while</code> Loops</a></li>
+        <li class="flat"><a href="#continue"><code>continue</code></a></li>
+        <li class="flat"><a href="#break"><code>break</code></a></li>
+        <!-- Class 25 -->
+        <li class="flat"><a href="#read"><code>read</code> Command</a></li>
+        <!-- Class 26 -->
+    </ul>
+    
+    <h3 class="section">Final Exam</h3>
+    <p class="flat">The final exam will be given on Wednesday, April 16th from 6:30pm - 9:00pm.</p>
+    <p>The exam will be given in McCormack 3-430.</p>
+    <p>There will be 50 questions, which will be similar to the questions on the mid-term and
+       the quizzes.
+    </p>
+    <p>As with the Mid-term, 60% of the questions will come from the ungraded Class Quizzes.</p>
+    <p>The questions will cover <b>all</b> of the material for this course.</p>
+    <p>Today's class will be a review session.</p>
+    <p>You will only be responsible for the material contained in the Class Notes for
+       today's class, and the Class Notes for the review session for the Mid-term,
+       which you will find <a href="14_class_notes_it244.html">here</a>.
+    </p> 
+    <p>Although the time alloted for the exam is 3 hours, I would
+       expect that most of you would not need that much time.
+    </p>
+    <p>You will not be able to leave the room until you turn in your exam paper
+       so you should visit the restroom before you take the test.
+    </p>
+    <p>The final is a closed book exam.</p>  
+    
+    <h3 class="section">Review</h3>
+
+    <!-- Class 13 -->  
+    <h4 class="topic" id="background">Running a Command in the Background</h4>
+    <ul class="flat">       
+       <li>Normally, when you run a command ...</li>
+       <li>you have to wait for it to finish</li>
+       <li>Such commands are said to be running in the 
+            <a class="def" href="../definitions.html#foreground">foreground</a>
+       </li>
+       <li>Unix gives you a way to get the command prompt back ...</li>
+       <li>after running a command that will take a long time to finish</li>
+       <li>You can run the command in the 
+            <a class="def" href="../definitions.html#background">background</a>
+       </li>
+       <li>The background job loses it's connection to the keyboard ...</li>
+       <li>and the shell will give you a prompt</li>
+       <li>The shell will tell you when the background job has finished</li>
+       <li>Every time a program runs, a <a class="def" href="../definitions.html#process">process</a> is created</li>
+       <li>The process has access to system resources ...</li>
+       <li>like memory (RAM) and a connection to the filesystem</li>
+       <li>Unix, like most OSs, is a multitasking operating system</li>
+       <li>This means you can have more than one process running at a time</li>
+       <li>To run a command in the background ...</li>
+       <li>enter an ampersand, <span class="char"> &amp;</span> , at the end of the command line ...</li>
+       <li>just before hitting Enter:
+           <pre>
+    $ sleep 5 <span class="red">&amp;</span>
+    [1] 17895
+    $</pre>
+       </li>
+    </ul>
+    
+    <h4 class="topic" id="jobs">Jobs</h4>
+    <ul class="flat">     
+        <li>Every time you type something at the command line ...</li>
+        <li>and hit Enter ...</li>
+        <li>you are creating a <a class="def" href="../definitions.html#job">job</a></li>  
+        <li>Every time a program runs ...</li>
+        <li>a process is created for that program</li>
+        <li>A pipeline is a collection of commands joined by pipes</li>
+        <li>Each command will generate its own process ...</li>
+        <li>but the collection of all the separate processes ...</li>
+        <li>is a single job</li>
+        <li>Each process in a pipeline will have its own process ID</li>
+        <li>So as the pipeline progresses, the currently running process will change ...</li>
+        <li>but the job number does not change</li>
+        <li>The job is the collection of all processes created ...</li>
+        <li>by an entry at the command line</li>
+        <li>You can have multiple jobs running at the same time ...</li>
+        <li>but only one job can be in the foreground at any one time</li>
+        <li>Every process has a process ID number ...</li>
+        <li>and every job has a job number</li>
+        <li>When you tell the shell to run a job in the background ...</li>
+        <li>it returns two numbers
+            <pre>
+    $ sleep 5 <span class="red">&amp;</span>
+    <span class="red">[1] 7431</span>
+    $</pre>
+        </li>
+        <li>The job number is enclosed in brackets and comes first</li>
+        <li>The second, larger, number is the process identification number ...</li>
+        <li>of the first process in the job</li>
+        <li>The process identification number is also known as the PID</li>
+        <li>When the job finishes, the shell prints out a message
+            <pre>
+    [1]+  Done                    sleep 5</pre>
+        </li>
+        <li>The message does <b>not</b> appear the moment the job finishes</li>
+        <li>The shell waits for the next time you hit Enter ...</li>
+        <li>and it prints the message after the output from the command</li>
+        <li>To see the status of all background jobs run the <code>jobs</code> command
+        	<pre>
+$ sleep 10 &amp; sleep 10 &amp; sleep 10 &amp;
+[1] 13256
+[2] 13257
+[3] 13258
+
+$ jobs
+[1]   Running                 sleep 10 &amp;
+[2]-  Running                 sleep 10 &amp;
+[3]+  Running                 sleep 10 &amp;</pre>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="moving_jobs">Moving a Job from the Foreground into the Background</h4>
+    <ul class="flat">       
+        <li>There can only be one foreground job ...</li>
+        <li>though you can have many background jobs</li>
+        <li>Unix will let you move a job from the foreground ...</li>
+        <li>to the background</li>
+        <li>To do this, you must first suspend the foreground job</li>
+        <li>A suspended job is not dead ...</li>
+        <li>it is in a state of suspended animation</li>
+        <li>You can reactivate it later</li>
+        <li>To suspend a foreground job you must use the suspend key sequence</li>
+        <li>On our systems you suspend a job by hitting Control Z</li>
+        <li>After you do this, the shell stops the current process</li>
+        <li>It also disconnects it from the keyboard</li>
+        <li>Once the job is suspended ...</li>
+        <li>you can place it in the background using the <code>bg</code> command</li>
+        <li><code>bg</code> stands for <b>b</b>ack<b>g</b>round</li>
+        <li>Once placed in the background, the job resumes running</li>
+        <li>If more than one job is suspended ...</li>
+        <li>you must give <code>bg</code> the job number</li>
+    </ul>
+    
+    <h4 class="topic" id="aborting_background">Aborting a Background Job</h4>
+    <ul class="flat">       
+        <li>There are two ways to abort a background job</li>
+        <li>You can bring a job from the background to the foreground ...</li>
+        <li>using the <code>fg</code> (<b>f</b>ore<b>g</b>round) command</li>
+        <li>Once you have the job in the foreground ...</li>
+        <li>you can abort it using Control C</li>
+        <li>When there is more than one job in the background ...</li>
+        <li>you must specify the job number when using <code>fg</code></li>
+        <li>You can also terminate any job using the <code>kill</code> command</li>
+        <li>But to use <code>kill</code> you must tell it what to kill</li>
+        <li>The usual way to do this is to give <code>kill</code> a process ID</li>
+        <li>If you don't remember the process ID ...</li>
+        <li>run <code>ps</code> (<b>p</b>rocess <b>s</b>tatus) to get the process ID (PID)</li>
+        <li>You can also use the job number with <code>kill</code> ...</li>
+        <li>but you must precede a job number with a percent sign, <span class="char">%</span></li>
+        <li>You can get the job number by using the <code>jobs</code> command</li>
+    </ul>
+    
+    <h4 class="topic" id="pathname_expansion">Pathname Expansion</h4>
+    <ul class="flat">
+        <li><a class="def" href="../definitions.html#pathname_expansion">Pathname expansion</a> 
+            allows you to specify a file or directory ...
+        </li>
+        <li>without typing the full name</li>
+        <li>It also allows you to specify more than one file or directory ...</li>
+        <li>with a single string of characters</li>
+        <li>Pathname expansion uses characters with special meaning to the shell</li>
+        <li>These special characters are called <a class="def" href="../definitions.html#bash_meta-characters">meta-characters</a></li>
+        <li>Meta-characters are also sometimes called <a class="def" href="../definitions.html#wildcards">wildcards</a></li>
+        <li>They allow you to specify a pattern</li>
+        <li>When the shell sees one of these characters on the command line ...</li>
+        <li>it replaces the pattern with a sorted list ...</li>
+        <li>of all pathnames that match the pattern</li>
+        <li>The shell then runs this altered command line</li>
+        <li>The pattern is called an 
+            <a class="def" href="../definitions.html#ambiguous_file_reference">ambiguous file reference</a>
+        </li>
+        <li>You can use as many meta-characters as you want to form a pattern</li>
+        <li>Pathname expansion is different from 
+            <a class="def" href="../definitions.html#pathname_completion">pathname completion</a> ...
+        </li>
+        <li>which you get by hitting Tab</li>
+    </ul>
+    
+    <h4 class="topic" id="question_meta_char">The <span class="char">?</span> Meta-character</h4>
+    <ul class="flat">
+        <li>The question mark, <span class="char">?</span>, meta-character stands for a single instance of any character</li>
+        <li><span class="char">?</span> can be used with any command ...</li>
+        <li>even those that don't normally deal with files
+            <pre>
+    $ echo dir<span class="red">?</span>
+    dir1 dir2 dir3 dir4</pre>
+        </li>
+        <li>The <span class="char">?</span> meta-character <b>does not</b> match a leading period in a filename</li>
+        <li>You must explicitly enter a leading period, <span class="char">.</span>&nbsp; ...</li>
+        <li>when specifying an "invisible" file</li>
+    </ul>
+    
+    <h4 class="topic" id="*_meta_char">The <span class="char">*</span> Meta-character</h4>
+    <ul class="flat">     
+        <li>An asterisk, <span class="char">*</span> , will match any number of characters in a pathname</li>
+        <li>It will even match no characters</li>  
+        <li><span class="char">*</span> can be used with any command ...</li>
+        <li>even those that don't normally deal with files
+            <pre>
+    $ echo dir<span class="red">*</span>
+    dir dir1 dir10 dir2 dir3 dir4</pre>
+        </li>
+        <li><span class="char">*</span> cannot be used to match the initial period, <span class="char">.</span> , in a hidden filename</li>
+        <li>But you can list all the hidden file in a directory using <span class="char">*</span> ...</li>
+        <li>if you put it after a period
+        <pre>
+    $ ls .<span class="red">*</span>
+    .addressbook   .bashrc  .forward  .pinerc
+    .bash_history  .cshrc   .login    .plan
+    .bash_profile  .emacs   .msgsrc</pre></li>
+    </ul>
+    
+    <h4 class="topic" id="[]_meta_char">The <span class="char">[</span> and <span class="char">]</span> Meta-characters</h4>
+    <ul class="flat">
+        <li>The square brackets, <span class="char">[</span> and <span class="char">]</span>, are also meta-characters</li>
+        <li>They work somewhat like <span class="char">?</span></li>
+        <li>They only match a single character in a pathname ...</li>
+        <li>but the pathname character must match <b>one</b> of the characters ...</li>
+        <li>within the brackets</li>
+        <li>No matter how many characters are within the bracket ...</li>
+        <li>the pattern can match only a <b>single character</b></li>
+        <li>You can use the bracket meta-characters with any program</li>
+        <li>You can use a range to avoid listing all characters</li>
+        <li>A range is specified by listing the first and last characters of a sequence ...</li>
+        <li>separated by a dash, <span class="char">-</span></li>
+        <li>The sequence is specified in alphabetical order</li>
+        <li>The square brackets provide another shortcut</li>
+        <li>If you insert an exclamation mark, <span class="char">!</span> , 
+            or a caret, <span class="char">^</span>  ...</li>
+            <li>immediately after the opening bracket ...</li>
+        <li>the shell will match any single character ...</li>
+        <li>that is NOT included within the brackets</li>
+    </ul>
+    
+    
+    <!-- Class 16 -->  
+    <h4 class="topic" id="built-ins">Built-ins</h4>
+    <ul class="flat">       
+        <li>Not all commands can be found on disk as executable files</li>
+        <li>Some are actually written as part of the shell</li>
+        <li>Such commands are called 
+            <a class="def" href="../definitions.html#built-in_command">built-ins</a>
+        </li>
+        <li>When you run a built-in ...</li>
+        <li>the shell does not have to create a new process ...</li>
+        <li>when you run these programs</li>
+        <li>Instead the command runs in the same process as the shell</li>
+        <li>This makes execution faster</li>   
+    </ul>
+    
+    <h4 class="topic" id="creating_startup_files">Creating Startup Files</h4>
+    <ul class="flat">       
+        <li>A startup file contains Unix commands ...</li>
+        <li>that are run just before you get a prompt</li>
+        <li>The startup file normally used by Bash is <span class="path">.bash_profile</span></li>
+        <li>This file must be placed in your home directory</li>
+        <li>The commands in this file are run after you enter your password ...</li>
+        <li>but before you get a prompt</li>
+    </ul>
+
+    <!-- Class 17 --> 
+    <h4 class="topic" id="redirecting_standard_error">Redirecting Standard Error</h4>
+    <ul class="flat">       
+        <li>Standard error is the "file" into which error messages are sent ...</li>
+        <li>if they are not explicitly sent somewhere else</li>
+        <li>Redirecting standard error allows a program to separate its output stream ..</li>
+        <li>from its error messages</li>
+        <li>To redirect standard error, you place a 2 in front of the greater than symbol
+            <pre>
+    $ ls xxxx
+    <span class="red">ls: cannot access xxxx: No such file or directory</span>
+
+    $ ls xxxx <span class="red">2&gt;</span> error.txt
+
+    $ cat error.txt 
+    ls: cannot access xxxx: No such file or directory</pre>
+        </li>
+        <li>Remember, 2 is the file descriptor for standard error</li>
+        <li>Unix also gives you a way to redirect <b>both</b> standard output and standard input ...</li>
+        <li>to the same file</li>
+        <li>You can do this using the ampersand and greater than symbols together, <span class="char">&amp;&gt;</span></li>
+    </ul>
+    
+    <h4 class="topic" id="shell_scripts">Shell Scripts</h4>
+    <ul class="flat">       
+        <li>A shell script can use any shell feature ...</li>
+        <li>that is available at the command line
+            <ul class="flat">       
+                <li class="flat">Ambiguous file references using the metacharacters 
+                    <span class="char">?</span>, <span class="char">*</span> 
+                    and <span class="char">[ ]</span></li>
+                <li class="flat">Redirection</li>
+                <li class="flat">Pipes</li>
+            </ul>
+        </li>
+        <li>But not those features which are provided by <code>tty</code>
+            <ul class="flat">       
+                <li class="flat"><a class="def" href="../definitions.html#command_line_editing">Command line editing</a>
+                    (arrow keys, control key combinations)
+                </li>
+                <li class="flat">>Pathname completion (hit Tab to get more of a filename)
+                </li>
+                <li class="flat">The history mechanism (up arrow to recall previous command line)</li>
+            </ul>
+        </li>
+        <li>Unix also provides control structures
+            <ul class="flat">       
+                <li class="flat">Conditionals</li>
+                <li class="flat">Loops</li>
+            </ul>   
+        </li>
+    </ul>
+
+    <h4 class="topic" id="making_shell_script_executable">Making a Shell Script Executable</h4>
+    <ul class="flat">    
+        <li>You must have both <a class="def" href="../definitions.html#read_permission">read</a> 
+            and <a class="def" href="../definitions.html#execute_permission">execute</a> permission ...
+        </li>
+        <li>to run a shell script</li>
+        <li>Because the shell has to read the contents of the script ...</li>
+        <li>you need read permission</li>
+        <li>You need execute permission so the script can actually be run ...</li>
+        <li>without calling <code>bash</code></li>
+        <li>Normally you would give a shell script file 755 permissions</li>
+        <li>The owner can read, write and execute</li>
+        <li>The group and everyone else can read and execute</li>
+    </ul>
+    
+    <h4 class="topic" id="specifying_shell_to_run_script">Specifying Which Version of the Shell Will Run a Script</h4>
+    <ul class="flat">  
+        <li>When the shell runs a shell script ...</li>
+        <li>it creates a new shell  ...</li>
+        <li>inside the process that will run the script</li>
+        <li>Normally this <a class="def" href="../definitions.html#sub-shell">sub-shell</a> 
+            will be the same version of the shell ...
+        </li>
+        <li>as your current shell</li>
+        <li>A script can use the <a class="def" href="../definitions.html#hashbang">hashbang</a> line ...
+        </li>
+        <li>to specify which shell version to use ...</li>
+        <li>when running a script</li>
+        <li>The hashbang line <b>must</b> be the first line of the script</li>
+        <li>The first two characters on the line </li>
+        <li><b>must</b> be a hash symbol, <span class="char">#</span> ...</li>
+        <li>followed by an exclamation mark, <span class="char">!</span></li>
+        <li>After these two characters, you need to have the
+            <a class="def" href="../definitions.html#absolute_pathname">absolute pathname</a> ...
+        </li>
+        <li>of the version of the shell which will run the script</li>
+    </ul>
+    
+    <h4 class="topic" id="shell_script_comments">Comments in Shell Scripts</h4>
+    <ul class="flat">       
+        <li>Scripts have to be read by the people
+            <ul class="flat">       
+                <li class="flat">Who write the program</li>
+                <li class="flat">Who maintain the program</li>
+                <li class="flat">Who use the program</li>
+            </ul>
+        </li>
+        <li>To make clear what is happening inside a program ...</li>
+        <li>use comments</li>
+        <li>Anything following a hash mark, <span class="char">#</span> , is a comment ...</li>
+        <li>except for the hashbang line</li>
+    </ul>
+     
+    <!-- Class 18 -->
+    <h4 class="topic" id="separating_grouping_commands">Separating and Grouping Commands</h4>
+    <ul class="flat">       
+    <li>You can enter many commands on a single command line ...</li>
+        <li>if you separate them with a semi-colon, <span class="char">;</span>
+            <pre>
+    $ echo Here are the contents of my home directory <span class="char">;</span> ls <span class="char">;</span> echo
+    Here are the contents of my home directory
+    error.txt  foo  it244  work</pre>
+            </li>
+            <li>When you hit Enter each command is executed ...</li>
+            <li>in the order it was typed at the command line</li>
+    </ul>
+
+    <h4 class="topic" id="pipe_ampersand_command_separators"><span class="char">|</span> (pipe) and <span class="char">&amp;</span> (ampersand) as Command Separators</h4>
+    <ul class="flat">
+        <li>The pipe, <span class="char">|</span> , and ampersand, <span class="char">&amp;</span> , characters are also command separators</li>
+        <li>When we separate commands with the pipe character, <span class="char">|</span> ...</li>
+        <li>each command takes its input from the previous command</li>
+        <li>We use an ampersand, <span class="char">&amp;</span> , after a command ...</li>
+        <li>to run that command in the background</li>
+        <li>When we do this, two things happen
+            <ul class="flat">       
+                <li class="flat">The command is disconnected from the keyboard</li>
+                <li class="flat">The command will run at the same time <br>
+                    as the next command you enter</li>
+            </ul>
+        </li>
+        <li>But the ampersand is also a command separator</li>
+        <li>So we can use it to run many commands at the same time</li>
+    </ul>
+    
+    <h4 class="topic" id="continuing_command_next_line">Continuing a Command onto the Next Line</h4>
+    <ul class="flat"> 
+    		<li>A command line can be as long as you like</li> 
+    		<li>If your command goes beyond the edge of your window ...</li>
+    		<li>it will wrap to the next line</li>     
+    		<li>But the line wrap can occur in the middle of a word ...</li>
+    		<li>which can make it hard to read</li>
+    		<li>If you want to break the command at a specific point ...</li>
+        <li>you can type a backslash, <span class="char">\</span></li>
+        <li>followed <b>immediately</b> by the Enter key
+            <pre>
+    $ echo A man <span class="red">\</span>
+    &gt; A plan <span class="red">\</span>
+    &gt; A canal <span class="red">\</span>
+    &gt; Panama
+    A man A plan A canal Panama</pre>
+        </li>
+        <li>After hitting <span class="char">\</span> and newline ...</li>
+        <li>the shell responds with the greater than symbol, <span class="char">&gt;</span></li>
+        <li>This is the <a class="def" href="../definitions.html#secondary_prompt">secondary prompt</a></li>
+        <li>The shell is telling you it expects more input</li>
+    </ul>
+
+    <h4 class="topic" id="shell_variables">Shell Variables</h4>
+    <ul class="flat">       
+        <li>A <a class="def" href="../definitions.html#variable">variable</a>
+            is a place in memory with a name ...
+        </li>
+        <li>that holds a value</li>
+        <li>To get the value of a variable ...</li>
+        <li>put a dollar sign, 
+            <span class="char">$</span>, in front of its name</li>
+        <li>Some variables are set and maintained by the shell itself</li>
+        <li>They are called 
+            <a class="def" href="../definitions.html#keyword_shell_variable">keyword shell variables</a> ...
+        </li>
+        <li>or just keyword variables</li>
+        <li>Other variables are created by the user</li>
+        <li>They are called are called user-created variables</li>
+        <li>The environment in which a variable can be used is called the 
+            <a class="def" href="../definitions.html#bash_scope">scope</a>
+        </li>
+        <li>Shell variables have two scopes
+            <ul class="flat">       
+                <li class="flat">Local</li>
+                <li class="flat">Global</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h4 class="topic" id="local_variables">Local Variables</h4>
+    <ul class="flat">       
+        <li><a class="def" href="../definitions.html#bash_local_variable">Local variables</a> 
+            only exist in the shell in which they are defined
+        </li>
+        <li>To create a local variable, use the following format
+            <pre>
+    <span class="format">VARIABLE_NAME=VALUE</span></pre>
+        </li>
+        <li>There are <b>no spaces on either side of the equal sign</b> ...</li>
+        <li>when setting Bash variables</li>
+        <li>Variables are local unless you explicitly make them global</li>
+        <li>If the value assigned to a variable has spaces or tabs ...</li>
+        <li>you must quote it ...</li>
+        <li>or put a backslash in front of each whitespace character</li>
+        <li>If you want to use the value of a variable inside quotes ...</li>
+        <li>you <b>must</b> use double quotes</li>
+        <li>If you run a shell script, the local variables will not be visible ...</li>
+        <li>because the script is running in a sub-shell ...</li>
+        <li>and the local variables are not defined there</li>
+    </ul>
+
+    <h4 class="topic" id="global_variables">Global Variables</h4>
+    <ul class="flat">       
+        <li><a class="def" href="../definitions.html#bash_global_variable">Global variables</a> 
+            are defined in one shell ...
+        </li>
+        <li>and keep their values in all sub-shells created by that shell</li>
+        <li>Global variables are defined in Bash using the <code>export</code> command</li>
+        <li>like <span class="path">.bash_profile</span></li>
+        <li>The <code>env</code> command, when used without an argument ...</li>
+        <li>displays the values of all global variables</li>
+        <li>To make a variable global use the <code>export</code> command
+        		<pre>
+<span class="format">export VARIABLE_NAME=VALUE</span></pre>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="keyword_shell_variables">Keyword Shell Variables</h4>
+    <ul class="flat">       
+        <li>Keyword shell variables have special meaning to the shell</li>
+        <li>By convention, the names of keyword variables are <b>always capitalized</b></li>
+        <li>Most keyword variables can be changed by the user</li>
+        <li>This is normally done in the startup file <span class="path">.bash_profile</span></li>
+    </ul>
+    
+    <h4 class="topic" id="important_keyword_shell_variables">Important Keyword Shell Variables</h4>
+    <ul class="flat">       
+        <li>There are a number of keyword variables that affect your Unix session</li>
+        <li>Some of the more important are
+            <blockquote>
+                <table>
+                    <tr>
+                        <th align="left">Variable</th>   <th align="left">Value</th>
+                    </tr>
+                    <tr>
+                        <td><span class="iden">HOME</span></td>  
+                        <td>The absolute pathname of your home directory</td>
+                    </tr>
+                    <tr>
+                    <td><span class="iden">PATH</span></td>  
+                       <td>The list of directories the shell will search when looking for the executable 
+                           file associated with a command you entered at the command line</td>
+                   </tr>
+                   <tr>
+                       <td><span class="iden">SHELL</span></td>  
+                       <td>The absolute pathname of your default shell</td>
+                   </tr>
+                   <tr>
+                       <td><span class="iden">PS1</span></td>  
+                       <td>Your command line prompt - what you see after entering each command</td>
+                   </tr>
+                   <tr>
+                       <td><span class="iden">PS2</span></td>  
+                       <td>The secondary prompt - what you see if you continue a command to a second line</td>
+                   </tr>
+               </table>
+            </blockquote>            
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="user-created_variables">User-created Variables</h4>
+    <ul class="flat">       
+        <li>User-created variables are any variables you create</li>
+        <li>By convention, the names of user-created variables are lower case</li>
+        <li>User-created variables can be either local or global in scope</li>
+    </ul>    
+    
+    <!-- Class 19 -->
+    
+    <h4 class="topic" id="quoting_variable_values">Quoting and the Evaluation of Variables</h4>
+    <ul class="flat">       
+        <li>Whenever the value of a variable contains spaces or tabs ...</li>
+        <li>you must quote the string or escape the whitespace character</li>
+        <li>There are three ways this
+            <ul class="flat">       
+                <li class="flat">Single quotes (<span class="char">' '</span>)</li>
+                <li class="flat">Double quotes (<span class="char">" "</span>)</li>
+                <li class="flat">Backslash (<span class="char">\</span>)</li>
+            </ul>
+        </li>
+        <li>Everything surrounded by single quotes ...</li>
+        <li>appears in the variable exactly as you entered it</li>
+        <li>Double quotes also preserve spaces and tabs ...</li>
+        <li>in the strings they contain</li>
+        <li>But you can use a <span class="char">$</span> in front of a variable name ...</li>
+        <li>to get the value of a variable ...</li>
+        <li>inside double quotes</li>
+        <li>Quotes affect everything they enclose</li>
+        <li>The backslash, <span class="char">\</span> , only effects the character immediately following it</li>
+    </ul>
+    
+    <h4 class="topic" id="removing_variable_value">Removing a Variable's Value</h4>
+    <ul class="flat">       
+        <li>There are two ways of removing the value of a variable</li>
+        <li>You can use the <code>unset</code> command </li>
+        <li>Or you can set the value of the variable to the empty string</li>
+    </ul>
+
+    <h4 class="topic" id="processes">Processes</h4>
+    <ul class="flat">       
+        <li>A process is a running program</li>
+        <li>Unix is a multitasking operating system</li>
+        <li>Many processes can run at the same time</li>
+        <li>The shell runs in a process like any other program</li>
+        <li>Every time you run a program ...</li>
+        <li>a process is created ...</li>
+        <li>except when you run a built-in</li>
+        <li>When you run a shell script ...</li>
+        <li>your current shell creates a sub-shell to run the script</li>
+        <li>This sub-shell runs in a new process</li>
+        <li>When each command in the script is run ...</li>
+        <li>a process is created for that command</li>
+    </ul>
+
+    <h4 class="topic" id="process_structure">Process Structure</h4>
+    <ul class="flat">       
+        <li>Processes are created in a hierarchical fashion</li>
+        <li>When the machine is started, there is only one process</li>
+        <li>This process is called either <span class="iden">init</span> ...</li>
+        <li>or <span class="iden">systemd</span> ...</li>
+        <li>depandending on what technology is used to start other programs</li>
+        <li><span class="iden">init</span> or <span class="iden">systemd</span> then creates other processes</li>
+        <li>These new processes are child process of <span class="iden">init</span> or <span class="iden">systemd</span></li>
+        <li>These child processes can create other processes</li>
+        <li><span class="iden">init</span> or <span class="iden">systemd</span> has PID (Process ID) of 1</li>
+        <li><span class="iden">init</span> or <span class="iden">systemd</span> is the ancestor of every other processes ...</li>
+        <li>that ever runs on the machine</li>
+    </ul>
+
+    <h4 class="topic" id="process_identification">Process Identification</h4>
+    <ul class="flat">       
+        <li>Each process has a unique Process ID (PID) number</li>
+        <li><code>ps -f</code> displays a full listing of information about each process running for the current user
+            <pre>
+    $ ps -f
+    UID        PID  PPID  C STIME TTY          TIME CMD
+    it244gh  26374 26373  0 13:41 pts/5    00:00:00 -bash
+    it244gh  27891 26374  0 13:57 pts/5    00:00:00 ps -f</pre>
+        </li>
+        <li>The UID column shows the user's Unix username</li>
+        <li>The PID column is the process ID of the process</li>
+        <li>The PPID column is the process ID of the parent process ...</li>
+        <li>the process that created this process</li>
+        <li>The CMD column gives the command line that started the process</li>
+    </ul>
+    
+    <h4 class="topic" id="executing_command">Executing a Command</h4>
+    <ul class="flat">       
+        <li>When you run a command from the shell ...</li>
+        <li>the shell asks the operating system to create a process ...</li>
+        <li>to run the command</li>
+        <li>Then it sleeps ...</li>
+        <li>waiting for the child process to finish</li>
+        <li>When the child process finishes ...</li>
+        <li>it notifies its parent process of its success or failure ...</li>
+        <li>by returning an <a class="def" href="../definitions.html#exit_status">exit status</a> ...</li>
+        <li>and then it dies</li>
+    </ul>    
+    
+    <!-- Class 20 -->
+    <h4 class="topic" id="history">History</h4>
+    <ul class="flat">  
+        <li>The history mechanism maintains a list of the command lines you type</li>
+        <li>These command line entries are called events</li>
+        <li>To view the history list, use the <code>history</code> command</li>
+        <li>If you run <code>history</code> without an argument ...</li>
+        <li>it will display all the events in this history list</li>
+        <li>By default, this list contains 500 values</li>
+        <li>To restrict how many lines are displayed ...</li>
+        <li>run <code>history</code> followed by a number</li>
+        <li>You cannot have a <span class="char">-</span> in front of the number ...</li>
+        <li>as there <b>must</b> be when using <code>head</code> or <code>tail</code></li>
+    </ul>
+
+    <h4 class="topic" id="using_hstory">Using the History Mechanism</h4>
+    <ul class="flat">       
+        <li>If you know the event number  of a previous command ...</li>
+        <li>you can run it again by using an exclamation mark, <span class="char">!</span> ...</li>
+        <li>followed by the event number 
+            <pre>
+    $ !517
+    echo $PATH
+    /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</pre>
+        </li>
+        <li>The history mechanism prints out the old command line ...</li>
+        <li>before running it</li>
+        <li>There must be <b>no space between the ! and the number</b> ...</li>
+    </ul>
+
+    <h4 class="topic" id="readline_library">The Readline Library</h4>
+    <ul class="flat">       
+        <li>The readline library is a collection of procedures ...</li>
+        <li>which let you edit the command line</li>
+        <li>When you use Control key combinations on the command line ...</li>
+        <li>you are using the readline library</li>
+        <li>Any program running under Bash and written in C can use the readline library</li>
+        <li>Here are some of the more useful commands for the emacs version of the readline library
+            <blockquote>
+                <table>
+                    <tr>
+                        <th align="center">Command</th><th align="center">Meaning</th>
+                    </tr>
+                    <tr>
+                        <th><span class="char">Control A</span></th><td>Move to the beginning of the line</td>
+                    </tr>
+                    <tr>
+                        <th><span class="char">Control E</span></th><td>Move to the end of the line</td>
+                    </tr>
+                    <tr>
+                        <th><span class="char">Control U</span></th><td>Remove everything from the text entry point to the beginning of the line</td>
+                    </tr>
+                    <tr>
+                        <th><span class="char">Control K</span></th><td>Remove everything from the text entry point to the end of the line</td>
+                    </tr>
+                    <tr>
+                        <th><span class="char">&rarr;</span></th><td>Move the text entry point one character to the left</td>
+                    </tr>
+                    <tr>
+                        <th><span class="char">&larr;</span></th><td>Move the text entry point one character to the right</td>
+                    </tr>
+                    <tr>
+                        <th><span class="char">&uarr;</span></th><td>Recall the previous command line entry in the history list</td>
+                    </tr>
+                    <tr>
+                        <th><span class="char">&darr;</span></th><td>Recall the following command line entry in the history list</td>
+                    </tr>
+                </table>
+            </blockquote>        
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="readline_completion">Readline Completion</h4>
+    <ul class="flat">       
+        <li>The readline library provides a completion mechanism</li>
+        <li>Type a few letters of something ...</li>
+        <li>and readline completion will try to supply the rest</li>
+        <li>There are three forms of completion provided by the readline library
+            <ul>
+                <li class="flat">Pathname completion</li>
+                <li class="flat"><a class="def" href="../definitions.html#command_completion">Command completion</a></li>
+                <li class="flat"><a class="def" href="../definitions.html#variable_completion">Variable completion</a></li>
+            </ul>
+        </li>
+    </ul>
+
+    <h4 class="topic" id="pathname_completion">Pathname Completion</h4>
+    <ul class="flat">       
+        <li>The readline library provides pathname completion</li>
+        <li>You begin typing a pathname, then hit Tab</li>
+        <li>If there is only one pathname that matches ...</li>
+        <li>the readline library will provide the the rest of the pathname</li>
+        <li>If there is more than one possible completion ...</li>
+        <li>the readline library will beep</li>
+        <li>You can then enter more characters ...´</li>
+        <li>before hitting Tab again ...</li>
+        <li>or you can hit Tab right after the first beep ...</li>
+        <li>and the readline library will give you a list of possible completions</li>
+        <li>If the second Tab still gives you a beep ...</li>
+        <li>there are no possible completions</li>
+    </ul>
+    
+    <h4 class="topic" id="command_completion">Command Completion</h4>
+    <ul class="flat">       
+        <li>The readline library will complete the name of a command for you</li>
+        <li>Begin typing a command ...</li>
+        <li>then hit Tab ...</li>
+        <li>and the readline library will try to supply the rest of the command</li>
+        <li>If there is more than one possibility ...</li>
+        <li>you will hear a beep</li>
+        <li>If you hit Tab a second time ...</li>
+        <li>you will see a list of possible completions</li>
+    </ul>
+
+    <h4 class="topic" id="variable_completion">Variable Completion</h4>
+    <ul class="flat">       
+        <li>When you type a dollar sign, <span class="char">$</span> , followed immediately by some text ...</li>
+        <li>you are entering a variable name</li>
+        <li>The readline library knows this </li>
+        <li>and will attempt to complete the name of the variable</li>
+        <li>If there is more than one possibility, you will hear a beep</li>
+        <li>If you then hit Tab another time </li>
+        <li>you will see a list of possible completions</li>
+        <li>If no list appears after the second Tab ...</li>
+        <li>there are no possible variable name completions</li>
+    </ul>
+    
+    <h4 class="topic" id="aliases">Aliases</h4>
+    <ul class="flat">       
+        <li>An <a class="def" href="../definitions.html#alias">alias</a> is a string ..</li>
+        <li>that the shell replaces with some other string</li>
+        <li>Usually, the value assigned to the alias ...</li>
+        <li>is a command or part of a command</li>
+         <li>To define an alias, you use the <code>alias</code> command</li>
+        <li><code>alias</code> uses the following format in Bash
+            <pre>
+    <span class="format">alias ALIAS_NAME=ALIAS_VALUE</span></pre>
+        </li>
+        <li>In Bash, there must be <b>no</b> spaces on either side of the equal sign, <span class="char">=</span></li>
+        <li>If the value assigned to the alias has spaces, it must be quoted</li>
+        <li>If you follow <code>alias</code> with the name of an alias, it will display the definition
+            <pre>
+    $ alias ll
+    alias ll="ls -l'</pre>
+        </li>
+        <li>In Bash, an alias cannot accept an argument</li>
+        <li>Instead of allowing Bash to have aliases that accept an argument ...</li>
+        <li>Bash has functions</li>
+        <li>Aliases are <b>not</b> global</li>
+        <li>They only work in the shell in which they are defined</li>
+    </ul>
+    
+    <h4 class="topic" id="functions">Functions</h4>
+    <ul class="flat">       
+        <li>A function is a collection of commands that is given a name</li>
+        <li>Functions <b>can</b> accept arguments from the command line</li>
+        <li>Functions can be run anywhere you happen to be  in the filesystem ...</li>
+        <li>because function exist in memory ...</li>
+        <li>not on the disk</li>
+        <li>Functions, unlike aliases, can have arguments</li>
+        <li>They use the same positional arguments that shell scripts use</li>
+        <li>Functions differ from shell scripts in a number of ways
+            <ul>
+                <li class="flat">They are stored in memory (RAM), rather than in a file on disk</li>
+                <li class="flat">The shell preprocesses the function so it can execute more quickly</li>
+                <li class="flat">The shell executes the function in it's own process</li>
+            </ul>
+        </li>
+        <li>Functions are local to the shell in which they are defined</li>
+        <li>They do not work in subshells</li>
+        <li>Functions definitions have the following form
+            <pre>
+    <span class="format">FUNCTION_NAME ()
+    {
+        COMMANDS
+    }</span></pre>
+        </li>
+        <li>For clarity you can precede the function name ...</li>
+        <li>with the keyword <code>function</code></li>
+        <li>The keyword <code>function</code> is optional</li>
+    </ul>    
+    
+    <!-- Class 21 -->
+    <h4 class="topic" id="shell_modifies_command_line">Shell Modification of the Command Line</h4>
+    <ul class="flat">       
+        <li>But before the shell executes the commands ...</li>
+        <li>if first looks to see if it needs to make changes ...</li>
+        <li>to the <a class="def" href="../definitions.html#token">tokens</a> on the command line</li>
+        <li>The shell actually rewrites the command line before executing it</li>
+        <li>It does this to implement features of the shell ...</li>
+        <li>like <a class="def" href="../definitions.html#command_substitution">command substitution</a> 
+            and pathname expansion
+        </li>
+        <li>These are features that make the shell more powerful ...</li>
+        <li>but they require the shell to change what you typed on the command line ...</li>
+        <li>before executing it</li>
+        <li>There are 10 different ways in which the shell can modify the command line</li>
+		<li>You are only responsible for the following</li>
+    </ul>
+    
+    <h4 class="topic" id="history_expansion">History Expansion</h4>
+    <ul class="flat">       
+        <li>History expansion occurs when you use the exclamation mark, <span class="char">!</span> ...</li>
+        <li>to run again a previous command using the history mechanism
+                <pre>
+    $ history 5
+      540  cat output.txt 
+      541  echo "Go Red Sox" &gt; output.txt
+      542  cat output.txt 
+      543  echo foo
+      544  history 5
+      
+    $ <span class="red">!543</span>
+    echo foo
+    foo</pre>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="alias_substitution">Alias Substitution</h4>
+    <ul class="flat">       
+        <li>After history expansion, <code>bash</code> performs alias substitution</li>
+        <li>The shell replaces the name of the alias ...</li>
+        <li>with the value of the alias</li>
+        <li>Aliases allow you to run complicated commands ...</li>
+        <li>by typing only a few characters</li>
+    </ul>
+
+    <h4 class="topic" id="brace_expansion">Brace Expansion</h4>
+    <ul class="flat">       
+        <li>Braces, <span class="char">{ }</span>, allow you to specify several strings ...</li>
+        <li>all at once</li>
+        <li>Braces can appear with strings of characters in front ...</li>
+        <li>or behind</li>
+        <li>The braces contain strings of characters <b>separated by commas</b></li>
+        <li>The shell expands a brace by creating many strings ...</li>
+        <li>one for each string contained within the braces</li>
+        <li>If I wanted to create 5 foo files I could use braces expansion as follows
+            <pre>
+    $ touch foo<span class="red">{1,2,3,4,5}</span>.txt
+    
+    $ ls
+    <span class="red">foo1.txt  foo2.txt  foo3.txt  foo4.txt  foo5.txt</span></pre>
+        </li>
+    </ul>
+
+    <h4 class="topic" id="tilde_expansion">Tilde, <span class="char">~</span>, Expansion</h4>
+    <ul class="flat">       
+        <li>Whenever <code>bash</code> sees a tilde, <span class="char">~</span> , by itself ...</li>
+        <li>it substitutes the absolute pathname of your home directory</li>
+        <li>Whenever <code>bash</code> sees a tilde, <span class="char">~</span> , followed by a Unix user name, </li>
+        <li>it substitutes the absolute pathname of the home directory ...</li>
+        <li>of that account</li>
+    </ul>
+
+    <h4 class="topic" id="parameter_and_variable_expansion">Parameter and Variable Expansion</h4>
+    <ul class="flat">       
+        <li>After tilde expansion, <code>bash</code> performs parameter and variable expansion
+            <pre>
+    $ echo <span class="red">$SHELL</span>
+    /bin/bash</pre>
+        </li>
+        <li>bash notices the <span class="char">$</span> in front of a string ...</li>
+        <li>and looks to see if that string is the name of a variable</li>
+        <li>If the string is a variable, bash subsitutes the value of the variable ...</li>
+        <li>for the dollar sign and variable name</li>
+    </ul>
+
+    <h4 class="topic" id="command_substitution">Command Substitution</h4>
+    <ul class="flat">       
+        <li>In command substitution, a command is run in a sub-shell ...</li>
+        <li>and the output of that command ...</li>
+        <li>replaces the command itself</li>
+        <li>Command substitution uses the following format
+    <pre>
+    <span class="format">$(COMMAND)</span></pre>
+        </li>
+        <li>Where COMMAND is any valid Unix command</li>
+    </ul>
+    
+    <h4 class="topic" id="pathname_expansion">Pathname Expansion</h4>
+    <ul class="flat">       
+        <li>Pathname expansion is where you use meta-characters ...</li>
+        <li>to specify one or more pathnames</li>
+        <li>The metacharacters are used to create patterns ...</li>
+        <li>that are called ambiguous file references</li>
+        <li>The meta-characters are
+            <ul>
+                <li class="flat"><span class="char">?</span></li>
+                <li class="flat"><span class="char">*</span></li>
+                <li class="flat"><span class="char">[ ]</span></li>
+            </ul>
+        </li>
+    </ul>  
+    
+    <!-- Class 22 -->
+    <h4 class="topic" id="shell_script_control_structures">Shell Script Control Structures</h4>
+    <ul class="flat">       
+        <li>Control structures are Unix statements that change the order of execution ...</li>
+        <li>of commands within a program or script</li>
+        <li>There are two basic types of control structures
+            <ul>
+                <li class="flat">Loops</li>
+                <li class="flat">Conditionals</li>
+            </ul>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="if_then_construct">The <code>if ... then ...</code> Construct</h4>
+    <ul class="flat">       
+        <li>The first conditional is the <code>if ... then</code> statement ...</li>
+        <li>which has the format
+            <pre>
+    <span class="format">if COMMAND
+    then
+        COMMAND_1
+        COMMAND_2
+        ...
+    fi</span></pre>
+        </li>
+        <li>COMMAND is <b>any</b> Unix command</li>
+        <li>COMMAND_1, COMMAND_2, ... are a series of Unix commands</li>
+        <li>The most common comman used with <code>if</code> is <code>test</code></li>
+        <li>which must be followed by arguments that form a logical expression</li>
+        <li>It is used to test the truth or falsity of a condition</li>        
+        <li>The keyword <code>fi</code> must close the conditional statement</li>
+        <li>The statements between <code>then</code> and <code>fi</code> are executed ...</li>
+        <li>depending on the status code ...</li>
+        <li>given by the command that follows <code>if</code></li>
+        <li>If the command following <code>if</code> runs without error ...</li>
+        <li>then it will return an exit status of 0 ...</li>
+        <li>which the <code>if ... then</code> statment treats as true</li>
+    </ul>
+    
+    <h4 class="topic" id="test"><code>test</code></h4>
+    <ul class="flat">       
+        <li>The <code>test</code> command evaluates a logical expression ...</li>
+        <li>given to it as an argument ...</li>
+        <li>and returns a status code of 0 ...</li>
+        <li>if the expression evaluates to true</li>
+        <li>It returns a status code of 1 ...</li>
+        <li>if the expression evaluates to false</li>
+        <li>In an <code>if</code> statement, a status code of 0 means true ...</li>
+        <li>and a status code greater than 0 means means false</li>
+    </ul>        
+        
+    <h4 class="topic" id="test_operators">The <code>test</code> Operators</h4>
+    <ul>    
+        <li><code>test</code> has a number of operators</li>
+        <li>The operators test for different conditions</li>
+        <li>When used with two arguments, the operators are placed between</li>
+        <li>Some operators work only on numbers
+            <blockquote>
+                <table>
+                    <tr>
+                        <th align="left">Operator</th><th align="left">Condition Tested</th>  
+                    </tr>
+                    <tr>
+                        <th><span class="red">-eq</span></th><td>Two numbers are equal</td>   
+                    </tr>
+                    <tr>
+                        <th><span class="red">-ne</span></th><td>Two numbers are not equal</td>   
+                    </tr>
+                    <tr>
+                        <th><span class="red">-ge</span></th><td>The first number is greater than, or equal to, the second</td>   
+                    </tr>
+                    <tr>
+                        <th><span class="red">-gt</span></th><td>The first number is greater than the second</td> 
+                    </tr>
+                    <tr>
+                        <th><span class="red">-le</span></th><td>The first number is less than, or equal to, the second</td>  
+                    </tr>
+                    <tr>
+                        <th><span class="red">-lt</span></th><td>The first number is less than the second</td>    
+                    </tr>
+                </table>
+            </blockquote>
+        </li>
+        <li><code>test</code> uses the different operators when comparing <b>strings</b>
+            <blockquote>
+                <table>
+                    <tr>
+                        <th align="left">Operator</th><th align="left">Condition Tested</th>
+                    </tr>
+                    <tr>
+                        <th><span class="red">=</span></th><td>When placed between strings, are the two strings the same</td> 
+                    </tr>
+                    <tr>
+                        <th><span class="red">!=</span></th><td>When placed between strings, are the two strings not the same</td>    
+                    </tr>
+                </table>
+            </blockquote>
+        </li>
+        <li>Note that <code>test</code> uses symbols (<span class="char">=</span>) when comparing strings</li>
+        <li>But letters preceded by a dash (<span class="char">-eq</span>) when comparing numbers</li>
+        <li>There are two additional operators ...</li>
+        <li>that <code>test</code> uses when evaluating two  expressions</li>
+        <li>It is placed between the two expressions
+            <blockquote>
+                <table>
+                <tr>
+                    <th align="left">Operator</th><th align="left">Condition Tested</th>
+                    </tr>
+                    <tr>
+                        <th><span class="red">-a</span></th><td>Logical AND meaning both expressions must be true</td>    
+                    </tr>
+                    <tr>
+                        <th><span class="red">-o</span></th><td>Logical OR meaning either of the two expressions must be true</td>    
+                    </tr>
+                </table>
+            </blockquote>
+        </li>
+        <li>The exclamation mark, <span class="char">!</span> is a negation operator</li>
+        <li>It changes the value of the following logical expression
+            <ul class="flat">       
+                <li class="flat">It changes a false expression to true</li>
+                <li class="flat">And a true expression to false</li>
+            </ul>
+        </li>
+    </ul>    
+    
+    <!-- Class 23 -->
+    <h4 class="topic" id="using_test_in_scripts">Using <code>test</code> in Scripts</h4>
+    <ul class="flat">
+        <li>Bash provides a synonym for <code>test</code> ...</li>
+        <li>a pair of square brackets, <span class="char">[ ] </span></li>
+        <li>To test whether the value of the variable <span class="iden">number1</span> </li>
+        <li>is greater than the value of the variable <span class="iden">number2</span> </li>
+        <li>you could write either
+            <pre>
+    <span class="red">test</span> $number1 -gt $number2</pre>
+    or
+            <pre>
+    <span class="red">[</span> $number1 -gt $number2 <span class="red">]</span></pre></li>
+        <li>Whenever you use this construction </li>
+        <li>there <b>must</b> be a space ...</li>
+        <li>before and after each square bracket</li>
+    </ul>
+    
+    <h4 class="topic" id="if_then_else">The <code>if ... then ... else ...</code> Construct</h4>
+    <ul class="flat">
+        <li>The another conditional is the <code>if ... then ... else ...</code> construct ...</li>
+        <li> which has the following format
+                <pre>
+    <span class="format">if  COMMAND
+    then
+      COMMAND_1
+      COMMAND_2
+      ....
+    else
+      COMMAND_A
+      COMMAND_B
+      ...
+    fi</span></pre>
+        </li>
+        <li>If COMMAND returns an exit status of 0 ...</li>
+        <li>COMMAND_1, COMMAND_2, ... will be executed ...</li>
+        <li>otherwise COMMAND_A, COMMAND_B, ..., will be run</li>
+    </ul>
+    
+    <h4 class="topic" id="if_then_elif">The <code>if ... then ... elif ...</code> Construct</h4>
+    <ul class="flat">
+        <li>The <code>if ... then ... elif ...</code> construct allows you to create 
+    nested <code>if</code> statements
+    <pre>
+    <span class="format">if COMMAND
+    then
+      COMMAND_1
+      COMMAND_2
+      ...
+    elif ANOTHER_COMMAND
+    then
+      COMMAND_A
+      COMMAND_B
+      ...
+    ...
+    [else
+      COMMAND_N1
+      COMMAND_N2
+      ...]
+    fi</span></pre></li>
+        <li><code>elif</code> stands for "else if"</li>
+        <li>Notice that <code>elif</code> must be followed by <code>then</code></li>
+        <li>The <code>else</code> section is optional <li>
+    </ul>
+    
+    <!-- Class 24 -->
+    <h4 class="topic" id="for_in_loops"><code>for ... in ...</code> Loops</h4>
+    <ul class="flat">
+        <li>Bash provides many kinds of loops, </li>
+        <li>but we'll start with the <code>for ... in </code>loop
+    <pre>
+    <span class="format">for LOOP_VARIABLE in LIST_OF_VALUES
+    do
+        COMMAND_1
+        COMMAND_2
+        ...
+    done</span></pre></li>
+    <li>The block of loop commands start after the <code>do</code> keyword ...</li>
+    <li>and end just before the <code>done</code> keyword</li>
+    <li>The <code>do</code> keyword is like the <code>then</code> keyword in an <code>if</code> statement</li>
+    <li>With a <code>for ... in</code> loop, Bash
+        <ul class="flat">
+            <li class="flat">Assigns the first value in the LIST_OF_VALUES ...<br>
+                  to the variable specified by LOOP_VARIABLE
+            </li>
+            <li class="flat">Executes the block of commands between <code>do</code> and <code>done</code></li>
+            <li class="flat">Assigns the next value in the LIST_OF_VALUES  <br>
+                to the LOOP_VARIABLE
+            </li>
+            <li class="flat">Executes the commands between <code>do</code> and the <code>done</code> again</li>
+            <li class="flat">And so on until each value in LIST_OF_VALUES has been used</li>
+        </ul>
+    </li>
+    </ul>
+        
+    <h4 class="topic" id="for_loops"><code>for</code> Loops</h4>
+    <ul class="flat">       
+        <li>The <code>for</code> loop has a simpler structure than the <code>for ... in ...</code> loop
+            <pre>
+    <span class="format">for LOOP_VARIABLE
+    do
+        COMMAND_1
+        COMMAND_2
+        ...
+    done</span></pre>
+        </li>
+        <li>The difference between the two <code>for</code> loops ...</li>
+        <li>is where they get the <b>values</b> for the loop variable</li>
+        <li>The <code>for ... in ...</code> loop gets its values ...</li>
+        <li>from the list that appears right after the <code>in</code> keyword</li>
+        <li>These values are "<a class="def" href="../definitions.html#hard_coded">hard coded</a>" into the script</li>
+        <li>They never change</li>
+        <li>The simple <code>for</code> loop gets its values from the command line</li>
+        <li>This <code>for</code> loop can have different values each time it is run</li>
+    </ul>
+    
+    <h4 class="topic" id="while_loops"><code>while</code> Loops</h4>
+    <ul class="flat">
+        <li>The first two <code>for</code> loops keep running ...</li>
+        <li>until all values supplied to them ...</li>
+        <li>have been used in the loop</li>
+        <li>A <code>while</code> loop continue running ...</li>
+        <li>as long as the command following the keyword <code>while</code></li>
+        <li>returns a status code of 0</li>
+        <li><code>while</code> loops have the form
+            <pre>
+    <span class="format">while COMMAND
+    do
+        COMMAND_1
+        COMMAND_2
+        ...
+    done</span></pre>
+        </li>
+        <li>As long as COMMAND is returns and exit status of 0 ...</li>
+        <li>the code block between <code>do</code> and <code>done</code> will be executed</li>
+    </ul>   
+
+    <h4 class="topic" id="continue"><code>continue</code></h4>
+    <ul class="flat">       
+        <li>Normally, a loop will execute all the commands ...</li>
+        <li>between <code>do</code> and <code>done</code> ...</li>
+        <li>in each pass through the loop</li>
+        <li>But sometimes, you want to skip all or part ...</li>
+        <li>of the commands in the loop block ...</li>
+        <li>under specific conditions</li>
+        <li><code>continue</code> causes the shell to stop running the rest of the code ...</li>
+        <li>between the <code>do</code> and <code>done</code> keywords</li>
+        <li>The script then returns to the top of the loop ...</li>
+        <li>and begins the next iteration</li>
+        <li><code>continue</code> does not cause the script to break out of the loop</li>
+        <li>It merely stops the execution of the loop code ...</li>
+        <li>for one iteration</li>
+    </ul>
+    
+    <h4 class="topic" id="break"><code>break</code></h4>
+    <ul class="flat">
+       <li>When you start a loop, you specify the conditions ...</li>
+        <li>which will cause the loop to end</li>
+        <li>With <code>for ... in</code> and simple <code>for</code> loops, the code leaves the loop ...</li>
+        <li>when every value in the argument list has been used</li>
+        <li>In the <code>while</code>, <code>until</code> and three expression <code>for</code> loops ...</li>
+        <li>the code exits the loop when a logical condition is met</li>
+        <li>But what if you encountered some unusual condition ...</li>
+        <li>and wanted to break out of the loop entirely?</li>
+        <li>To do this, you would have to use <code>break</code></li>
+        <li>When bash comes across the <code>break</code> keyword ...</li>
+        <li>it jumps out of the loop</li>    
+    </ul>    
+
+   <h4 class="topic" id="read"><code>read</code> Command</h4>
+   <ul class="flat">       
+        <li>The <code>read</code> command sets a variable  ...</li>
+        <li>to a value entered by the user</li>
+        <li>When Bash is running a script and comes across a line like this
+            <pre>
+read value</pre>
+        </li>
+        <li>Bash does the following
+            <ul class="flat">       
+                <li class="flat">It waits for the user to enter some text</li>
+                <li class="flat">It assigns the text entered by the user to the variable ...<br>
+                    whose name follows the <code>read</code> command
+                </li>
+            </ul>
+        </li>
+        <li>When <code>read</code> takes in a value from the terminal ...</li>
+        <li>it grabs everything the user types ...</li>
+        <li>until they hit Enter</li>
+        <li>I can use the -p option to <code>read</code> </li>
+        <li>to have <code>read</code> issue a prompt
+            <pre>
+read -p "Please enter a number: " num</pre>
+        </li>
+        <li>By default, the <code>read</code> command does not allow you to edit text at the terminal ...</li>
+        <li>the way you can a the command line</li>
+        <li>But you can enable the readline library to make it possible to edit the line ..</li>
+        <li>if you use the -e option to  <code>read</code></li>
+    </ul> 
+    
+    <h3 class="section">Attendance</h3>
+    
+
+	<footer>
+		<a href="class_notes_it244.html" class="spacer">Class Notes</a>
+		<a href="class_notes_index_it244.html" class="spacer">Class Notes Index</a>
+	</footer>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/Review_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+</html>

@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/14_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:58 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title> IT 244: Introduction to Linux/Unix - Class 14</title>
+</head>
+<body>
+	<header>
+		<h2> IT 244: Introduction to Linux/Unix <br>
+		    Class 14
+		</h2>	
+	</header>
+
+
+    <h3 class="section">Today's Topics</h3>
+    
+    <h4 class="flat_under">Review</h4>
+    <ul class="flat_top">
+        <!-- Class 3 -->
+        <li class="flat"><a href="#correcting_mistakes">Correcting Mistakes on the Command Line</a></li>
+        <li class="flat"><a href="#retrieving_last_command">Retrieving Your Last Command Line Entry</a></li>
+        <li class="flat"><a href="#aborting_program">Aborting a Running Program</a></li>
+        <li class="flat"><a href="#getting_help">Getting Help with Unix Commands</a></li>
+        <!-- Class 4 -->
+        <li class="flat"><a href="#special_characters">Special Characters</a></li>
+        <li class="flat"><a href="#quoting_and_escaping">Quoting and Escaping</a></li>
+        <li class="flat"><a href="#cd"><code>cd</code> - Change Directory</a></li>
+        <li class="flat"><a href="#pwd"><code>pwd</code> - Show Your Current Directory</a></li>
+        <li class="flat"><a href="#ls"><code>ls</code> - List the Contents of a Directory</a></li>
+        <li class="flat"><a href="#cat"><code>cat</code> - Print the Contents of a File</a></li>
+        <li class="flat"><a href="#rm"><code>rm</code> - Delete a File</a></li>
+        <li class="flat"><a href="#mkdir"><code>mkdir</code> - Create a Directory</a></li>
+        <li class="flat"><a href="#rmdir"><code>rmdir</code> - Delete a Directory</a></li>
+        <li class="flat"><a href="#cp"><code>cp</code> - Copy Files</a></li>
+        <li class="flat"><a href="#mv"><code>mv</code> - Move a File or Directory</a></li>
+        <!-- Class 5 -->
+        <li class="flat"><a href="#echo"><code>echo</code> - Print Text to the Terminal</a></li>
+        <li class="flat"><a href="#pagers">Pagers - View a File One Screen at a Time</a></li>
+        <li class="flat"><a href="#pathname_completion">Pathname Completion</a></li>
+        <li class="flat"><a href="#grep"><code>grep</code> - Finding Strings inside Files</a></li>
+        <li class="flat"><a href="#head"><code>head</code> - View the Top of a File</a></li>
+        <li class="flat"><a href="#tail"><code>tail</code> - View the Bottom of a File</a></li>
+        <li class="flat"><a href="#sort"><code>sort</code> - Print a File in Sorted Order</a></li>
+        <li class="flat"><a href="#diff"><code>diff</code> - Differences between Files</a></li>
+        <!-- Class 6 -->
+        <li class="flat"><a href="#pipes">Pipes - Stringing Programs Together</a></li>
+        <li class="flat"><a href="#date"><code>date</code> - Get the Date and Time</a></li>
+        <li class="flat"><a href="#which"><code>which</code> - Finding a Program File</a></li>
+        <li class="flat"><a href="#locate"><code>locate</code> - Search for Any File</a></li>
+        <li class="flat"><a href="#finger"><code>finger</code> - Get information on Users</a></li>
+        <!-- Class 7 -->
+        <li class="flat"><a href="#hierarchical_file_system">The Hierarchical Filesystem</a></li>
+        <li class="flat"><a href="#case_sensitivity">Case Sensitivity</a></li>
+        <li class="flat"><a href="#filename_extensions">Filename Extensions</a></li>
+        <li class="flat"><a href="#current_directory">Current Directory</a></li>
+        <li class="flat"><a href="#home_directory">Your Home Directory</a></li>
+        <li class="flat"><a href="#navigation">Navigating the Hierarchical File Systems</a></li>
+        <!-- Class 8 -->
+        <li class="flat"><a href="#hidden_filenames">Hidden Filenames</a></li>
+        <li class="flat"><a href="#dot_&dot_dot">The <span class="char">.</span> and <span class="char">..</span> Directory Entries</a></li>
+        <li class="flat"><a href="#pathnames">Pathnames</a></li>
+        <li class="flat"><a href="#absolute_pathnames">Absolute Pathnames</a></li>
+        <li class="flat"><a href="#tilde">Tilde <span class="char">~</span> in Pathnames</a></li>
+        <li class="flat"><a href="#relative_pathnames">Relative Pathnames</a></li>
+        <li class="flat"><a href="#relative_pathnames_current_dir">Relative Pathnames in Your Current Directory</a></li>
+        <li class="flat"><a href="#relative_pathnames_descendent">Relative Pathnames in a Subdirectory</a></li>
+        <li class="flat"><a href="#relative_pathnames_ancestor">Relative Pathnames above the Current Directory</a></li>
+        <li class="flat"><a href="#relative_pathnames_other">Relative Pathnames Neither above Nor below the Current Directory</a></li>
+        <!-- Class 9 -->
+        <li class="flat"><a href="#access_permissions">Access Permissions</a></li>
+        <li class="flat"><a href="#viewing_access_permissions">Viewing Access Permissions</a></li>
+        <li class="flat"><a href="#chmod"><code>chmod</code></a></li>
+        <li class="flat"><a href="#chmod_numeric">Using <code>chmod</code> with Numeric Arguments</a></li>
+        <!-- Class 10 -->
+        <li class="flat"><a href="#root_account">The root Account</a></li>
+        <li class="flat"><a href="#dir_access_permissions">Directory Access Permissions</a></li>
+        <li class="flat"><a href="#links">Links</a></li>
+        <li class="flat"><a href="#link_types">The Two Types of Links</a></li>
+        <li class="flat"><a href="#ln"><code>ln</code></a></li>
+        <li class="flat"><a href="#removing_link">Removing a Link</a></li>
+        <!-- Class 11 -->
+        <li class="flat"><a href="#cmd_options">Command Options</a></li>
+        <li class="flat"><a href="#PATH">The <span class="iden">PATH</span> System Variable</a></li>
+        <li class="flat"><a href="#prog_current_dir">Running a Program in the Current Directory</a></li>
+        <li class="flat"><a href="#STD_IN_OUT_ERR">Standard Input, Standard Output and Standard Error</a></li>
+        <!-- Class 12 -->
+        <li class="flat"><a href="#keybrd_scrn">The Keyboard and Screen as Standard Input and Standard Output</a></li>
+        <li class="flat"><a href="#redirection">Redirection</a></li>
+        <li class="flat"><a href="#redir_std_out">Redirecting Standard Output</a></li>
+        <li class="flat"><a href="#redir_std_in">Redirecting Standard Input</a></li>
+        <li class="flat"><a href="#redir_destroy">Redirecting Standard Output Can Destroy a File</a></li>
+        <li class="flat"><a href="#append">Adding Output to an Existing File</a></li>
+        <li class="flat"><a href="#dev_null"><span class="path">/dev/null</span></a></li>
+    </ul>
+        
+    <h3 class="section">Homework 7</h3>
+    <p class="flat">I have posted homework 7 <a href="../hw_it244/07_hw_it244.html">here</a>.</p>
+    
+	<!--
+	<p>It is due Sunday, October  29th, at 11:59 PM.</p>
+    <p>It is <b>not</b> due this coming Sunday to allow you to study for the Mid-term Exam.</p>
+    
+	<!--
+    <h3 class="section">Mid-term</h3>
+    <p class="flat">The mid-term exam for this course will be held on Tuesday, October  24th.</p>
+    <p>It will consist of 25 questions like those on the quizzes.</p>
+    <p>You will have the entire class period to work on the exam.</p>
+    <p>60% of the questions will come from the Ungraded Class Quizzes.</p>
+    <p>Today's class will be a review session.</p>
+    <p>You will only be responsible for the material in the Class Notes for today's class
+       on the exam.
+    </p>
+    <p>The Mid-term is a closed book exam.</p>
+    -->
+	
+    <h3 class="section">Review</h3>
+    
+    <!-- Class 3 -->
+    
+    <h4 class="topic" id="correcting_mistakes">Correcting Mistakes on the Command Line</h4>
+    <ul class="flat">       
+        <li>You can correct mistakes on the Unix command line ...</li>
+        <li>using the following Control key combinations
+            <ul class="flat">
+                <li class="flat"><b>Control A</b> - Move the text insertion point to the beginning of the command line</li>
+                <li class="flat"><b>Control E</b> - Move the text insertion point to the end of the command line</li>
+                <li class="flat"><b>Control K</b> - Removes everything from the current text insertion point to the end of the line</li>
+                <li class="flat"><b>Control U</b> - Removes everything from the current text insertion point to the beginning of the line</li>
+            </ul>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="retrieving_last_command">Retrieving Your Last Command Line Entry</h4>
+    <ul class="flat">       
+        <li>To retrieve the previous command, hit the up arrow key, <span class="char">&uarr;</span></li>
+        <li>You can do this several times ...</li>
+        <li>to go back to any previous command</li>
+        <li>The down arrow key, <span class="char">&darr;</span>, takes you in the opposite direction</li>
+    </ul>
+    
+    <h4 class="topic" id="aborting_program">Aborting a Running Program</h4>
+    <ul class="flat">       
+        <li>You can abort a running program using Control C</li>
+    </ul>
+    
+    <h4 class="topic" id="getting_help">Getting Help with Unix Commands</h4>
+    <ul class="flat">       
+        <li>Many Unix utilities have a help option</li>
+        <li>The help option provides some basic information about the command</li>
+        <li>Some commands use <code>-h</code> as the help option ...</li>
+        <li>others use <code>--help</code></li>
+        <li>For more information, use <code>man</code> or <code>info</code></li>
+        <li>Follow <code>man</code> or <code>info</code> with the name of the command</li>
+    </ul>
+    
+    <!-- Class 4 -->
+    
+    <h4 class="topic" id="special_characters">Special Characters</h4>
+    <ul class="flat">       
+        <li>Some characters have special meaning in Unix</li>
+        <li>They are
+            <pre>
+<span class="char">&amp; : | * ? ' " [ ] ( ) $ &lt; &gt; { } # / \ ! ~</span></pre></li>
+        <li><a class="def" href="../definitions.html#whitespace">Whitespace</a> characters are special too</li>
+        <li>They are 
+            <ul class="flat">       
+                <li class="flat">Space</li>
+                <li class="flat">Tab</li>
+                <li class="flat">Newline</li>
+            </ul>
+        </li>
+        <li>Space and Tab separate commands, options, and arguments on the command line</li>
+        <li>The Enter key creates a newline character on a PC ...</li>
+        <li>while on a Mac it is the Return key</li>
+        <li>When the <a class="def" href="../definitions.html#shell">shell</a> sees a newline ...</li>
+        <li>it executes the commands on the command line</li>
+    </ul>
+    
+    <h4 class="topic" id="quoting_and_escaping">Quoting and Escaping</h4>
+    <ul class="flat">       
+        <li>You can turn off the special meaning of a character ...</li>
+        <li>by preceding it with a backslash, <span class="char">\</span></li>
+        <li>You can also turn off special meanings by enclosing a string in quotes</li>
+        <li>You can continue a command onto the next line ...</li>
+        <li>by using a backslash just before hitting Enter</li>
+        <li>The backslash turns off the special meaning of the newline character</li>
+    </ul>
+
+    <h4 class="topic" id="cd"><code>cd</code> - Change Directory</h4>
+    <ul class="flat">       
+        <li>To change your directory use <code>cd</code></li>
+        <li>If you run <code>cd</code> without an argument, it will take you to your home directory</li>
+        <li>    To go to the directory above your current directory, use
+    <pre>
+cd ..</pre>  </li>
+    </ul>
+    
+    <h4 class="topic" id="pwd"><code>pwd</code> - Show Your Current Directory</h4>
+    <ul class="flat">       
+        <li><code>pwd</code> will print you your current location in the filesystem</li>
+        <li><code>pwd</code> takes no arguments</li>
+    </ul>
+    
+    <h4 class="topic" id="ls"><code>ls</code> - List the Contents of a Directory</h4>
+    <ul class="flat">       
+        <li><code>ls</code> lists the contents of a directory</li>
+        <li>To see the contents of directory <span class="path">work</span>, run
+            <pre>
+ls work</pre></li>
+        <li>When you use <code>ls</code> without an argument ...</li>
+        <li>it lists the contents of the current directory</li>
+        <li>For more information run <code>ls</code> with the <code>-l</code> (long) option</li>
+        <li><code>ls -a</code> displays the "invisible" files ...</li>
+        <li>whose name begins with a <span class="char">.</span></li>
+    </ul>
+    
+    <h4 class="topic" id="cat"><code>cat</code> - Print the Contents of a File</h4>
+    <ul class="flat">       
+        <li>To display the contents of a file, use <code>cat</code></li>
+    </ul>
+    
+    <h4 class="topic" id="rm"><code>rm</code> - Delete a File</h4>
+    <ul class="flat">       
+        <li>To remove a file, use <code>rm</code></li>
+        <li>To remove all files in a directory, use <code>rm *</code></li>
+        <li>Be very careful when you use this construction</li>
+        <li>There is <b>no</b> file recovery mechanism in Unix</li>
+        <li><code>rm</code> will not remove a directory unless you use a special option</li>
+    </ul>
+    
+    <h4 class="topic" id="mkdir"><code>mkdir</code> - Create a Directory</h4>
+    <ul class="flat">       
+        <li>You create a directory using <code>mkdir</code></li>
+    </ul>
+
+    <h4 class="topic" id="rmdir"><code>rmdir</code> - Delete a Directory</h4>
+    <ul class="flat">       
+        <li><code>rmdir</code> is used to remove a directory</li>
+        <li><code>rmdir</code> will not work unless the directory is empty</li>
+    </ul>
+    
+    <h4 class="topic" id="cp"><code>cp</code> - Copy Files</h4>
+    <ul class="flat">       
+        <li><code>cp</code> copies files or directories</li>
+        <li>To copy a directory and all its files and sub-directories ...</li>
+        <li>use <code>cp</code> with the <code>-r</code> option</li>
+    </ul>
+    
+    <h4 class="topic" id="mv"><code>mv</code> - Move a File or Directory</h4>
+    <ul class="flat">       
+        <li>Use the <code>mv</code> command to move a file or directory ...</li>
+        <li>from one place to another</li>
+        <li>To rename a file or directory, you also use <code>mv</code></li>
+    </ul>
+    
+    <!-- Class 5 -->
+    <h4 class="topic" id="echo"><code>echo</code> - Print Text to the Terminal</h4>
+    <ul class="flat">       
+        <li><code>echo</code> prints text to the terminal
+            <pre>
+$ echo Hello
+Hello</pre>
+        </li>
+        <li>You can use <code>echo</code> to print the value of a system variable ...</li>
+        <li>if your precede the variable name with a <span class="char">$</span>
+            <pre>
+$ echo $SHELL
+/bin/bash</pre>
+        </li>
+    </ul>
+        
+    <h4 class="topic" id="pagers">Pagers - View a File One Screen at a Time</h4>
+    <ul class="flat">       
+        <li>Pagers are programs that display the contents of a file ...</li>
+        <li>one screenful at a time</li>
+        <li>The two pagers that Unix supplies are <code>more</code> and <code>less</code></li>
+        <li>Hitting the Space bar advances to the next screen</li>
+        <li>Hitting the Enter or Return key takes you down one line</li>
+        <li><code>less</code>, just to be confusing, has more features than <code>more</code></li>
+    </ul>
+    
+    <h4 class="topic" id="pathname_completion">Pathname Completion</h4>
+    <ul class="flat">       
+        <li>When typing a long file name it is easy to make a mistake</li>
+        <li>To make life easier, Unix provides a feature called
+            <a class="def" href="../definitions.html#pathname_completion">pathname completion</a>
+        </li>
+        <li>You type a few characters, then hit the Tab key</li>
+        <li>Unix will supply the rest ...</li>
+        <li>if there is only one file or directory that matches</li>
+        <li>If there is more than one match ...</li>
+        <li>Unix will supply as much as it can and then beep</li>
+        <li>If there is no match, it will also beep</li>
+        <li>If you don't get a complete match ...</li>
+        <li>hitting Tab twice ...</li>
+        <li>will display a list of all possible matches</li>
+        <li>This only works in the Bash shell</li>
+    </ul>
+    
+    <h4 class="topic" id="grep"><code>grep</code> - Finding Strings inside Files</h4>
+    <ul class="flat">  
+        <li><code>grep</code> is used to find all lines in a file ...</li>
+        <li>that contain a certain <a class="def" href="../definitions.html#string">string</a></li>     
+        <li><code>grep</code> takes two arguments
+            <ul class="flat">       
+                <li class="flat">The string you are searching for</li>
+                <li>The file or files in which to search</li>
+            </ul>
+        </li>
+        <li><code>grep</code> has the following format
+            <pre>
+<span class="format">grep  STRING  FILE  [FILE ...]</span></pre>
+        </li>
+        <li>To run <code>grep</code> on the files in a directory ...</li>
+        <li>use the <code>-r</code> (<b>r</b>ecursive) option</li>
+        <li><code>grep -r</code> will search through all files in a directory ...</li>
+        <li>and in all subdirectories</li>
+        <li><code>grep</code>, like Unix, is case sensitive</li>
+        <li>It thinks of "foo" and "FOO" as two different strings</li>
+        <li>To have <code>grep</code> ignore case ...</li>
+        <li>run it with the <code>-i</code> option</li>
+        <li>To have <code>grep</code> find all lines that <b>do not</b> match a string ...</li>
+        <li>run it with the <code>-v</code> option</li>
+    </ul>
+    
+    <h4 class="topic" id="head"><code>head</code> - View the Top of a File</h4>
+    <ul class="flat">       
+        <li><code>head</code> prints the first 10 lines of any file</li>
+        <li>If you want a different number of lines ...</li>
+        <li>follow <code>head</code> with a dash, <span class="char">-</span> , and a number
+            <pre>
+head -20 foo.txt</pre></li>
+    </ul>
+
+    <h4 class="topic" id="tail"><code>tail</code> - View the Bottom of a File</h4>
+    <ul class="flat">       
+        <li><code>tail</code> prints the last 10 lines of any file</li>
+        <li>If you want a different number of lines ...</li>
+        <li>follow <code>tail</code> with a dash, <span class="char">-</span> , and a number
+            <pre>
+tail -20 foo.txt</pre></li>
+    </ul>
+    
+    <h4 class="topic" id="sort"><code>sort</code> - Print a File in Sorted Order</h4>
+    <ul class="flat">       
+        <li><code>sort</code> prints a sorted list of the lines in a file ...</li>
+        <li>to the terminal</li>
+        <li><code>sort</code> <b>does not</b> change the file</li>
+        <li><code>sort</code> sorts the lines of a file ...</li>
+        <li>by the first few characters in the line</li>
+        <li>To sort in reverse order use the <code>-r</code> option</li>
+        <li><code>sort</code>, by default, sorts in alphabetical order</li>
+        <li>This is a problem when the first characters on a line are numbers</li>
+        <li>That's because 11 will sort before 2</li>
+        <li>To sort in numerical order use <code>sort -n</code></li>
+        <li>To sort in reverse numerical order use <code>sort -nr</code></li>
+    </ul>
+    
+    <h4 class="topic" id="diff"><code>diff</code> - Differences between Files</h4>
+    <ul class="flat">       
+        <li><code>diff</code> compares two files and notes their differences</li>
+        <li><code>diff</code> was created for use with the <code>patch</code> utility</li>
+        <li>Run <code>diff</code> with the <code>-y</code> option to get output that is easier to read</li>
+    </ul>
+    
+    <!-- Class 6 -->
+
+    <h4 class="topic" id="pipes">Pipes - Stringing Programs Together</h4>
+    <ul class="flat">       
+        <li>A pipe takes the output of one command ...</li>
+        <li>and feeds it into the input of another command</li>
+        <li>Pipes allow you to chain together several Unix commands ..</li>
+        <li>into a single command</li>
+        <li>Commands joined in this way are sometimes called 
+            <a class="def" href="../definitions.html#pipeline">pipelines</a>
+        </li>
+        <li>Pipes are essential to the Unix philosophy of simple tools</li> 
+        <li>Using pipes, you can string together many commands ...</li>
+        <li>to achieve exactly what you want</li>
+        <li>You form a pipe by placing the vertical line character, <span class="char">|</span> ...</li>
+        <li>between two commands
+        <pre>
+$ head -5 red_sox.txt
+2011-07-31  Red Sox @  White Sox    Win 5-3
+2011-07-02  Red Sox @  Astros       Win 7-5
+2011-07-03  Red Sox @  Astros       Win 2-1
+2011-07-04  Red Sox vs Blue Jays    Loss 7-9
+2011-07-05  Red Sox vs Blue Jays    Win 3-2
+
+$ head -5 red_sox.txt <span class="red">|</span> sort
+2011-07-02  Red Sox @  Astros       Win 7-5
+2011-07-03  Red Sox @  Astros       Win 2-1
+2011-07-04  Red Sox vs Blue Jays    Loss 7-9
+2011-07-05  Red Sox vs Blue Jays    Win 3-2
+2011-07-31  Red Sox @  White Sox    Win 5-</pre></li>
+       <li>Notice, in the command line above, that <code>sort</code> does not have an argument</li>
+       <li>Normally <code>sort</code> requires an argument that specifies the file to sort</li>
+       <li>But in a pipe, each command after the first ...</li>
+       <li>takes its input from the output of the preceding commands</li>
+       <li>You <b>never</b> need to specify the input when using a command in a pipeline ...</li>
+       <li>except the first command</li>
+    </ul>
+
+    <h4 class="topic" id="date"><code>date</code> - Get the Date and Time</h4>
+    <ul class="flat">       
+        <li>The Unix <code>date</code> command will give the time and the date
+            <pre>
+$ date
+Tue Aug 21 10:20:05 EDT 2012</pre>
+    		</li>
+       <li>If we follow the command with a <span class="char">+</span> and a string we can change the format
+           <pre>
+$ date <span class="red">+"%Y-%m-%d"</span>
+2012-08-21</pre></li>
+       <li>Use <code>info</code> or <code>man</code> to see the various formatting options <code>date</code> provides</li>
+    </ul>
+    
+    <h4 class="topic" id="which"><code>which</code> - Finding a Program File</h4>
+    <ul class="flat">       
+        <li>Unix commands are programs ...</li>
+        <li>that are located somewhere in the filesystem</li>
+        <li>The Unix utility <code>which</code> gives the location of an executable file</li>
+        <li>To find where the executable file for <code>less</code> is located ...</li>
+        <li>we can run <code>which</code> like this
+            <pre>
+$ which less
+/usr/bin/less</pre>
+    		</li>
+        <li><code>which</code> uses the <span class="iden">PATH</span> system variable to find the executable file</li>
+        <li>We'll discuss <span class="iden">PATH</span> in a future class</li>
+    </ul>
+    
+    <h4 class="topic" id="locate"><code>locate</code> - Search for Any File</h4>
+    <ul class="flat">       
+        <li><code>which</code> and <code>whereis</code> only work on programs</li>
+        <li><code>locate</code> can be used to find any file</li>
+        <li>You don't need to know the full name of a file to use <code>locate</code></li>
+        <li><code>locate</code> will search on a partial file name
+        <pre>
+$ locate foot
+/etc/update-motd.d/99-footer
+/usr/share/doc/java-common/debian-java-faq/footnotes.html
+/usr/share/emacs/23.3/lisp/mail/footnote.elc
+/usr/share/emacs/23.3/lisp/org/org-footnote.elc
+/usr/share/libparse-debianchangelog-perl/footer.tmpl
+/usr/share/xml-core/catalog.footer
+/usr/src/linux-headers-3.0.0-12/arch/arm/mach-footbridge
+/usr/src/linux-headers-3.0.0-12/arch/arm/mach-footbridge/Kconfig
+/usr/src/linux-headers-3.0.0-12/arch/arm/mach-footbridge/Makefile
+/usr/src/linux-headers-3.0.0-12/arch/arm/mach-footbridge/Makefile.boot
+/usr/src/linux-headers-3.0.0-12/arch/arm/mach-footbridge/include
+/usr/src/linux-headers-3.0.0-12/arch/arm/mach-footbridge/include/mach
+/usr/src/linux-headers-3.0.0-12/arch/arm/mach-footbridge/include/mach/debug-macro.S
+...</pre>
+    		</li>
+        <li><code>locate</code> does not actually search the file system itself</li>
+        <li>That would take too long</li>
+        <li>Instead it uses a database of all files on the system</li>
+        <li>This database is created by another program <code>updatedb</code></li>
+        <li><code>updatedb</code> is usually run automatically in the background to update the database</li>
+    </ul>     
+        
+    <h4 class="topic" id="finger"><code>finger</code> - Get information on Users</h4>
+    <ul class="flat">       
+        <li><code>finger</code> provides information about a user account
+            <pre>
+$ finger ghoffman
+Login: ghoffman                  Name: Glenn Hoffman
+Directory: /home/ghoffman                Shell: /bin/bash
+On since Wed Sep 17 16:09 (EDT) on pts/1 from dsl092-066-161.bos1.dsl.speakeasy.net
+   1 second idle
+Mail forwarded to glennhoffman@mac.com
+Mail last read Thu Sep  4 15:12 2014 (EDT)
+Plan:
+Office:         McCormack M-3-607                 Fall 2014
+Office Hours:   Tuesday &amp; Thursday, 10:00 - 12:00 PM and by appointment
+Classes:        
+    IT 341-2  Introduction to System Administration  TuTh  12:30-1:45  S3-148  (IT Lab)
+    IT 244-1  Introduction to Linux/Unix             TuTh   2:00-3:15  S3-028  (Web Lab)
+    IT 244-3  Introduction to Linux/Unix             TuTh   4:00-5:15  S3-148  (IT Lab)
+    IT 244-2  Introduction to Linux/Unix             TuTh   5:30-6:45  S3-028  (Web Lab)
+Home Address:   40 Central Street     617-821-3936 (home; 9am - 9pm only)
+                Somerville, MA 02143</pre>
+        </li>
+        <li><code>finger</code>, like <code>mv</code>, has two functions</li>
+        <li>When used without an argument, <code>finger</code> shows every 			 		 user currently logged in
+            <pre>
+$ finger
+Login     Name                Tty      Idle  Login Time   Office     Office Phone
+ghoffman   Glenn Hoffman       pts/0          Aug 18 11:13 (dsl092-066-161.bos1.dsl.speakeasy.net)
+rouilj    John P. Rouillard   pts/1    4:34  Aug 18 06:44 (pool-74-104-161-40.bstnma.fios.verizon.net)
+ubuntu    Ubuntu Dummy       *tty1      14d  Aug  4 04:53</pre></li>
+        <li>You can also use a last or first name with <code>finger</code>
+        <pre>
+$ finger Hoffman
+Login: ghoffman                  Name: Glenn Hoffman
+Directory: /home/ghoffman                Shell: /bin/bash
+On since Wed Sep 17 16:09 (EDT) on pts/1 from dsl092-066-161.bos1.dsl.speakeasy.net
+   1 second idle
+Mail forwarded to glennhoffman@mac.com
+Mail last read Thu Sep  4 15:12 2014 (EDT)
+Plan:
+Office:         McCormack M-3-607                 Fall 2014
+Office Hours:   Tuesday &amp; Thursday, 10:00 - 12:00 PM and by appointment
+Classes:        
+    IT 341-2  Introduction to System Administration  TuTh  12:30-1:45  S3-148  (IT Lab)
+    IT 244-1  Introduction to Linux/Unix             TuTh   2:00-3:15  S3-028  (Web Lab)
+    IT 244-3  Introduction to Linux/Unix             TuTh   4:00-5:15  S3-148  (IT Lab)
+    IT 244-2  Introduction to Linux/Unix             TuTh   5:30-6:45  S3-028  (Web Lab)
+Home Address:   40 Central Street     617-821-3936 (home; 9am - 9pm only)
+                Somerville, MA 02143
+
+Login: it244gh                  Name: Dummy for Glenn Hoffman
+Directory: /home/it244gh                Shell: /users/nologin
+Never logged in.
+Mail forwarded to glennhoffman@mac.com
+No mail.
+Plan:
+This account is a test account for Glenn Hoffman teaching it244</pre>
+    		</li>
+    </ul>    
+    
+    <!-- Class 7 -->
+    
+    <h4 class="topic" id="hierarchical_file_system">The Hierarchical Filesystem</h4>
+    <ul class="flat">       
+        <li>Unix uses a <a class="def" href="../definitions.html#hierarchical_filesystem">hierarchical filesystem</a></li>
+        <li>This means there is one directory at the top, called the 
+            <a class="def" href="../definitions.html#root_directory">root directory</a> 
+        </li>
+        <li>The root directory is indicated by a simple slash character, <span class="char">/</span></li>
+        <li>All other directories are contained within the root directory ...</li>
+        <li>or one of its many subdirectories</li>
+        <li>This structure is called a tree because it looks like a tree turned upside down</li>
+        <li>A hierarchical filesystem also resembles a family tree</li>
+        <li>So we often use terms that describe family members when talking about directories</li>
+        <li>The directory up one level from your current directory is called the 
+            <a class="def" href="../definitions.html#parent_directory">parent directory</a>
+        </li>
+        <li>All directories above the current directory are called 
+            <a class="def" href="../definitions.html#ancestor">ancestors</a>
+        </li>
+        <li>All directories inside the current directories are called 
+            <a class="def" href="../definitions.html#child_directory">child directories</a>
+        </li>
+        <li>All directories below the current directory can be called 
+            <a class="def" href="../definitions.html#descendant">descendants</a>
+        </li>
+        <li>All directories and files within the same parent directory are called 
+            <a class="def" href="../definitions.html#sibling">siblings</a>
+        
+        </li>
+    </ul>
+    <img src="images_it244/directory_family.html" height="50%"/>
+    
+    <h4 class="topic" id="case_sensitivity">Case Sensitivity</h4>
+    <ul class="flat">       
+        <li>Unix is <b>case sensitive</b></li>
+        <li>This means that "Foo", "foo" and "FOO" ...</li>
+        <li>are three different things ...</li>
+        <li>as far as Unix is concerned</li>
+        <li>Unix utility and program names are always lowercase</li>
+        <li>Some operating systems do not distinguish ...</li>
+        <li>between UPPERCASE and lowercase characters</li>
+        <li>Windows is such a system</li>
+        <li>Make life easy for yourself</li>
+        <li>Use only lowercase characters in Unix filenames</li>
+    </ul>
+            
+    <h4 class="topic" id="filename_extensions">Filename Extensions</h4>
+    <ul class="flat">       
+        <li>Extensions are strings of characters ...</li>
+        <li>that appear at the end of the filename ...</li>
+        <li>after a period</li>
+        <li>Extensions are <b>not</b> recognized by the Unix filesystem</li>
+        <li>As far as Unix is concerned ...</li>
+        <li>they are just legal characters ...</li>
+        <li>that are part of the filename</li>
+        <li>Some Unix programs expect their files ...</li>
+        <li>to have certain extensions</li>
+        <li>For example, the C compiler, <code>gcc</code> ...</li>
+        <li>expects the filenames of source code files to end in <span class="char">.c</span></li>
+        <li>The Java compiler, <code>javac</code> ...</li>
+        <li>expects Java source files to have <span class="char">.java</span> ...</li>
+        <li>at the end of the filename</li>
+        <li>These extensions are required by the program ...</li>
+        <li>not by Unix</li>
+    </ul>     
+
+    <h4 class="topic" id="current_directory">Current Directory</h4>
+    <ul class="flat">       
+        <li>The way a Unix command works ...</li>
+        <li>depends, somewhat, on your environment</li>
+        <li>One of the most important parts of your environment ...</li>
+        <li>is your <a class="def" href="../definitions.html#current_directory">current directory</a></li>
+        <li>The <code>pwd</code> (<b>p</b>rint <b>w</b>orking <b>d</b>irectory) command ...</li>
+        <li>will always tell you your current directory</li>
+        <li>If a command expect a directory as an argument ...</li>
+        <li>you can usually omit it ...</li>
+        <li>and the program will assume you mean you current directory</li>
+        <li>For example, <code>ls</code> used with no arguments ...</li>
+        <li>will list the contents of your current directory</li>
+    </ul>
+    
+    <h4 class="topic" id="home_directory">Your Home Directory</h4>
+    <ul class="flat">       
+        <li>Whenever you log in to a Unix host ...</li>
+        <li>you will always find yourself in your 
+            <a class="def" href="../definitions.html#home_directory">home directory</a>
+        </li>
+        <li>This a directory that belongs to your Unix account <b>only</b></li>
+        <li>You have full control of permissions within this directory</li>
+        <li>If you use <code>cd</code> with no arguments ...</li>
+        <li>it will take you to your home directory
+        <pre>
+$ cd
+
+$ pwd
+/home/ghoffman</pre>
+        </li>
+        <li>Your home directory contains a number of hidden files ...</li>
+        <li>which customize your environment ...</li>
+        <li>like <span class="path">.forward</span> </li>
+        <li>On most Unix systems, home directories are found inside the <span class="path">/home</span> directory</li>
+        <li>The name of your home directory ...</li>
+        <li>is the same as your Unix username</li>   
+     </ul>
+    
+    <h4 class="topic" id="navigation">Navigating the Hierarchical File Systems</h4>
+    <ul class="flat">       
+        <li>Any file or directory in the filesystem ...</li>
+        <li>will be one of four positions ...</li>
+        <li>relative to your current directory</li>
+        <li>It can be <b>inside</b> your current directory</li>
+        <li>It can be <b>below</b> your current directory</li>
+        <li>It can be <b>above</b> your current directory</li>
+        <li>It can be <b>off to the side</b> of your current directory</li>
+        <li>In this last case, you must go up ...</li>
+        <li>before you can go down to reach this file</li>
+    </ul>
+    <img src="images_it244/directory_paths.html" height="50%"/>
+    
+    <!-- Class 8 -->
+    
+    <h4 class="topic" id="hidden_filenames">Hidden Filenames</h4>
+    <ul class="flat">       
+        <li>A file whose filename begins with a period, <span class="char">.</span>, is a "hidden" or "invisible" file</li>
+        <li><code>ls</code> does not display these files unless you use the <code>-a</code> option</li>
+        <li>These files are used to configure your Unix environment</li>
+    </ul>
+    
+    <h4 class="topic" id="dot_&dot_dot">The <span class="char">.</span> and <span class="char">..</span> Directory Entries</h4>
+    <ul class="flat">       
+        <li>Every directory has at least two entries <span class="char">.</span> and <span class="char">..</span></li>
+        <li>When a new directory is created ...</li>
+        <li>these are the first two entries</li>
+        <li><span class="char">.</span>stands for the current directory</li>
+        <li><span class="char">..</span>stands for the parent directory of your current directory</li>
+        <li><span class="char">..</span> is the directory immediately above your current location</li>
+        <li><span class="char">.</span> is most often used in two circumstances
+            <ul class="flat">       
+                <li class="flat">To run a program in your current directory</li>
+                <li>To move or copy a file to your current directory</li>
+            </ul></li>
+    </ul>
+    
+    <h4 class="topic" id="pathnames">Pathnames</h4>
+    <ul class="flat">       
+        <li>Every file has a 
+            <a class="def" href="../definitions.html#pathname">pathname</a> which is used to access the file
+        </li>
+        <li>A pathname has two components
+            <ul class="flat">       
+                <li class="flat">The name of the file</li>
+                <li class="flat">A <a class="def" href="../definitions.html#path">path</a> to reach the file</li>
+            </ul>
+        </li>
+        <li>The path is a list of directories that you must go through ...</li>
+        <li>to reach the file you want</li>
+        <li>A pathname is like an address on a letter ...</li>
+        <li>a name and directions to get there</li>
+        <li>The name of the file is always at the end of a pathname</li>
+        <li>When the slash, <span class="char">/</span> appears <b>between</b> names in a pathname ...</li>
+        <li>it is used to separate a directory name ...</li>
+        <li>from what comes after it</li>
+        <li>When a <span class="char">/</span> is the first character in a pathname ...</li>
+        <li>it stands for the root directory </li>
+        <li>There are two types of pathnames
+            <ul class="flat">       
+                <li class="flat">Absolute</li>
+                <li class="flat">Relative</li>
+            </ul>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="absolute_pathnames">Absolute Pathnames</h4>
+    <ul class="flat">       
+        <li>The top of the filesystem is a directory called the root directory</li>
+        <li>The root directory is represented by a single slash character, <span class="char">/</span></li>
+        <li>It can stand alone ...</li>
+        <li>or appear as the first character before a directory name</li>
+        <li>An <a class="def" href="../definitions.html#absolute_path">absolute path</a> 
+        is a list of directories ...
+        </li>
+        <li>starting with the root directory ...</li>
+        <li>and ending with the directory that contains the file</li>
+        <li>When you add the filename to the end of an absolute path ...</li>
+        <li>you have an <a class="def" href="../definitions.html#absolute_pathname">absolute pathname</a></li>
+    </ul>
+    <img src="images_it244/absolute_pathname.html" height="50%" />
+    
+    <h4 class="topic" id="tilde">Tilde <span class="char">~</span> in Pathnames</h4>
+    <ul class="flat">       
+        <li>There is one form of absolute path that is very short</li>
+        <li>This is the tilde character, <span class="char">~</span></li>
+        <li>Tilde stands for <b>your</b> home directory</li>
+        <li>This means you can use tilde, <span class="char">~</span> ...</li>
+        <li>anywhere you would normally use a path to your home directory</li>
+        <li>When you put a tilde in front of a Unix username ...</li>
+        <li>it stands for the home directory of that account</li>
+        <li><span class="char">~</span> <b>always means an absolute path</b></li>
+    </ul>
+    
+    <h4 class="topic" id="relative_pathnames">Relative Pathnames</h4>
+    <ul class="flat">       
+        <li>Absolute pathnames are useful because you can use them anywhere</li>
+        <li>But they are long and easy to mistype</li>
+        <li>For most purposes, it is easier to use 
+            <a class="def" href="../definitions.html#relative_pathname">relative pathnames</a>
+        </li>
+        <li>In a relative pathname, the path starts from your current directory</li>
+        <li>In an absolute pathname, the path starts from the root, <span class="char">/</span></li>
+        <li>While all absolute pathnames start with a slash, <span class="char">/</span>, 
+            or a tilde, <span class="char">~</span> ...</li>
+        <li>relative pathnames <b>never</b> do</li>
+        <li>As far as Unix is concerned it makes no difference ...</li>
+        <li>whether you use and absolute or relative pathname</li>
+        <li>There are four types of relative pathnames:
+            <ul class="flat">       
+                <li class="flat">When the file is in your current directory</li>
+                <li class="flat">When the file is in a subdirectory of your current directory</li>
+                <li class="flat">When the file is in a directory that is an ancestor of your current directory</li>
+                <li class="flat">When the file is in a directory that is neither an ancestor or descendant of the current directory</li>
+            </ul>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="relative_pathnames_current_dir">Relative Pathnames in Your Current Directory</h4>
+    <ul class="flat">       
+        <li>A relative pathname of a file or directory ...</li>
+        <li>inside your current directory ...</li>
+        <li>is simply the name of that file or directory</li>
+    </ul>
+    <img src="images_it244/relative_path_current_directory.html" height="50%"/>
+    
+    <h4 class="topic" id="relative_pathnames_descendent">Relative Pathnames in a Subdirectory</h4>
+    <ul class="flat">       
+        <li>Things get a little more complicated ...</li>
+        <li>when you are dealing with a file in a subdirectory</li>
+        <li>Here, you must list every directory ...</li>
+        <li>between your current directory ...</li>
+        <li>and the file you want</li>
+        <li>You must use a slash, <span class="char">/</span> ...</li>
+        <li>to separate the name of each directory ...</li>
+        <li>from what comes after it</li>
+    </ul>
+    <img src="images_it244/relative_path_descendant_directory.html" height="50%"/>
+    
+    <h4 class="topic" id="relative_pathnames_ancestor">Relative Pathnames above the Current Directory</h4>
+    <ul class="flat">       
+        <li>When the file or directory is above the current directory ...</li>
+        <li>you can't list the directory names</li>
+        <li>Instead, you have to use the special &nbsp;<span class="char">..</span>&nbsp; entry in each directory</li>
+        <li>Use one &nbsp;<span class="char">..</span>&nbsp; for each directory up the chain in the path</li>
+        <li>Use a slash, <span class="char">/</span>, between each <span class="char">..</span></li>
+    </ul>
+    <img src="images_it244/relative_pathname_ancestor_directory.html" height="50%"/>
+    
+    <h4 class="topic" id="relative_pathnames_other">Relative Pathnames Neither above Nor below the Current Directory</h4>
+    <ul class="flat">       
+        <li>What if the file is neither above nor below?</li>
+        <li>Here you have to go up to a common ancestor ...</li>
+        <li>and then down to the directory that holds what you want</li>
+        <li>The path starts with one or more &nbsp;<span class="char">..</span></li>
+        <li>You keep going up ...</li>
+        <li>until you get to a directory ...</li>
+        <li>that is both an ancestor of your current directory ...</li>
+        <li>and the file you are trying to reach</li>
+        <li>Once you get to the common ancestor ...</li>
+        <li>you go down to the directory that holds the file</li>
+    </ul>
+    <img src="images_it244/relative_pathname_side_directory.html" height="50%"/>
+    
+    <!-- Class 9 -->
+    
+    <h4 class="topic" id="access_permissions">Access Permissions</h4>
+    <ul class="flat">       
+        <li>All Unix files and directories have 
+            <a class="def" href="../definitions.html#access_permissions">access permissions</a>
+        </li>
+        <li>The access permissions allow the owner of a file or directory ...</li>
+        <li>to decide who gets to do what with the file or directory</li>
+        <li>By default, the owner of a file or directory ...</li>
+        <li>is the user account that created it</li>
+        <li>Every file, directory or device on a Unix filesystem has three types of permissions
+            <ul class="flat">       
+                <li class="flat">Read</li>
+                <li class="flat">Write</li>
+                <li class="flat">Execute</li>
+            </ul>
+        </li>
+        <li>Each access permission can either be on or off</li>
+        <li>If you have <a class="def" href="../definitions.html#read_permission">read permission</a> 
+            on a file you can look at the data in the file
+        </li>
+        <li>If you only have read permission, you cannot change a file</li>
+        <li>To change a file you need <a class="def" href="../definitions.html#write_permission">write permission</a></li>
+        <li>You cannot run a program or script file ...</li>
+        <li>unless you have <a class="def" href="../definitions.html#execute_permission">execute permission</a> on that file</li>
+        <li>Each of the three permissions is set either <b>on</b> or <b>off</b> ...</li>
+        <li>to three classes of users:
+            <ul class="flat">       
+                <li class="flat">The owner</li>
+                <li class="flat">The group</li>
+                <li class="flat">Every other account</li>
+            </ul>
+        </li>
+        <li>Every file or directory has an owner</li>
+        <li>The account that created the file is usually the <a class="def" href="../../definitions.html#owner">owner</a></li>
+        <li>A <a class="def" href="../definitions.html#group">group</a> is a collection of Unix accounts</li>
+        <li>A group can only be set up by a system administrator</li>
+        <li>Every file or directory is assigned to a group</li>
+        <li>The last class of users is everyone else ...</li>
+        <li>any account that is not the owner or a member of the group</li>
+        <!-- need some statement here that you don't need to run bash to run a script if it is executable -->
+    </ul>
+
+    <h4 class="topic" id="viewing_access_permissions">Viewing Access Permissions</h4>
+    <ul class="flat">       
+        <li>To view the access permissions of a file or directory use <code>ls -l</code>
+            <pre>
+$ ls -l
+total 5
+-rw------- 1 it244gh libuuid 316 2011-09-20 21:32 dead.letter
+lrwxrwxrwx 1 it244gh libuuid  34 2011-09-06 13:21 it244 -&gt; /courses/it244/s12/ghoffman/it244gh
+drwx------ 2 it244gh libuuid 512 2011-09-07 15:03 mail
+drwxr-xr-x 2 it244gh libuuid 512 2011-09-25 15:48 test
+-rw-r--r-- 1 it244gh libuuid  15 2011-09-20 16:18 test.txt</pre>
+        </li>
+        <li>The character in the first column indicates the type of file</li>
+        <li>A dash, <span class="char">-</span> , means an ordinary file</li>
+        <li>The letter <span class="char">d</span> indicates a directory</li>
+        <li>The letter <span class="char">l</span> (el) indicates a link</li>
+        <li>The next three characters indicate the permission of the owner</li>
+        <li><span class="char">r</span> means the owner has read permission</li>
+        <li><span class="char">w</span> means the owner has write (change) permission</li>
+        <li><span class="char">x</span> means the owner has execute (run) permission</li>
+        <li><span class="char">-</span>means the owner does not have the permission that would normally appear in this column</li>
+        <li>The next three characters give the permissions of the group</li>
+        <li>The last three characters are the permission of all other accounts</li>
+        <li>The next column is a number that indicates the number of links to the file or directory</li>
+        <li>The following column is the owner of the file or directory</li>
+        <li>Next, you will find the group assigned to the file or directory</li>
+    </ul>
+
+    <h4 class="topic" id="chmod"><code>chmod</code></h4>
+    <ul class="flat">       
+        <li>When a file is created, is has certain default permissions
+            <pre>
+$ touch test.txt
+$ ls -l test.txt 
+-rw-r--r-- 1 it244gh libuuid 0 2012-09-17 14:40 test.txt</pre>
+    		</li>
+        <li>To change these permission, you need to use the <code>chmod</code> command</li>
+        <li>Only the owner of a file can do this</li>
+        <li><code>chmod</code> requires two arguments
+            <ul class="flat">       
+                <li class="flat">The permissions you want to grant</li>
+                <li class="flat">The name of the file(s) or directory(s) to which the change will be applied</li>
+            </ul>
+        </li>
+        <li>The format for a call to <code>chmod</code> is
+            <pre>
+<span class="iden">chmod  PERMISSIONS  FILES_OR_DIRECTORIES</span></pre>
+        </li>
+        <li>The permission can be specified in two ways
+            <ul class="flat">       
+                <li class="flat">Symbolically</li>
+                <li class="flat">Numerically</li>
+            </ul>
+        </li>
+        <li>Symbolic permissions use letters and the plus and minus signs</li>
+        <li>The numeric form uses three digits running from 0 to 7</li>
+        <li>I will teach the numeric format for expressing permissions</li>
+        <li>You are free to read about the symbolic format in the textbook</li>
+        <li>I will not deduct points for using symbolic format ...</li>
+        <li>as long as you use it correctly</li>
+    </ul>
+
+    <h4 class="topic" id="chmod_numeric">Using <code>chmod</code> with Numeric Arguments</h4>
+    <ul class="flat">       
+        <li>The numeric permissions format uses three digits</li>
+        <li>Each digit is a number from 0 to 7</li>
+        <li>The first digit gives the permission of the owner</li>
+        <li>The second digit gives the permissions assigned to the group</li>
+        <li>The third digit gives the permissions for every other account</li>
+        <li>How do you get three pieces of information out of one number?</li>
+        <li>By adding powers of two</li>
+        <li>Each digit is the sum of three other numbers</li>
+        <li>When constructing the number you add
+            <ul class="flat">       
+                <li class="flat">4 if you want to give read permission</li>
+                <li class="flat">2 if you want to give write permission</li>
+                <li class="flat">1 if you want to give execute permission</li>
+            </ul>
+        </li>
+        <li>Notice that all the number are powers of two</li>
+        <li>If we write these values in binary notation
+            <ul class="flat">       
+                <li class="flat">100 represents 4</li>
+                <li class="flat">010 represents 2</li>
+                <li class="flat">001 represents 1</li>
+            </ul>
+        </li>
+        <li>A single decimal digit from 0 to 7 is represented by 3 binary digits</li>
+        <li>This is how we get three pieces of information out of one digit</li>
+        <li>For example, to give full permissions I would add
+            <ul class="flat">       
+                <li class="flat">4 for read permission</li>
+                <li class="flat">2 for write permission</li>
+                <li class="flat">1 for execute permission</li>
+            </ul>
+        </li>
+        <li>So the total, 7, represents all three permissions</li>
+        <li>Try to remember this chant
+            <pre>
+<span class="red">read    write   execute
+4       2       1
+owner group    everyone</span></pre>
+        </li>
+        <li>Remember that you need three of these digits ...</li>
+        <li>to specify the full permissions for a file or directory</li>
+    </ul>
+    
+    <!-- Class 10 -->
+    
+    <h4 class="topic" id="root_account">The root Account</h4>
+    <ul class="flat">       
+        <li>On every Unix or Linux system there is a special account named 
+            <a class="def" href="../definitions.html#root_account">root</a>
+        </li>
+        <li>root can access any file ...</li>
+        <li>or run any program</li>
+        <li>root is an administrator account</li>
+        <li>It is used for system configuration and maintenance</li>
+    </ul>
+
+    <h4 class="topic" id="dir_access_permissions">Directory Access Permissions</h4>
+    <ul class="flat">       
+        <li>The Unix access permissions work a little differently for directories ...</li>
+        <li>than they do for files</li>
+        <li>Read and write permissions for a directory are similar to those for a file</li>
+        <li>Read permission allows you to list the contents of that directory using <code>ls</code></li>
+        <li>Write permission allows you to create, delete ...</li>
+        <li>or change the name of <b>entries</b> in that directory</li>
+        <li>Write permission on a <b>directory</b> ...</li>
+        <li>does not allow you to change the <b>contents</b> of a file ...</li>
+        <li>in that directory</li>
+        <li>Write permission on a directory <b>does not apply to the directory itself</b></li>
+        <li>If you have write permission on a directory you can change what's inside it ...</li>
+        <li>but you cannot rename the directory or delete it ...</li>
+        <li>unless you have write permission on its <b>parent</b> directory</li>
+        <li>Execute permission on a directory allows you to do two things</li>
+        <li>It allows you to enter that directory using <code>cd</code></li>
+        <li>It also allows you to read a file in that directory</li>
+        <li>if you already have read permission on that file ...</li>
+        <li>and know the name of that file</li>
+    </ul>
+    
+    <h4 class="topic" id="links">Links</h4>
+    <ul class="flat">       
+        <li><a class="def" href="../definitions.html#link">Links</a> are like shortcuts on a Windows machine</li>
+        <li>or aliases on a Mac</li>
+        <li>Links allow you to move around the filesystem using short names</li>
+        <li>Each of you has an entry in your home directory called <span class="path">it244</span></li>
+        <li>In the home directory of my test account, it244gh, I have such a link
+            <pre>
+$ ls -l it244
+<span class="red">l</span>rwxrwxrwx 1 it244gh faculty 34 Sep  2 13:10 it244 -&gt; <span class="red">/courses/it244/f14/ghoffman/it244gh</span></pre>
+        </li>
+        <li>This is a link to<span class="path">/courses/it244/f14/ghoffman/it244gh</span> </li>
+        <li>If you <code>cd</code> into this location and use <code>pwd</code>
+            <pre>
+$ pwd
+/home/it244gh
+
+$ cd it244
+
+$ pwd
+/home/it244gh/it244</pre>
+        </li>
+        <li>This path reflects the route you took to get here</li>
+        <li>But it is <b>not</b> the real pathname of the directory</li>
+        <li>You can only get that information if you use <code>pwd</code> with the <code>-P</code> (note the capitalization) option
+            <pre>
+$ pwd
+/home/it244gh/it244
+
+$ pwd -P
+/courses/it244/f14/ghoffman/it244gh</pre>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="link_types">The Two Types of Links</h4>
+    <ul class="flat">       
+        <li>There are two types of links
+            <ul class="flat">       
+                <li class="flat">Hard links</li>
+                <li class="flat">Symbolic, or soft, links</li>
+            </ul>
+        </li>
+        <li><a class="def" href="../definitions.html#hard_link">Hard links</a> are older</li>
+        <li>A hard link is like a duplicate file name</li>
+        <li>Hard links can only point to files ...</li>
+        <li>not directories</li>
+        <li>You can only have a hard link to a file ...</li>
+        <li>if that file is on the same hard disk volume ...</li>
+        <li>as the link</li>
+        <li><a class="def" href="../definitions.html#symbolic_link">Symbolic links</a> are much more flexible</li>
+        <li>You can use either an absolute or relative pathname ...</li>
+        <li>when creating a symbolic link</li>
+        <li>A symbolic link can point to a file or directory anywhere in the filesystem</li>
+        <li>Deleting a symbolic link does not delete the file or directory it points to</li>
+    </ul>
+    
+    <h4 class="topic" id="ln"><code>ln</code></h4>
+    <ul class="flat">       
+        <li>To create a symbolic or soft link, use <code>ln</code> with the <code></code> option</li>
+        <li><code>ln</code> takes two arguments, a pathname and the name for the link
+            <pre>
+$ pwd
+/home/it244gh
+
+$ ln <span class="red">-s</span> ~ghoffman/examples_it244 examples
+
+$ ls -l examples
+<span class="red">l</span>rwxrwxrwx 1 it244gh libuuid 28 2012-09-17 17:53 examples -&gt; <span class="red">/home/ghoffman/examples_it244</span></pre>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="removing_link">Removing a Link</h4>
+    <ul class="flat">       
+        <li>To delete a link, use <code>rm</code></li>
+        <li>If you delete a symbolic link ...</li>
+        <li>it will not affect the file or directory it points to</li>
+    </ul>
+    
+    <!-- Class 11 -->
+    
+    <h4 class="topic" id="cmd_options">Command Options</h4>
+    <ul class="flat">       
+        <li>Options modify the behavior of the command</li>
+        <li>Options are usually preceded by one or two dashes, <span class="char">-</span></li>
+        <li>GNU programs frequently have options that are preceded by two dashes, <span class="char">--</span></li>
+        <li>The options in GNU programs are usually words</li>
+        <li>The options in other Unix programs are usually a single letter</li>
+        <li>Utilities that report the size of files usually do so in bytes</li>
+        <li>Such utilities often have a <code>-h</code>, or 
+        		<code>--human-readable</code>, option
+        </li>
+        <li>With this option, the file size will be displayed in kilobytes, megabytes or gigabytes, as appropriate</li>
+        <li>Many commands display a help message when run with the <code>--help</code> option</li>
+        <li>Almost all GNU utilities accept this option</li>
+    </ul>
+    
+    <h4 class="topic" id="PATH">The <span class="iden">PATH</span> System Variable</h4>
+    <ul class="flat">       
+        <li>To run a program, a <a class="def" href="../definitions.html#process">process</a> must be created</li>
+        <li>The shell cannot create a process ...</li>
+        <li>only the kernel can</li>
+        <li>The shell asks the kernel to start the process ...</li>
+        <li>but in order to do that, it has to give the kernel a pathname11</li>
+        <li>for the executable file for that program</li>
+        <li>Most of the time when you run a program you don't use a pathname ...</li>
+        <li>you simply use the name of the program</li>
+        <li>To turn the name of a program into a pathname for the executable file ...</li>
+        <li>the shell uses the <span class="iden">PATH</span> variable</li>
+        <li><span class="iden">PATH</span>  contains a list of directories to search to find the program file</li>
+        <li>The shell searches each of these directories in turn ...</li>
+        <li>until it finds an executable file with the name of the command</li>
+        <li><span class="iden">PATH</span> always has a default value ...</li>
+        <li>which is set when Unix or Linux is installed</li>
+        <li>The absolute pathname of each directory is separated from the next by a colon, <span class="char">:</span>
+            <pre>
+echo $PATH
+/usr/local/sbin<span class="red">:</span>/usr/local/bin<span class="red">:</span>/usr/sbin<span class="red">:</span>/usr/bin<span class="red">:</span>/sbin<span class="red">:</span>/bin<span class="red">:</span>/usr/games</pre>
+        </li>
+        <li>If the shell reaches the end of the directory listings in <span class="iden">PATH</span> ...</li>
+        <li> without finding the command ...</li>
+        <li>it will display an error message</li>
+        <li>If the shell finds executable file ...</li>
+        <li>but you do not have execute privileges </li>
+        <li>it will tell you this in an error message</li>
+        <li>You can modify the <span class="iden">PATH</span> variable in your own Unix environment</li>
+    </ul>
+    
+    <h4 class="topic" id="prog_current_dir">Running a Program in the Current Directory</h4>
+    <ul class="flat">       
+        <li>For security reasons, it is never advisable to put the current directory, <span class="char">.</span>&nbsp; ...</li>
+        <li>in the <span class="iden">PATH</span> list</li>
+        <li>Then how do you run a program inside your current directory?</li>
+        <li>You can do this using the following construction
+            <pre>
+<span class="format">./PROGRAM_NAME</span></pre></li>
+        <li>This will always work ...</li>
+        <li>regardless of the contents of <span class="iden">PATH</span></li>
+        <!-- need some statement here that you don't need to run Bash to run a script if it is executable -->
+    </ul> 
+    
+    <h4 class="topic" id="STD_IN_OUT_ERR">Standard Input, Standard Output and Standard Error</h4>
+    <ul class="flat">       
+        <li>Every Unix process always has access to three different "files"
+            <ul class="flat">       
+                <li class="flat">Standard Input</li>
+                <li class="flat">Standard Output</li>
+                <li class="flat">Standard Error</li>
+            </ul>
+        </li>
+        <li>Unix thinks anything it can write to ...</li>
+        <li>or read from ...</li>
+        <li>is a file</li>
+        <li><a class="def" href="../definitions.html#standard_input">Standard input</a> 
+            is where the program gets input ...
+        </li>
+        <li>when a specific source of input ...</li>
+        <li>like a file or a device ...</li>
+        <li>is not specified</li>
+        <li>By default, standard input is the keyboard</li>
+        <li><a class="def" href="../definitions.html#standard_output">Standard output</a> 
+            is where the program sends its output 
+        </li>
+        <li>if a specific file or device is not mentioned</li>
+        <li>By default, standard output is the terminal</li>
+        <li><a class="def" href="../definitions.html#standard_error">Standard error</a> 
+            is where the program sends error messages
+        </li>
+        <li>By default, standard error is the same as standard output: the terminal</li>
+    </ul>
+    
+    <!-- Class 12 -->
+    
+    <h4 class="topic" id="keybrd_scrn">The Keyboard and Screen as Standard Input and Standard Output</h4>
+    <ul class="flat">   
+        <li>When a command or script does not specify ...</li>
+        <li>where input is to come from ...</li>   
+        <li>it comes from standard input</li> 
+        <li>By default, standard input is keyboard</li>
+        <li>When a command or script does not specify ...</li>
+        <li>where output should go ...</li>
+        <li>it goes to standard output</li>
+        <li>By default, standard output is the screen</li>
+        <li>When a command or script does not specify ...</li>
+        <li>where error messages should go ...</li>
+        <li>they goes to standard error</li>
+        <li>By default, standard error also is the screen</li>
+    </ul>
+    
+    <h4 class="topic" id="redirection">Redirection</h4>
+    <ul class="flat">      
+         <li><a class="def" href="../definitions.html#redirection">Redirection</a> is telling Unix to take data from ...</li>
+         <li>or send data to ...</li>
+         <li>a different place than usual</li>
+         <li>Redirection is one of the features that makes Unix so flexible</li>
+         <li>You can take input from something ...</li>
+         <li>other than the keyboard ...</li>
+         <li>like a file</li>
+         <li>You can send output to something ...</li>
+         <li>other than the screen ...</li>
+         <li>like another file</li>
+         <li>Redirection is what makes <a class="def" href="../definitions.html#pipe">pipes</a> possible</li>
+         <li>When you set up a pipe ...</li>
+         <li>you are sending the output from one program ...</li>
+         <li>into the input of another</li>
+         <li>You are redirecting the output of the first command ...</li>
+         <li>from the terminal ...</li>
+         <li>to the input of the second command</li>
+         <li>This allows next command to take its input ...</li>
+         <li>from something other than a file</li> 
+    </ul>
+    
+    <h4 class="topic" id="redir_std_out">Redirecting Standard Output</h4>
+    <ul class="flat">       
+        <li>To redirect standard output use the greater than symbol, <span class="char">&gt;</span> ...</li>
+        <li>followed by a filename</li>
+        <li>This tells Unix to send the output from a command ...</li>
+        <li>to the file or device that appears after the symbol</li>
+        <li>The format for output redirection is
+            <pre>
+<span class="format">COMMAND  [ARGUMENTS]  &gt;  FILENAME</span></pre>
+        </li>
+        <li>If the file does not already exist ...</li>
+        <li>it will be created</li>
+    </ul>
+    
+    <h4 class="topic" id="redir_std_in">Redirecting Standard Input</h4>
+    <ul class="flat">       
+        <li>When we redirect standard output ...</li>
+        <li>we send output to something other than the screen</li>
+        <li>When we redirect standard input ...</li>
+        <li>we take input from something other than the keyboard</li>
+        <li>To do this, we use the less than symbol, <span class="char">&lt;</span> </li>
+        <li>Here is the format
+            <pre>
+<span class="format">COMMAND  [ARGUMENTS] &lt;  FILENAME</span></pre>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="redir_destroy">Redirecting Standard Output Can Destroy a File</h4>
+    <ul class="flat">       
+        <li>If you redirect standard output to a file that already exists ...</li>
+        <li>you will overwrite the contents of that file</li>
+        <li>You will replace the original contents of the file ...</li>
+        <li>with new data</li>
+    </ul>
+    
+    <h4 class="topic" id="append">Adding Output to an Existing File</h4>
+    <ul class="flat">       
+        <li>If you redirect standard output to a file that already exists ...</li>
+        <li>you will lose the original contents of that file</li>
+        <li>But Unix allows you to add to the bottom of a file</li>
+        <li>This is called <a class="def" href="../definitions.html#appending">appending</a></li>
+        <li>The append symbol is two greater than symbols ...</li>
+        <li>with no space in between, <span class="char">&gt;&gt;</span> </li>
+        <li>The format is
+            <pre>
+<span class="format">COMMAND  [ARGUMENTS] &gt;&gt;  FILENAME</span></pre>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="dev_null"><span class="path">/dev/null</span></h4>
+    <ul class="flat">       
+        <li>Sometimes a program will do something useful ...</li>
+        <li>but produce output you don't want</li>
+        <li>For situations like this, Unix provides <span class="path">/dev/null</span></li>
+        <li>Any output you send to <span class="path">/dev/null</span> will disappear</li>
+        <li>It will never appear on the screen</li>
+        <li>If you redirect input to come from <span class="path">/dev/null</span> ...</li>
+        <li>the command will receive an empty string</li>
+        <li><span class="path">/dev/null</span> is most useful when dealing with error messages</li>
+        <li>Since error message normally go to the terminal ...</li>
+        <li>they will be mixed up with the regular output</li>
+        <li>Sending error messages to <span class="path">/dev/null</span> ...</li>
+        <li>prevents this from happening</li>
+    </ul>
+        
+    <h3 class="section">Attendance</h3>
+
+	<footer>
+		<a href="class_notes_it244.html" class="spacer">Class Notes</a>
+		<a href="class_notes_index_it244.html" class="spacer">Class Notes Index</a>
+	</footer>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/14_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:55:05 GMT -->
+</html>

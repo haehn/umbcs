@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_quiz_answers_it244/22_class_quiz_answers_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:57 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title>IT 244: Introduction to Linux/Unix - Answers to Class 22 Ungraded Quiz</title>
+</head>
+<body>
+	<header>
+		<h2>
+		    IT 244: Introduction to Linux/Unix <br>
+		    Answers to Class 22 Ungraded Quiz
+		</h2>	
+	</header>
+
+	<ol>
+        <li><!-- 22.1.0 -->
+            What are control structures?
+            <pre><span class="answer">syntactic structures that control how and when other statements are executed</span></pre>
+        </li>
+        <li><!-- 22.2.0 -->
+            What are the two basic types of control structures?
+            <pre><span class="answer">conditionals and loops</span></pre>
+        </li>
+        <li><!-- 22.3.0 -->
+            What is the basic format of the <code>if ... then </code> construct?
+            <pre><span class="answer">if COMMAND
+    then
+        COMMAND_1
+        COMMAND_2
+        ...
+    fi</span></pre>
+        </li>
+        <li><!-- 22.4.0 -->
+            How is the command that follows <code>if</code> used to determine whether or not the statements between the <code>then</code>
+            and <code>fi</code> keywords are executed?
+            <pre><span class="answer">if the command returns an exit status of 0 the statements are executed</span></pre>
+        </li>
+        <li><!-- 22.5.0 -->
+            What does an exit status of 0 mean?
+            <pre><span class="answer">that the command that returned the status code ran without error</span></pre>
+        </li>
+        <li><!-- 22.6.0 -->
+            What are the two keywords that surround the statements inside an <code>if</code> statement?
+            <pre><span class="answer"><code>then</code> and <code>fi</code></span></pre>
+        </li>
+        <li><!-- 22.7.0 -->
+           Can the <code>then</code> keyword appear on the same line as <code>if</code> ?
+            <pre><span class="answer">yes, but only if it is separated from it by a semicolon (;)</span></pre>
+        </li>
+        <li><!-- 22.8.0 -->
+            What does the <code>test</code> command do?
+            <pre><span class="answer">analyze a logical expression and return an exit status that tells 
+whether the expression is true or false</span></pre>
+        </li>
+        <li><!-- 22.9.0 -->
+            What is the value of the exit status returned by <code>test</code> to indicate that the expression is true?
+            <pre><span class="answer">0</span></pre>
+        </li>
+        <li><!-- 22.10.1 -->
+            Does the command that follows <code>if</code> need to be <code>test</code>?
+            <pre><span class="answer">no, it can be any command that returns an exit status</span></pre>
+        </li>
+	</ol>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_quiz_answers_it244/22_class_quiz_answers_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:57 GMT -->
+</html>
+

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/22_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title> IT 244: Introduction to Linux/Unix - Class 22 Exercise</title>
+</head>
+<body>
+	<header>
+		<h2> IT 244: Introduction to Linux/Unix <br>
+		    Class 22 Exercise
+		</h2>	
+	</header>
+
+	<h3>Log in to <span class="host">users3.cs.umb.edu</span></h3>
+    <ul>
+    	<li><span class="under">Run the ssh client</span><br><br>
+        	Connect to <span class="host">users3.cs.umb.edu</span>.
+        </li>
+    </ul>
+	
+	<h3>Directory for this Exercise</h3>
+    <ul>
+        <li><span class="under">Go to your <span class="path">ex</span> directory</span>
+            <pre>
+    cd  ~/it244/ex</pre>
+        </li>
+        <li><span class="under">Create an <span class="path">ex22</span> directory</span><br>
+            <pre>
+    mkdir  ex22</pre>
+        </li>       
+        <li><span class="under">Go to your <span class="path">ex22</span> directory</span><br>
+            <pre>
+    cd  ex22</pre>
+        </li>
+    </ul>
+	
+    <h3><code>test</code> with Numbers</h3>
+    <ul>
+        <li><span class="under">Use <code>test</code> with the <span class="char">-eq</span> (equality for numbers) operator</span><br>
+            <pre>
+    test 4 -eq 5; echo $?</pre>
+            Since anything other than 0 as an exit status signals failure, 
+            this means that the equality test has failed.
+        </li>
+        <li><span class="under">Use the <span class="char">-eq</span> operator with the same number on both sides</span><br>
+            <pre>
+    test 4 -eq 4; echo $?</pre>
+            Since 0 means success, this means that the expression evaluated to true.
+        </li>
+        <li><span class="under">Use <code>test</code> with the <span class="char">-ne</span> (not equal for numbers) operator</span><br>
+            <pre>
+    test 4 -ne 5; echo $?</pre>
+            0 means true.
+        </li>
+        <li><span class="under">Use <span class="char">-ne</span> again</span><br>
+            <pre>
+    test 4 -ne 4; echo $?</pre>
+            1 means false.
+        </li>
+        <li><span class="under">Use <code>test</code> with the <span class="char">-gt</span> (greater than) operator</span><br>
+            <pre>
+    test 4 -gt 5  ; echo $?
+    test 5 -gt 4  ; echo $?</pre>
+        </li>
+        <li><span class="under">Use the <span class="char">-ge</span> (greater than or equal to) operator</span><br>
+            <pre>
+    test 5 -ge 4 ; echo $?
+    test 5 -ge 5 ; echo $?</pre>
+        </li>
+        <li><span class="under">Use the <span class="char">-lt</span> (less than operator)</span><br>
+            <pre>
+    test 4 -lt 5 ; echo $?
+    test 5 -lt 4 ; echo $?</pre>
+        </li>
+        <li><span class="under">Use the <span class="char">-le</span> (less than or equal to) operator</span><br>
+            <pre>
+    test 4 -le 5 ; echo $?
+    test 4 -le 4 ; echo $?</pre>
+        </li>
+    </ul>
+    
+    <h3><code>test</code> with String Comparison Operators</h3>
+    <ul>
+        <li><span class="under">Use <code>test</code> with the <span class="char">=</span> (string equality) comparison operator</span><br>
+            <pre>
+    test foo = foo ; echo $?
+    test foo = bar ; echo $?</pre>
+        </li>
+        <li><span class="under">Use <code>test</code> with the <span class="char">!=</span> (string not equal) comparison operator</span><br>
+            <pre>
+    test foo != bar  ; echo $?
+    test foo != foo  ; echo $?</pre>
+        </li>
+    </ul>
+    
+    <h3><code>test</code> with Single String Operators</h3>
+    <ul>
+
+        <li><span class="under">Use <code>test</code> with the <span class="char">-n</span> (length greater than 0) string operator</span><br>
+            <pre>
+    test -n foo ; echo $?
+    test -n "" ; echo $?</pre>
+        </li>
+        <li><span class="under">Use <code>test</code> with the <span class="char">-z</span> (length is 0) string operator</span><br>
+            <pre>
+    test -z "" ; echo $?
+    test -z foo ; echo $?</pre>
+        </li>
+    </ul>
+    
+    <h3><span class="path">arg_test.sh</span></h3>
+    <ul>
+        <li><span class="under">Make sure you are in your <span class="path">ex22</span> directory</span><br>
+            <pre>
+    cd ~/it244/ex/ex22</pre>
+        </li>
+        <li><span class="under">Using your favorite editor create the script <span class="path">arg_test.sh</span></span></li>
+    </ul>
+    <img src="exercise_images_it244/22_exercise_arg_test_it244.html" height="50%"/>
+    <ul class='flat'>         
+        <li><span class="under">Change the permissions on <span class="path">arg_test.sh</span> to make it executable</span><br>
+            <pre>
+    chmod 755 arg_test.sh</pre>
+        </li>
+        <li><span class="under">Test the script several times</span><br>
+            <pre>
+    ./arg_test.sh
+    ./arg_test.sh foo
+    ./arg_test.sh foo bar
+    ./arg_test.sh foo bar bletch</pre>
+        </li>
+        <li><span class="under">Test you script</span><br>
+			<pre>
+    ~tsoro/it244_test/ex22.sh</pre>
+		When the script asks if you are ready for more, hit Return or Enter.
+		</li>
+        <li><span class="under">Let me check your script</span><br></li>
+    </ul>   
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/22_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:45 GMT -->
+</html>

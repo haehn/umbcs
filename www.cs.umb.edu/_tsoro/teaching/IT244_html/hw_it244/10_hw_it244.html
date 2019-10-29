@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/hw_it244/10_hw_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:57 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title>IT 244: Introduction to Linux/Unix - Homework 10</title>
+</head>
+<body>
+<h2>
+    IT 244: Introduction to Linux/Unix <br>
+    Homework 10
+</h2>
+
+<h3>Due Sunday, April 15th 11:59 PM</h3> 
+    All this work should be done on <span class="host">users3.cs.umb.edu</span>
+
+	<h3>Deliverables</h3>
+	<ol>
+		<li>
+			A shell script named <span class="path">hw10.sh</span> that performs the operations listed below. <br>
+        	This file should be in an <span class="path">hw10</span> directory inside your 
+        	<span class="path">hw</span> directory inside your <span class="path">it244</span> directory. <br>
+        	100 points
+  		</li>
+	</ol>
+
+	<h3>Requirements</h3>
+	<ul class="flat">
+		<li>Create an <span class="path">hw10</span> directory in your <span class="path">hw</span> directory 
+    		inside your <span class="path">it244</span> directory
+    	</li>
+    	<li>Go to the <span class="path">hw10</span> directory and run Unix commands that will execute the steps below</li>
+    	<li>When you have a command line that does what the step asks you to do, paste it into 
+			<span class="path">hw10.sh</span> using <code>nano</code> or any other text editor
+		</li>
+		<li>When you have completed all the steps, create an <code>echo</code> statement before the commands 
+    		for each step, that will print the step number to the terminal
+    	</li>
+    </ul>
+    
+	<h3>Testing</h3>
+	<ul class="flat">      
+         <li>The script <span class="path">hw10.sh</span> <b>must</b> have the format specified in
+        	this <a href="../shell_scripts_homework.html">document</a>
+        </li>
+        <li>Scripts that do not follow the rules specified in the document mentioned above will 
+        	will have points deducted from their score
+        </li>
+        <li>Be sure to test your script and correct any errors you find</li>
+        <li>You will lose 5 points for each error that occurs when running your script</li>
+        <li>To run your script and see only the error messages run the following command
+        	<pre>
+./hw10.sh  &gt;  /dev/null</pre>
+        </li>
+    </ul>
+    
+    <h3>Steps for Script</h3>
+    <b>Do not use <code>if</code> statements in any of the steps below</b>
+<ol>
+    <li> <!-- Step 1 -->  
+    	    On a <b>single line</b>, create the following variables with the values given.
+	    	<ul class="flat">      
+	        	<li class="flat">Variable <span class="iden">a</span> with the value 5</li>
+	        	<li class="flat">Variable <span class="iden">b</span> with the value 3</li>
+	    	</ul>
+        	On another <b>single</b> command line,  create the following variables with the values given.
+	    	<ul class="flat">      
+	        	<li class="flat">Variable <span class="iden">s1</span> with the value "foo"</li>
+	        	<li class="flat">Variable <span class="iden">s2</span> with the value "foo"</li>
+	        	<li class="flat">Variable <span class="iden">s3</span> with the value "bar"</li>
+	    	</ul>
+        	Print all variables and their values to the terminal.
+    </li>
+    <li> <!-- Step 2 --> 
+        Write a test expression that returns a value indicating true or false 
+        when testing whether <span class="iden">a</span> is equal to <span class="iden">b</span>.
+        Echo the results of this test to the terminal.
+    </li>
+    <li> <!-- Step 3 -->
+        Write a test expression that returns a value indicating true or false when testing whether <span class="iden">a</span> 
+        is less than  <span class="iden">b</span>. Echo the results of this test to the terminal.
+    </li>
+	<li> <!-- Step 4 -->
+        Write a test expression that returns a value indicating true or false when testing whether <span class="iden">a</span> plus
+        <span class="iden">b</span> is greater than 9. Echo the results of this test to the terminal.
+	</li>
+	<li> <!-- Step 5 -->
+        Write a test expression that returns a value indicating true or false when testing whether <span class="iden">s1</span>
+        is equal to <span class="iden">s2</span>. Echo the results of this test to the terminal.
+	</li>
+	<li> <!-- Step 6 -->
+        Write a test expression that returns a value indicating true or false when testing whether <span class="iden">s1</span>
+        is <b>not</b> equal to <span class="iden">s3</span>. Echo the results of this test to the terminal.
+	</li>
+	<li> <!-- Step 7 -->
+        Write a test expression that returns a value indicating true or false when testing whether <span class="iden">s1</span>
+        has a length greater than 0. Echo the results of this test to the terminal.
+	</li>
+	<li> <!-- Step 8 -->
+		Do the following
+		<ul class="flat">      
+        	<li class="flat">Copy the directory <span class="path">dir1</span> from <span class="path">~tsoro/course_files/it244_files</span></li>
+        	<li class="flat">Copy the file <span class="path">empty.txt</span> from <span class="path">~tsoro/course_files/it244_files</span></li>
+        	<li class="flat">Run a <b>single</b> command to show the permissions on the contents of your <span class="path">hw10</span> directory</li>
+    	</ul>
+	</li>
+	<li> <!-- Step 9 -->
+        Write a test expression that returns a value indicating true or false when testing whether <span class="path">dir1</span>
+        is a directory. Echo the results of this test to the terminal.
+	</li>
+	<li> <!-- Step 10 --> 
+        Write <b>one</b> test expression that returns a value indicating true or false when testing whether 
+        <span class="path">empty.txt</span> is readable and is writeable. Echo the results of this test to the terminal.
+	</li>
+</ol>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/hw_it244/10_hw_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:57 GMT -->
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/weekly_quiz_answers_it244/02_quiz_answers_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:57 GMT -->
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="../class_notes.css" media="screen" />
+	<title>IT 244: Introduction to Linux/Unix - Quiz 2 Answers</title>
+</head>
+<body>
+    <header>
+        <h2>
+            IT 244: Introduction to Linux/Unix <br>
+            Quiz 2 Answers
+        </h2>
+    </header>
+
+	<ol>
+        <li><!-- 5.1.0 -->
+            What would you type at the command line if you wanted to see the value of the variable <span class="iden">SHELL</span>?
+            <pre><span class="answer">echo  $SHELL</span></pre>
+        </li>
+        <li><!-- 5.4.0 -->
+            If you started typing the name of a file on the command line and wanted Unix to supply the rest, what would you do?
+            <pre><span class="answer">hit the Tab key</span></pre>
+        </li>
+        <li><!-- 5.5.0 -->
+            What would you type at the command line if you wanted to find all lines in the file <span class="path">results.txt</span>
+            that contained the word "homework"?
+            <pre><span class="answer">grep  homework  results.txt</span></pre>
+        </li>
+        <li><!-- 5.6.0 -->
+            What would you type at the command line if you wanted to find all lines in the file <span class="path">results.txt</span>
+            that <b>did not</b> contain the word "homework"?
+            <pre><span class="answer">grep -v homework  results.txt</span></pre>
+        </li>
+        <li><!-- 5.10.0 -->
+            What would you type at the command line if you wanted to see all the lines in <span class="path">numbers.txt</span>
+            sorted in <b>reverse numeric</b> order?
+            <pre><span class="answer">sort -nr numbers.txt</span></pre>
+        </li>
+        <li><!-- 6.3.0 -->
+            If you saw the following prompt, what was the <b>absolute pathname</b> of the
+            <b>current directory</b>?
+            <pre>
+it244gh@vm75:/courses/it244/f14/ghoffman$</pre>
+            <pre><span class="answer">/courses/it244/f14/ghoffman</span></pre>
+        </li>
+        <li><!-- 6.4.0 -->
+            What would you type at the command line if your wanted to find all lines in the
+            file <span class="path">red_sox.txt</span> that had the word "Win", but
+            <b>not</b> the word "Rays"?
+            <pre><span class="answer">grep  Win  red_sox.txt  |  grep -v Rays</span></pre>
+        </li>
+        <li><!-- 6.5.0 -->
+            What would you type at the command line if your wanted to find all lines in the
+            file <span class="path">red_sox.txt</span> that had the word "Win", but
+            <b>not</b> the word "Rays", and have the lines sorted alphabetically?
+            <pre><span class="answer">grep  Win  red_sox.txt  |  grep -v Rays  |  sort</span></pre>
+        </li>
+        <li><!-- 6.7.0 -->
+           What program would you use to find where the program file for <code>tar</code> is located?
+            <pre><span class="answer"><code>which</code> or <code>whereis</code></span></pre>
+        </li>
+        <li><!-- 6.9.0 -->
+            What command would you use to find out all the users currently logged on to the machine you are using?
+            <pre><span class="answer"><code>finger</code> or <code>who</code></span></pre>
+        </li>
+	</ol>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/weekly_quiz_answers_it244/02_quiz_answers_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:57 GMT -->
+</html>

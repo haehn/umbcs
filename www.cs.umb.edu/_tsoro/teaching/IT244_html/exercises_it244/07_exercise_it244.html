@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/07_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title> IT 244: Introduction to Linux/Unix - Class 7 Exercise</title>
+</head>
+<body>
+	<header>
+		<h2>
+		    IT 244: Introduction to Linux/Unix <br>
+		    Class 7 Exercise
+		</h2>	
+	</header>
+
+	<h3>Log in to <span class="host">users3.cs.umb.edu</span></h3>
+	<ul>
+		<li><span class="under">Run the ssh client</span><br><br>
+			Connect to <span class="host">users3.cs.umb.edu</span>.
+		</li>
+	</ul>
+	
+	<h3>Directory for this Exercise</h3>
+    <ul>
+        <li><span class="under">Make sure you are in your home directory</span><br>
+            <pre>
+    cd</pre>
+        </li>
+        <li><span class="under">Go to your <span class="path">it244</span> directory</span>
+            <pre>
+    cd  it244</pre>
+        </li>
+        <li><span class="under">Go to your <span class="path">ex</span> directory</span><br>
+            <pre>
+    cd  ex</pre>
+        </li>
+        <li><span class="under">Create an <span class="path">ex7</span> directory</span><br>
+            <pre>
+    mkdir  ex7</pre>
+        </li>       
+        <li><span class="under">Go to your <span class="path">ex7</span> directory</span><br>
+            <pre>
+    cd  ex7</pre>
+        </li>
+    </ul>
+    
+    <h3>Extensions</h3>
+    <ul>
+        <li><span class="under">Create the text file <span class="path">foo.txt</span> with a text editor</span><br>
+            <pre>
+    nano foo.txt</pre>
+        </li>
+        <li><span class="under">Add some text</span>
+        <br><br>
+            Save and quit.
+            <br><br>
+        </li>
+        <li><span class="under">Run <code>cat</code> on the file</span><br>
+            <pre>
+    cat foo.txt</pre>
+            <code>cat</code> prints  the file to the terminal.
+            <br><br>
+        </li>
+        <li><span class="under">Change the extension of <span class="path">foo.txt</span></span><br>
+            <pre>
+    mv foo.txt foo.xyz</pre>
+        </li>
+        <li><span class="under">Open the renamed file with <code>nano</code></span><br>
+            <pre>
+    nano foo.xyz</pre>
+            <code>nano</code> opens the file without difficulty.
+            <br><br>
+            <code>nano</code> does not care about the extension.
+            <br><br>
+        </li>
+        <li><span class="under">Change some text in the renamed file</span>
+            <br><br>
+             Save and quit.
+             <br><br>
+        </li>
+        <li><span class="under">Run <code>cat</code> on the renamed file</span><br>
+            <pre>
+    cat foo.xyz</pre>
+            <code>cat</code> does not care about the extension.
+        </li>
+    </ul>
+    
+    <h3>The Hierarchical Filesystem</h3>
+    <ul>
+        <li><span class="under">Find your current location</span><br>
+            <pre>
+    pwd</pre>
+        You should be in the <span class="path">ex7</span> directory inside your <span class="path">ex</span> directory
+        of your <span class="path">it244</span> directory.
+        <br><br>
+        </li>
+        <li><span class="under">Go up one level to your parent directory</span><br>
+            <pre>
+    cd ..</pre>
+        <span class="char">..</span> means the directory one level up.
+        <br><br>
+        </li>
+        <li><span class="under">Look at your current location</span><br>
+            <pre>
+    pwd</pre>
+            You have moved up one level.
+            <br><br>
+        </li>
+        <li><span class="under">Go to the root directory</span><br>
+            <pre>
+    cd /</pre>
+        </li>
+        <li><span class="under">Look at your current location</span><br>
+            <pre>
+    pwd</pre>
+            You are at the top of the filesystem.
+            <br><br><br><br><br>
+        </li>
+        <li><span class="under">Look at the directories inside the root directory</span><br>
+            <pre>
+    ls</pre>
+            Notice that the <span class="path">home</span> and <span class="path">courses</span> directories are subdirectories
+            of the root directory.
+            <br><br>
+        </li>
+        <li><span class="under">Return to your home directory</span><br>
+            <pre>
+    cd</pre>
+        </li>
+        <li><span class="under">Look at your current location</span><br>
+            <pre>
+    pwd</pre>
+            <b>Your</b> home directory is inside the directory named <span class="path">home</span>, which is, itself,
+            under the root directory, <span class="char">/</span>.
+            <br><br>
+        </li>
+        <li><span class="under">Return to the <span class="path">ex7</span> directory inside your <span class="path">it244/ex</span> direcotry</span><br>
+            <pre>
+    cd it244/ex/ex7</pre>
+        </li>
+        <li><span class="under">Check you current location</span><br>
+            <pre>
+    pwd</pre>
+        </li>
+    </ul>
+	
+    <h3>Filenames</h3>
+    <ul>
+        <li><span class="under">Run <code>stat</code> to get some information about the Linux host</span><br>
+            <pre>
+    stat -f /home</pre>
+        </li>
+        <li><span class="under">Run <code>stat</code> with <code>grep</code> to learn the largest filename possible</span><br>
+            <pre>
+    stat -f /home | grep Namelen</pre>
+        </li>
+        <li><span class="under">Create a file with spaces in the name</span><br>
+            <pre>
+    touch 'hello there'</pre>
+            If you did not put "hello there" in quotes, you would create 2 new files, 
+            <span class="path">hello</span> and <span class="path">there</span>.
+            <br>
+        </li>
+        <li><span class="under">List the contents of your current directory</span><br>
+            <pre>
+    ls</pre>
+            It looks like you have created two new files.
+            <br>
+        </li>
+        <li><span class="under">Perform a long listing on your current directory</span><br>
+            <pre>
+    ls -l</pre>
+            Now you can see that there is only one new file.
+            <br>
+        </li>
+        <li><span class="under">Remove the file you just created</span><br>
+            <pre>
+    rm 'hello there'</pre><br>
+        </li>
+        <li><span class="under">Make sure the file is gone</span><br>
+            <pre>
+    ls </pre>
+        </li>
+    </ul>
+    
+    <h3>Case Sensitivity</h3>
+    <ul>
+        <li><span class="under">Create the file <span class="path">bar.txt</span> </span><br>
+            <pre>
+    touch bar.txt</pre>
+        </li>
+        <li><span class="under">Look at the contents of the directory</span><br>
+            <pre>
+    ls</pre>
+        </li>
+        <li><span class="under">Create another <span class="path">bar.txt</span> file</span><br>
+            <pre>
+    touch bar.txt</pre>
+        </li>
+        <li><span class="under">Look at the contents of the directory</span><br>
+            <pre>
+    ls</pre>
+        You only have one <span class="path">bar.txt</span> file since you can only have one file
+        with a given name in any one directory.
+        <br><br>
+        </li>
+        <li><span class="under">Create the file <span class="path">Bar.txt</span></span><br>
+            <pre>
+    touch Bar.txt</pre>
+        </li>
+        <li><span class="under">List the files in your current directory</span><br>
+            <pre>
+    ls</pre>
+            You have two files since, as far as Unix is concerned, <span class="path">bar.txt</span>
+            and <span class="path">Bar.txt</span> are totally different file names.
+            <br><br>
+        </li>
+        <li><span class="under">Create some new files</span><br>
+            <pre>
+    touch fOO.txt FOO.txt FOO.TXT</pre>
+        </li>
+        <li><span class="under">List the contents of your current directory</span><br>
+            <pre>
+    ls</pre>
+            You should see the files you just created since they have
+            different capitalizations.<br><br>
+        </li>
+        <li><span class="under">Remove all .txt files from your <span class="path">ex7</span> directory</span><br>
+            <pre>
+    rm  *.txt</pre>
+        </li>
+    </ul>
+    
+    <h3>Bash Script for this Exercise</h3>
+    <ul>
+        <li><span class="under">Go to your <span class="path">ex7</span> directory</span><br>
+            <pre>
+    cd ~/it244/ex/ex7</pre>
+        </li>
+        <li><span class="under">Make sure you are in your <span class="path">ex7</span> directory</span><br>
+            <pre>
+    pwd</pre>
+        If not, see me.
+        <br><br>
+        </li>
+        <li><span class="under">Create the script <span class="path">ex7.sh</span></span><br>
+            <pre>
+    nano  ex7.sh</pre>
+        </li>
+        <li><span class="under">Write into this file commands from most of the sections above</span><br><br>
+            Copy all the commands from the sections from
+            <span class="under">The Hierarchical Filesystem</span> to <span class="under">Case sensitivity</span>
+            <br><b>Skip the section <span class="under">Extensions</span></b>.
+            <br>
+        </li>
+        <li><span class="under">Save this file</span><br><br>
+            Save and quit.
+            <br>
+        </li>
+        <li><span class="under">Run this script looking for error messages</span><br>
+            <pre>
+    bash  ex7.sh &gt; /dev/null</pre>
+    			Running <span class="path">ex7.sh</span> this way
+            will only print error messages. <br><br>
+            If you see <b>nothing</b> your script has no Unix errors. <br><br>
+            If you find any errors, fix them.
+                <br>
+        </li>
+        <li><span class="under">Test you script</span><br>
+			<pre>
+    ~tsoro/it244_test/ex07.sh</pre>
+		When the script asks if you are ready for more, hit Return or Enter.
+			<br>
+		</li>
+        <li><span class="under">Let me check your script</span><br>
+		</li>
+    </ul>
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/07_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+</html>

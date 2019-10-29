@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/linux/nano_text_editor.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:52:10 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../IT244_html/class_notes.css">
+    <title>The Nano Text Editor</title>
+</head>
+<body>
+    <header>
+        <h2>The Nano Text Editor</h2>
+    </header>
+
+    <h3 class="section">Topics</h3>
+    <ul class="flat">
+        <li class="flat"><a href="#nano_text_editor">The <code>nano</code> Text Editor</a></li>
+        <li class="flat"><a href="#running_nano">Running <code>nano</code></a></li>
+        <li class="flat"><a href="#nano_commands"><code>nano</code> Commands</a></li>
+        <li class="flat"><a href="#editing_text_in_nano">Editing Text in <code>nano</code></a></li>
+        <li class="flat"><a href="#searching_in_nano">Searching in <code>nano</code></a></li>
+        <li class="flat"><a href="#save_and_quit">Save and Quit</a></li>
+        <li class="flat"><a href="#colorizing_nano">Colorizing <code>nano</code></a></li>
+    </ul>
+    
+    <h4 class="topic" id="nano_text_editor">The <code>nano</code> Text Editor</h4>
+    <ul class="flat">       
+        <li><code>nano</code> is a simple text editor</li>
+        <li>It was created as part of the GNU project started by Richard Stallman</li>
+        <li>Most Linux distributions contain the <i>vi</i> and/or <i>vim</i> editors ...</li>
+        <li>which are often used by System Administrators</li>
+        <li>And you can always download the <i>emacs</i> editor ...</li>
+        <li>which is preferred by programmers</li>
+        <li>But both of these editors take some time to learn</li>
+        <li><code>nano</code> does not have the full set of features of these editors ...</li>
+        <li>but it is great for people who are just starting to work with Unix ...</li>
+        <li>and have not learned how to use the more full featured editors</li>
+    </ul>
+    
+    <h4 class="topic" id="running_nano">Running <code>nano</code></h4>
+    <ul class="flat">       
+        <li>To run <code>nano</code> you type the name of the editor followed by the name of the file
+            <pre>
+<span class="format">nano FILENAME</span></pre>
+        </li>
+        <li>If the file does not yet exist it will be created for you ...</li>
+        <li>as long as you have write privileges in the directory ...</li>
+        <li>where you are creating the file</li>
+        <li>So if I wanted to create a <span class="path">.forward</span> file ...</li>
+        <li>I would type
+            <pre>
+nano .forward</pre>
+        </li>
+        <li>This will bring up a text window ...</li>
+        <li>with the name of the file on the top line</li>
+        <li>At the bottom of the text window will appear a list of commands
+            <pre>
+<span class="char">^G</span> Get Help  <span class="char">^O</span> WriteOut  <span class="char">^R</span> Read File  <span class="char">^Y</span> Prev Page  <span class="char">^K</span> Cut Text    <span class="char">^C</span> Cur Pos
+<span class="char">^X</span> Exit      <span class="char">^J</span> Justify   <span class="char">^W</span> Where Is   <span class="char">^V</span> Next Page  <span class="char">^U</span> UnCut Text  <span class="char">^T</span> To Spell</pre>
+        </li>
+        <li>In between is the area in which you will type the contents of the text file</li>
+    </ul>
+    
+    <h4 class="topic" id="nano_commands"><code>nano</code> Commands</h4>
+    <ul class="flat">       
+        <li>All command in <code>nano</code> are issued with the help of the Control key ...</li>
+        <li>which is labeled Cntrl on all machines except Macs</li>
+        <li>In the list of commands at the bottom of the <code>nano</code> window ...</li>
+        <li>the symbol <span class="char">^</span> stands for the Control key</li>   
+        <li>To quit <code>nano</code> you hold down the Control key ...</li>
+        <li>and press <span class="char">X</span></li>  
+        <li>The save command in <code>nano</code> is <span class="char">^O</span> WriteOut ...</li>
+        <li>which sounds like a dumb idea</li>  
+        <li>It should be <span class="char">^S</span> Save</li>
+        <li>Unfortunately Control <span class="char">S</span> has special meaning to Unix ...</li>
+        <li>so it cannot be used for this purpose</li>
+        <li>The same problem exists for Control <span class="char">Q</span> ...</li>
+        <li>so you have to use Control <span class="char">X</span> to quit</li>
+    </ul>
+    
+    <h4 class="topic" id="editing_text_in_nano">Editing Text in <code>nano</code></h4>
+    <ul class="flat">       
+        <li>To enter text in a file, simply type it in the window ...</li>
+        <li>between the header line at the top...</li>
+        <li>and the list of commands at the bottom</li>
+        <li>You can use the arrow keys to move around in the text window ...</li>
+        <li>and the Backspace or Delete keys to delete a character</li>
+        <li>You can move to the end of a line with Control <span class="char">E</span> ...</li>
+        <li>and the beginning of the line with Control <span class="char">A</span></li>
+        <li><code>nano</code> has a very simple cut and paste feature ...</li>
+        <li>but it only works on the whole line of text</li>
+        <li>If you use the arrow keys to get to a line you want to move ...</li>
+        <li>you can cut it with Control <span class="char">K</span> ...</li>
+        <li>which will remove the line and place it in a buffer</li>
+        <li>You can then move to another position in the file ...</li>
+        <li>and use Control <span class="char">U</span> to paste the line into` this new position</li>
+    </ul>
+    
+    <h4 class="topic" id="searching_in_nano">Searching in <code>nano</code></h4>
+    <ul class="flat">       
+        <li><code>nano</code> has a very basic search feature</li>
+        <li>If you hit Control <span class="char">W</span> (for <b>W</b>here) ...</li>
+        <li>a line will appear at the bottom of the screen
+            <pre>
+Search:</pre>
+        </li>
+        <li>and the text entry point will move there</li>
+        <li>Type in your search text and hit Enter or Return ...</li>
+        <li>and the text entry point will move to the first line that has the text</li>
+        <li>The search is <b>not</b> case sensitive</li>
+        <li>If you hit Control <span class="char">W</span> a second time ...</li>
+        <li><code>nano</code> will remember your last search string ...</li>
+        <li>and if you want to search again for that string ...</li>
+        <li>you simply hit Enter or Return</li>
+    </ul>
+    
+    <h4 class="topic" id="save_and_quit">Save and Quit</h4>
+    <ul class="flat">       
+        <li>To save the file, hold down the Control key while pressing <span class="char">O</span> ...</li>
+        <li>the letter, not the digit</li>
+        <li>When you do this, a line will appear at the bottom of the screen
+        <pre>
+File Name to Write: .forward </pre>
+        </li>
+        <li>This line is asking you to confirm that the name of your file is <span class="path">.forward</span></li>
+        <li>Hit Enter or Return to accept this filename ...</li>
+        <li>To quit, hold down the Control key while pressing <span class="char">X</span></li>
+    </ul>
+    
+    <h4 class="topic" id="colorizing_nano">Colorizing <code>nano</code></h4>
+    <ul class="flat">       
+        <li>You can make <code>nano</code> add color to certain elements of a script</li>
+        <li>This is called colorizing ...</li>
+        <li>and is a feature of many Unix text editors ...</li>
+        <li>including <i>emacs</i> and <i>vi</i></li>
+        <li>To add colorization to <code>nano</code> go to your home directory ...</li>
+        <li>and create the file <span class="path">.nanorc</span></li>
+        <li>Add the following lines to this file
+            <pre>
+include /usr/share/nano/sh.nanorc
+include /usr/share/nano/python.nanorc
+include /usr/share/nano/perl.nanorc
+include /usr/share/nano/php.nanorc
+include /usr/share/nano/html.nanorc</pre>
+        </li>
+        <li>Save and quit</li>
+        <li>The next time you run <code>nano</code> on a script file ...</li>
+        <li>with the proper extension ...</li>
+        <li>certain words in the file will appear in color</li>
+    </ul>
+	
+	<h5> Copyright : Glenn Hoffman, Director of the IT program</h5>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/linux/nano_text_editor.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:52:10 GMT -->
+</html>

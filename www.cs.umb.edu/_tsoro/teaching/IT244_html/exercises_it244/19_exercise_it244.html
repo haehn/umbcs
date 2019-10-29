@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/19_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title> IT 244: Introduction to Linux/Unix - Class 18 Exercise</title>
+</head>
+<body>
+	<header>
+		<h2> 
+		    IT 244: Introduction to Linux/Unix <br>
+		    Class 18 Exercise
+		</h2>	
+	</header>
+
+	<h3>Log in to <span class="host">users3.cs.umb.edu</span></h3>
+    <ul>
+    	<li><span class="under">Run the ssh client</span><br><br>
+        	Connect to <span class="host">users3.cs.umb.edu</span>.
+        </li>
+    </ul>
+	
+	<h3>Directory for This Exercise</h3>
+    <ul>
+        <li><span class="under">Go to your <span class="path">ex</span> directory</span>
+            <pre>
+    cd  ~/it244/ex</pre>
+        </li>
+        <li><span class="under">Create an <span class="path">ex18</span> directory</span><br>
+            <pre>
+    mkdir  ex18</pre>
+        </li>       
+        <li><span class="under">Go to your <span class="path">ex18</span> directory</span><br>
+            <pre>
+    cd  ex18</pre>
+        </li>
+    </ul>
+
+    <h3>Running Processes</h3>
+    <ul>
+        <li><span class="under">Look at the processes currently running</span><br>
+            <pre>
+    ps -f</pre>
+        The -f option to <code>ps</code> gives you more information about running processes.<br><br>
+            <table>
+                <tr>
+                    <td>UID</td>  <td>The username of the account that started the process</td>
+                </tr>
+                <tr>
+                    <td>PID</td>  <td>The process ID</td>
+                </tr>
+                <tr>
+                    <td>PPID</td>  <td>The process ID of the parent process</td>
+                </tr>
+                <tr>
+                    <td>STIME</td>  <td>When the process started</td>
+                </tr>
+                <tr>
+                    <td>CMD</td>  <td>The command line that started the process</td>
+                </tr>
+            </table>
+            <br>
+        </li>
+        <li><span class="under">Run a job along with <code>ps</code></span><br>
+            <pre>
+    sleep 120 &amp; ps -f</pre>
+            Notice that the process ID of the parent process that called <code>sleep</code> and <code>ps -f</code> is
+            the process ID of your shell.<br><br><br>
+        </li>
+    </ul>
+    
+    
+    <h3>The Process Hierarchy</h3>
+    <ul>
+        <li><span class="under">Run <code>pstree</code> while several <code>sleep</code> processes are running</span><br>
+            <pre>
+    sleep 20 &amp; sleep 20 &amp; pstree -ph</pre>
+            Look at the bold line of processes, which denotes your shell. You will
+            notice sleep processes running under your bash shell.
+        </li>
+    </ul>
+        
+    <h3>Positional Parameters</h3>
+    <ul>
+        <li><span class="under">Copy <span class="path">print_positionals.sh</span> to your current directory</span><br>
+            <pre>
+    cp ~tsoro/course_files/it244_files/print_positionals.sh .</pre>
+        </li>
+        <li><span class="under">Look at the contents of this script</span><br>
+            <pre>
+    cat print_positionals.sh</pre>
+            The script simply prints the first four tokens on the command line.
+            <br><br>
+        </li>
+        <li><span class="under">Run <span class="path">print_positionals.sh</span> with three arguments</span><br>
+            <pre>
+    ./print_positionals.sh foo bar bletch</pre>
+            Notice that the first positional parameter printed, 0, is the name
+            of the command.
+            <br><br>
+        </li>
+        <li><span class="under">Copy <span class="path">print_arg_numbers.sh</span> to your current directory</span><br>
+            <pre>
+    cp ~tsoro/course_files/it244_files/print_arg_numbers.sh .</pre>
+        </li>
+        <li><span class="under">Look at the contents of this script</span><br>
+            <pre>
+    cat print_arg_numbers.sh</pre>
+        </li>
+        <li><span class="under">Run this script with some arguments</span><br>
+            <pre>
+    ./print_arg_numbers.sh foo bar bletch</pre>
+            The script prints the number of arguments given to it on the command line.
+        </li>
+    </ul>
+    
+    
+    <h3>Using Quotes with Variables</h3>
+    <ul>
+        <li><span class="under">Set a local variable</span>><br>
+            <pre>
+    city=Boston</pre>
+        </li>
+        <li><span class="under">Display the value of this variable</span><br>
+            <pre>
+    echo $city</pre>
+        </li>
+        <li><span class="under">Set the variable to a value that contains a space</span><br>
+			<pre>
+    city='New York'</pre>
+		</li>
+        <li><span class="under">Display the value of this variable</span><br>
+            <pre>
+    echo $city</pre>
+        </li>
+		<li><span class="under">Use this value to create new variable value using single quotes</span><br>
+			<pre>
+    big_apple='$city $city'</pre>
+		</li>
+		<li><span class="under">Display the value of this variable</span><br>
+            <pre>
+    echo $big_apple</pre>
+    			Single quotes do not allow you to get the value of a variable.
+    			<br><br>
+        </li>
+        <li><span class="under">Try this again using double quotes</span><br>
+			<pre>
+    big_apple="$city $city"</pre>
+		</li>
+        <li><span class="under">Display the value of this variable</span><br>
+            <pre>
+    echo $big_apple</pre>
+    			This time it works, because you can use the value of a variable inside double quotes.
+        </li>
+    </ul>
+    
+    <h3>Removing a Variable's Value</h3>
+    <ul>
+        <li><span class="under">Set two variables</span><br>
+            <pre>
+    city=Boston ; state=MA</pre>
+        </li>
+        <li><span class="under">Display the values of these new variables</span><br>
+            <pre>
+    echo $city ; echo $state</pre>
+        </li>
+        <li><span class="under">Unset <span class="iden">city</span> using <code>unset</code></span><br>
+            <pre>
+    unset city</pre>
+        </li>
+        <li><span class="under">Display the value of <span class="iden">city</span></span><br>
+            <pre>
+    echo $city</pre>
+        <span class="iden">city</span> now has no value.
+        <br><br>
+        </li>
+        <li><span class="under">Remove the value of <span class="iden">state</span> by assigning it the empty string</span><br>
+            <pre>
+    state=</pre>
+        </li>
+        <li><span class="under">Display the value of <span class="iden">state</span></span><br>
+            <pre>
+    echo $state</pre>
+            Now <span class="iden">state</span> has no value.<br><br><br>
+        </li>
+    </ul>
+    
+    <h3>Making a Variable Read Only</h3>
+    <ul>
+        <li><span class="under">Create the variable <span class="iden">team</span></span><br>
+            <pre>
+    team=Patriots</pre>
+        </li>
+        <li><span class="under">Display the value of <span class="iden">team</span></span><br>
+            <pre>
+    echo $team</pre>
+        </li>
+        <li><span class="under">Change the value of <span class="iden">team</span></span><br>
+            <pre>
+    team="Red Sox"</pre>
+        </li>
+        <li><span class="under">Display the value of <span class="iden">team</span></span><br>
+            <pre>
+    echo $team</pre>
+        </li>
+        <li><span class="under">Make <span class="iden">team</span> read only</span><br>
+            <pre>
+    declare -r team</pre>
+        </li>
+        <li><span class="under">Try to change the value of <span class="iden">team</span></span><br>
+            <pre>
+    team=Celtics</pre>
+            You can't change the value because <span class="iden">team</span> is now read only.
+        </li>
+    </ul>
+    
+<h3>Bash Script for This Exercise</h3>
+    <ul>
+        <li><span class="under">Go back to your <span class="path">ex18</span> directory</span><br>
+            <pre>
+    cd  ~/it244/ex/ex18</pre>
+        </li>
+        <li><span class="under">Create the script <span class="path">ex18.sh</span></span><br>
+            <pre>
+    nano  ex18.sh</pre>
+        </li>
+        <li><span class="under">Write into this file commands from the sections above</span>
+            <br><br>
+            Include Unix commands from the section <span class="under">Running Processes</span>, 
+            up to and including the section <span class="under">Making a Variable Read Only</span>.
+            <br><br>
+        </li>
+        <li><span class="under">Save this file</span><br><br>
+            Save and quit.
+            <br><br>
+        </li>
+        <li><span class="under">Make this scipt executable</span><br>
+            <pre>
+    chmod 755 ex18.sh</pre>
+        </li>
+        <li><span class="under">Run this script looking for error messages</span><br>
+            <pre>
+    bash  ex18.sh &gt; /dev/null</pre>
+        </li>
+        <li><span class="under">Test you script</span><br>
+			<pre>
+    ~tsoro/it244_test/ex18.sh</pre>
+		When the script asks if you are ready for more, hit Return or Enter.
+			<br><br>
+		</li>
+        <li><span class="under">Let me check your script</span><br></li>
+    </ul>
+    
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/19_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+</html>

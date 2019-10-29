@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/13_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:39 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title> IT 244: Introduction to Linux/Unix - Class 13</title>
+</head>
+<body>
+	<header>
+		<h2> 
+		    IT 244: Introduction to Linux/Unix <br>
+		    Class 13
+		</h2>	
+	</header>
+
+	<!-- NEEDS More -->
+	<!-- SHOW PROCESSES WHEN RUNNING bother.sh -->
+	<!-- TALK ABOUT SYSADMIN BRINING UP A WEB SERVER AND BRINGING IT DOWN WHEN UNDER ATTACK -->
+	<!-- MENTION kill -9 -->
+    <h3 class="section">Today's Topics</h3>
+        
+    <h4 class="flat_under">Review</h4>
+    <ul class="flat_top">
+        <li class="flat"><a href="#data_streams">Data Streams</a></li>
+        <li class="flat"><a href="#devices">Devices</a></li>
+        <li class="flat"><a href="#unix_devices_files">Unix Devices Are Files</a></li>
+        <li class="flat"><a href="#multi-user_os">Multiuser Operating Systems</a></li>
+        <li class="flat"><a href="#monitor_keyboard">The Monitor and Keyboard</a></li>
+        <li class="flat"><a href="#STD_IN_OUT_ERR">Standard Input, Standard Output and Standard Error</a></li>
+        <li class="flat"><a href="#keybrd_scrn">The Keyboard and Screen as Standard Input and Standard Output</a></li>
+        <li class="flat"><a href="#redirection">Redirection</a></li>
+        <li class="flat"><a href="#redir_std_out">Redirecting Standard Output</a></li>
+        <li class="flat"><a href="#redir_std_in">Redirecting Standard Input</a></li>
+        <li class="flat"><a href="#redir_destroy">Redirecting Standard Output Can Destroy a File</a></li>
+        <li class="flat"><a href="#append">Adding Output to an Existing File</a></li>
+        <li class="flat"><a href="#dev_null"><span class="path">/dev/null</span></a></li>
+    </ul>
+    <br>    
+    <h4 class="flat_under">New Material</h4>
+    <ul class="flat_top">
+        <li class="flat"><a href="#background">Running a Command in the Background</a></li>
+        <li class="flat"><a href="#jobs">Jobs</a></li>
+        <li class="flat"><a href="#moving_jobs">Moving a Job from the Foreground into the Background</a></li>
+        <li class="flat"><a href="#aborting_background">Aborting a Background Job</a></li>
+    </ul>
+    
+    <h3 class="section">Homework 7</h3>
+    <p class="flat">I have posted homework 7 <a href="../hw_it244/07_hw_it244.html">here</a>.</p>
+    
+	<!--
+	<p>It is due Sunday, , at 11:59 PM.</p>
+    <p>It is <b>not</b> due this coming Sunday to allow you to study for the Mid-term Exam.</p>
+	
+    <!--
+    <h3 class="section">Mid-term</h3>
+    <p class="flat">The mid-term exam for this course will be held on Tuesday, October  24th.</p>
+    <p>It will consist of 25 questions like those on the quizzes.</p>
+    <p>You will have the entire class period to work on the exam.</p>
+    <p>60% of the questions will come from the Ungraded Class Quizzes.</p>
+    <p>The next class, Thursday, October  19th, will be a review session.</p>
+    <p>You will only be responsible for the material in the Class Notes for that class
+       on the exam.
+    </p>
+    <p>The Mid-term is a closed book exam.</p>
+    -->
+	
+    <h3 class="section">Quiz 4</h3>
+    I have posted the answers to Quiz 4 <a href="../weekly_quiz_answers_it244/04_quiz_answers_it244.html">here</a>.
+    
+    
+    <h3 class="section">Review</h3>
+    <h4 class="topic" id="data_streams">Data Streams</h4>
+    <ul class="flat">       
+        <li>Computers work with information</li>
+        <li>They take information in ...</li>
+        <li>and they send information out</li>
+        <li>We can think of these flows of information as data streams</li>
+        <li>When we run a command that produces some result ...</li>
+        <li>the characters that we see ... </li>
+        <li>are a flow of information sent to the screen</li>
+        <li>This is an output stream</li>
+        <li>When we type something into a word processor ...</li>
+        <li>this is a flow of information ...</li>
+        <li>from the keyboard ...</li>
+        <li>into the program</li>
+        <li>This is an input stream</li>
+    </ul>
+    
+    <h4 class="topic" id="devices">Devices</h4>
+    <ul class="flat">       
+        <li>Devices are pieces of electronic equipment ...</li>
+        <li>that communicate with the CPU ...</li>
+        <li>through data streams</li>
+        <li>They do this using device drivers ...</li>
+        <li>which are software created by the manufacturer ...</li>
+        <li>that allows the device to talk to the CPU ...</li>
+        <li>through the 
+                <a class="def" href="../definitions.html#kernel">kernel</a>
+        </li>
+        <li>Most device drivers support two way communication ...</li>
+        <li>allowing both input streams ...</li>
+        <li>and output streams</li>
+        <li>Since the device drivers handle the details ...</li>
+        <li>of data streams coming into or out of a device ...</li>
+        <li>the kernel can treat input and output to any device ...</li>
+        <li>in the same way</li>
+        <li>It does not distinguish between the keyboard and the disk ...</li>
+        <li>as devices that can provide input streams</li>
+        <li>This makes things simple</li>
+    </ul>
+    
+    <h4 class="topic" id="unix_devices_files">Unix Devices Are Files</h4>
+    <ul class="flat">       
+        <li>One of the reasons why Unix is so powerful ...</li>
+        <li>is that decisions were made when it was designed ...</li>
+        <li>to keep it simple and elegant</li>
+        <li>One such decision was how Unix treats devices</li>
+        <li>In Unix devices are files</li>
+        <li>The hard drive is a device ...</li>
+        <li>that can provide both input ...</li>
+        <li>and output</li>
+        <li>You can read a file as input ...</li>
+        <li>and save information to disk as a file ...</li>
+        <li>for output</li>
+        <li>Instead of creating some new thing ...</li>
+        <li>to represent a device ...</li>
+        <li>Unix just thinks of then as a special kind of file</li>
+        <li>A device file</li>
+        <li>This allows programs that run on Unix ...</li>
+        <li>to send output to a device ...</li>
+        <li>and take input from a device ...</li>
+        <li>in the same way it does for a file</li>
+    </ul>
+    
+    <h4 class="topic" id="multi-user_os">Multiuser Operating Systems</h4>
+    <ul class="flat">       
+        <li>In the 1970's when Unix was created ...</li>
+        <li>computers were big, expensive machines</li>
+        <li>In order use these machines efficiently ...</li>
+        <li>multiuser operating systems were created ...</li>
+        <li>which let many people use the same machine ...</li>
+        <li>apparently at the same time</li>
+        <li>The way this works is the machine does some work for each user ...</li>
+        <li>giving them a slice of time on the CPU</li>
+        <li>When their slice of time is up ...</li>
+        <li>the machine stores the contents of RAM ...</li>
+        <li>which holds the work that has been done ...</li>
+        <li>in a special place in memory</li>
+        <li>It then gives a time slice to the next user</li>
+        <li>Because the machine is so fast ...</li>
+        <li>it looks like several people are using the machine ...</li>
+        <li>at the same time</li>
+    </ul>
+
+    <h4 class="topic" id="monitor_keyboard">The Monitor and Keyboard</h4>
+    <ul class="flat">   
+	    <li>In the 1970 when Unix was created ...</li>
+	    <li>multiuser operating systems allowed several people ...</li>
+	    <li>to be connected to one very expensive computer</li>
+	    <li>This was done by connecting terminals ...</li>
+	    <li>the combination of a keyboard and a screen ...</li>
+	    <li>directly to the machine</li>
+	</ul>
+	<img src="image1_note12.png" height="50%"/>
+	<ul class="flat">
+	    <li>The terminal is a device ...</li>
+	    <li>so it needs a device driver</li>   
+	    <li>tty is the device driver </li>
+	    <li>that handles both input and output ...</li>
+	    <li>to the terminal</li>
+	    <li>So tty is the device driver for both the keyboard ...</li>
+	    <li>and the screen</li>
+    </ul>
+    
+    <h4 class="topic" id="STD_IN_OUT_ERR">Standard Input, Standard Output and Standard Error</h4>
+    <ul class="flat">       
+        <li>Every Unix process always has access to three different "files"
+            <ul class="flat">       
+                <li class="flat">Standard Input</li>
+                <li class="flat">Standard Output</li>
+                <li class="flat">Standard Error</li>
+            </ul>
+        </li>
+        <li>Unix thinks anything it can write to ...</li>
+        <li>or read from ...</li>
+        <li>is a file</li>
+        <li><a class="def" href="../definitions.html#standard_input">Standard input</a> 
+            is where the program gets input ...
+        </li>
+        <li>when a specific source of input ...</li>
+        <li>like a file or a device ...</li>
+        <li>is not specified</li>
+        <li>By default, standard input is the keyboard</li>
+        <li><a class="def" href="../definitions.html#standard_output">Standard output</a> 
+            is where the program sends its output 
+        </li>
+        <li>if a specific file or device is not mentioned</li>
+        <li>By default, standard output is the screen</li>
+        <li><a class="def" href="../definitions.html#standard_error">Standard error</a> 
+            is where the program sends error messages
+        </li>
+        <li>By default, standard error is the same as standard output: the screen</li>
+    </ul>
+    
+    <h4 class="topic" id="keybrd_scrn">The Keyboard and Screen as Standard Input and Standard Output</h4>
+    <ul class="flat">   
+        <li>When a command or script does not specify ...</li>
+        <li>where input is to come from ...</li>   
+        <li>it comes from standard input</li> 
+        <li>By default, standard input is keyboard</li>
+        <li>When a command or script does not specify ...</li>
+        <li>where output should go ...</li>
+        <li>it goes to standard output</li>
+        <li>By default, standard output is the screen</li>
+        <li>When a command or script does not specify ...</li>
+        <li>where error messages should go ...</li>
+        <li>they goes to standard error</li>
+        <li>By default, standard error also is the screen</li>
+    </ul>
+    
+    <h4 class="topic" id="redirection">Redirection</h4>
+    <ul class="flat">      
+         <li><a class="def" href="../definitions.html#redirection">Redirection</a> is telling Unix to take data from ...</li>
+         <li>or send data to ...</li>
+         <li>a different place than usual</li>
+         <li>Redirection is one of the features that makes Unix so flexible</li>
+         <li>You can take input from something ...</li>
+         <li>other than the keyboard ...</li>
+         <li>like a file</li>
+         <li>You can send output to something ...</li>
+         <li>other than the screen ...</li>
+         <li>like another file</li>
+         <li>Redirection is what makes <a class="def" href="../definitions.html#pipe">pipes</a> possible</li>
+         <li>When you set up a pipe ...</li>
+         <li>you are sending the output from one program ...</li>
+         <li>into the input of another</li>
+         <li>You are redirecting the output of the first command ...</li>
+         <li>from the screen ...</li>
+         <li>to the input of the second command</li>
+         <li>This allows next command to take its input ...</li>
+         <li>from something other than a file</li> 
+    </ul>
+    
+    <h4 class="topic" id="redir_std_out">Redirecting Standard Output</h4>
+    <ul class="flat">       
+        <li>To redirect standard output use the greater than symbol, <span class="char">&gt;</span> ...</li>
+        <li>followed by a filename</li>
+        <li>This tells Unix to send the output from a command ...</li>
+        <li>to the file or device that appears after the symbol</li>
+        <li>The format for output redirection is
+            <pre>
+<span class="format">COMMAND  [ARGUMENTS]  &gt;  FILENAME</span></pre>
+        </li>
+        <li>If the file does not already exist ...</li>
+        <li>it will be created</li>
+    </ul>
+    
+    <h4 class="topic" id="redir_std_in">Redirecting Standard Input</h4>
+    <ul class="flat">       
+        <li>When we redirect standard output ...</li>
+        <li>we send output to something other than the screen</li>
+        <li>When we redirect standard input ...</li>
+        <li>we take input from something other than the keyboard</li>
+        <li>To do this, we use the less than symbol, <span class="char">&lt;</span> </li>
+        <li>Here is the format
+            <pre>
+<span class="format">COMMAND  [ARGUMENTS] &lt;  FILENAME</span></pre>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="redir_destroy">Redirecting Standard Output Can Destroy a File</h4>
+    <ul class="flat">       
+        <li>If you redirect standard output to a file that already exists ...</li>
+        <li>you will overwrite the contents of that file</li>
+        <li>You will replace the original contents of the file ...</li>
+        <li>with new data</li>
+    </ul>
+    
+    <h4 class="topic" id="append">Adding Output to an Existing File</h4>
+    <ul class="flat">       
+        <li>If you redirect standard output to a file that already exists ...</li>
+        <li>you will lose the original contents of that file</li>
+        <li>But Unix allows you to add to the bottom of a file</li>
+        <li>This is called <a class="def" href="../definitions.html#appending">appending</a></li>
+        <li>The append symbol is two greater than symbols ...</li>
+        <li>with no space in between, <span class="char">&gt;&gt;</span> </li>
+        <li>The format is
+            <pre>
+<span class="format">COMMAND  [ARGUMENTS] &gt;&gt;  FILENAME</span></pre>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="dev_null"><span class="path">/dev/null</span></h4>
+    <ul class="flat">       
+        <li>Sometimes a program will do something useful ...</li>
+        <li>but produce output you don't want</li>
+        <li>For situations like this, Unix provides <span class="path"><span class="path">/dev/null</span></span></li>
+        <li>Any output you send to <span class="path"><span class="path">/dev/null</span></span> will disappear</li>
+        <li>It will never appear on the screen</li>
+        <li>If you redirect input to come from <span class="path">/dev/null</span> ...</li>
+        <li>the command will receive an empty string</li>
+        <li><span class="path">/dev/null</span> is most useful when dealing with error messages</li>
+        <li>Since error message normally go to the screen ...</li>
+        <li>they will be mixed up with the regular output</li>
+        <li>Sending error messages to <span class="path">/dev/null</span> ...</li>
+        <li>prevents this from happening</li>
+    </ul>
+    
+	
+	<h3 class="section">New Material</h3>
+	
+	<h4 class="topic" id="background">Running a Command in the Background</h4>
+	<ul class="flat">       
+	   <li>Normally, when you run a command ...</li>
+	   <li>you have to wait for it to finish</li>
+	   <li>Such commands are said to be running in the 
+	       <a class="def" href="../definitions.html#foreground">foreground</a>
+	   </li>
+	   <li>When the command does not take long to finish ...</li>
+	   <li>this is not a problem</li>
+	   <li>But some commands take a long time to finish</li>
+	   <li>Compilers can run for a several minutes ...</li>
+	   <li>if the source code is long enough</li>
+	   <li>Unix gives you a way to get the command prompt back ...</li>
+	   <li>after running a command</li>
+	   <li>You can run the command in the <a class="def" href="../definitions.html#background">background</a></li>
+	   <li>A background command is disconnected from the keyboard ...</li>
+	   <li>so you cannot talk to it by typing ...</li>
+	   <li>but it is <b>not</b> disconnected from the screen</li>
+	   <li>When you run a command in the background ...</li>
+	   <li>you get the prompt back immediately ...</li>
+	   <li>without waiting for the command to finish</li>
+	   <li>The shell will tell you when the background command has finished</li>
+	   <li>Every time you run a program, a 
+	       <a class="def" href="../definitions.html#process">process</a> is created</li>
+	   <li>A process is a running program</li>
+	   <li>The process has access to system resources ...</li>
+	   <li>like memory  and the filesystem</li>
+	   <li>Unix, like most operating systems, is multitasking</li>
+	   <li>This means you can have more than one process running at a time</li>
+	   <li>To run a command in the background ...</li>
+	   <li>enter an ampersand, <span class="char">&amp;</span> ,  at the end of the command line ...</li>
+	   <li>just before hitting Enter
+	       <pre>
+<span class="format">COMMAND  [ARGUMENTS]  &amp;</span></pre>
+	   </li>
+	   <li>For example
+	       <pre>
+    $ sleep 5 <span class="red">&amp;</span>
+    [1] 17895
+    $</pre>
+	   </li>
+	   <li><code>sleep</code> is a command that makes a program stop running</li>
+	   <li>for a specified period of time</li>
+	   <li>It is useful in shell scripts ...</li>
+	   <li>when the script is waiting for something to happen</li>
+	   <li>If you put a process in the background and then log out ...</li>
+	   <li>the process will continue to run</li>
+    </ul>
+    
+    <h4 class="topic" id="jobs">Jobs</h4>
+    <ul class="flat">
+        <li>Every time you type something at the command line ...</li>
+        <li>and hit Enter ...</li>
+        <li>you are creating a <a class="def" href="../definitions.html#job">job</a></li>  
+        <li>Every time a program runs ...</li>
+        <li>a process is created for that program</li>
+        <li>But what about a pipeline?</li>
+        <li>A pipeline is a collection of commands joined by pipes</li>
+        <li>Each command will generate its own process</li>
+        <li>But the collection of all the separate processes ...</li>
+        <li>is a single job</li>
+        <li>Each process in a pipeline will have its own process ID</li>
+        <li>So as the pipeline progresses ...</li>
+        <li>the currently running process will change</li>
+        <li>But the job number does not change</li>
+        <li>The job is the collection of all processes ...</li>
+        <li>created at the command line</li>
+        <li>If you run a bash script ...</li>
+        <li>that script may start other processes ...</li>
+        <li>all of which are part of the same job</li>
+        <li>You can have multiple jobs running at the same time</li>
+        <li>But only one job can be in the foreground at any one time</li>
+        <li>What's so special about the foreground?</li>
+        <li>Only the foreground job can accept input from the keyboard</li>
+        <li>Every process has a process ID number ...</li>
+        <li>and every job has a job number</li>
+        <li>When you tell the shell to run a job in the background </li>
+        <li>it returns two numbers
+            <pre>
+    $ sleep  5  <span class="red">&amp;</span>
+    [<span class="red">1</span>] <span class="red">7431</span>
+    $</pre>
+        </li>
+        <li>The job number is enclosed in brackets and comes first</li>
+        <li>The second, larger, number is the process identification number ...</li>
+        <li>of the first process in the job</li>
+        <li>The process identification number is also know as the PID</li>
+        <li>When the job finishes, the shell prints a message
+            <pre>
+    [1]+  Done                    sleep 5</pre>
+        </li>
+        <li>The message does <b>not</b> appear the moment the job finishes</li>
+        <li>If it did that, it might appear while another job is producing output</li>
+        <li>That would be very annoying ...</li>
+        <li>and you might miss it</li>
+        <li>Instead, the shell waits for the next time you run a command ...</li>
+        <li>hit Enter ...</li>
+        <li>You will first see the output of the command ...</li>
+        <li>and then a message that the background job has finished</li>
+        <li>If a job placed in the background ...</li>
+        <li>produces output to standard output ...</li>
+        <li>it must be redirected ...</li>
+        <li>otherwise the output from the background job    ...</li>
+        <li>will go to the screen ...</li>
+        <li>while you are working on other things</li>
+        <li>This can be very confusing</li>
+        <li>So be sure to redirect any output from a background job ...</li>
+        <li>to a file or <span class="path">/dev/null</span></li>
+    </ul>
+    
+    <h4 class="topic" id="moving_jobs">Moving a Job from the Foreground into the Background</h4>
+    <ul class="flat">
+        <li>When you run a command normally ...</li>
+        <li>it is running in the foreground</li>  
+        <li>There can <b>only be one foreground job</b> ...</li>
+        <li>though you can have many background jobs</li> 
+        <li>What if you were running a foreground job ...</li>
+        <li>but it took more time than you expected ...</li>
+        <li>and you wanted to get your prompt back?</li>
+        <li>Unix will let you suspend the job</li>
+        <li>A suspended job is not dead, merely sleeping</li>
+        <li>You can reactivate it later</li>
+        <li>To suspend a foreground job ...</li>
+        <li>you must type the suspend key sequence</li>
+        <li>Control Z is the most common suspend key sequence</li>
+        <li>I like to call this Control Zombie</li>
+        <li>It is what our systems use</li>
+        <li>After you type Control Z ...</li>
+        <li>the shell stops the current job</li>
+        <li>It also disconnects it from the keyboard</li>
+        <li>The job, still exists ..</li>
+        <li>but it has stopped running ...</li>
+        <li>and is in a state of suspended animation</li>
+        <li>Once the job is suspended ...</li>
+        <li>you can place it in the background using the <code>bg</code> command</li>
+        <li><code>bg</code> stands for <b>b</b>ack<b>g</b>round</li>
+        <li>To illustrate this I'll use a special shell program I created, <span class="path">bother.sh</span></li>
+        <li><span class="path">bother.sh</span> prints a message to the screen every few seconds
+            <pre>
+    $ ./bother.sh 
+    Excuse me
+    Excuse me
+    Excuse me
+    <span class="red">^Z</span> 
+    [1]+  Stopped                 ./bother.sh
+    
+    $ <span class="red">bg 1</span>
+    [1]+ ./bother.sh <span class="red">&amp;</span>
+    $ Excuse me
+    Excuse me
+    Excuse me
+    <span class="red">jobs</span>
+   [1]+  Running                 ./bother.sh <span class="red">&amp;</span></pre>
+        </li>
+        <li>Once placed in the background ...</li>
+        <li>the job resumes running</li>
+        <li>If more than one job is running ...</li>
+        <li>you must give <code>bg</code> the job number</li>
+    </ul>
+    
+    <h4 class="topic" id="aborting_background">Aborting a Background Job</h4>
+    <ul class="flat">       
+        <li>How do you stop a job that is running in the background?</li>
+        <li>There are two ways</li>
+        <li>If the job were running in the foreground ...</li>
+        <li>you could stop it by hitting Control C</li>
+        <li>That works with a foreground job ...</li>
+        <li>because it is connected to the keyboard</li>
+        <li>But a background job can't hear anything from the keyboard</li>
+        <li>The keyboard is disconnected from background jobs</li>
+        <li>But you can bring a job from the background ...</li>
+        <li>into the foreground</li>
+        <li>You do this using the <code>fg</code> (<b>f</b>ore<b>g</b>round) command</li>
+        <li>Once you have the job in the foreground ...</li>
+        <li>you can abort it using Control C
+            <pre>
+    $ ./bother.sh <span class="red">&amp;</span>
+    [1] 10575
+    
+    $ Excuse me
+    ls
+    bother.sh  sleep_echo.sh
+    
+    $ Excuse me
+    Excuse me
+    <span class="red">fg</span>
+    ./bother.sh
+    Excuse me
+    <span class="red">^C</span>
+    
+    $</pre>
+        </li>
+        <li>When there is more than one job in the background ...</li>
+        <li>you must give <code>fg</code> the job number</li>
+        <li>But there is another way to kill a background job</li>
+        <li>You can terminate any job using the <code>kill</code> command</li>
+        <li>But to use <code>kill</code> you must tell it what to kill</li>
+        <!-- give a format for using kill -->
+        <li>The usual way to do this is with the process ID ...</li>
+        <li>of the process you want to terminate</li>
+        <li>You are given the job and the process numbers ...</li>
+        <li>when you start the background job</li>
+        <li>If you forget them ...</li>
+        <li>you can always run <code>ps</code> (<b>p</b>rocess <b>s</b>tatus)
+        <pre>
+    $ ./bother.sh <span class="red">&amp;</span>
+    [1] 12444
+    
+    $ Excuse me
+    <span class="red">ps</span>
+      PID TTY          TIME CMD
+    12264 pts/2    00:00:00 bash
+    <span class="red">12444</span> pts/2    00:00:00 bother.sh
+    12447 pts/2    00:00:00 sleep
+    12448 pts/2    00:00:00 ps
+    
+    $ Excuse me
+    Excuse me</pre>
+        </li>
+	    <li>Once you have this information you can run <code>kill</code>
+        <pre>
+    $ Excuse me
+    Excuse me
+    <span class="red">kill 12444</span>
+    $ 
+    [1]+  Terminated              ./bother.sh
+    $ </pre>
+	    </li>
+	    <li>You can also use the job number with <code>kill</code></li>
+	    <li>But you must precede a job number ...</li>
+	    <li>with a percent sign, <span class="char">%</span></li>
+	    <li>You can get the job number by using the <code>jobs</code> command
+        <pre>
+    $ ./bother.sh <span class="red">&amp;</span>
+    [<span class="red">1</span>] 12543
+    $ Excuse me
+    Excuse me
+    Excuse me
+    <span class="red">jobs
+    [1]+  Running                 ./bother.sh <span class="red">&amp;</span></span>
+    $ Excuse me
+    Excuse me
+    Excuse me
+    Excuse me
+    Excuse me
+    <span class="red">kill %1</span>
+    $ 
+    [1]+  Terminated              ./bother.sh
+    $</pre>       
+        </li>
+        
+    </ul>
+    
+    <h3 class="section">Attendance</h3>
+    
+    <h3 class="section">Class Quiz</h3>
+        
+
+	<footer>
+		<a href="class_notes_it244.html" class="spacer">Class Notes</a>
+		<a href="class_notes_index_it244.html" class="spacer">Class Notes Index</a>
+	</footer>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/13_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:39 GMT -->
+</html>

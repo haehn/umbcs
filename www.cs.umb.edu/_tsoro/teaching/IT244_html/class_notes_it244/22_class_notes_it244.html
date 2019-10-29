@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/22_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:42 GMT -->
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="../class_notes.css">
+	<title> IT 244: Introduction to Linux/Unix - Class 22</title>
+<body>
+	<header>
+		<h2> 
+		    IT 244: Introduction to Linux/Unix <br>
+		    Class 22
+		</h2>	
+	</header>
+
+    <!-- NEEDS MORE CONTENT -->
+    <!-- NEED TO REWRITE IF SECTION SO A REAL COMMAND IS USED AS THE TEST COMMAND, SAY CD
+    	 THEN TALK ABOUT THE NEED TO CHECK FOR OTHER THINGS, LIKE NUMBER OF COMMAND LINE ARGUMENTS
+    	 AND INTRODUCE TEST THAT WAY
+     -->
+      <!-- NEED TEST EXAMPLES. GET FROM NEXT CLASS NOTES-->
+     <!-- 
+     if mkdir test
+     then
+     	cd test
+     	touch test.txt
+     fi
+     SHOW THIS BEFORE TALKING ABOUT TEST
+      -->
+      <!-- TEST WAS  A KLUDGE-->
+    <h3 class="section">Today's Topics</h3>
+    <h4 class="flat_under">Review</h4>
+    <ul class="flat_top">
+        <li class="flat"><a href="#shell_modifies_command_line">Shell Modification of the Command Line</a></li>
+        <li class="flat"><a href="#history_expansion">History Expansion</a></li>
+        <li class="flat"><a href="#alias_substitution">Alias Substitution</a></li>
+        <li class="flat"><a href="#brace_expansion">Brace Expansion</a></li>
+        <li class="flat"><a href="#tilde_expansion">Tilde, <span class="char">~</span>, Expansion</a></li>
+        <li class="flat"><a href="#parameter_and_variable_expansion">Parameter and Variable Expansion</a></li>
+        <li class="flat"><a href="#arithmetic_expansion">Arithmetic Expansion</a></li>
+        <li class="flat"><a href="#command_substitution">Command Substitution</a></li>
+        <li class="flat"><a href="#word_splitting">Word Splitting</a></li>
+        <li class="flat"><a href="#pathname_expansion">Pathname Expansion</a></li>
+        <li class="flat"><a href="#process_substitution">Process Substitution</a></li>
+    </ul>
+    <h4 class="flat_under">New Material</h4>
+    <ul class="flat_top">
+        <li class="flat"><a href="#shell_scripts">Shell Scripts</a></li>       
+        <li class="flat"><a href="#shell_script_control_structures">Shell Script Control Structures</a></li>
+        <li class="flat"><a href="#if_then_construct">The <code>if</code> ... <code>then</code> Construct</a></li>
+        <li class="flat"><a href="#test"><code>test</code></a></li>
+        <li class="flat"><a href="#test_operators">The <code>test</code> operators</a></li>
+    </ul>
+    
+    <h3 class="section">Homework 10</h3>
+    Homework 10 is posted <a href="../hw_it244/10_hw_it244.html"> here</a>.
+    <br><br>
+    As usual, it will be due this coming Sunday at 11:59 PM.
+ 
+    <h3 class="section">Announcement</h3>
+    <p class="flat">There will be <b>no</b> graded quiz next week.</p>
+    <p>But there will be one the following week covering the material in
+       the previous 3 Class Quizzes.
+    </p>
+    
+    <h3 class="section">Review</h3>
+    
+    <h4 class="topic" id="shell_modifies_command_line">Shell Modification of the Command Line</h4>
+    <ul class="flat">       
+        <li>After you hit the Enter key ...</li>
+        <li>the keyboard device driver <code>tty</code> ...</li>
+        <li>gives the shell the text you have entered at the command line</li>
+        <li>The shell can now try to execute the commands that you have typed</li>
+        <li>But before the shell executes the commands ...</li>
+        <li>if first looks to see if it need to make changes ...</li>
+        <li>to the <a class="def" href="../definitions.html#token">tokens</a> on the command line</li>
+        <li>The shell actually rewrites the command line before executing it</li>
+        <li>It does this to implement features of the shell ...</li>
+        <li>like <a class="def" href="../definitions.html#command_substitution">command substitution</a> 
+            and <a class="def" href="../definitions.html#pathname_expansion">pathname expansion</a>
+        </li>
+        <li>These are features that make the shell more powerful ...</li>
+        <li>but they require the shell to change what you typed on the command line ...</li>
+        <li>before executing it</li>
+        <li>There are 10 different ways in which the shell can modify the command line</li>
+        <li>The order in which the shell performs them is as follows
+            <ol>
+                <li class="flat">History Expansion</li>
+                <li class="flat">Alias Substitution</li>
+                <li class="flat">Brace Expansion</li>
+                <li class="flat">Title, <span class="char">~</span>, Expansion</li>
+                <li class="flat">Parameter and Variable Expansion</li>
+                <li class="flat">Arithmetic expansion</li>
+                <li class="flat">Command substitution</li>
+                <li class="flat">Word splitting</li>
+                <li class="flat">Pathname expansion</li>
+                <li class="flat">Process substitution</li>
+            </ol>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="history_expansion">History Expansion</h4>
+    <ul class="flat">       
+        <li>The first substitution <code>bash</code> performs is history expansion</li>
+        <li>History expansion occurs when you use the exclamation mark, <span class="char">!</span> ...</li>
+        <li>to run again a previous command using the history mechanism
+                <pre>
+    $ history 5
+      540  cat output.txt 
+      541  echo "Go Red Sox" &gt; output.txt
+      542  cat output.txt 
+      543  echo foo
+      544  history 5
+      
+    $ <span class="red">!543</span>
+    echo foo
+    foo</pre>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="alias_substitution">Alias Substitution</h4>
+    <ul class="flat">       
+        <li>After history expansion, <code>bash</code> performs 
+        <a class="def" href="../definitions.html#alias">alias</a> substitution
+        <pre>
+    $ alias ll="ls -l'
+    $ ll
+    total 2
+    lrwxrwxrwx 1 it244gh man    34 Sep  6 21:09 it244 -&gt; /courses/it244/f12/ghoffman/it244gh
+    drwxr-xr-x 2 it244gh ugrad 512 Oct 27 09:16 work</pre></li>
+        <li>The shell replaces the name of the alias ...</li>
+        <li>with the value of the alias</li>
+        <li>Aliases allow you to run complicated commands ...</li>
+        <li>by typing only a few characters</li>
+    </ul>
+
+    <h4 class="topic" id="brace_expansion">Brace Expansion</h4>
+    <ul class="flat">       
+        <li>After alias substitution, <code>bash</code> performs 
+        	<a class="def" href="../definitions.html#brace_expansion">brace expansion</a>
+        </li>
+        <li>Braces, <span class="char">{ }</span>, allow you to specify several strings ...</li>
+        <li>all at once</li>
+        <li>Braces can appear with strings of characters in front ...</li>
+        <li>or behind</li>
+        <li>The braces contain strings of characters <b>separated by commas</b></li>
+        <li>The shell expands a brace by creating many strings ...</li>
+        <li>one for each string contained within the braces</li>
+        <li>If I wanted to create 5 foo files I could use braces expansion as follows
+            <pre>
+    $ touch foo<span class="red">{1,2,3,4,5}</span>.txt
+    
+    $ ls
+    <span class="red">foo1.txt  foo2.txt  foo3.txt  foo4.txt  foo5.txt</span></pre>
+        </li>
+        <li>The strings inside the braces can contain one or more characters
+            <pre>
+    $ touch <span class="red">{a,ab,abc}</span>.txt
+    
+    $ ls
+    <span class="red">abc.txt  ab.txt  a.txt</span></pre>        
+        </li>
+        <li>There <b>must not</b> be any unquoted spaces or tabs ...</li>
+        <li>within the braces</li>
+        <li>If there are, the expansion will not work properly</li>
+    </ul>
+
+    <h4 class="topic" id="tilde_expansion">Tilde, <span class="char">~</span>, Expansion</h4>
+    <ul class="flat">       
+        <li>After brace expansion, <code>bash</code> performs 
+            <a class="def" href="../definitions.html#tilde_expansion">tilde expansion</a>
+        </li>
+        <li>Whenever <code>bash</code> sees a tilde, <span class="char">~</span> , by itself ...</li>
+        <li>it substitutes the absolute pathname of your home directory</li>
+        <li>Whenever <code>bash</code> sees a tilde, <span class="char">~</span> , followed by a Unix user name, </li>
+        <li>it substitutes the absolute pathname of the home directory ...</li>
+        <li>of that account</li>
+        <li>If there is no user name matching the string following the tilde ...</li>
+        <li>no expansion is performed</li>
+        <li>There are two other tilde expansions
+            <ul>
+                <li class="flat"><span class="char">~+</span></li>
+                <li class="flat"><span class="char">~-</span></li>
+            </ul>  
+        </li>
+        <li>When <code>bash</code> sees <span class="char">~+</span> ...</li>
+        <li>it substitutes the value of the <b>current</b> directory</li>
+        <li>When <code>bash</code> sees <span class="char">~-</span> ...</li>
+        <li>it substitutes the value of the <b>previous</b> directory</li>
+    </ul>
+
+    <h4 class="topic" id="parameter_and_variable_expansion">Parameter and Variable Expansion</h4>
+    <ul class="flat">       
+        <li>After tilde expansion, <code>bash</code> performs parameter and variable expansion
+            <pre>
+    $ echo <span class="red">$SHELL</span>
+    /bin/bash
+    
+    $ echo <span class="red">$?</span>
+    0</pre>
+        </li>
+        <li>bash notices the <span class="char">$</span> in front of a string ...</li>
+        <li>and looks to see if that string is the name of a variable</li>
+        <li>If the string is a variable, bash substitutes the value of the variable ...</li>
+        <li>for the dollar sign and variable name</li>
+    </ul>
+    
+    <h4 class="topic" id="arithmetic_expansion">Arithmetic Expansion</h4>
+    <ul class="flat">       
+        <li>After parameter and variable expansion, <code>bash</code> performs arithmetic expansion</li>
+        <li>Unix treats everything on the command line as text ...</li>
+        <li>unless told otherwise
+        <pre>
+    $ echo 5 + 4
+    5 + 4</pre></li>
+        <li><a class="def" href="../definitions.html#arithmetic_expansion">Arithmetic expansion</a>
+            where the text inside <span class="char">$(( ))</span> is treated as an
+            arithmetic expression ...
+        </li>
+        <li>and the result of evaluating that expression replaces <span class="char">$(( ))</span> ...</li>
+        <li>and everything inside it
+            <pre>
+    $ echo <span class="red">$(( 5 + 4 ))</span>
+    <span class="red">9</span></pre>
+        </li>
+        <li>Inside the arithmetic expression itself ...</li>
+        <li>you do not have to use a dollar sign, <span class="char">$</span> ...</li>
+        <li>to get the value of a variable
+    <pre>
+    $ echo $a $b
+    5 3
+    
+    $ echo $(( <span class="red">a * b</span>))
+    15</pre>
+        </li>
+    </ul>
+
+    <h4 class="topic" id="command_substitution">Command Substitution</h4>
+    <ul class="flat">       
+        <li>After arithmetic expansion, <code>bash</code> performs command substitution</li>
+        <li>In command substitution, a command is run in a sub-shell ...</li>
+        <li>and the output of that command ...</li>
+        <li>replaces the command itself</li>
+        <li>Command substitution uses the following format
+    <pre>
+    <span class="format">$(COMMAND)</span></pre>
+        </li>
+        <li>Where COMMAND is any valid Unix command</li>
+        <li>To set a variable to the current time and date ...</li>
+        <li>I could use
+            <pre>
+    $ today=<span class="red">$(date)</span>
+    
+    $ echo $today
+    <span class="red">Tue Oct 25 17:00:07 EDT 201</span>1</pre>
+        </li>
+        <li>There is an alternate format for command substitution</li>
+        <li>You can place the command to be run ...</li>
+        <li> within backticks, <span class="char">` `</span>
+            <pre>
+    $ ls -l <span class="red">`</span>which bash<span class="red">`</span>
+    -rwxr-xr-x 1 root root 954896 2011-03-31 17:20 /bin/bash</pre>
+        </li>
+        <li>Before running <code>ls</code>, <code>bash</code> first runs the command
+            <pre>
+    which bash</pre>
+        </li>
+        <li>And replaces the command with the value returned by <code>which</code></li>
+        <li><code>ls</code> can now take <span class="path">/bin/bash</span> as its argument</li>
+    </ul>
+    
+    <h4 class="topic" id="word_splitting">Word Splitting</h4>
+    <ul class="flat">       
+		        <li>After command substitution, Bash performs word splitting</li>
+        <li>When Bash gets a command line ...</li>
+        <li>it spits the text into tokens</li>
+        <li>Tokens are strings of characters ..</li>
+        <li>usually separated by whitespace
+            <ul>
+                <li class="flat">Spaces</li>
+                <li class="flat">Tabs</li>
+                <li class="flat">Newlines (carriage returns)</li>
+            </ul>
+        </li>
+        <li>I have found a small script which demonstrates word splitting ...</li>
+        <li>by showing all command arguments
+        		<pre>
+$ args.sh foo bar bletch 
+3 args: [foo] [bar] [bletch]</pre>
+        </li>
+        <li>Word splitting does not work ...</li>
+        <li>when strings are quoted
+        		<pre>
+$ args.sh 'foo bar bletch' 
+1 args: [foo bar bletch]
+
+$ args.sh "foo bar bletch"
+1 args: [foo bar bletch]</pre>
+        </li>
+        <li>But word splitting does work ...</li>
+        <li>with both command substituion
+        		<pre>
+$ args.sh $(date)
+6 args: [Wed] [Apr] [12] [16:19:17] [EDT] [2017]</pre>
+        </li>
+        <li>and variable substitution
+        		<pre>
+$ cheer="Let's go Red Sox!"
+
+$ args.sh $cheer
+4 args: [Let's] [go] [Red] [Sox!]</pre>
+        </li>
+        <li>But there are some situations ...</li>
+        <li>where you want another character to separate tokens</li>
+        <li>You can do this using the Unix keyword variable <span class="iden">IFS</span></li>
+        <li><span class="iden">IFS</span> stands for <b>I</b>nternal <b>F</b>ield <b>S</b>eparator</li>
+        <li>If you give <span class="iden">IFS</span> a value ...</li>
+        <li>say the colon <span class="char">:</span> ...</li>
+        <li>Bash will be use this character to separate tokens
+			<pre>
+$ args.sh $PATH
+1 args: [/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/lib/oracle/12.1/client64/bin:/home/ghoffman/bin/shell:/home/ghoffman/bin/python/umb:/home/ghoffman/bin:/home/ghoffman/bin/shell:/home/ghoffman/bin/python/umb]
+
+$ IFS=:
+
+$ args.sh $PATH
+15 args: [/usr/local/sbin] [/usr/local/bin] [/usr/sbin] [/usr/bin] [/sbin] [/bin] [/usr/games] [/usr/local/games] [/snap/bin] [/usr/lib/oracle/12.1/client64/bin] [/home/ghoffman/bin/shell] [/home/ghoffman/bin/python/umb] [/home/ghoffman/bin] [/home/ghoffman/bin/shell] [/home/ghoffman/bin/python/umb]</pre>
+        </li>
+        <li>Word splitting will not be on the final</li>
+    </ul>
+    
+    <h4 class="topic" id="pathname_expansion">Pathname Expansion</h4>
+    <ul class="flat">       
+        <li>After word splitting, <code>bash</code> performs pathname expansion</li>
+        <li>Pathname expansion is where you use 
+            <a class="def" href="../definitions.html#bash_meta-characters">meta-characters</a> ...
+        </li>
+        <li>to specify one or more pathnames</li>
+        <li>The metacharacters are used to create patterns ...</li>
+        <li>that are called 
+            <a class="def" href="../definitions.html#ambiguous_file_reference">ambiguous file references</a>
+        </li>
+        <li>The meta-characters are
+            <ul>
+                <li class="flat"><span class="char">?</span></li>
+                <li class="flat"><span class="char">*</span></li>
+                <li class="flat"><span class="char">[ ]</span></li>
+            </ul>
+        </li>
+    </ul>
+
+    <h4 class="topic" id="process_substitution">Process Substitution</h4>
+    <ul class="flat">       
+        <li>After pathname expansion, <code>bash</code> performs 
+            <a class="def" href="../definitions.html#process_substitution">process substitution</a>
+        </li>
+        <li>Process substitution allows you to create a file on the fly</li>
+        <li>You use a subprocess running a program to create lines of text</li>
+        <li>These lines of text can then be used at the command line ...</li>
+        <li>as if they were contained in an ordinary file</li>
+        <li>Process substitution uses the following format
+    <pre>
+    <span class="format">&lt;(COMMAND)</span></pre>
+        </li>
+        <li>The output of the command that appears between the parenthesis ...</li>
+        <li>is placed in a Unix structure called a named pipe</li>
+        <li>When Unix performs process substitution it creates a process to run a command ...</li>
+        <li>and sends the output of that command to a named pipe</li>
+        <li>Then Unix redirects input ...</li>
+        <li>to come from the named pipe</li>
+        <li>We can use named pipes to compare the contents of two directories
+            <pre>
+    $ diff -y <span class="red">&lt;(ls -1 tia777/ce)</span> <span class="red">&lt;(ls -1 jgreen/ce)</span>
+    ce1                             ce1
+    ce10                            ce10
+    ce11                                  &lt;
+    ce2                             ce2
+    ce3                             ce3
+    ce4                             ce4
+    ce5                             ce5
+    ce6                             ce6
+    ce7                             ce7
+    ce8                             ce8
+    ce9                             ce9</pre>
+        </li>
+        <li>Here we have two <code>ls</code> commands ...</li>
+        <li>each running in their own subshell ...</li>
+        <li>and each one sending output ...</li>
+        <li>to its own named pipe</li>
+        <li>We can then run <code>diff</code> to look for differences ...</li>
+        <li>in these two "files"</li>
+        <li>Process substitution will not be on the final</li>
+    </ul>
+	
+	<h3 class="section">New Material</h3>
+	
+	<h4 class="topic" id="shell_scripts">Shell Scripts</h4>
+    <ul class="flat">       
+        <li>Most of the rest of this course will deal with shell scripts</li>
+        <li>Shell scripts are a series of Unix commands placed in a file</li>
+        <li>You can run a shell script like any other program</li>
+        <li>Shell scripts allow you to automate certain routine operations</li>
+        <li>Much of the work in Unix system administration is done using shell scripts</li>
+        <li>Shell script programming is <b>not</b> like other kinds of programming</li>
+        <li>Unix commands are not uniform in the way they work ...</li>
+        <li>because each was developed separately by different people</li>
+        <li>The <a class="def" href="../definitions.html#control_structure">control structures</a> used in shell scripts ...</li>
+        <li>are different from those in programming languages</li>
+        <li>You should only write shell scripts for simple tasks</li>
+        <li>If you need if statements or loops to write a script ...</li>
+        <li>use a scripting language like Perl or Python</li>
+        <li>But you should know how to read scripts</li>
+        <li>When you run a shell script ...</li>
+        <li>your current shell creates a sub-shell to run the script</li>
+        <li>You must have <b>both read and execute permissions</b> ...</li>
+        <li>to run a script without using the <code>bash</code> command</li>
+    </ul>
+    
+    <h4 class="topic" id="shell_script_control_structures">Shell Script Control Structures</h4>
+    <ul class="flat">       
+        <li>Control structures allow commands in a script ...</li>
+        <li>to be executed in an different order</li>
+        <li>Without control structures ...</li>
+        <li>a shell script could only start at the beginning ...</li>
+        <li>and go to the end ...</li>
+        <li>once ...</li>
+        <li>which would limit what it could do</li>
+        <li>There are two basic types of control structures
+            <ul>
+                <li class="flat">Loops</li>
+                <li class="flat">Conditionals</li>
+            </ul>
+        </li>
+        <li>Loops are constructs that repeat a number of statements ...</li>
+        <li>until some condition is reached</li>
+        <li>Conditionals are statements where different things happen ...</li>
+        <li>based on some condition ...</li>
+        <li>which is either true or false</li>
+        <li>In Bash the conditional control structure is the  <code>if</code> statement</li>
+        <li>Shell scripts can have both loops and conditionals</li>
+    </ul>
+    
+    <h4 class="topic" id="if_then_construct">The <code>if</code> ... <code>then</code> Construct</h4>
+    <ul class="flat">       
+        <li>The most basic conditional is the <code>if ... then</code> construction which has the format
+            <pre>
+    <span class="format">if COMMAND
+    then
+        COMMAND_1
+        COMMAND_2
+        ...
+    fi</span></pre>
+        </li>
+        <li>where COMMAND is <b>any</b> Unix command ...</li>
+        <li>that returns an <a class="def" href="../definitions.html#exit_status">exit status</a></li>
+        <li>and COMMAND_1, COMMAND_2, ..., are a series of Unix commands</li>
+        <li>The most commonly used command following if is  <code>test</code></li>
+        <li>It is used to test the truth of some condition</li>
+        <li>Let's look at an example
+            <pre>
+    $ cat if_1.sh
+    #! /bin/bash
+    ## 
+    ## a shell script that demonstrates the Unix if construct
+
+    echo -n "word 1: " 
+    read word1
+    echo -n "word 2: " 
+    read word2
+
+    if <span class="red">test "$word1" = "$word2"</span>
+    then
+        echo The two words match
+    fi
+    echo End of script
+    
+    $ ./if_1.sh
+    word 1: foo
+    word 2: foo
+    The two words match
+    End of script
+    
+    $ ./if_1.sh
+    word 1: foo
+    word 2: bar
+    End of script</pre>
+        </li>
+        <li><code>read</code> is a utility that takes input from standard input ...</li>
+        <li>and stores that value in the variable ...</li>
+        <li>given to it as an argument</li>
+        <li>Notice that <code>echo</code> was used with the -n option</li>
+        <li>The -n option prevents echo from sending a newline character ...</li>
+        <li>which would move down to the next line</li>
+        <li>This allows <code>echo</code> print a prompt ...</li>
+        <li>for input that will be read by <code>read</code></li>
+        <li>The statements that are run if the condition is true ...</li>    
+        <li>lie between the <code>then</code> and <code>fi</code> keywords</li>    
+        <li><code>then</code> must either be on a separate line from <code>if</code> ...</li>
+        <li>or on the same line, but separated by a semi-colon
+            <pre>
+    $ cat if_2.sh
+    #! /bin/bash
+    ## 
+    ## a shell script that demonstrates the Unix if construct
+
+    echo -n "word 1: " 
+    read word1
+    echo -n "word 2: " 
+    read word2
+
+    if test "$word1" = "$word2" <span class="red">; then</span>
+        echo The two words match
+    fi
+    echo End of script
+    
+    $ ./if_2.sh
+    word 1: foo
+    word 2: foo
+    The two words match
+    End of script</pre>
+        </li>
+        <li>The keyword <code>fi</code> must close the conditional statement</li>
+        <li>If you don't you will get an error</li>
+        <li><code>fi</code> is <code>if</code> spelled backwards</li>
+    </ul>
+    
+    <h4 class="topic" id="test"><code>test</code></h4>
+    <ul class="flat">    
+        <li><code>test</code> is a command that is often used in an <code>if</code> statement</li>
+        <li>But while <code>test</code>  evaluates the expression that follows ...</li>
+        <li>it does not return true or false ...</li>
+        <li>as you would expect</li>
+        <li>In Unix, everything is text ...</li>
+        <li>unless it is enclosed in double parentheses, <span class="char">((  ))</span> ...</li>
+        <li>in which case the contents are treated as numbers</li>
+        <li>Most programming languages have boolean variables </li>
+        <li>A boolean variable can only have one of two values
+            <ul class="flat">       
+                <li class="flat">True</li>
+                <li class="flat">False</li>
+            </ul>
+        </li>
+        <li>But Unix does not have boolean values</li>
+        <li>So how can <code>test</code> return a value ...</li>
+        <li>that can be used in an <code>if</code> statement?</li>
+        <li>It returns a value through the status code</li>
+        <li>Every program on Unix must return a status code ...</li>
+        <li>before it finishes running</li>
+        <li>If the program runs without a hitch ...</li>
+        <li>it returns a status code of 0</li>
+        <li>If the program runs into a problem ...</li>
+        <li>it returns a status code of a number greater than 0</li>
+        <li>When you run <code>test</code> it evaluates an expression ...</li>
+        <li>and returns 0 if the expression is true ...</li>
+        <li>and 1 if the expression is false</li>
+        <li>To a programmer like me, this is weird</li>
+        <li>In most scripting languages 0 is false ...</li>
+        <li>and any value greater than 0 is true</li>
+        <li>But this bit of weirdness is useful when writing scripts ...</li>
+        <li>because it means we are not limited to using <code>test</code> ...</li>
+        <li>in an <code>if</code> statement</li>
+        <li>Every Unix command returns a status code ...</li>
+        <li>so we can use <b>any</b> Unix command in an <code>if</code> statement
+            <pre>
+    $ cat if_3.sh
+    #! /bin/bash
+    ## 
+    ## a shell script that demonstrates the Unix if construct
+
+    if <span class="red">cd ~ghoffman</span>
+    then
+        echo was able to go to ~ghoffman
+    fi
+    echo End of script
+    
+    $ ./if_3.sh
+    was able to go to ~ghoffman
+    End of script</pre>
+        </li>   
+        <li>This means that a shell script could run a command ...</li>
+        <li>that might fail ...</li>
+        <li>and then take appropriate action if it does</li>   
+        <li>In <code>bash</code>, <code>test</code> is a built-in, a part of the shell</li>
+        <li><code>test</code> is also a stand alone program
+        <pre>
+    $ which test
+    /usr/bin/test</pre>
+        </li>
+        <li><code>bash</code> will always use the built-in version of <code>test</code> ...</li>
+        <li>unless you specify the absolute pathname ...</li>
+        <li>of the executable file</li>
+        <li>The two versions differ slightly</li>
+        
+    </ul>        
+        
+    <h4 class="topic" id="test_operators">The <code>test</code> operators</h4>
+    <ul>
+        <li><code>test</code> understands a number of operators</li>
+        <li>The operators test for different conditions</li>
+        <li>When used with two arguments ...</li>
+        <li>the operators are placed between the arguments</li>
+        <li>Some operators work only on numbers
+            <blockquote>
+                <table>
+                    <tr>
+                        <th align="left">Operator</th><th align="left">Condition Tested</th>  
+                    </tr>
+                    <tr>
+                        <th><span class="red">-eq</span></th><td>Two numbers are equal</td>   
+                    </tr>
+                    <tr>
+                        <th><span class="red">-ne</span></th><td>Two numbers are not equal</td>   
+                    </tr>
+                    <tr>
+                        <th><span class="red">-ge</span></th><td>The first number is greater than, or equal to, the second</td>   
+                    </tr>
+                    <tr>
+                        <th><span class="red">-gt</span></th><td>The first number is greater than the second</td> 
+                    </tr>
+                    <tr>
+                        <th><span class="red">-le</span></th><td>The first number is less than, or equal to, the second</td>  
+                    </tr>
+                    <tr>
+                        <th><span class="red">-lt</span></th><td>The first number is less than the second</td>    
+                    </tr>
+                </table>
+            </blockquote>
+        </li>
+        <li><code>test</code> uses the <b>different</b> operators when comparing strings
+            <blockquote>
+                <table>
+                    <tr>
+                        <th align="left">Operator</th><th align="left">Condition Tested</th>
+                    </tr>
+                    <tr>
+                        <th><span class="red">=</span></th><td>When placed between strings, are the two strings the same</td> 
+                    </tr>
+                    <tr>
+                        <th><span class="red">!=</span></th><td>When placed between strings, are the two strings not the same</td>    
+                    </tr>
+                </table>
+            </blockquote>
+        </li>
+        <li>Note that <code>test</code> uses symbols (<span class="char">=</span>) when comparing <b>strings</b></li>
+        <li>But letters preceded by a dash (<span class="char">-eq</span>) when comparing <b>numbers</b></li>
+        <li>There are a couple of operators that apply only to a <b>single string</b>
+            <blockquote>
+                <table>
+                    <tr>
+                        <th align="left">Operator</th><th align="left">Condition Tested</th>
+                    </tr>
+                    <tr>
+                        <th><span class="red">-n</span></th><td>Whether the string given as an argument has a length greater than 0</td>  
+                    </tr>
+                    <tr>
+                        <th><span class="red">-z</span></th><td>Whether the string given as an argument has a length of 0</td>    
+                    </tr>
+                </table>
+            </blockquote>
+        </li>
+        <li>In these cases, the operator comes before the string</li>
+        <li>Other operators apply to files and directories
+            <blockquote>
+                <table>
+                    <tr>
+                        <th align="left">Operator</th><th align="left">Condition Tested</th>
+                    </tr>
+                    <tr>
+                        <th><span class="red">-d</span></th><td>Whether the argument is a directory</td>  
+                    </tr>
+                    <tr>
+                        <th><span class="red">-e</span></th><td>Whether the argument exits as a file or directory</td>    
+                    </tr>
+                    <tr>
+                        <th><span class="red">-f</span></th><td>Whether the argument is an ordinary file (not a directory)</td>   
+                    </tr>
+                    <tr>
+                        <th><span class="red">-r</span></th><td>Whether the argument exists and is readable</td>  
+                    </tr>
+                    <tr>
+                        <th><span class="red">-s</span></th><td>Whether the argument exists and has a size greater than 0</td>    
+                    </tr>
+                    <tr>
+                        <th><span class="red">-w</span></th><td>Whether the argument exists and is writable</td>  
+                    </tr>
+                    <tr>
+                        <th><span class="red">-x</span></th><td>Whether the argument exists and is executable</td>    
+                    </tr>
+                </table>
+            </blockquote>
+        </li>
+        <li>There are two additional operators that <code>test</code> uses when evaluating two test expressions</li>
+        <li>They are placed between the two expressions
+            <blockquote>
+                <table>
+                <tr>
+                    <th align="left">Operator</th><th align="left">Condition Tested</th>
+                    </tr>
+                    <tr>
+                        <th><span class="red">-a</span></th><td>Logical AND meaning both expressions must be true</td>    
+                    </tr>
+                    <tr>
+                        <th><span class="red">-o</span></th><td>Logical OR meaning either of the two expressions must be true</td>    
+                    </tr>
+                </table>
+            </blockquote>
+        </li>
+        <li>The exclamation mark, <span class="char">!</span> , is a negation operator</li>
+        <li>It changes the value of the logical expression that follows it
+            <ul class="flat">       
+                <li class="flat">It changes a false expression to true</li>
+                <li class="flat">And a true expression to false</li>
+            </ul>
+        </li>
+        <li>I find it <b>very</b> hard to remember these operators</li>
+        <li>This is why I urged you <b>not</b> to write anything but the simplest shell scripts</li>
+        <li>If you need to write a script that uses conditionals ...</li>
+        <li>do it in a real scripting language ...</li>
+        <li>like Perl or Python</li>
+    </ul>
+    
+    <h3 class="section">Attendance</h3>
+    
+    <h3 class="section">Class Quiz</h3>
+    
+
+	<footer>
+		<a href="class_notes_it244.html" class="spacer">Class Notes</a>
+		<a href="class_notes_index_it244.html" class="spacer">Class Notes Index</a>
+	</footer>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/22_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:42 GMT -->
+</html>

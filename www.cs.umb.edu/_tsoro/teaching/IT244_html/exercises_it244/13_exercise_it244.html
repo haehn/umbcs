@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/13_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">    
+    <title> IT 244: Introduction to Linux/Unix - Class 13 Exercise</title>
+</head>
+<body>
+	<header>
+		<h2> IT 244: Introduction to Linux/Unix <br>
+		    Class 13 Exercise
+		</h2>	
+	</header>
+
+	<h3>Log in to <span class="host">users3.cs.umb.edu</span></h3>
+    <ul>
+    	<li><span class="under">Run the ssh client</span><br><br>
+        	Connect to <span class="host">users3.cs.umb.edu</span>.
+        </li>
+    </ul>
+	
+	<h3>Directory for this Exercise</h3>
+    <ul>
+        <li><span class="under">Go to your <span class="path">ex</span> directory</span>
+            <pre>
+    cd  ~/it244/ex</pre>
+        </li>
+        <li><span class="under">Create an <span class="path">ex13</span> directory</span><br>
+            <pre>
+    mkdir  ex13</pre>
+        </li>       
+        <li><span class="under">Go to your <span class="path">ex13</span> directory</span><br>
+            <pre>
+    cd  ex13</pre>
+        </li>
+    </ul>
+	
+    <h3>Running a Command in the Background</h3>
+    <ul>
+        <li><span class="under">Copy <span class="path">bother.sh</span> to your <span class="path">ex13</span> directory</span><br>
+            <pre>
+    cp  ~tsoro/course_files/it244_files/bother.sh  <b>.</b></pre>
+        </li>
+        <li><span class="under">Run <span class="path">bother.sh</span> and watch it work</span><br>
+            <pre>
+    ./bother.sh</pre>
+        </li>
+        <li><span class="under">Stop this program</span><br>
+            <pre>
+    Control  C</pre>
+        </li>
+        <li><span class="under">Run this program again, but this time in the background</span><br>
+            <pre>
+    ./bother.sh  &amp;</pre>
+            The number in brackets is the job number. The second number
+            is the process number of the first process in the job.
+            <br><br>
+        </li>
+        <li><span class="under">Run <code>jobs</code></span><br>
+            <pre>
+    jobs</pre>
+        <code>jobs</code> shows you the job number of all running jobs, their
+        status, and the command line that created the job.
+        <br><br>
+        </li>
+        <li><span class="under">Run <code>ps</code></span><br>
+            <pre>
+    ps</pre>
+        <span class="path">bother.sh</span> is a simple script containing a loop that never ends.
+        Inside the loop, it sleeps for 5 seconds and then prints something.
+        When <span class="path">bother.sh</span> calls <code>sleep</code>, it initiates a subprocess, which you
+        see beneath <span class="path">bother.sh</span> in the listing.
+        </li>
+    </ul>
+    
+    <h3>Bringing a Background Job to the Foreground</h3>
+    <ul>
+        <li><span class="under">Bring <span class="path">bother.sh</span> to the foreground</span><br>
+            <pre>
+    fg</pre>
+            You don't have to supply a job number because there is only
+            background job.
+            <br><br>
+        </li>
+        <li><span class="under">Suspend this job</span><br>
+            <pre>
+    Control  Z</pre>
+        </li>
+        <li><span class="under">Run <code>jobs</code></span><br>
+            <pre>
+    jobs</pre>
+        The job still exists, but it is suspended.
+        <br><br>
+        </li>
+        <li><span class="under">Run <code>ps</code></span><br>
+            <pre>
+    ps</pre>
+        Both <span class="path">bother.sh</span> and it's <code>sleep</code> subprocess are still there.
+        <br><br>
+        </li>
+        <li><span class="under">Send the job to the background</span><br>
+            <pre>
+    bg</pre>
+            Again, since there is no other job, you do not have to supply
+            a job number as an argument.
+            <br><br>
+        </li>
+        <li><span class="under">Run <code>jobs</code> again</span><br>
+            <pre>
+    jobs</pre>
+            The job is now in the background and has resumed running.
+        </li>
+    </ul>
+    
+    <h3>Killing a Background Job</h3>
+    <ul>
+        <li><span class="under">Run <code>jobs</code> to see the job number</span><br>
+            <pre>
+    jobs</pre><br><br>
+        </li>
+        <li><span class="under">Use the job number to kill the job</span><br>
+            <pre>
+    kill  %JOB_NUMBER</pre>
+    			<span class="red">JOB_NUMBER</span> is the number that the <code>jobs</code> command showed you.
+    			<br><br>
+        </li>
+        <li><span class="under">Run <code>jobs</code> to see what happened</span><br>
+            <pre>
+    jobs</pre>
+            The job has been terminated.
+            <br><br>
+        </li>
+        <li><span class="under">Run <span class="path">bother.sh</span> in the background one more time</span><br>
+            <pre>
+    ./bother.sh  &amp;</pre>
+        </li>
+        <li><span class="under">Run <code>ps</code> to get the process number for <span class="path">bother.sh </span></span><br>
+            <pre>
+    ps</pre>
+        </li>
+        <li><span class="under">Use this process number to kill the job</span><br>
+            <pre>
+    kill  PROCESS_ID</pre>
+    	<span class="red">PROCESS_ID</span> is the process ID of <span class="path">bother.sh</span>.
+    		<br><br>
+        </li>
+        <li><span class="under">Run <code>jobs</code> to see what happened</span><br>
+            <pre>
+    jobs</pre>
+            The job has been terminated.
+            <br><br>
+        </li>
+        <li><span class="under">Run <code>ps</code> to see your running processes</span><br>
+            <pre>
+    ps</pre>
+            <span class="path">bother.sh</span> and its subprocess are gone.
+            <br><br>
+        </li>
+    </ul>
+    
+    <h3>Bash Script for this Exercise</h3>
+    <ul>
+		<li><span class="under">There is no script for this Class Exercise </span><br>
+		</li>
+    </ul>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/13_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+</html>

@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/linux/unix_cs_students.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:52:11 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../IT244_html/class_notes.css">
+    <title>Basic Unix for Computer Science Students</title>
+</head>
+<body>
+    <header>
+        <h2>Basic Unix for Computer Science Students</h2>
+    </header>
+
+    <h3 class="section">Topics</h3>
+    <ul class="flat">
+        <li class="flat"><a href="#basic_unix_commands">Basic Unix Commands</a></li>
+        <li class="flat"><a href="#home_directory">Your Home Directory</a></li>
+        <li class="flat"><a href="#navigation">Navigating the Hierarchical File Systems</a></li>
+        <li class="flat"><a href="#hidden_filenames">Hidden Filenames</a></li>
+        <li class="flat"><a href="#dot_&dot_dot">The <span class="char">.</span> and <span class="char">..</span> Directory Entries</a></li>
+        <li class="flat"><a href="#pathnames">Pathnames</a></li>
+        <li class="flat"><a href="#absolute_pathnames">Absolute Pathnames</a></li>
+        <li class="flat"><a href="#tilde">Tilde (<span class="char">~</span>) in Pathnames</a></li>
+        <li class="flat"><a href="#relative_pathnames">Relative Pathnames</a></li>
+        <li class="flat"><a href="#relative_pathnames_current_dir">Relative Pathnames in Your Current Directory</a></li>
+        <li class="flat"><a href="#relative_pathnames_descendent">Relative Pathnames in a Subdirectory</a></li>
+        <li class="flat"><a href="#relative_pathnames_ancestor">Relative Pathnames above the Current Directory</a></li>
+        <li class="flat"><a href="#relative_pathnames_other">Relative Pathnames Neither above Nor below the Current Directory</a></li>
+        <li class="flat"><a href="#shell_variables">Shell Variables</a></li>
+        <li class="flat"><a href="#local_variables">Local Variables</a></li>
+        <li class="flat"><a href="#global_variables">Global Variables</a></li>
+        <li class="flat"><a href="#keyword_shell_vriables">Keyword Shell Variables</a></li>
+        <li class="flat"><a href="#user_created_variables">User-created Variables</a></li>
+        <li class="flat"><a href="#path">The <span class="iden">PATH</span> System Variable</a></li>
+        <li class="flat"><a href="#access_permissions">Access Permissions</a></li>
+        <li class="flat"><a href="#viewing_permissions">Viewing Permissions</a></li>
+        <li class="flat"><a href="#chmod"><code>chmod</code></a></li>
+        <li class="flat"><a href="#chmod_numeric">Using <code>chmod</code> with Numeric Arguments</a></li>
+    </ul>
+    
+    <h4 class="topic" id="basic_unix_commands">Basic Unix Commands</h4>
+    <ul class="flat">
+        <li>To see the contents of your current directory, type
+            <pre>
+<span class="format">ls</span></pre>
+        </li>
+        <li>To go to a new directory, use the <code>cd</code> command</li>
+        <li><code>cd</code> stands for <b>c</b>hange <b>d</b>irectory</li>
+        <li>Follow <code>cd</code> with the name or address of the directory you want to enter
+            <pre>
+<span class="format">cd  NAME_OR_ADDRESS_OF_DIRECTORY</span></pre>
+        </li>
+        <li>A directory is the same thing as a folder</li>
+        <li>Whenever you go to a new directory ...</li>
+        <li>its a good idea to look at the contents of that directory ...</li>
+        <li>using the <code>ls</code> command</li>
+        <li>The <code>pwd</code> command will tell you your current directory</li>
+        <li>Use <code>pwd</code> without any arguments
+            <pre>
+<span class="format">pwd</span></pre>
+        </li>
+
+        <li><code>pwd</code> stands for <b>p</b>rint <b>w</b>orking <b>d</b>irectory</li>
+        <li>Use <code>pwd</code> whenever you are not sure of your current directory</li>
+        <li>To create a new directory, use <code>mkdir</code> followed by the directory name
+            <pre>
+<span class="format">mkdir  DIRECTORY_NAME</span></pre>
+        </li>
+        <li>To remove a file, use <code>rm</code>
+            <pre>
+<span class="format">rm  FILENAME</span></pre>
+        </li>
+        <li><code>rm</code> stands for <b>r</b>e<b>m</b>ove </li>
+        <li>To removed a directory user <code>rmdir</code>
+            <pre>
+<span class="format">rmdir  DIRECTORY_NAME</span></pre>
+        </li>
+        <li>The directory <b>must be empty</b> or <code>rmdir</code> will not work</li>
+        <li>To move a file use <code>mv</code>
+            <pre>
+<span class="format">mv  FILENAME  NEW_DIRECTORY</span></pre>
+        </li>
+        <li><code>mv</code> stands for <b>m</b>o<b>v</b>e</li>
+        <li>You also use <code>mv</code> to change the name of a file or directory
+            <pre>
+<span class="format">mv  CURRENT_NAME  NEW_NAME</span></pre>
+        </li>
+        <li>To see the contents of a file use <code>cat</code>
+            <pre>
+<span class="format">cat FILENAME</span></pre>
+        </li>
+        <li><code>cat</code> stands for con<b>cat</b>enate </li>
+        <li>Check the <a href="unix_essentials.html">Unix Essentials</a> page for more information</li>
+    </ul>
+    
+    <h4 class="topic" id="home_directory">Your Home Directory</h4>
+    <ul class="flat">       
+        <li>Whenever you log in to a Unix host, you will always find yourself in your home directory</li>
+        <li>This a directory that belongs to your Unix account only</li>
+        <li>You have full control of permissions within this directory</li>
+        <li>If you use <code>cd</code> with no arguments, it will take you to your home directory:
+        <pre>
+$ cd
+$ pwd
+/home/ghoffman</pre>
+        </li>
+        <li>Your home directory contains a number of hidden files which customize your environment, like .forward</li>
+        <li>On most Unix systems, home directories will be located inside the /home directory</li>
+        <li>On a Mac, home directories appear inside /Users</li>
+    </ul>
+    
+    <h4 class="topic" id="navigation">Navigating the Hierarchical File Systems</h4>
+    <ul class="flat">       
+        <li>Any file or directory in the filesystem will be one of four positions relative to your current directory</li>
+        <li>It can be inside your current directory</li>
+        <li>It can be below your current directory</li>
+        <li>It can be above your current directory</li>
+        <li>It can be off to the side of your current directory</li>
+        <li>In this last case, you must go up before you can go down to reach this file</li>
+    </ul>
+    <img src="../images/directory_paths.html" height="50%"/>  
+    
+    <h4 class="topic" id="hidden_filenames">Hidden Filenames</h4>
+    <ul class="flat">       
+        <li>A file whose filename begins with a period (<span class="char">.</span>) is a "hidden" or "invisible" file</li>
+        <li><code>ls</code> does not display these files unless you use the -a option</li>
+        <li>You have already encountered such files in the .forward and .plan files</li>
+        <li>Two special hidden files <span class="char">.</span> and <span class="char">..</span> appear in every directory:
+        <pre>
+    $ ls -a
+    .  ..  hw3  work</pre></li>
+    <li>We'll discuss them shortly</li>
+    </ul>
+
+    <h4 class="topic" id="dot_&dot_dot">The <span class="char">.</span> and <span class="char">..</span> Directory Entries</h4>
+    <ul class="flat">       
+        <li>Every directory has at least two entries <span class="char">.</span> and <span class="char">..</span> </li>
+        <li>When a new directory is created, these are the first two entries</li>
+        <li><span class="char">.</span> stands for the current directory</li>
+        <li><span class="char">..</span> stands for the parent directory of your current directory</li>
+        <li><span class="char">..</span> is the directory immediately above your current location:
+        <pre>
+$ pwd
+/home/ghoffman
+$ cd ..
+$ pwd
+/home</pre>
+        </li>
+	    <li><span class="char">.</span> is most often used in two circumstances
+	       <ul class="flat">
+	           <li class="flat">To run a program in your current directory</li>
+	           <li class="flat">To move or copy a file to your current directory</li>
+	       </ul>
+	       <pre>
+$ ls
+it244  notes.txt  work  work2
+$ cd work
+$ ls
+bletch.txt  foo.txt
+$ cp ../notes.txt .
+$ ls
+bletch.txt  foo.txt  notes.txt</pre>
+            </li>
+    </ul>
+    
+    <h4 class="topic" id="pathnames">Pathnames</h4>
+    <ul class="flat">       
+        <li>Every file has a pathname which is used to access the file</li>
+        <li>A pathname has two components: the name of the file and a path to reach the file</li>
+        <li>A pathname is like an address on a letter: a name and directions to get there</li>
+        <li>The name of the file is always at the end of a pathname</li>
+        <li>What comes before the filename is the path to the directory that holds the file</li>
+        <li>Within a pathname, a slash (/) to the right of a name indicates that the 
+            name refers to a directory</li>
+        <li>When a path consists of several directories, a slash (/) separates the names of each directory</li>
+        <li>There are two types of pathnames: absolute and relative</li>
+    </ul>
+            
+    <h4 class="topic" id="absolute_pathnames">Absolute Pathnames</h4>
+    <ul class="flat">       
+        <li>The top of the filesystem is called the root</li>
+        <li>The root is represented by a single slash character (/)</li>
+        <li>It can stand alone or appear as the first character before a directory name</li>
+        <li>An absolute path is a list of directories, starting with the root, and ending with the directory that contains 
+            the file</li>
+        <li>When you add the filename to the end of an absolute path, you have an absolute pathname</li>
+        <li>For example, the absolute pathname of the .bash_profile file in my home directory is /home/ghoffman/.bash_profile</li>
+        <li>This means that my home directory,  "ghoffman", is under the directory named "home", which, in turn, is under root (/)</li>       
+        <li>The advantage of an absolute pathname is that it can be used from any part of the filesystem</li>
+        <li>It does not depend on your current directory</li>
+        <li>The disadvantage is that absolute pathnames tend to be long</li>
+        <li>It is easy to make a mistake typing an absolute pathname</li>
+        <li>An absolute pathname <b>always</b> begins with either a slash (/) or a tilde (~)</li>
+    </ul>
+    <img src="images/absolute_pathname.html" height="50%" />
+    
+    <h4 class="topic" id="tilde">Tilde (<span class="char">~</span>) in Pathnames</h4>
+    <ul class="flat">       
+        <li>There is one form of absolute path that is very short</li>
+        <li>This is the tilde character (~)</li>
+        <li>Tilde stands for your home directory</li>
+        <li>This means you can use tilde (~) anywhere you would normally use a path to your home directory:
+            <pre>
+$ pwd
+/home/ghoffman/it244
+$ cd ~
+$ pwd
+/home/ghoffman</pre>
+        </li>
+        <li>When you put a tilde in front of a Unix ID, it stands for the home directory of that account:
+        <pre>
+$ cd ~fsayed
+$ pwd
+/home/fsayed</pre>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="relative_pathnames">Relative Pathnames</h4>
+    <ul class="flat">       
+        <li>Absolute pathnames are useful because you can use them anywhere</li>
+        <li>But they are long and easy to mistype</li>
+        <li>For most purposes, it is easier to use relative pathnames</li>
+        <li>In a relative pathname, the path starts from your current directory</li>
+        <li>In an absolute pathname, the path starts from the root (/)</li>
+        <li>While all absolute pathnames start with a slash (/) or a tilde (~), 
+            relative pathnames <b>never do</b></li>
+        <li>The absence of a slash (/) or a tilde (~) from a pathname, means it
+            is a relative pathname</li>
+        <li>As far as Unix is concerned it makes no difference whether you use and absolute or relative pathname</li>
+        <li>Relative pathnames are more convenient and are most often used</li>
+        <li>There are four types of relative pathnames:
+            <ul class="flat">       
+                <li class="flat">When the file is in your current directory</li>
+                <li class="flat">When the file is in a subdirectory of your current directory</li>
+                <li class="flat">When the file is in a directory that is an ancestor of your current directory</li>
+                <li class="flat">When the file is in a directory that is neither an ancestor or descendant of your current directory</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h4 class="topic" id="relative_pathnames_current_dir">Relative Pathnames in Your Current Directory</h4>
+    <ul class="flat">
+        <li>Using a relative pathname with a file or directory inside your current directory is easy</li>
+        <li>The relative pathname simply consists of the name of the file or directory</li>
+        <li>The "path" part of the relative pathname is empty because what you want to access already inside 
+            your current directory:
+            <pre>
+$ ls
+notes.txt  it244  work  work2
+$ cat notes.txt 
+foo
+foo
+foo to you</pre>
+        </li>
+        <li>Notice that all I need to access the file is the file name</li>
+        <li>It's the same for directories</li>
+    </ul>
+    <img src="images/relative_path_current_directory.html" height="50%"/>
+
+    <h4 class="topic" id="relative_pathnames_descendent">Relative Pathnames in a Subdirectory</h4>
+    <ul class="flat">
+        <li>Things get a little more complicated when you are dealing with a file in a subdirectory</li>
+        <li>Here, you must list every directory between your current directory and the file you want:
+            <pre>
+$ ls work
+bletch.txt  foo.txt  notes.txt
+$ cat work/notes.txt 
+foo
+foo
+foo to you</pre>
+    </li>
+    <li>You must use a slash (<span class="char">/</span>) to separate the names of each directory</li>
+    <li>Notice that there is nothing, no slash (<span class="char">/</span>) or 
+        tilde (<span class="char">~</span>) before the name of the first directory in the path
+    </li>
+    </ul>
+    <img src="images/relative_path_descendent_directory.html" height="50%"/>
+    
+    <h4 class="topic" id="relative_pathnames_ancestor">Relative Pathnames above the Current Directory</h4>
+    <ul class="flat">       
+        <li>When the file or directory is above the current directory you can't list the directory names</li>
+        <li>Instead, you have to use the special <span class="char">..</span> entry in each directory</li>
+        <li>Use one <span class="char">..</span> for each directory up the chain of directories in the path
+            with a slash (<span class="char"><span class="char">..</span></span>) between each <span class="char">..</span>
+            <pre>
+$ pwd
+/home/it244gh/work
+$ ls ../..
+it244gh  jharris  mphamman</pre>
+        </li>
+    </ul>
+    <img src="images/relative_pathname_ancestor_directory.html" height="50%"/>
+        
+    <h4 class="topic" id="relative_pathnames_other">Relative Pathnames Neither above Nor below the Current Directory</h4>
+    <ul class="flat">       
+        <li>What if the file is neither above nor below?</li>
+        <li>Here you have to go up to a common ancestor directory and then go down to the directory that holds the file</li>
+        <li>The path starts with one or more <span class="char">..</span></li>
+        <li>You keep going up until you get to a directory that is an ancestor of your
+            current directory and the file you are trying to reach</li>
+        <li>Once you get to the common ancestor, you go down to the directory that holds the file:
+            <pre>
+$ ls  ../../../courses/it244/f12/ghoffman/
+aavelar   dshiels  GROUP     jharris   mascary   rroessne  tpham
+akeita    erikb    hstevens  jmit      mng       sarjo     zdedo
+clin      estasi   it244gh   justinb1  mphamman  tchonden
+cmanuel1  estasio  jasonlam  lvilla    oyagan    tkellz
+coreygra  fsayed   jchan91   MAIL      rnowak    tnguyen</pre>
+        </li>
+    </ul>
+    <img src="images/relative_pathname_side_directory.html" height="50%"/>
+    
+        <h4 class="topic" id="shell_variables">Shell Variables</h4>
+    <ul class="flat">       
+        <li>A variable is a name that has been given a value</li>
+        <li>Shell variables are variables that can be used in the shell</li>
+        <li>To get the value of a variable put a dollar sign ($) in front of its name:
+        <pre>
+$ echo $PATH
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</pre>
+        </li>
+        <li>Some variables are set and maintained by the shell itself</li>
+        <li>They are called keyword shell variables</li>
+        <li>Or just keyword variables</li>
+        <li>Most of these variable are defined in <span class="path">/etc/profile</span></li>
+        <li>Many of these keyword variables can be changed by the user</li>
+        <li>Other variables are created by the user</li>
+        <li>They are called are called user-created variables</li>
+        <li>The environment in which a variable can be used is called the scope</li>
+        <li>Shell variables have two scopes:
+            <ul class="flat">       
+                <li class="flat">Local</li>
+                <li class="flat">Global</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h4 class="topic" id="local_variables">Local Variables</h4>
+    <ul class="flat">       
+        <li>Local variables only exist in the shell in which they are defined</li>
+        <li>To create a local variable, use the following format:
+            <pre>
+<span class="format">VARIABLE_NAME=VALUE</span></pre>
+        </li>
+        <li>There <b>cannot be any spaces on either side of the equal sign</b> when setting <code>bash</code> variables</li>
+        <li>Here is an example:
+            <pre>
+$ foo=Foo
+
+$ echo $foo
+Foo</pre>
+        </li>
+        <li>Variables are local unless you explicitly make them global</li>
+        <li>If the value assigned to a variable has spaces or tabs, you must quote it:
+            <pre>
+$ hello="Hello there'
+
+$ echo $hello
+Hello there</pre>
+        </li>
+        <li>Local variables only exist in the shell in which they are created</li>
+    </ul>
+
+    <h4 class="topic" id="global_variables">Global Variables</h4>
+    <ul class="flat">       
+        <li>Global variables defined in one shell maintain their values in all subshells created by that shell</li>
+        <li>Global variables are defined in <code>bash</code> by preceding the variable definition with the keyword <code>export</code>:
+            <pre>
+$ echo $foo
+Foo
+
+$ export foo=FOO
+
+$ echo $foo
+FOO</pre>
+        </li>
+        <li>Usually, global variables are declared in a startup file like 
+            <span class="path">.bash_profile</span> or <span class="path">.bashrc</span>
+        </li>
+        <li>The <code>env</code> command, when used without an argument, displays the values of global variables:
+            <pre>
+$ env
+TERM=xterm-color
+SHELL=/bin/bash
+SSH_CLIENT=66.92.76.9 53785 22
+OLDPWD=/home/it244gh
+SSH_TTY=/dev/pts/8
+USER=it244gh
+...</pre>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="keyword_shell_vriables">Keyword Shell Variables</h4>
+    <ul class="flat">       
+        <li>Keyword shell variables, or keyword variables, have special meaning to the shell</li>
+        <li>They have short, mnemonic names</li>
+        <li>When you start a shell, that shell inherits several keyword variables from 
+            the shell that created it.
+        </li>
+        <li>By convention, the names of keyword variables are <b>always capitalized</b></li>
+        <li>Most keyword variables can be changed by the user</li>
+        <li>This is normally done in the startup file <span class="path">.bash_profile</span></li>
+    </ul>
+
+    <h4 class="topic" id="user_created_variables">User-created Variables</h4>
+    <ul class="flat">       
+        <li>User-created variables are any variables you create</li>
+        <li>By convention, the names of user-created variables are lower case:
+            <pre>
+$ foo=Foo
+
+$ echo $foo
+Foo</pre>
+        </li>
+        <li>User-created variables can be either local or global in scope</li>
+    </ul>
+    
+    <h4 class="topic" id="path">The <span class="iden">PATH</span> System Variable</h4>
+    <ul class="flat">       
+        <li>When you run a program by entering a pathname, such as <span class="path">/usr/bin/php</span>,
+            the shell has no difficulty finding the executable file</li>
+        <li>How can the shell know where to find a program file if all it gets is the command name?</li>
+        <li>Programs can be stored anywhere in the filesystem, so how does the shell find the correct file?</li>
+        <li>The answer is it checks a system variable called <span class="iden">PATH</span></li>
+        <li><span class="iden">PATH</span> contains a list of directories to search for an executable file</li>
+        <li>The shell searches each of these directories in turn until it finds an 
+            executable file with the name of the command</li>
+        <li><span class="iden">PATH</span> always has a default value which is created when the system is installed</li>
+        <li>Here is the default value on it244a:
+            <pre>
+$ echo $PATH
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</pre>
+        </li>
+        <li>The absolute pathname of each directory is separated from the next by a colon (<span class="char">:</span>)</li>
+        <li>If the shell reaches the end of the directory listings in <span class="iden">PATH</span> without finding the 
+            command, it will display an error message</li>
+        <li>If the shell finds an executable file but you do not have execute privileges, 
+            it will tell you this in an error message</li>
+        <li>You can modify the <span class="iden">PATH</span> variable in your own Unix environment</li>
+    </ul>
+  
+    <h4 class="topic" id="access_permissions">Access Permissions</h4>
+    <ul class="flat">       
+        <li>All Unix files and directories have access permissions</li>
+        <li>The access permissions allow the owner of a file or directory ...</li>
+        <li>to decide who gets to do what with that file or directory</li>
+        <li>By default, the owner of a file or directory is the user account that created it</li>
+        <li>Every file, directory or device on a Unix filesystem has three types of permissions:
+            <ul class="flat">       
+                <li class="flat">Read</li>
+                <li class="flat">Write</li>
+                <li>Execute</li>
+            </ul>
+        </li>
+        <li>If you have read permission on a file you can look at the data in the file</li>
+        <li>You can run <code>cat</code>, <code>more</code> or <code>less</code> on these files</li>
+        <li>If you only have read permission, you cannot change a file</li>
+        <li>To change a file you need write permission</li>
+        <li>To run a program you must have execute permission</li>
+        <li>Each of the three permissions are set either on off to three classes of users:
+            <ul class="flat">       
+                <li class="flat">The owner</li>
+                <li class="flat">The group</li>
+                <li class="flat">Every other Unix account</li>
+            </ul>
+        </li>
+        <li>Every file or directory has an owner</li>
+        <li>A group is a collection of Unix accounts</li>
+        <li>A group can only be setup by a system administrator</li>
+        <li>Every file or directory is assigned to a group</li>
+        <li>The last class of users is any account that is not the owner or a member of the group</li>
+        <li>Unix calls this class of users "other"</li>
+    </ul>
+
+    <h4 class="topic" id="viewing_permissions">Viewing Permissions</h4>
+    <ul class="flat">       
+        <li>To view the permissions of a file or directory use <code>ls -l</code>:
+            <pre>
+$ ls -l
+total 5
+-rw------- 1 it244gh libuuid 316 2011-09-20 21:32 dead.letter
+lrwxrwxrwx 1 it244gh libuuid  34 2011-09-06 13:21 it244 -&gt; /courses/it244/s12/ghoffman/it244gh
+drwx------ 2 it244gh libuuid 512 2011-09-07 15:03 mail
+drwxr-xr-x 2 it244gh libuuid 512 2011-09-25 15:48 test
+-rw-r--r-- 1 it244gh libuuid  15 2011-09-20 16:18 test.txt</pre>
+        </li>
+        <li>The character in the first column indicates the type of file</li>
+        <li>A dash (-) means an ordinary file</li>
+        <li>The letter "d" indicates a directory</li>
+        <li>The letter "l" indicates a link, which we will discuss in the next class</li>
+        <li>The next three characters indicate the permission of the owner</li>
+        <li>"r" means the owner has read permission</li>
+        <li>"w" means the owner has write (change) permission</li>
+        <li>"x" means the owner has execute (run) permission</li>
+        <li>"-" means the owner does not have the permission that would normally appear in this column</li>
+        <li>The next three characters indicate the permissions of the group</li>
+        <li>The last three characters are the permission of all other accounts</li>
+        <li>After the permissions is a number that indicates the number of links to the file or directory</li>
+        <li>The following column is the owner of the file or directory</li>
+        <li>Next, you will find the group assigned to the file or directory</li>
+        <li>Following this is the size of the file in bytes</li>
+        <li>Next is the date and time the file or directory was created or last modified</li>
+        <li>The last column is the name of the file or directory</li>
+    </ul>
+
+    <h4 class="topic" id="chmod"><code>chmod</code></h4>
+    <ul class="flat">       
+        <li>When a file is created, is has certain default permissions:
+            <pre>
+$ touch test.txt
+$ ls -l test.txt 
+-rw-r--r-- 1 it244gh libuuid 0 2012-09-17 14:40 test.txt</pre>
+        </li>
+        <li>To change these permission, you need the <code>chmod</code> (<b>ch</b>ange <b>mod</b>e ) command</li>
+        <li>Only the owner of a file can do this</li>
+        <li><code>chmod</code> requires two arguments
+            <ul class="flat">       
+                <li class="flat">The permissions you want to grant</li>
+                <li>The name of the file(s) or directory(s) to which the change will be applied</li>
+            </ul>
+        </li>
+        <li>The permission can be specified in two ways
+            <ul class="flat">       
+                <li class="flat">Symbolically</li>
+                <li>Numerically</li>
+            </ul>
+        </li>
+        <li>Symbolic permissions use letters and the plus and minus signs</li>
+        <li>The numeric form uses three digits running from 0 to 7</li>
+        <li>Though the symbolic format seems simpler ...</li>
+        <li>I have found most students do better with the numeric format</li>
+        <li>The numeric format is initially confusing</li>
+        <li>But in my experience, it is the better way to go</li>
+    </ul>
+
+    <h4 class="topic" id="chmod_numeric">Using <code>chmod</code> with Numeric Arguments</h4>
+    <ul class="flat">       
+        <li>The numeric permissions format uses three digits</li>
+        <li>Each digit is a number from 0 to 7</li>
+        <li>The first digit gives the permission of the owner</li>
+        <li>The second digit gives the permissions assigned to the group</li>
+        <li>The third digit gives the permissions for every other account</li>
+        <li>Each of these classes of users must be assigned values for read, write and execute permissions</li>
+        <li>How do you get three pieces of information out of one number?</li>
+        <li>By adding powers of two</li>
+        <li>Each digit is the sum of three other numbers</li>
+        <li>When constructing the number you add:
+            <ul class="flat">       
+                <li class="flat">4 if you want to give read permission</li>
+                <li class="flat">2 if you want to give write permission</li>
+                <li>1 if you want to give execute permission</li>
+            </ul>
+        </li>
+        <li>Notice that all the number are powers of two</li>
+        <li>If we write these values in binary notation:
+            <ul class="flat">       
+                <li class="flat">100 represents 4</li>
+                <li class="flat">010 represents 2</li>
+                <li class="flat">001 represents 1</li>
+            </ul>
+        </li>
+        <li>A single decimal digit from 0 to 7 is represented by 3 binary digits</li>
+        <li>This is how we get three pieces of information out of one digit</li>
+        <li>For example, to give full permissions I would add
+            <ul class="flat">       
+                <li class="flat">4 for read permission</li>
+                <li class="flat">2 for write permission</li>
+                <li class="flat">1 for execute permission</li>
+            </ul>
+        </li>
+        <li>So the total, 7, represents all three permissions</li>
+        <li>Let's look at some other digits</li>
+        <li>6 in binary is 110</li>
+        <li>The leftmost digit is 1 indicating read permission</li>
+        <li>The center digit is 1 indicating write permission</li>
+        <li>The last digit is 0 indicating that execute permission is not granted</li>
+        <li>5 in binary is 101</li>
+        <li>The first digit is 1 so read permission is granted</li>
+        <li>The second digit is 0 so write permission is not granted</li>
+        <li>The last digit is 1 so execute permission is granted</li>
+        <li>This scheme is confusing when you first encounter it</li>
+        <li>But it becomes easier as you use it</li>
+        <li>Try to remember this chant:
+            <pre>
+4 2 1
+read  write execute
+owner group everyone</pre>
+        </li>
+        <li>Repeat this to yourself several times and it should sink in</li>
+        <li>Remember that you need three of these digits to specify the full permissions for a file or directory</li>
+        <li>Let's look at some examples</li>
+        <li>When you create a new file, it will have certain default permissions
+            <pre>
+$ touch foo.txt
+$ ls
+foo.txt
+$ ls -l
+total 0
+-rw-r--r-- 1 it244gh libuuid 0 2012-02-09 15:51 foo.txt</pre>
+        </li>
+        <li>The owner can read and write the file, but not execute it</li>
+        <li>The group and everyone else can only read the file</li>
+        <li>To make the file unreadable to everyone except the owner:
+            <pre>
+$ ls -l
+total 0
+-rw-r--r-- 1 it244gh libuuid 0 2012-02-09 15:51 foo.txt
+$ chmod 600 foo.txt 
+$ ls -l
+total 0
+-rw------- 1 it244gh libuuid 0 2012-02-09 15:51 foo.txt</pre>
+        </li>
+        <li>To change the file back to its default permissions:
+            <pre>
+$ ls -l
+total 0
+-rw------- 1 it244gh libuuid 0 2012-02-09 15:51 foo.txt
+$ chmod 644 foo.txt 
+$ ls -l
+total 0
+-rw-r--r-- 1 it244gh libuuid 0 2012-02-09 15:51 foo.txt</pre>
+        </li>
+    </ul>
+<h5> Copyright : Glenn Hoffman, Director of the IT program, Umass-Boston</h5>
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/linux/unix_cs_students.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:52:17 GMT -->
+</html>

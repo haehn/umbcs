@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/02_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title> IT 244: Introduction to Linux/Unix - Class Exercise 2</title>
+</head>
+<body>
+	<header>
+		<h2>
+		    IT 244: Introduction to Linux/Unix <br> 
+		    Class Exercise 2
+		</h2>	
+	</header>
+
+	<h3>Logging in to <span class="host">users3</span></h3>
+	<p class="flat">We'll be using the Windows machines in this room, or your laptops ,
+	   to connect to the Linux machine <span class="host">users3</span> for all the 
+	   class exercises in this course.
+	</p>
+	 
+	 
+	<ul>
+		<li><span class="under">Install <span class="path">putty.exe</span> if you have a Windows machine</span><br>
+            Download it from <a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html">
+            https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html</a>. <br>
+            For more information go to
+            <a href="../../linux/remote_access_windows.html">
+            	https://www.cs.umb.edu/~tsoro/teaching/linux/remote_access_windows.html
+            </a>
+        </li>
+        <li><span class="under">Run the Terminal program if you have a Mac</span><br>
+			You will find this program in the <span class="path">Utilities</span> directory 
+			inside the <span class="path">Applications</span> directory. <br>
+			For more information go to
+			<a href="../../linux/remote_access_mac.html">
+				https://www.cs.umb.edu/~tsoro/teaching/linux/remote_access_mac.html
+			</a>
+		</li>
+		<li><span class="under">Run the ssh client</span><br>
+			Use the values in the table below to connect to the virtual machine
+			we'll be using in this class.
+			<br><br>
+			In the value for "host" listed below, the first part of the string, "users3", specifies the 
+			machine, on the Unix network, that you will connect to.
+			<br><br>
+			<table>
+		    <tr>
+		      <th align="left">ssh configuration parameter</th>
+		      <th align="left">value</th>
+			</tr>
+			<tr>
+				<td>protocol</td><td>ssh</td>
+			</tr>
+			<tr>
+				<td>ssh version</td><td>2</td>
+			</tr>
+			<tr>
+				<td>ssh port</td><td>22</td>
+			</tr>
+			<tr>
+				<td>host</td><td><span class="host">users3.cs.umb.edu</span></td>
+			</tr>
+			<tr>
+				<td>user name</td><td> your Unix username</td>
+			</tr>
+			<tr>
+				<td>Authentication method</td><td>password</td>   
+			</tr>
+			</table><br>
+		</li>
+		<li><span class="under">Enter your password</span><br>
+			A dialog box will appear on the screen into which you must type the
+			password for your Unix account.<br>
+		</li>
+		<li><span class="under">Confirm that you are connected</span><br>
+				You should see the following<pre>
+Welcome to Ubuntu 16.04.1 LTS (GNU/Linux 4.4.0-59-generic x86_64)</pre>
+		</li>
+		<li><span class="under">Learn More About the Machine to Which You Are Connected</span><br>
+				The <code>uname</code> command displays information about the machine you are using.
+			<pre>
+uname -a</pre>
+				When used with the -a option, <code>uname</code> displays
+				more information than just the name of the machine.
+		</li>
+	</ul>
+	<h3>Your Shell</h3>
+	<ul class="flat">
+		<li><span class="under">Determine Your Current Shell</span><br>
+			The easiest way to determine your current shell is to use the
+			<code>ps</code> (<b>p</b>rocess <b>s</b>tatus) command.
+			<pre>
+ps</pre>
+			The <code>ps</code> command shows all your running processes, including
+			your shell, bash.
+		</li>
+	</ul>
+	<h3>Explore Your Home Directory</h3>
+	<ul class="flat">
+		<li><span class="under">Learn Your Current Location</span><br>
+			At every point in your Unix session, you are working inside 
+			some directory. 
+			<br><br>
+			When you log in, you will be in your home directory. 
+			<br><br>
+			You can create subdirectories inside your home
+			directory, and customize your environment through special
+			files located here. 
+			<br><br>
+			To determine your current location, you
+			will use the <code>pwd</code> command, which stands for "<b>p</b>rint <code>w</code>orking <code>d</code>irectory".
+			<pre>
+pwd</pre>
+			Notice that your home directory has the same name as your username,
+			and is located inside <span class="path">/home</span>. 
+			<br><br>
+			This is true for all users.
+		</li>
+		<li><span class="under">Look at the Contents of Your Home Directory</span><br>
+			The ls command (for "<b>l</b>i<b>s</b>t"), when used with no arguments,
+			will display the contents of your current directory.
+			<pre>
+ls</pre>
+			You should see at least one directory - <span class="path">it244</span>.
+			<br><br>
+			You will use this directory for all your class assignments.
+		</li>
+		<li><span class="under">Look at Your "Invisible" files</span><br>
+				Normally <code>ls</code> will <b>not</b> show files whose
+				first character is a <span class="char">.</span> (dot). 
+				<br><br>
+				These are special files used to change features of your Unix environment. 
+				<br><br>
+				To see these files, you need to use <code>ls</code> with the -a option:
+			<pre>
+ls -a</pre>
+		</li>
+	</ul>
+	
+	<h3>Create directories for your homework and Class Exercises</h3>
+	<ul class="flat">
+		<li><span class="under">Make sure you are in your home directory</span><br>
+			<pre>
+	cd</pre>
+		</li>
+		<li><span class="under">Go to your <span class="path">it244</span> directory</span><br>
+			<pre>
+	cd it244</pre>
+		</li>
+		<li><span class="under">Create an <span class="path">hw</span> directory</span><br>
+			<pre>
+	mkdir hw</pre>
+		</li>
+		<li><span class="under">Create an <span class="path">ex</span> directory</span><br>
+			<pre>
+	mkdir ex</pre>
+		</li>
+		<li><span class="under">Check that the directories were created</span><br>
+			<pre>
+	ls</pre>
+		You should see two directories <span class="path">hw</span> and <span class="path">ex</span>
+		</li>
+	</ul>
+	
+	<h3>Wrap Up</h3>
+	<ul class="flat">
+		<li><span class="under">Tell me when you have completed this Class Exercise</span><br>
+			I need to check your work
+			<br><br>
+		</li>
+		<li><span class="under">Disconnect from <span class="host">users3</span></span><br>
+			<pre>
+exit</pre>
+		</li>
+	</ul>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/02_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+</html>

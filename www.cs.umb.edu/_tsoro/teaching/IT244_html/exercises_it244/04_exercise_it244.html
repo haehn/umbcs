@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/04_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title> IT 244: Introduction to Linux/Unix - Class 4 Exercise</title>
+</head>
+<body>
+	<header>
+		<h2>
+		    IT 244: Introduction to Linux/Unix <br>
+		    Class 4 Exercise
+		</h2>	
+	</header>
+
+	<h3>Log in to <span class="host">users3.cs.umb.edu</span></h3>
+	<ul>
+		<li><span class="under">Run the ssh client</span><br><br>
+			Connect to <span class="host">users3.cs.umb.edu</span>.
+		</li>
+	</ul>
+	
+	<h3>Directory for this Exercise</h3>
+	<ul>
+		<li><span class="under">Make sure you are in your home directory</span><br>
+            <pre>
+    cd</pre>
+        </li>
+		<li><span class="under">Go to your <span class="path">it244</span> directory</span>
+			<pre>
+    cd  it244</pre>
+		</li>
+		<li><span class="under">Go to your <span class="path">ex</span> directory</span><br>
+            <pre>
+    cd  ex</pre>
+        </li>
+        <li><span class="under">Create an <span class="path">ex4</span> directory</span><br>
+            <pre>
+    mkdir  ex4</pre>
+        </li>		
+        <li><span class="under">Go to your <span class="path">ex4</span> directory</span><br>
+            <pre>
+    cd  ex4</pre>
+        </li>
+	</ul>
+	
+	<h3>Experiment with Special Characters</h3>
+	<ul class="flat">
+		<li><span class="under">Try using <span class="char">&amp;</span> in a directory name</span>
+			<pre>
+    mkdir  abc<span class="red">&amp;</span>def</pre>
+            You should get an error message <br><br></li>
+	   <li><span class="under">Look at the results</span><br>
+            <pre>
+    ls</pre>
+            <code>mkdir</code> created an <span class="path">abc</span> directory 
+            and then tried to execute the non-existent command def
+            <br><br>
+        </li>
+		<li><span class="under">Remove the <span class="path">abc</span> directory</span>
+			<pre>
+    rmdir abc</pre>
+        <br><br>
+        </li>
+        <li><span class="under">Check that the <span class="path">abc</span> directory is gone</span><br>
+            <pre>
+    ls</pre>
+        </li>
+		<li><span class="under">Use the backslash, <span class="char">\</span> , to continue a command onto the next line</span>
+			<pre>
+    echo foo \[Enter]
+    bar [Enter]</pre>
+    			<b>Do not type [Enter]</b>.
+    			<br><br>
+    			Instead hit the Enter key (or Return if you have a Mac).
+    			<br><br>
+			There should be <b>no</b> space between the <span class="char">\</span> and the newline created by the Enter key.
+			<br><br>
+			The shell did not process what you entered on the first line after you pressed the
+			Enter key for the first time, it just gave you a new line.
+			<br><br>
+			The backslash, <span class="char">\</span> , turned off the special meaning of the newline character.
+		</li>
+	</ul>
+	
+	<h3>Create a <span class="path">typescript</span> File</h3>
+    <ul>
+        <li><span class="under">Make sure you are in your <span class="path">ex4</span> directory</span><br>
+            <pre>
+    pwd</pre>
+            If the result of running this command is not
+            <pre>
+    /home/YOUR_UNIX_USERNAME/it244/ex/ex4</pre>
+            where YOUR_UNIX_USERNAME is the name of your Unix account, see me.
+            <br><br>
+        </li>
+        <li><span class="under">Run the <code>script</code> command</span><br>
+            <pre>
+    script</pre>
+            This will create a <span class="path">typescript</span> file in your <span class="path">ex4</span> directory.
+            <br><br>
+            You must perform the remaining steps in this exercise while <code>script</code> is still running.
+            <br><br>
+            If you make a mistake, simply try again.
+            <br><br>
+            Do not exit the <code>script</code> session until you have finished all the steps in this exercise.
+        </li>
+    </ul>
+	
+	<h3>Working with <code>ls</code></h3>
+	<ul class="flat">
+		<li><span class="under">Move to your home directory</span>
+			<pre>
+    cd</pre>
+		</li>
+		<li><span class="under">Make sure you are in your home directory</span>
+			<pre>
+    pwd</pre>
+            <br><br>
+		</li>
+		<li><span class="under">Run <code>ls</code> without options or arguments</span>
+			<pre>
+    ls</pre>
+			You see only the visible files in your home directory.
+			<br><br>
+		</li>
+		<li><span class="under">Look at the contents of your <span class="path">it244</span> directory</span>
+			<pre>
+    ls  it244</pre>
+		</li>
+		<li><span class="under">Look at all the files in your home directory</span>
+			<pre>
+    ls  -a</pre>
+		</li>
+		<li><span class="under">Get a long listing of all the files in your home directory</span>
+			<pre>
+    ls  -al</pre>
+		Notice that you can use more than one option at a time.
+		</li>
+	</ul>
+	
+	<h3><code>cat</code></h3>
+	<ul class="flat">
+		<li><span class="under">Run <code>cat</code> on your <span class="path">.bash_history</span> file</span>
+			<pre>
+    cat  .bash_history</pre>
+		</li>
+		<li><span class="under">Now run cat showing line numbers</span>
+			<pre>
+    cat  -n  .bash_history</pre>
+		</li>
+	</ul>
+	
+	
+	<h3><code>mkdir</code></h3>
+	<ul class="flat">
+		<li><span class="under">Go to your <span class="path">ex4</span>  directory</span>
+			<pre>
+    cd  it244/ex/ex4
+    pwd</pre>
+		</li>
+		<li><span class="under">Create a <span class="path">test</span> directory </span>
+			<pre>
+    mkdir  test</pre>
+		</li>
+        <li><span class="under">Make sure the directory was created</span><br>
+            <pre>
+    ls</pre>
+        </li>
+		<li><span class="under">Create a <span class="path">test2</span> directory</span>
+			<pre>
+    mkdir test2</pre>
+		</li>
+		<li><span class="under">Look at the contents of your current directory</span>
+			<pre>
+    ls</pre>
+			You should see the a new <span class="path">test2</span> directory.
+			<br><br>
+		</li>
+	</ul>
+	
+	<h3>Experiment with <code>rm</code></h3>
+	<ul class="flat">
+		<li><span class="under">Move to your <span class="path">test2</span> directory</span>
+			<pre>
+    cd  test2</pre>
+		</li>
+		<li><span class="under">Create some files in this directory</span>
+			<pre>
+    touch  foo  bar  bletch  gobble</pre>
+			<code>touch</code> will create a file if it doesn't already exist.
+			<br><br>
+			That is not its primary purpose, but we'll only be using it in this way for this class.
+			<br><br>
+		</li>
+		<li><span class="under">Perform a long listing of the contents of the <span class="path">test2</span> directory</span>
+			<pre>
+    ls  -l</pre>
+			The first entry after -rw-r--r-- for each file is a 1. This
+			means the files are one byte long, essentially empty.
+			<br><br>
+			<code>touch</code> creates empty files.
+			<br><br>
+		</li>
+		<li><span class="under">Remove the file foo</span>
+			<pre>
+    rm foo</pre>
+		</li>
+		<li><span class="under">Look at the directory contents</span>
+			<pre>
+    ls</pre>
+		</li>
+		<li><span class="under">Remove bar and bletch</span>
+			<pre>
+    rm  bar  bletch</pre>
+		</li>
+		<li><span class="under">List the contents of your current directory</span>
+			<pre>
+    ls</pre>
+		You should only see the file <span class="path">gobble</span>.
+		<br><br>
+		</li>
+		<li><span class="under">Remove a file using the -i option</span>
+			<pre>
+    rm  -i  gobble</pre>
+			Enter "y" when prompted.
+			<br><br>
+		</li>
+		<li><span class="under">Look at the contents of your current directory</span><br>
+			<pre>
+	ls</pre>
+			The directory should be empty.
+			<br><br>
+		</li>
+		<li><span class="under">Create some more empty files</span>
+			<pre>
+    touch  baloney  ham  cheese  turkey</pre>
+		</li>
+		<li><span class="under">Look at the directory contents</span>
+			<pre>
+    ls</pre>
+			You should see the files you just created.
+			<br><br>
+		</li>
+		<li><span class="under">Remove all files from your current directory</span>
+			<pre>
+    rm  *</pre>
+		</li>
+		<li><span class="under">Look at the directory contents</span>
+			<pre>
+    ls</pre>
+			The directory should be empty.
+			<br><br>
+		</li>
+	</ul>
+	
+	<h3><code>rmdir</code></h3>
+	<ul class="flat">
+		<li><span class="under">Make sure you are in your <span class="path">test2</span> directory</span>
+			<pre>
+    pwd</pre>
+        If not, go there.
+        <br><br>
+		</li>
+		<li><span class="under">Create some files</span>
+			<pre>
+    touch  red  blue  green  orange</pre>
+		</li>
+		<li><span class="under">Move back up to the <span class="path">ex4</span> directory</span>
+			<pre>
+    cd  ..</pre>
+		</li>
+		<li><span class="under">Make sure your are in the <span class="path">ex4</span> directoryl</span><br>
+			<pre>
+	pwd</pre>
+		</li>
+		<li><span class="under">Examine the contents of the <span class="path">test2</span> directory</span>
+			<pre>
+    ls test2</pre>
+		</li>
+		<li><span class="under">Try to remove the <span class="path">test2</span> directory using <code>rmdir</code></span>
+			<pre>
+    rmdir test2</pre>
+		  You should get an error message because the directory is not empty.
+			<br><br>		  
+		  </li>
+		<li><span class="under">Look at the contents of your <span class="path">ex4</span> directory</span>
+			<pre>
+    ls</pre>
+        The test2 directory is still there.
+        <br><br>
+		</li>
+		<li><span class="under">Remove the files in <span class="path">test2</span></span>
+			<pre>
+    rm  test2/*</pre>
+		</li>
+		<li><span class="under">List the contents of <span class="path">test2</span></span><br>
+			<pre>
+	ls test2</pre>
+			The directory should be empty.
+			<br><br>
+		</li>
+		<li><span class="under">Remove the <span class="path">test2</span> directory</span>
+			<pre>
+    rmdir  test2</pre>
+		</li>
+		<li><span class="under">Examine the contents of your <span class="path">ex4</span> directory</span><br>
+            <pre>
+    ls</pre>
+            The <span class="path">test2</span> directory should be gone</li>
+	</ul>
+	
+	<h3>Run <code>cp</code> to Copy Files and Directories</h3>
+	<ul class="flat">
+        <li><span class="under">Create a file</span><br>
+            <pre>
+    touch  foo</pre>
+        </li>
+		<li><span class="under">Copy a file</span>
+			<pre>
+    cp  foo  footoyou</pre>
+		</li>
+		<li><span class="under">Look at the contents of the directory</span>
+			<pre>
+    ls</pre>
+		</li>
+		<li><span class="under">Go to the <span class="path">test</span> directory</span>
+			<pre>
+    cd test</pre>
+		</li>
+		<li><span class="under">Create some files in this directory</span><br>
+            <pre>
+    touch  foo  bar  bletch</pre>
+        </li>
+        <li><span class="under">Go back to the <span class="path">ex4</span> directory</span><br>
+            <pre>
+    cd ..</pre>
+        </li>
+        <li><span class="under">Make sure you are in the <span class="path">ex4</span> directory</span><br>
+			<pre>
+	pwd</pre>
+		</li>
+		<li><span class="under">Copy a directory</span>
+			<pre>
+    cp  -r  test  test3</pre>
+        <br><br><br>
+		</li>
+		<li><span class="under">Look at the contents of the <span class="path">ex4</span> directory</span>
+			<pre>
+    ls</pre>
+		You should see a new <span class="path">test3</span> directory.
+		<br><br>
+		</li>
+		<li><span class="under">Look at the contents of <span class="path">test3</span></span>
+			<pre>
+    ls  test3</pre>
+		It should be the same as <span class="path">test</span>
+		</li>
+	</ul>
+	
+	<h3><code>mv</code></h3>
+	<ul class="flat">
+		<li><span class="under">Go into the <span class="path">test3</span> directory</span>
+			<pre>
+    cd  test3</pre>
+		</li>
+		<li><span class="under">Change the name of <span class="path">footoyou</span></span>
+			<pre>
+    mv  foo  foo_to_you</pre>
+		</li>
+		<li><span class="under">Examine the changes</span>
+			<pre>
+    ls</pre>
+		</li>
+		<li><span class="under">Move a file to another directory</span>
+			<pre>
+    mv foo_to_you ../test</pre>
+		</li>
+		<li><span class="under">Look at the contents of the current directory</span>
+			<pre>
+    ls</pre>
+        		<span class="path">foo_to_you</span> is no longer in your current directory.
+        		<br><br>
+		</li>
+		<li><span class="under">Look at the contents of your <span class="path">test</span> directory</span>
+			<pre>
+    ls ../test</pre>
+        		<span class="path">foo_to_you</span> has been moved to the <span class="path">test</span> directory.
+        		<br><br>
+		</li>
+	</ul>
+	
+	<h3>End your <code>script</code> Session</h3>
+    <ul>
+        <li><span class="under">Exit from your <code>script</code> session</span><br>
+            <pre>
+    exit</pre>
+            You need to do this or the <span class="path">typescript</span> file will never be created.
+            <br><br><br><br><br>
+        </li>
+        <li><span class="under">Look at the contents of the <span class="path">typescript</span> file</span><br>
+            <pre>
+    cat  typescript</pre>
+        </li>
+    </ul>
+    
+    <h3>Checking Your Work</h3>
+    <ul class="flat">
+        <li><span class="under">Tell me when you are done</span><br><br>
+            I need to check your work.
+        </li>
+    </ul>
+
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/04_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+</html>

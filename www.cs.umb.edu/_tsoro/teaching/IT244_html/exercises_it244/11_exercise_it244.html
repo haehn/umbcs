@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/11_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title>IT 244: Introduction to Linux/Unix - Class 11 Exercise</title>
+</head>
+<body>
+	<header>
+		<h2>
+		    IT 244 Class Exercise 11 <br>
+		    Class 11 Exercise
+		</h2>	
+	</header>
+
+	<h3>Log in to <span class="host">users3.cs.umb.edu</span></h3>
+    <ul>
+    	<li><span class="under">Run the ssh client</span><br><br>
+        	Connect to <span class="host">users3.cs.umb.edu</span>.
+        </li>
+    </ul>
+
+    <h3>Directory for this Exercise</h3>
+    <ul>
+        <li><span class="under">Make sure you are in your home directory</span><br>
+            <pre>
+    cd</pre>
+        </li>
+        <li><span class="under">Go to your <span class="path">it244</span> directory</span>
+            <pre>
+    cd  it244</pre>
+        </li>
+        <li><span class="under">Go to your <span class="path">ex</span> directory</span><br>
+            <pre>
+    cd  ex</pre>
+        </li>
+        <li><span class="under">Create an <span class="path">ex11</span> directory</span><br>
+            <pre>
+    mkdir  ex11</pre>
+        </li>       
+        <li><span class="under">Go to your <span class="path">ex11</span> directory</span><br>
+            <pre>
+    cd  ex11</pre>
+        </li>
+    </ul>		
+    
+    <h3>Combining Options</h3>
+	<ul>
+		<li><span class="under">Perform a long listing of the web directory for this course</span><br>
+			<pre>
+    ls -l /home/ghoffman/html/it244_html</pre>
+		</li>
+		<li><span class="under">Use <code>ls</code> to see the directory contents in reverse order by date</span><br>
+			<pre>
+    ls -ltr /home/ghoffman/html/it244_html</pre>
+			Here you are combining the options indicating you want a long listing (l), ordered
+			by date and time (t), in reverse order (r).
+			<br>
+		</li>
+		<li><span class="under">Use <code>ls</code> to see the access permissions on the <span class="path">it244_html</span> directory</span><br>
+			<pre>
+    ls -ld /home/ghoffman/html/it244_html</pre>
+			Here you are combining the options indicating you want a long listing (l)
+			of the directory itself (d), not its contents.
+		</li>
+	</ul>
+	
+	<h3>The Human Readable Option</h3>
+	<ul>
+		<li><span class="under">Use <code>df</code> to see the disk space available on <span class="host">users3.cs.umb.edu</span></span><br>
+			<pre>
+    df</pre>
+			Notice two things. 
+			<br><br>
+			First, the available space field is very hard to read.
+			<br><br>
+			Second, you are seeing disk partitions on more than one machine.
+			<br><br>
+			The various blade entries are different machines.
+			<br><br>
+			The single, logical, filesystem we see is composed of multiple
+			physical disks and partitions.
+			<br>
+		</li>
+		<li><span class="under">Now use <code>df</code> with the -h option</span><br>
+			<pre>
+    df -h</pre>
+			The free disk space is now much easier to read.
+		</li>
+	</ul>
+	
+	
+	<h3>The --help Option</h3>
+	<ul>
+		<li><span class="under">Invoke the --help option for <code>cat</code></span><br>
+			<pre>
+    cat --help</pre>
+		</li>
+		<li><span class="under">Look at the help for <code>ls</code></span><br>
+			<pre>
+    ls --help</pre>
+			Notice that some help is very long.
+			<br>
+		</li>
+		<li><span class="under">Explore the --help option for <code>cd</code></span><br>
+			<pre>
+    cd --help</pre>
+			<code>cd</code> does not respond to the --help option, or, for that matter, -h.
+		</li>
+	</ul>
+	
+	
+	<h3>Running Commands with Pathnames or Only the Name of the Command</h3>
+	<ul>
+		<li><span class="under">Run <code>ls</code> using only the name of the command</span><br>
+			<pre>
+    ls  ~tsoro</pre>
+		</li>
+		<li><span class="under">Learn the location of the <code>ls</code> executable file</span><br>
+			<pre>
+    which ls</pre><br><br>
+		</li>
+		<li><span class="under">Run <code>ls</code> using an absolute pathname</span><br>
+			<pre>
+    /bin/ls  ~tsoro</pre>
+			This has the same effect as typing the name of the command on the command line,
+			which is also the name of the executable file for <code>ls</code>.
+		</li>
+	</ul>
+	
+	
+	<h3>The PATH System Variable</h3>
+	<ul>
+		<li><span class="under">Display the value of <span class="iden">PATH</span></span><br>
+			<pre>
+    echo $PATH</pre>
+			Notice that each directory name is an absolute pathname separated by a colon, <span class="char">:</span>.
+			<br><br>
+			Notice also, that the current directory, <span class="char">.</span> , does not appear in this list.
+		</li>
+	</ul>
+	
+	
+	<h3>Running a Program in the Current Directory</h3>
+	<ul>
+	   <li><span class="under">Go to the <span class="path">ex11</span> directory</span><br>
+            <pre>
+    cd ~/it244/ex/ex11</pre>
+        </li>
+        <li><span class="under">Make sure you are in your <span class="path">ex11</span> directory</span><br>
+            <pre>
+    pwd</pre>
+        </li>
+	   <li><span class="under">Run the shell script <span class="path">hello.sh</span> which is in my <span class="path">course_files/it244_files</span> directory</span><br>
+            <pre>
+    ~tsoro/course_files/it244_files/hello.sh</pre>
+        </li>
+		<li><span class="under">Copy <span class="path">hello.sh</span> to your current directory</span><br>
+			<pre>
+    cp ~tsoro/course_files/it244_files/hello.sh <span class="char">.</span></pre>
+		</li>
+		<li><span class="under">Make sure the copy operation worked</span><br>
+            <pre>
+    ls</pre>
+        </li>
+		<li><span class="under">Try to run the program you just copied using just the name of the file</span><br>
+			<pre>
+    hello.sh</pre>
+			You get an error message.
+			<br>
+		</li>
+		<li><span class="under">Run the program by placing <span class="char">./</span> in front of the file name</span><br>
+			<pre>
+    ./hello.sh</pre>
+		Now the program runs.
+		</li>
+	</ul>
+	
+	<h3>Exit Status</h3>
+    <ul>
+        <li><span class="under">Run <code>ls</code> with no options or arguments</span><br>
+            <pre>
+    ls</pre>
+        </li>
+        <li><span class="under">Examine the exit status returned by the last command</span><br>
+            <pre>
+    echo $?</pre>
+            Since <code>ls</code> ran without any problems, it returned an exit status of 0,
+            indicating that all went well.
+            <br>
+        </li>
+        <li><span class="under">Now run <code>ls</code> on a file that doesn't exist</span><br>
+            <pre>
+    ls foobar</pre>
+        </li>
+        <li><span class="under">Examine the exit status returned by the last command</span><br>
+            <pre>
+    echo $?</pre>
+            Since <code>ls</code> failed, it returns a non-zero exit status.
+            <br>
+        </li>
+        <li><span class="under">See what this exit status means</span><br>
+            <pre>
+    ls --help | tail</pre>
+            Returning the value 2 means <code>ls</code> ran into a serious problem.
+            <br>
+        </li>
+    </ul>
+    
+    <h3>Bash Script for this Exercise</h3>
+    <ul>
+        <li><span class="under">Go to your <span class="path">ex11</span> directory</span><br>
+            <pre>
+    cd ~/it244/ex/ex11</pre>
+        </li>
+        <li><span class="under">Create the script <span class="path">ex11.sh</span></span><br>
+            <pre>
+    nano  ex11.sh</pre>
+        </li>
+        <li><span class="under">Write into this file the commands you used above</span><br>
+        <br>
+        		Include Unix commands from the section <span class="under">Combining Options</span> up to and including the section 
+        		<span class="under">Exit Status</span>.
+            <br>
+        </li>
+        <li><span class="under">Save this file</span><br><br>
+            Save and quit.
+            <br>
+        </li>
+        <li><span class="under">Test you script</span><br>
+			<pre>
+    ~tsoro/it244_test/ex11.sh</pre>
+		When the script asks if you are ready for more, hit Return or Enter.
+			<br>
+		</li>
+        <li><span class="under">Let me check your script</span><br></li>
+    </ul>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/11_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+</html>
+		

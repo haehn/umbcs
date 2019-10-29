@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/18_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:40 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title> IT 244: Introduction to Linux/Unix - Class 17</title>
+</head>
+<body>
+	<header>
+		<h2> 
+		    IT 244: Introduction to Linux/Unix <br>
+		    Class 17
+		</h2>	
+	</header>
+
+    <!-- NEEDS MORE MATERIAL ADD USING VARIABLES IN QUOTES-->
+    <!-- REWORK SECTION ON DIRECTORY STACK. START WITH CONCEPT OF A STACK. CD HAS NO HISTORY. INTRODUCE dirs LAST -->
+    <!-- USE ls asdfasd; echo $? AS SEMICOLON EXAMPLE -->
+    <!-- USE * IN VARIABLE EXAMPLE -->
+    <!-- GRID FOR VARIABLES -->
+    <!-- DEFINE A VARIABLE BEFORE TALKING ABOUT SCOPE -->
+    <!-- ADD && and || -->
+    <!-- HOW I USED () IN A TESTING SCRIPT -->
+    <h3 class="section">Today's Topics</h3>
+    
+    <h4 class="flat_under">Review</h4>
+    <ul class="flat_top">
+    		<li class="flat"><a href="#running_startup_file_after_change">Running a Startup File after a Change has been Made</a></li>
+    		<li class="flat"><a href="#commands_that_are_symbols">Commands that are Symbols</a></li>
+        <li class="flat"><a href="#file_descriptors">File Descriptors</a></li>
+        <li class="flat"><a href="#redirecting_standard_error">Redirecting Standard Error</a></li>
+        <li class="flat"><a href="#shell_scripts">Shell Scripts</a></li>
+        <li class="flat"><a href="#making_shell_script_executable">Making a Shell Script Executable</a></li>
+        <li class="flat"><a href="#specifying_shell_to_run_script">Specifying Which Version of the Shell Will Run a Script</a></li>
+        <li class="flat"><a href="#shell_script_comments">Comments in Shell Scripts</a></li>
+    </ul>
+    <br>
+    <h4 class="flat_under">New Material</h4>
+    <ul class="flat_top">
+        <li class="flat"><a href="#separating_grouping_commands">Separating and Grouping Commands</a></li>
+        <li class="flat"><a href="#pipe_ampersand_command_separators"><span class="char">|</span> (pipe) and <span class="char">&amp;</span> (ampersand) as Command Separators</a></li>
+        <li class="flat"><a href="#continuing_command_next_line">Continuing a Command onto the Next Line</a></li>
+        <li class="flat"><a href="#parentheses_commands_in_sub=shell">Using Parentheses, <span class="char">( )</span> , to Run a Group of Commands in a Subshell</a></li>
+        <li class="flat"><a href="#directory_stack">The Directory Stack</a></li>
+        <li class="flat"><a href="#dirs"><code>dirs</code> - Displays the Directory Stack</a></li>
+        <li class="flat"><a href="#pushd"><code>pushd</code> - Pushes a Directory onto the Stack</a></li>
+        <li class="flat"><a href="#popd"><code>popd</code> - Pops a Directory off the Stack</a></li>
+        <li class="flat"><a href="#shell_variables">Shell Variables</a></li>
+        <li class="flat"><a href="#local_variables">Local Variables</a></li>
+        <li class="flat"><a href="#global_variables">Global Variables</a></li>
+        <li class="flat"><a href="#keyword_shell_variables">Keyword Shell Variables</a></li>
+        <li class="flat"><a href="#important_keyword_shell_variables">Important Keyword Shell Variables</a></li>
+        <li class="flat"><a href="#user-created_variables">User-created Variables</a></li>
+    </ul>
+    
+    <h3 class="section">Reading Assignment</h3>
+    <p class="flat">You should have read chapter 8 of Sobell, <i>The Bourne Again Shell</i>.</p>
+    
+    <h3 class="section">Homework 8</h3>
+    <p class="flat">I have posted Homework 8 <a href="../hw_it244/08_hw_it244.html">here</a>.</p>
+    <p>As usual, it will be due next Sunday at 11:59 PM.</p>
+    
+    <h3 class="section">Review</h3>
+    
+    <h4 class="topic" id="running_startup_file_after_change">Running a Startup File after a Change has been Made</h4>
+    <ul class="flat">
+        <li>Usually, when you change a startup file ...</li>
+        <li>you want the changes to take place immediately</li>
+        <li>But if you made a change to 
+<span class="path">.bash_profile</span> ...</li>
+        <li>the changes won't take effect until the next time you login</li>
+        <li>Unix gives you a way to make the changes take effect immediately</li>
+        <li>You do this by running the <code>source</code> command
+            <pre>
+source .bash_profile</pre>
+        </li>
+    </ul>
+
+    <h4 class="topic" id="commands_that_are_symbols">Commands that are Symbols</h4>
+    <ul class="flat">       
+        <li>Unix has some commands that are symbols rather than words</li>
+        <li>I'll just mention them now and go into greater detail in future classes
+    </ul>
+        <table>
+            <tr>
+                <th align="left" width="50"><span class="char">( )</span></th>
+                <td>Runs whatever commands are enclosed in the parentheses in a sub-shell</td>
+            </tr>
+            <tr>
+                <th align="left" width="50"><span class="char">$( )</span></th><td>Command substitution: <br>
+                    runs the commands enclosed in the parentheses in a subshell and returns their value 
+                    to the command line, replacing the dollar sign, the parentheses and everything in them with this value</td>
+            </tr>
+            <tr>
+                <th align="left" width="50"><span class="char">(( ))</span></th><td>Evaluates an arithmetic expression: <br>
+                    by default, Unix treats everything as text, but
+                    this command evaluates whatever it encloses as a numerical, rather than a string, expression</td>
+            </tr>
+            <tr>
+                <th align="left" width="50"><span class="char">$(( ))</span></th><td>Arithmetic expansion: <br>
+                    evaluates an arithmetic expression and returns its value at that place on the command line</td>
+            </tr>
+            <tr>
+                <th align="left" width="50"><span class="char">[ ]</span></th><td>The test command: <br>
+                    used to evaluate a boolean expression in constructs like if clauses</td>
+            </tr>
+            <tr>
+                <th align="left" width="50"><span class="char">[[ ]]</span></th><td>The conditional expression: <br>
+                    similar to [ ] but adds string comparisons</td>
+            </tr>
+        </table>
+    
+    <h4 class="topic" id="file_descriptors">File Descriptors</h4>
+    <ul class="flat">       
+        <li>Every time the shell creates a <a class="def" href="../definitions.html#process">process</a> ...</li>
+        <li>it gives that process a connection to three "files"
+            <ul class="flat">       
+                <li class="flat">Standard input</li>
+                <li class="flat">Standard output</li>
+                <li class="flat">Standard error</li>
+            </ul>
+        </li>
+        <li>A program can open other files besides these</li>
+        <li><a class="def" href="../definitions.html#file_descriptor">File descriptors</a> 
+            are data structures that Unix creates ...
+        </li>
+        <li>to handle access to files</li>
+        <li>File descriptors are the abstract representation ...</li>
+        <li>of the files that are connected to a process</li>
+        <li>Each file descriptor is assigned a positive number ...</li>
+        <li>starting with 0</li>
+        <li>Think of a file descriptor as an integer that refers to a file</li>
+        <li><a class="def" href="../definitions.html#standard_input">Standard input</a>, 
+            <a class="def" href="../definitions.html#standard_output">Standard output</a> 
+            and <a class="def" href="../definitions.html#standard_error">Standard error</a> 
+      
+        </li>
+        <li>each have their own file descriptors
+            <blockquote>
+                <table>
+                    <tr><th>Name</th><th>File Descriptor</th></tr>
+                    <tr><td>Standard input</td><td align="center">0</td></tr>
+                    <tr><td>Standard output</td><td align="center">1</td></tr>
+                    <tr><td>Standard error</td><td align="center">2</td></tr>
+                </table>
+            </blockquote>
+        </li>
+        <li>So while we think of standard input, standard output and standard error ...</li>
+        <li>Unix thinks of the file descriptors 0, 1 and 2</li>
+    </ul>
+    
+    <h4 class="topic" id="redirecting_standard_error">Redirecting Standard Error</h4>
+    <ul class="flat">       
+        <li>Standard error is the "file" into which error messages are sent</li>
+        <li>Redirecting standard error allows a program to separate its output stream ..</li>
+        <li>from its error messages</li>
+        <li>To redirect standard input we use the less than symbol, <span class="char">&lt;</span></li>
+        <li>followed by a pathname
+            <pre>
+$ ./repeat.sh <span class="red">&lt;</span> test.txt 
+Enter several lines
+Type X on a line by itself when done
+
+You entered
+-----------
+123456789
+abcdefg
+987654321
+hijklmnop
+foo
+bar
+bletch
+X</pre>
+        </li>
+        <li>This construction is really a shorthand ...</li>
+        <li>for a notation using file descriptors</li>
+        <li>When you type
+            <pre>
+./repeat.sh <span class="red">&lt;</span> test.txt</pre>
+            Unix thinks of this as 
+            <pre>
+./repeat.sh <span class="red">0&lt;</span> test.txt</pre>
+            where 0 is the file descriptor for standard input
+        </li>
+        <li>Similarly, when we use output redirection
+            <pre>
+$ echo "Hello there"  <span class="red">&gt;</span>  hello.txt</pre>
+            Unix thinks of this as meaning 
+            <pre>
+$ echo "Hello there"  <span class="red">1&gt;</span>  hello.txt</pre>
+        </li>
+        <li>Again the file descriptor precedes the redirection symbol, <span class="char">&gt;</span></li>
+        <li>So how do we redirect standard error?</li>
+        <li>We place a 2 in front of the greater than symbol
+            <pre>
+$ ls xxxx
+<span class="red">ls: cannot access xxxx: No such file or directory</span>
+
+$ ls xxxx <span class="red">2&gt;</span> error.txt
+
+$ cat error.txt 
+ls: cannot access xxxx: No such file or directory</pre>
+        </li>
+        <li>Remember, 2 is the file descriptor for standard error</li>
+        <li>Unix also gives you a way to redirect <b>both</b> standard output and standard error ...</li>
+        <li>to the same file</li>
+        <li>You can do this using the ampersand and greater than symbols together, <span class="char">&amp;&gt;</span></li>
+    </ul>
+    
+    <h4 class="topic" id="shell_scripts">Shell Scripts</h4>
+    <ul class="flat">       
+        <li>A shell script is a file that contains Unix commands ...</li>
+        <li>along with their options and arguments</li>
+        <li>When the shell script is executed ...</li>
+        <li>each line of the script is performed in turn</li>
+        <li>A shell script can use any shell feature </li>
+        <li>that is available at the command line
+            <ul class="flat">       
+                <li class="flat">Ambiguous file references using the metacharacters 
+                    <span class="char">?</span>, <span class="char">*</span> 
+                    and <span class="char">[ ]</span></li>
+                <li class="flat">Redirection</li>
+                <li class="flat">Pipes</li>
+            </ul>
+        </li>
+        <li>But not those features which are provided by <code>tty</code>
+            <ul class="flat">       
+                <li class="flat"><a class="def" href="../definitions.html#command_line_editing">Command line editing</a>
+                    (arrow keys, control key combinations)
+                </li>
+                <li class="flat"><a class="def" href="../definitions.html#pathname_completion">Pathname completion</a> 
+                    (hit Tab to get more of a filename)
+                </li>
+                <li class="flat">The history mechanism (up arrow to recall previous command line)</li>
+            </ul>
+        </li>
+        <li>Unix also provides control structures
+            <ul class="flat">       
+                <li class="flat">If statements</li>
+                <li class="flat">Loops</li>
+            </ul>   
+        </li>
+    </ul>
+
+    <h4 class="topic" id="making_shell_script_executable">Making a Shell Script Executable</h4>
+    <ul class="flat">    
+        <li>You must have both <a class="def" href="../definitions.html#read_permission">read</a> 
+            and <a class="def" href="../definitions.html#execute_permission">execute</a> permission ...
+        </li>
+        <li>to run a shell script</li>
+        <li>Because the shell has to read the contents of the script ...</li>
+        <li>you need read permission</li>
+        <li>You need execute permission so the script can actually be run ...</li>
+        <li>without calling <code>bash</code></li>
+        <li>If you try to run a script without <code>bash</code> ...</li>
+        <li>and without <b>both</b> read and execute permissions ...</li>
+        <li>you will get an error</li>
+        <li>Normally you would give a shell script file 755 permissions</li>
+        <li>The owner can read, write and execute</li>
+        <li>The group and everyone else can read and execute</li>
+        <li>All scripts for this course from now on <b>must</b> have 755 permissions set</li>
+        <li>Points will be deducted if you don't</li>
+    </ul>
+    
+    <h4 class="topic" id="specifying_shell_to_run_script">Specifying Which Version of the Shell Will Run a Script</h4>
+    <ul class="flat">  
+        <li>Every process has to have the binary code for some program</li> 
+        <li>When you run a shell script in Bash ...</li>
+        <li>the shell asks the 
+            <a class="def" href="../definitions.html#kernel">kernel</a>
+            to create a new process
+        </li>
+        <li>By default, the binary code loaded into the new process ...
+        <li>will be the same as your login shell</li>
+        <li>If you want to use a different version of a shell to run the script ...</li>
+        <li>you can use a <a class="def" href="../definitions.html#hashbang">hashbang</a> line</li>
+        <li>The hashbang line <b>must</b> be the first line of the script</li>
+        <li>The first two characters on the line </li>
+        <li><b>must</b> be a hash symbol, <span class="char">#</span> ...</li>
+        <li>followed by an exclamation mark, <span class="char">!</span></li>
+        <li>After these two characters, you need to have the
+            <a class="def" href="../definitions.html#absolute_pathname">absolute pathname</a> ...
+        </li>
+        <li>of the version of the shell which will run the script</li>
+        <li>The hashbang line we will use in scripts is
+            <pre>
+#! /bin/bash</pre>
+        </li>
+        <li>The hashbang line can be used to run scripts ...</li>
+        <li>written in Perl or other scripting languages</li>
+        <li>To do this, you must give the absolute pathname ...</li>
+        <li>of the interpreter for the scripting language used</li>
+    </ul>
+    
+    <h4 class="topic" id="shell_script_comments">Comments in Shell Scripts</h4>
+    <ul class="flat">       
+        <li>Programs are written by people for machines</li>
+        <li>But programs also have to be read by the people
+            <ul class="flat">       
+                <li class="flat">Who write the program</li>
+                <li class="flat">Who maintain the program</li>
+                <li class="flat">Who use the program</li>
+            </ul>
+        </li>
+        <li>To make clear what is happening inside a program ...</li>
+        <li>use comments</li>
+        <li>Anything following a hash mark, <span class="char">#</span> , is a comment ...</li>
+        <li>except for the hashbang line</li>
+        <li>Comments are a device for documenting a program ...</li>
+        <li>within the text of the program itself</li>
+        <li>This sort of documentation is extremely important</li>
+        <li>It is good practice to place a comment at the top of the shell script ...</li>
+        <li>after the hashbang line</li>
+        <li>This comment should say what the script does</li>
+        <li>You should also comment any part of a script ...</li>
+        <li>that does something that is hard to understand</li>
+        <li>I'll take off points if you don't</li>
+    </ul>
+	
+	<h3 class="section">New Material</h3>
+	
+    <h4 class="topic" id="separating_grouping_commands">Separating and Grouping Commands</h4>
+    <ul class="flat">       
+        <li>Every time you hit Enter ...</li>
+        <li>the shell tries to execute your command line entry</li>
+        <li>so far, we have only run one command from the command line ...</li>
+        <li>except for pipes</li>
+        <li>You can enter more than one command on the command line ...</li>
+        <li>if you separate them with a semicolon, <span class="char">;</span>
+                <pre>
+$ echo Here are the contents of my home directory <span class="red">;</span> ls -l <span class="red">;</span> echo
+Here are the contents of my home directory
+total 40
+drwxr-xr-x  4 ghoffman grad    4096 Oct 15  2016 bin
+drwxr-xr-x  6 ghoffman faculty 4096 Oct 23  2016 code
+drwxr-xr-x  6 ghoffman faculty 4096 Sep  9  2016 course_files
+drwxr-xr-x  7 ghoffman grad    4096 May 25 10:53 html
+lrwxrwxrwx  1 root     root      38 May 30 21:10 it116 -> /courses/it116/sum17/ghoffman/ghoffman
+lrwxrwxrwx  1 ghoffman faculty   52 Feb 20 09:43 it116_test -> /home/ghoffman/code/it116_code/testing_scripts_it116
+lrwxrwxrwx  1 ghoffman faculty   38 May 30 16:59 it244 -> /courses/it244/sum17/ghoffman/ghoffman
+lrwxrwxrwx  1 ghoffman faculty   52 Feb  3 09:10 it244_test -> /home/ghoffman/code/it244_code/testing_scripts_it244
+drwxr-----  2 ghoffman faculty 4096 Mar 27 09:43 mail
+drwxrwxr-x 10 ghoffman faculty 4096 Jul  6 08:51 public_html
+drwxrwxr-x  4 ghoffman faculty 4096 Jun 12 08:40 submitted
+drwxr-----  4 ghoffman faculty 4096 Jun 23 11:38 tests_taken
+drwxr--r--  2 ghoffman faculty 4096 Jul 11 17:55 tmp
+drwxr-----  4 ghoffman faculty 4096 Sep 22  2016 xrchiv</pre>
+            </li>
+            <li>When you hit Enter each command is executed ...</li>
+            <li>in the order it was typed at the command line</li>
+    </ul>
+
+    <h4 class="topic" id="pipe_ampersand_command_separators"><span class="char">|</span> (pipe) and <span class="char">&amp;</span> (ampersand) as Command Separators</h4>
+    <ul class="flat">       
+        <li>The semicolon, <span class="char">;</span>, is a command separator</li>
+        <li>It separates multiple commands on a single command line</li>
+        <li>The pipe character, <span class="char">|</span>, and the ampersand, <span class="char">&amp;</span> , 
+            character ...
+        </li>
+        <li>are also command separators</li>
+        <li>When we separate commands with the pipe character, <span class="char">|</span> ...</li>
+        <li>each command takes its input from the previous command</li>
+        <li>Each command is a separate process ...</li>
+        <li>though the pipeline is a single job</li>
+        <li>We use an ampersand, <span class="char">&amp;</span>, after a command </li>
+        <li>to make the command run in the <a class="def" href="../definitions.html#background">background</a>
+            <pre>
+./bother.sh  <span class="red">&amp;</span></pre>
+        </li>
+        <li>When we do this, two things happen
+            <ul class="flat">       
+                <li class="flat">The command is disconnected from the keyboard</li>
+                <li class="flat">The command will run at the same time <br>
+                    as the next command you enter
+                </li>
+            </ul>
+        </li>
+        <li>But the ampersand is also a command separator</li>
+        <li>So we can use it to run more than one command ...</li>
+        <li>at the same time
+            <pre>
+$ ./bother.sh &gt; /dev/null  <span class="red">&amp;</span> ./bother.sh &gt; /dev/null <span class="red">&amp;</span> ./bother.sh &gt; /dev/null <span class="red">&amp;</span> jobs
+[1] 1794
+[2] 1795
+[3] 1796
+[1]   Running                 ./bother.sh &gt; /dev/null &amp;
+[2]-  Running                 ./bother.sh &gt; /dev/null &amp;
+[3]+  Running                 ./bother.sh &gt; /dev/null &amp;</pre>
+        </li>
+        <li>Here I created three jobs with one command line</li>
+        <li>I can kill all three jobs using command substitution
+            <pre>
+$ kill <span class="red">$(jobs -p)  ;</span>  jobs
+[1]   Running                 ./bother.sh &gt; /dev/null &amp;
+[2]-  Running                 ./bother.sh &gt; /dev/null &amp;
+[3]+  Running                 ./bother.sh &gt; /dev/null &amp;
+[1]   Terminated              ./bother.sh &gt; /dev/null
+[2]-  Terminated              ./bother.sh &gt; /dev/null
+[3]+  Terminated              ./bother.sh &gt; /dev/null</pre>
+        </li>
+        <li>Notice that I used the semicolon to run two commands ...</li>
+        <li>on the same command line</li>
+        <li>Since both these jobs are running in the foreground ...</li>
+        <li>they run sequentially ...</li>
+        <li>one right after the other</li>
+        <li>Each command has to wait for the previous command to finish ...</li>
+        <li>before it starts</li>
+    </ul>
+    
+    <h4 class="topic" id="continuing_command_next_line">Continuing a Command onto the Next Line</h4>
+    <ul class="flat">       
+        <li>Unix will let you type as long a command line as you like</li>
+        <li>If you reach the end of your session window ...</li>
+        <li>while typing a command ...</li>
+        <li>your text will wrap to the next line
+            <pre>
+$ echo asdfasdfasdfasdfasdfasdfasdf
+asdfasdfasdfasdfasdfasdfasdfasdfasd
+fasdfasdfasdfasdfasdfasdfasdfasdfas
+dfasdfasdfasfads <span class="red">Done</span>
+asdfasdfasdfasdfasdfasdfasdfasdfasd
+fasdfasdfasdfasdfasdfasdfasdfasdfas
+dfasdfasdfasdfasdfasdfasdfasdfasdfa
+sdfasfads <span class="red">Done</span></pre>
+        </li>
+        <li>If you then expand the window, you can see more text on each line
+            <pre>
+$ echo asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfas
+dfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasd
+fasdfasdfasfads <span class="red">Done</span>
+asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfa
+sdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfas
+dfasfads <span class="red">Done</span></pre>
+    </li>
+        <li>Unix thinks that the text above is only two lines
+            <ul class="flat">       
+                <li class="flat">Your command line entry</li>
+                <li class="flat">The one line output</li>
+            </ul>
+        </li>
+        <li>But sometimes it helps to break a long command </li>
+        <li>into more than one line</li>
+        <li>You can do this by typing a backslash, <span class="char">\</span> ...</li>
+        <li>followed <b>immediately</b> by the Enter key
+            <pre>
+$ echo A man <span class="red">\</span>
+&gt; A plan <span class="red">\</span>
+&gt; A canal <span class="red">\</span>
+&gt; Panama
+A man A plan A canal Panama</pre>
+        </li>
+        <li>Here we are escaping the the newline character ...</li>
+        <li>at the end of the line</li>
+        <li>Escaping turns off the special meaning of a character</li>
+        <li>The backslash above turns off the special meaning of newline</li>
+        <li>Normally, the shell runs the command when it sees newline</li>
+        <li>The newline character is sent when you hit Enter on a PC ...</li>
+        <li>or Return on a Mac</li>
+        <li>Backslash only escapes the character <b>immediately</b> following it</li>
+        <li>This trick won't work if you put a space before the newline</li>
+        <li>Then the backslash only operates on the space, not the newline</li>
+        <li>After hitting <span class="char">\</span> and newline ...</li>
+        <li>the shell responds with the greater than symbol, <span class="char">&gt;</span></li>
+        <li>This is the <a class="def" href="../definitions.html#secondary_prompt">secondary prompt</a></li>
+        <li>The shell is telling you it expects more input</li>
+        <li>The normal prompt is your primary prompt</li>
+        <li>You get the primary prompt when the shell is waiting for a command</li>
+        <li>You get the secondary prompt when the shell is waiting ...</li>
+        <li>for the continuation of a command already started</li>
+    </ul>
+
+    <h4 class="topic" id="parentheses_commands_in_sub=shell">Using Parentheses, <span class="char">( )</span> , to Run a Group of Commands in a Subshell</h4>
+    <ul class="flat">       
+        <li>Sometimes, you want to run a group of commands ...</li>
+        <li>in a shell of it's own ...</li>
+        <li>You can do this by putting the commands within parentheses
+            <pre>
+    <span class="red">(</span> cd ~/bar ; tar-xvf - <span class="red">)</span></pre>
+        </li>
+        <li>The shell creates a sub-shell ...</li>
+        <li>and runs the commands in that sub-shell</li>
+        <li>Why would you want to do this?</li>
+        <li>Consider the following command line entry
+    <pre>
+cd ~/foo ; tar -cf - . | <span class="red">(</span> cd ~/bar ; tar-xvf - <span class="red">)</span></pre>
+        </li>
+        <li>It tells the shell
+            <ul class="flat">       
+                <li class="flat">Go to a certain directory</li>
+                <li class="flat">Run <code>tar</code> on the files you find there</li>
+                <li class="flat">Send the results to standard input, <span class="char">-</span></li>
+                <li class="flat">Go to another directory</li>
+                <li class="flat">Recreate the files from standard input, <span class="char">-</span></li>
+            </ul>
+        </li>
+        <li>When using <code>tar</code>, - means either standard input or standard output ...</li>
+        <li>depending upon the context</li>
+        <li>Without the sub-shell ...</li>
+        <li>the output of the first <code>tar</code> would go to <code>cd</code> ...</li>
+        <li>and <code>cd</code> would ignore it ...</li>
+        <li>since it already has the only parameter it needs</li>
+        <li>But the second <code>tar</code>  is waiting for something from standard input</li>     
+    </ul>
+
+    <h4 class="topic" id="directory_stack">The Directory Stack</h4>
+    <ul class="flat">       
+        <li>Moving back to a previous directory can be a pain</li>
+        <li>You might have to type a long pathname</li>
+        <li>Even worse, you might forget where you were</li>
+        <li>Bash provides the directory stack mechanism to make this easier</li>
+        <li>The directory stack keeps tracks of each directory you enter ...</li>
+        <li>by putting them onto a stack</li>
+        <li>The stack operates on the principle of last in, first out</li>
+        <li>You can go back to a previous directory ...</li>
+        <li>by using, and removing, the last directory from the stack</li>
+        <li>You can keep doing this until you get where you want to be</li>
+        <li>There are three commands that use the directory stack
+            <ul class="flat">       
+                <li class="flat"><code>dirs</code></li>
+                <li class="flat"><code>pushd</code></li>
+                <li class="flat"><code>popd</code></li>
+            </ul>
+        </li>
+        <li><code>cd</code> keeps no record of where you have been</li>
+        <li><code>pushd</code> and <code>popd</code> use the directory stack to change your location ...</li>
+        <li>and update the directory stack</li>
+    </ul>
+    
+    <h4 class="topic" id="dirs"><code>dirs</code> - Displays the Directory Stack</h4>
+    <ul class="flat">       
+        <li>A stack is a list with unusual properties</li>
+        <li>It is a LIFO data structure ...</li>
+        <li>which stands for <b>L</b>ast <b>I</b>n <b>F</b>irst <b>O</b>ut</li>
+        <li>Stacks are a well known data structure in programming</li>
+        <li>They allow you to go back in time ...</li>
+        <li>to previous values of some important variable</li>
+        <li>A physical example of a stack can by found in some cafeterias ...</li>
+        <li>in the dish stack</li>
+        <li>There is a circular hole in the counter ...</li>
+        <li>which opens onto a metal cylinder ...</li>
+        <li>with a spring at the bottom</li>
+        <li>An attendant puts a bunch of dishes into the cylinder</li>
+        <li>The next customer takes a dish from the top of the stack</li>
+        <li>That dish was put in last</li>
+        <li>Last in, first out</li>
+        <li><code>dirs</code> displays the current contents of the directory stack</li>
+        <li>If the stack is empty, <code>dirs</code> simply displays the current directory
+    <pre>
+$pwd
+~/it244/hw5    
+
+$ dirs
+~/it244/hw5</pre>
+        </li>
+        <li><code>dirs</code> always uses a tilde, <span class="char">~</span> ...</li>
+        <li>when referring to your home directory</li>
+    </ul>
+    
+    <h4 class="topic" id="pushd"><code>pushd</code> - Pushes a Directory onto the Stack</h4>
+    <ul class="flat">       
+        <li>In programming, putting something onto a stack is called a push</li>
+        <li><code>pushd</code> changes your current directory, just like <code>cd</code> ...</li>
+        <li>but it also adds your new directory to the directory stack</li>
+        <li>When used <b>with</b> an argument, <code>pushd</code>
+            <ul class="flat">       
+                <li class="flat">Places the new directory on the stack</li>
+                <li class="flat">Displays the current contents of the directory stack</li>
+                <li class="flat">Moves to the new directory</li>
+            </ul>
+        </li>
+        <li>Let's look at an example
+    <pre>
+$ pwd
+/home/it244gh/it244/hw5
+
+$ dirs
+<span class="red">~/it244/hw5</span>
+
+$ pushd ~ghoffman
+
+$ pwd
+/home/ghoffman
+
+$ dirs
+<span class="red">/home/ghoffman ~/it244/hw5</span></pre>        
+        </li>
+        <li> When used <b>without</b> an argument <code>pushd</code>
+            <ul class="flat">       
+                <li class="flat">Swaps the positions of the first two directories on the directory stack</li>
+                <li class="flat">Displays the current contents of the directory stack</li>
+                <li class="flat">Moves to the new top directory the directory stack</li>
+            </ul>
+        </li>
+        <li>Let's look at an example
+    <pre>
+$ pushd examples_it244/
+<span class="red">~/examples_it244</span>  ~
+
+$ pushd ~it244gh
+<span class="red">/home/it244gh</span>  ~/examples_it244  ~
+
+$ pushd it244/work/
+<span class="red">/home/it244gh/it244/work</span> /home/it244gh  ~/examples_it244  ~
+
+$ pushd
+<span class="red">/home/it244gh  /home/it244gh/it244/work</span>  ~/examples_it244  ~
+
+$ dirs
+<span class="red">/home/it244gh  /home/it244gh/it244/work</span>  ~/examples_it244  ~</pre>
+        </li>
+        <li>You can also give <code>pushd</code> a plus sign followed by a number</li>
+        <li>If you do this, it will take you to the directory ...</li>
+        <li>at that position in the stack</li>
+        <li>The directory on the top of the stack has the number 0</li>
+    </ul>
+
+    <h4 class="topic" id="popd"><code>popd</code> - Pops a Directory off the Stack</h4>
+    <ul class="flat">       
+        <li>In programming, removing a value from a stack is called a pop</li>
+        <li><code>popd</code> changes your current directory to another directory ...</li>
+        <li>but it also removes a directory from the stack</li>
+        <li>When used <b>without</b> an argument <code>popd</code>
+            <ul class="flat">       
+                <li class="flat">Removes the top directory from the stack</li>
+                <li class="flat">Prints the current stack</li>
+                <li class="flat">Goes to the directory that is now on top of the stack</li>
+            </ul>
+        </li>
+        <li>Here is an example
+            <pre>
+$ pwd
+/home/it244gh/it244/hw5
+
+$ dirs
+~/it244/hw5
+
+$ pushd ~ghoffman
+<span class="red">/home/ghoffman</span>  ~/it244/hw5
+
+$ pwd
+/home/ghoffman
+
+$ popd
+<span class="red">~/it244/hw5</span>
+
+$ pwd
+/home/it244gh/it244/hw5
+
+$ dirs
+~/it244/hw5</pre>
+        </li>
+        <li>You can also give <code>popd</code> a plus sign followed by a number</li>
+        <li>The directory with that number will be removed from the stack ...</li>
+        <li>but you will stay in the current directory</li>
+    </ul>
+    
+    <h4 class="topic" id="shell_variables">Shell Variables</h4>
+    <ul class="flat">
+        <li>A variable is a name given to a place in memory</li>
+        <li>that holds a value</li>
+        <li><a class="def" href="../definitions.html#shell_variable">Shell variables</a> 
+            are variables that are defined inside a shell ...   
+        </li>
+        <li>and can be used inside the shell</li>
+        <li>To get the value of a shell variable put a dollar sign, <span class="char">$</span> ...</li>
+        <li>in front of the variable name
+        <pre>
+$ echo <span class="red">$</span>PATH
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</pre>
+        </li>
+        <li>Some variables are set and maintained by the shell itself</li>
+        <li>They are called <a class="def" href="../definitions.html#keyword_shell_variable">keyword shell variables</a></li>
+        <li>Or just <a class="def" href="../definitions.html#keyword_variable">keyword variables</a></li>
+        <li>A <a class="def" href="../definitions.html#keyword">keyword</a> is a word</li>
+        <li>with special meaning to the shell</li>
+        <li>Some of these variables are defined in <span class="path">/etc/profile</span></li>
+        <li>Many of these keyword variables can be changed by the user</li>
+        <li>Other variables can be created by the user</li>
+        <li>They are called are called user-created variables</li>
+        <li>The environment in which a variable can be used ...</li>
+        <li>is called the 
+        		<a class="def" href="../definitions.html#bash_scope">scope</a>
+        </li>
+        <li>Shell variables have two scopes
+            <ul class="flat">       
+                <li class="flat">Local</li>
+                <li class="flat">Global</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h4 class="topic" id="local_variables">Local Variables</h4>
+    <ul class="flat">       
+        <li><a class="def" href="../definitions.html#bash_local_variable">Local variables</a> 
+            only have meaning ...
+        </li>
+        <li>in the shell in which they are defined</li>
+        <li>To create a local variable, use the following format
+            <pre>
+<span class="format">VARIABLE_NAME=VALUE</span></pre>
+        </li>
+        <li>There <b>cannot be any spaces on either side of the equal sign</b> ...</li>
+        <li>when setting Bash variables</li>
+        <li>Here is an example
+            <pre>
+$ foo<span class="red">=</span>bar
+
+$ echo $foo
+bar</pre>
+        </li>
+        <li>Variables are local unless you <b>explicitly</b> make them global</li>
+        <li>If the value assigned to a variable has spaces or tabs ...</li>
+        <li>you must quote it
+            <pre>
+$ hello="Hello there"
+
+$ echo $hello
+Hello there</pre>
+        </li>
+        <li>Local variables only exist in the shell in which they are created</li>
+        <li>If you run a shell script ...</li>
+        <li>that script cannot see your local variables ...</li>
+        <li>because the script is running in a sub-shell ...</li>
+        <li>and the local variables are only defined </li>
+        <li>in the shell that launched the script
+            <pre>
+$ foo=bar
+
+$ echo $foo
+bar
+
+$ cat print_foo.sh
+#!/bin/bash
+#
+# Prints the value of the variable foo
+
+echo foo = $foo
+
+$ ./print_foo.sh
+foo =</pre>
+        </li>
+        <li>Notice that the script printed no value for <span class="iden">foo</span></li>
+        <li>The variable <span class="iden">foo</span> is defined <b>only</b> in the shell which <b>calls</b> 
+            <span class="path">print_foo.sh</span>
+        </li>
+        <li>It <b>does not exist</b> in the sub-shell that runs the script ...</li>
+        <li>so it has no value in the sub-shell</li>
+        <li>Bash allows you to assign a value to a variable used in a script ...</li>
+        <li>on the command line that calls the scrip
+            <pre>
+$ echo $foo
+bar
+
+$ <span class="red">foo=bletch</span> ./print_foo.sh
+foo = bletch
+
+$ echo $foo
+bar</pre>
+        </li>
+        <li>Notice that the value of <span class="iden">foo</span> is different in the running script ...</li>
+        <li>from its value in the shell that launched the script</li>
+        <li>A variable defined at the command line before running a script ...</li>
+        <li>only exists in the sub-shell that runs the command</li>
+    </ul>
+
+    <h4 class="topic" id="global_variables">Global Variables</h4>
+    <ul class="flat">       
+        <li><a class="def" href="../definitions.html#bash_global_variable">Global variables</a> 
+            are variables defined in one shell  ...
+        </li>
+        <li>and have meaining in all sub-shells created from that shell</li>
+        <li>In Bash you define a global variable ...</li>
+        <li>by preceding the variable name  with the keyword <code>export</code>
+            <pre>
+$ echo $foo
+bar
+
+$ <span class="red">export</span> foo=bletch
+
+$ echo $foo
+bletch
+
+$ ./print_foo.sh
+foo = bletch</pre>
+        </li>
+        <li>Usually, global variables are declared in a startup file like 
+            <span class="path">.bash_profile</span>
+        </li>
+        <li>If you run the <code>env</code> command without an argument ...</li>
+        <li>it prints the values of global variables
+            <pre>
+$ env
+TERM=xterm-color
+SHELL=/bin/bash
+SSH_CLIENT=66.92.76.9 53785 22
+OLDPWD=/home/it244gh
+SSH_TTY=/dev/pts/8
+USER=it244gh
+...</pre>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="keyword_shell_variables">Keyword Shell Variables</h4>
+    <ul class="flat">       
+        <li>Keyword shell variables, also called keyword variables ...</li>
+        <li>have special meaning to the shell</li>
+        <li>They have short, mnemonic names</li>
+        <li>By convention, the names of keyword variables are always <b>CAPITALIZED</b></li>
+        <li>Most keyword variables can be changed by the user</li>
+        <li>This is normally done in the startup file 
+<span class="path">.bash_profile</span></li>
+    </ul>
+    
+    <h4 class="topic" id="important_keyword_shell_variables">Important Keyword Shell Variables</h4>
+    <ul class="flat">       
+        <li>There are a number of keyword variables that affect your Unix session</li>
+        <li>Some of the more important are
+		    <blockquote>
+		        <table>
+		            <tr>
+		                <th>Variable</th>   <th align="left">Value</th>
+		            </tr>
+		            <tr>
+		                <td><span class="iden">HOME</span></td>  
+		                <td>The absolute pathname of your home directory</td>
+		            </tr>
+		            <tr>
+		            <td><span class="iden">PATH</span></td>  
+		               <td>The list of directories the shell will search when looking for the executable 
+		                   file associated with a command you entered at the command line</td>
+		           </tr>
+		           <tr>
+		               <td><span class="iden">SHELL</span></td>  
+		               <td>The absolute pathname of your default shell</td>
+		           </tr>
+		           <tr>
+		               <td><span class="iden">MAIL</span></td>  
+		               <td>The absolute pathname of the file that holds your mail</td>
+		           </tr>
+		           <tr>
+		               <td><span class="iden">PS1</span></td>  
+		               <td>Your command line prompt - what you see after entering each command</td>
+		           </tr>
+		           <tr>
+		               <td><span class="iden">PS2</span></td>  
+		               <td>The secondary prompt - what you see if you continue a command to a second line</td>
+		           </tr>
+		       </table>
+		    </blockquote>
+            
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="user-created_variables">User-created Variables</h4>
+    <ul class="flat">       
+        <li>User-created variables are any variables you create</li>
+        <li>By convention, the names of user-created variables are lower case
+            <pre>
+$ foo=bling
+
+$ echo $foo
+bling</pre>
+        </li>
+        <li>User-created variables can be either local or global in scope</li>
+    </ul>
+    
+        
+    <h3 class="section">Attendance</h3>
+    
+    <h3 class="section">Class Quiz</h3>
+    
+	<footer>
+		<a href="class_notes_it244.html" class="spacer">Class Notes</a>
+		<a href="class_notes_index_it244.html" class="spacer">Class Notes Index</a>
+	</footer>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/18_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:40 GMT -->
+</html>

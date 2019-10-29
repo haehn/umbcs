@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/05_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:23 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../../class_notes.html">
+    <title> IT 244: Introduction to Linux/Unix - Class 5</title>
+</head>
+<body>
+	<header>
+		<h2> 
+		    IT 244: Introduction to Linux/Unix <br>
+		    Class 5
+		</h2>	
+	</header>
+
+    <h3 class="section">Today's Topics</h3>
+    
+    <!-- ADD hostname -d -->
+    
+    <h4 class="flat_under">Tips and Examples</h4>
+    <ul class="flat">       
+    		<li class="flat"><a href="#do_not_fall_behind">Do Not Fall Behind in This Course</a></li>
+    		<li class="flat"><a href="#read_assignments_carefully">Read the Homework Assignments Carefully</a></li>
+    		<li class="flat"><a href="#working_with_multiple_windows">Working with More than One Window</a></li>
+        <li class="flat"><a href="#shell_scripts">Shell Scripts</a></li>
+    </ul>
+    <br>
+    <h4 class="flat_under">Course Requirements</h4>
+    <ul class="flat">
+        <li class="flat"><a href="#shell_scripts_homework">Shell Scripts for Homework Assignments</a></li>
+        <li class="flat"><a href="#scripts_class_exercises">Scripts for Class Exercises</a></li>
+    </ul>
+    <br>
+    <h4 class="flat_under">Review</h4>
+    <ul class="flat_top">
+        <li class="flat"><a href="#special_characters">Special Characters</a></li>
+        <li class="flat"><a href="#quoting_and_escaping">Quoting and Escaping</a></li>
+        <li class="flat"><a href="#cd"><code>cd</code> - Change Directory</a></li>
+        <li class="flat"><a href="#pwd"><code>pwd</code> - Show Your Current Directory</a></li>
+        <li class="flat"><a href="#ls"><code>ls</code> - List the Contents of a Directory</a></li>
+        <li class="flat"><a href="#cat"><code>cat</code> - Print the Contents of a File</a></li>
+        <li class="flat"><a href="#rm"><code>rm</code> - Delete a File</a></li>
+        <li class="flat"><a href="#mkdir"><code>mkdir</code> - Create a Directory</a></li>
+        <li class="flat"><a href="#rmdir"><code>rmdir</code> - Delete a Directory</a></li>
+        <li class="flat"><a href="#cp"><code>cp</code> - Copy Files</a></li>
+        <li class="flat"><a href="#mv"><code>mv</code> - Move a File or Directory</a></li>
+    </ul>
+    <br>    
+    <h4 class="flat_under">New Material</h4>
+    <ul class="flat_top">
+        <li class="flat"><a href="#echo"><code>echo</code> - Print Text to the Terminal</a></li>
+        <li class="flat"><a href="#hostname"><code>hostname</code> - Print the Name of Your Host Machine</a></li>
+        <li class="flat"><a href="#pagers">Pagers - View a File One Screen at a Time</a></li>
+        <li class="flat"><a href="#pathname_completion">Pathname Completion</a></li>
+        <li class="flat"><a href="#grep"><code>grep</code> - Finding Strings inside Files</a></li>
+        <li class="flat"><a href="#head"><code>head</code> - View the Top of a File</a></li>
+        <li class="flat"><a href="#tail"><code>tail</code> - View the Bottom of a File</a></li>
+        <li class="flat"><a href="#sort"><code>sort</code> - Print a File in Sorted Order</a></li>     
+    </ul>
+    
+    <h3 class="section">Reading Assignment</h3>
+    <p class="flat">The reading assignment for this week is chapter 3 of Sobell, <i>The Utilities</i>.</p>
+    <p>You will find a list of all reading assignments <a href="../readings_it244.html">here</a>.</p>
+    <p>There is a link to this page on the class web page.</p>
+    
+    <h3 class="section">Homework 3</h3>
+    <p class="flat">I have posted Homework 3 <a href="../hw_it244/03_hw_it244.html"> here</a>.</p>
+    <p>As usual, it will be due next Sunday at 11:59 PM.</p>
+    <p>The is the first homework assignment that will require you to write a script.</p>
+    <p>Your script <b>must</b> meet certain requirements that I mentioned in the last class.</p>
+    <p>Let's review the 
+       <a href="../shell_scripts_homework.html">requirements for homework scripts</a>.
+    </p>
+
+    <h3 class="section">Tips and Examples</h3>
+    
+    <h4 class="topic" id="do_not_fall_behind">Do Not Fall Behind in This Course</h4>
+    <ul class="flat">       
+        <li>Technical courses require that you master a great deal of detail</li>
+        <li>Unless you are an exceptional student ...</li>
+        <li>you will need to spend some time on this course ...</li>
+        <li>several times during the week</li>
+        <li>Working once a week is usually not enough</li>
+        <li>The key to success in a technical course ...</li>
+        <li>is steady, consistant, work ...</li>
+        <li>spread out over several days</li>
+        <li>Some important concepts do not sink in immediately</li>
+        <li>It may take several days for something new to sink in</li>
+        <li>Since material in this course often depends on what came before ...</li>
+        <li>it is critical that you not fall behind</li>
+        <li>in your work for this course</li>
+        <li>If you fall behind, it can be <b>VERY</b> hard to catch up</li>
+    </ul>
+    
+	<h4 class="topic" id="read_assignments_carefully">Read the Homework Assignments Carefully</h4>
+	<ul class="flat">       
+        <li>The instructions in the homework assignments and Class Exercises are sometimes complex ...</li>
+        <li>and involve multiple steps</li>
+        <li>When this happens, you may need to read the assignment more than once ...</li>
+        <li>to make sense of what I want you to do</li>
+        <li>Take the time to read these documents slowly ...</li>
+        <li>so you understand all the details</li>
+        <li>If you don't you will make mistakes ...</li>
+        <li>and lose points</li>
+        <li>Technical work is detailed work ...</li>
+        <li>so you must learn to read documents with a lot of detail</li>
+        <li>If you do not understand what I want in an assignment ...</li>
+        <li>post a question on the class discussion area</li>
+        <li><b>NEVER GUESS</b> at the meaning of something I have written</li>
+    </ul>
+    
+    <h4 class="topic" id="working_with_multiple_windows">Working with More than One Window</h4>
+    <ul class="flat">       
+        <li>You can have more that one ssh window open ...</li>
+        <li>at any one time</li>
+        <li>I normally run at least 4 ssh sessions on my Mac</li>
+        <li>After you have opened one PuTTY window ...</li>
+        <li>you can open you can open another ...</li>
+        <li>and another</li>
+        <li>Each one of these windows is a separate login session</li>
+        <li>If you close one of these windows ...</li>
+        <li>it does not affect the others</li>
+    </ul>    
+    
+    <h4 class="topic"id="shell_scripts">Shell Scripts</h4>
+    <ul class="flat">       
+        <li>Any of the commands you type at the command line ...</li>
+        <li>can be placed in a file</li>
+        <li>That file can then be run ...</li>
+        <li>and all the Unix commands in the file</li>
+        <li>Such a file is called a 
+        	<a class="def" href="../definitions.html#shell_script">shell script</a>
+        </li>
+        <li>Let's say I wanted to create a script to go to my home directory ...</li>
+        <li>and then go to my <span class="path">tmp</span> directory ...</li>
+        <li>and then list the contents of the directory</li>
+        <li>I can do this with the following shell script
+        	<pre>
+cd		
+cd tmp	
+ls</pre>
+        </li>
+        <li>If the name of the file is <span class="path">tmp.sh</span> ...</li>
+        <li>I can run it like this
+        	<pre>
+bash tmp.sh</pre>
+        </li>
+    </ul>
+    
+    <h3 class="section">Course Requirements</h3>
+    
+    <h4 class="topic" id="shell_scripts_homework">Shell Scripts for Homework Assignments</h4>
+    <ul class="flat"> 
+    		<li>Starting with homework 3 ...</li>      
+        <li>all homework assignments will require you to write shell scripts</li>
+        <li>This makes it easier for me to grade your homework</li>
+        <li>These script files must meet certain requirements ...</li>
+        <li>or you will lose points</li>
+        <li>I've created a document which lists the requirements ...</li>
+        <li>which you will find <a href="../shell_scripts_homework.html">here</a></li>
+        <li>Let's look at them</li>
+    </ul>
+    
+    <h4 class="topic" id="scripts_class_exercises">Scripts for Class Exercises</h4>
+    <ul class="flat">       
+        <li>Just as all homework assignments from now on ...</li>
+        <li>will require you to write shell scripts ...</li>
+        <li>so will all Class Exercises </li>
+        <li>This will help you get used to writing scripts</li>
+        <li>You <b>do not</b> have to follow all the requirements for homework scripts ...</li>
+        <li>when you write scripts for the Class Exercises</li>
+        <li>But there are a few thing you should not do ...</li>
+        <li>in shell scripts for class exercises</li>
+        <li>Do not do <b>any</b> of the following in a shell script
+        	<ul class="flat">       
+        		<li class="flat">Run <code>man</code> or <code>info</code></li>
+        		<li class="flat">Run <code>more</code> or <code>less</code></li>
+        		<li class="flat">Run <code>nano</code>, <code>vi</code>, <code>vim</code>, <code>emacs</code> or any text editors</li>
+    		</ul>
+        </li>
+        <li>All these commands ask the user for input</li>
+        <li>I am going to run these scripts to test them ...</li>
+        <li>and I will do this using other scripts that I will write</li>
+        <li>I want these scripts to run automatically ...</li>
+        <li>with little input from me</li>
+        <li>If you use any of the commands written above ...</li>
+        <li>the scripts will <b>not</b> run the way they should ...</li>
+        <li>and you will get <b>no credit</b> for the assignment ...</li>
+        <li>until you remove these commands</li>
+    </ul>
+    
+    <h3 class="section">Review</h3>
+    
+    <h4 class="topic" id="special_characters">Special Characters</h4>
+    <ul class="flat">       
+        <li>Some characters have special meaning in Unix</li>
+        <li>They are
+            <pre>
+<span class="char">&amp; : | * ? ' " [ ] ( ) $ &lt; &gt; { } # / \ ! ~</span></pre></li>
+        <li><a class="def" href="../definitions.html#whitespace">Whitespace</a> characters are special too</li>
+        <li>They are 
+            <ul class="flat">       
+                <li class="flat">Space</li>
+                <li class="flat">Tab</li>
+                <li class="flat">Newline</li>
+            </ul>
+        </li>
+        <li>Space separates commands, options, and arguments on the command line</li>
+        <li>Tab has a special meaning we will discuss in another class</li>
+        <li>The Enter key creates a newline character on a PC ...</li>
+        <li>while on a Mac it is the Return key</li>
+        <li>When the <a class="def" href="../definitions.html#shell">shell</a> sees a newline ...</li>
+        <li>it executes the commands on the command line</li>
+    </ul>
+	
+	<h4 class="topic" id="quoting_and_escaping">Quoting and Escaping</h4>
+	<ul class="flat">       
+        <li>You can turn off the special meaning of a character ...</li>
+        <li>by preceding it with a backslash, <span class="char">\</span></li>
+        <li>You can also turn off special meanings by enclosing a string in quotes</li>
+		<li>You can use either single quotes, <span class="char">'</span> </li>
+		<li>or double quotes, <span class="char">"</span></li>
+    </ul>
+
+    <h4 class="topic" id="cd"><code>cd</code> - Change Directory</h4>
+    <ul class="flat">       
+        <li>To change your directory use <code>cd</code></li>
+        <li>If you run <code>cd</code> without an argument ...</li>
+        <li>it will take you to your home directory</li>
+        <li>To go to the directory above your current directory ...</li>
+        <li>use <span class="char">..</span>
+    <pre>
+cd ..</pre>  </li>
+    </ul>
+	
+	<h4 class="topic" id="pwd"><code>pwd</code> - Show Your Current Directory</h4>
+	<ul class="flat">       
+        <li><code>pwd</code> will print you your current location in the filesystem</li>
+        <li><code>pwd</code> takes no arguments</li>
+    </ul>
+    
+    <h4 class="topic" id="ls"><code>ls</code> - List the Contents of a Directory</h4>
+    <ul class="flat">       
+        <li><code>ls</code> lists the contents of a directory</li>
+        <li>To see the contents of directory <span class="path">work</span>, run
+            <pre>
+ls work</pre></li>
+        <li>When you use <code>ls</code> without an argument ...</li>
+        <li>it lists the contents of the current directory</li>
+        <li>For more information run <code>ls</code> with the <code>-l</code> (long) option</li>
+        <li><code>ls -a</code> shows the "invisible" files ...</li>
+        <li>whose name begins with a <span class="char">.</span></li>
+    </ul>
+    
+    <h4 class="topic"id="cat"><code>cat</code> - Print the Contents of a File</h4>
+    <ul class="flat">       
+        <li>To show the contents of a file, use <code>cat</code></li>
+        <li>Use <code>cat -n</code> to print a number for each line of the file</li>
+    </ul>
+    
+    <h4 class="topic" id="rm"><code>rm</code> - Delete a File</h4>
+    <ul class="flat">       
+        <li>To remove a file, use <code>rm</code></li>
+        <li>To remove all files in a directory, use <code>rm *</code></li>
+        <li>Be very careful when you use this construction</li>
+        <li>There is <b>no</b> file recovery mechanism in Unix</li>
+        <li><code>rm</code> will not remove a directory unless you use special options</li>
+    </ul>
+    
+    <h4 class="topic" id="mkdir"><code>mkdir</code> - Create a Directory</h4>
+    <ul class="flat">       
+        <li>You create a directory using <code>mkdir</code></li>
+    </ul>
+
+    <h4 class="topic" id="rmdir"><code>rmdir</code> - Delete a Directory</h4>
+    <ul class="flat">       
+        <li><code>rmdir</code> is used to remove a directory</li>
+        <li><code>rmdir</code> will not work unless the directory is empty</li>
+    </ul>
+    
+    <h4 class="topic" id="cp"><code>cp</code> - Copy Files</h4>
+    <ul class="flat">       
+        <li><code>cp</code> copies files or directories</li>
+        <li>To copy a directory and all its files and sub-directories ...</li>
+        <li>use <code>cp</code> with the -r option</li>
+    </ul>
+    
+    <h4 class="topic" id="mv"><code>mv</code> - Move a File or Directory</h4>
+    <ul class="flat">       
+        <li>Use the <code>mv</code> command to move a file or directory ...</li>
+        <li>from one place to another</li>
+        <li>To rename a file or directory, you also use <code>mv</code></li>
+    </ul>
+	
+	<h3 class="section">New Material</h3>
+	   
+    <h4 class="topic" id="echo"><code>echo</code> - Print Text to the Terminal</h4>
+    <ul class="flat">       
+        <li><code>echo</code> simply prints whatever comes after it to the screen
+    <pre>
+$ echo Hello world!
+Hello world!</pre></li>
+        <li>It's used a lot in shell scripts to prompt for input ...</li>
+        <li>or to let the user know what is happening</li>
+        <li>It is also useful for checking the value of a variable
+       <pre>
+$ echo $PATH
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:::</pre></li>
+        <li>When using <code>echo</code> with a variable ...</li>
+        <li>you must precede the variable name with a dollar sign, <span class="char">$</span></li>
+        <li>When echo is used with the <code>-n</code> option ...</li>
+        <li>it does not advance to the next line</li>
+        <li>This is useful in writing prompts inside shell scripts</li>
+        <li>To see this option at work let's compare two scripts</li>
+        <li>The first uses <code>echo</code> with no option
+        		<pre>
+$ cat echo_no_option.sh 
+#! /bin/bash
+# demonstrates the use of echo without the -n option
+
+echo Hello World!
+echo About to leave</pre>
+        </li>
+        <li>When I run it, I get
+        		<pre>
+$ ./echo_no_option.sh 
+Hello World!
+About to leave</pre>
+        </li>
+        <li>The second script has <code>echo</code> use the <code>-n</code> option
+        		<pre>
+$ cat echo_with_n_option.sh 
+#! /bin/bash
+# demonstrates the use of echo with the -n option
+
+echo -n Hello World!
+echo About to leave</pre>
+        </li>
+        <li>When I run it
+        		<pre>
+$ ./echo_with_n_option.sh 
+Hello World!About to leave</pre>
+        </li>
+        <li>Notice that when I use the -n option in the second script ...</li>
+        <li>both messages are printed on the <b>same</b> line</li>
+    </ul>
+	
+	<h4 class="topic" id="hostname"><code>hostname</code> - Print the Name of Your Host Machine</h4>
+    <ul class="flat">       
+        <li>Every machine on the network has a name</li>
+        <li>This name is known as the <a class="def" href="../definitions.html#hostname">hostname</a></li>
+        <li>The <code>hostname</code> command prints the network name ...</li>
+        <li>of the machine you are using
+            <pre>
+$ hostname
+itserver6</pre>
+    </li>
+    <li><span class="host">users3</span> is a virtual machine that calls itself <span class="host">itserver6</span></li>
+    <li>When used with the <code>-i</code> option ...</li>
+    <li><code>hostname</code> will print the IP address of the host machine
+    <pre>
+$ hostname -i
+192.168.107.136</pre></li>
+    </ul>
+	   
+    <h4 class="topic" id="pagers">Pagers - View a File One Screen at a Time</h4>
+    <ul class="flat">       
+        <li><a class="def" href="../definitions.html#pager">Pagers</a> show the contents of a file ...</li>
+        <li>one screenful at a time</li>
+        <li>Unix provides two paging programs, <code>more</code> and <code>less</code></li>
+        <li><code>less</code> is an improved version of <code>more</code></li>
+        <li>The name is an example of dry Unix humor</li>
+        <li>It's not <code>more</code> ...</li>
+        <li>it's <code>less</code></li>
+        <li>Both allow you to advance to the next screen ...</li>
+        <li>by hitting the space bar</li>
+        <li>To move down one line hit Enter</li>
+        <li>To get help type <span class="char">h</span></li>
+        <li><code>less</code> has more features</li>
+        <li>In <code>less</code> you can use the arrow keys to move up and down one line</li>
+        <li>When <code>more</code> gets to the end of a file ...</li>
+        <li>hitting the Space bar will bring you back to the command line</li>
+        <li>When you get to the end of a file in <code>less</code> ...</li>
+        <li>you must type <span class="char">q</span> to quit</li>
+    </ul>
+    
+    <h4 class="topic" id="pathname_completion">Pathname Completion</h4>
+    <ul class="flat">       
+        <li>When typing a long file name it is easy to make a mistake</li>
+        <li>Unix helps with a feature called <a class="def" href="../definitions.html#pathname_completion">pathname completion</a></li>
+        <li>We'll talk more about pathnames in a future class</li>
+        <li>If you need to type the name of a file or directory ...</li>
+        <li>you can type in the first few characters ...</li>
+        <li>and then hit the Tab key ...</li>
+        <li>and Unix will try to fill in the rest</li>
+        <li>If nothing matches ...</li>
+        <li>you will hear a beep</li>
+        <li>You will also hear a beep if there is more than one match</li>
+        <li>In this case when you hit the Tab key again ...</li>
+        <li>you will get a list of possible matches</li>
+    </ul>
+    
+	<h4 class="topic" id="grep"><code>grep</code> - Finding Strings inside Files</h4>
+	<ul class="flat">       
+        <li><code>grep</code> (<b>g</b>et <b>r</b>egular <b>e</b>x<b>p</b>ression) is a utility which searches a text file ...</li>
+        <li>for lines containing a specific <a class="def" href="../definitions.html#string">string</a> ...</li>
+        <li>and prints the lines where it finds the string</li>
+        <li>A string is a collection of characters ...</li>
+        <li>that may, or may not, be a word</li>
+        <li><code>grep</code> uses the following format
+            <pre>
+<span class="format">grep  [-OPTIONS]  STRING  FILE ...</span></pre></li>
+        <li>The words in capital letters are things that you must supply</li>
+        <li>Anything enclosed in square brackets is optional</li>
+        <li>Here is an example of how grep can be used</li>
+        <li>Say we have a text file
+            <pre>
+$ cat  red_sox.txt 
+2011-07-02      Red Sox @  Astros       Win 7-5
+2011-07-03      Red Sox @  Astros       Win 2-1
+2011-07-04      Red Sox vs Blue Jays    Loss 7-9
+2011-07-05      Red Sox vs Blue Jays    Win 3-2
+2011-07-06      Red Sox vs Blue Jays    Win 6-4
+2011-07-07      Red Sox vs Orioles      Win 10-4
+2011-07-08      Red Sox vs Orioles      Win 10-3
+2011-07-09      Red Sox vs Orioles      Win 4-0
+2011-07-10      Red Sox vs Orioles      Win 8-6
+2011-07-15      Red Sox @  Rays         Loss 6-9
+2011-07-16      Red Sox @  Rays         Win 9-5
+2011-07-17      Red Sox @  Rays         Win 1-0
+2011-07-18      Red Sox @  Orioles      Win 15-10
+2011-07-19      Red Sox @  Orioles      Loss 2-6
+2011-07-20      Red Sox @  Orioles      Win 4-0
+2011-07-22      Red Sox vs Mariners     Win 7-4
+2011-07-23      Red Sox vs Mariners     Win 3-1
+2011-07-24      Red Sox vs Mariners     Win 12-8
+2011-07-25      Red Sox vs Royals       Loss 1-3
+2011-07-26      Red Sox vs Royals       Win 13-9
+2011-07-27      Red Sox vs Royals       Win 12-5
+2011-07-28      Red Sox vs Royals       Loss 3-4
+2011-07-29      Red Sox @  White Sox    Loss 1-3
+2011-07-30      Red Sox @  White Sox    Win 10-2
+2011-07-31      Red Sox @  White Sox    Win 5-3</pre>
+    </li>
+    <li>and we want to find all the games the Sox won</li>
+    <li>We can use grep
+        <pre>
+$ grep <span class="red">Win</span> red_sox.txt 
+2011-07-02      Red Sox @  Astros       Win 7-5
+2011-07-03      Red Sox @  Astros       Win 2-1
+2011-07-05      Red Sox vs Blue Jays    Win 3-2
+2011-07-06      Red Sox vs Blue Jays    Win 6-4
+2011-07-07      Red Sox vs Orioles      Win 10-4
+2011-07-08      Red Sox vs Orioles      Win 10-3
+2011-07-09      Red Sox vs Orioles      Win 4-0
+2011-07-10      Red Sox vs Orioles      Win 8-6
+2011-07-16      Red Sox @  Rays         Win 9-5
+2011-07-17      Red Sox @  Rays         Win 1-0
+2011-07-18      Red Sox @  Orioles      Win 15-10
+2011-07-20      Red Sox @  Orioles      Win 4-0
+2011-07-22      Red Sox vs Mariners     Win 7-4
+2011-07-23      Red Sox vs Mariners     Win 3-1
+2011-07-24      Red Sox vs Mariners     Win 12-8
+2011-07-26      Red Sox vs Royals       Win 13-9
+2011-07-27      Red Sox vs Royals       Win 12-5
+2011-07-30      Red Sox @  White Sox    Win 10-2
+2011-07-31      Red Sox @  White Sox    Win 5-3</pre>
+    </li>
+    <li><code>grep</code> is case sensitive</li>
+    <li>so if we ran 
+    	<pre>
+$ grep <span class="red">win</span> red_sox.txt</pre>
+    </li>
+    <li>we would get no results</li>
+    <li>If you want <code>grep</code> to ignore case ,,,</li>
+    <li>you must run it with the <code>-i</code> option
+        <pre>
+$ grep <span class="red">-i win</span> red_sox.txt 
+2011-07-02      Red Sox @  Astros       Win 7-5
+2011-07-03      Red Sox @  Astros       Win 2-1
+2011-07-05      Red Sox vs Blue Jays    Win 3-2
+2011-07-06      Red Sox vs Blue Jays    Win 6-4
+2011-07-07      Red Sox vs Orioles      Win 10-4
+2011-07-08      Red Sox vs Orioles      Win 10-3
+2011-07-09      Red Sox vs Orioles      Win 4-0
+2011-07-10      Red Sox vs Orioles      Win 8-6
+2011-07-16      Red Sox @  Rays         Win 9-5
+2011-07-17      Red Sox @  Rays         Win 1-0
+2011-07-18      Red Sox @  Orioles      Win 15-10
+2011-07-20      Red Sox @  Orioles      Win 4-0
+2011-07-22      Red Sox vs Mariners     Win 7-4
+2011-07-23      Red Sox vs Mariners     Win 3-1
+2011-07-24      Red Sox vs Mariners     Win 12-8
+2011-07-26      Red Sox vs Royals       Win 13-9
+2011-07-27      Red Sox vs Royals       Win 12-5
+2011-07-30      Red Sox @  White Sox    Win 10-2
+2011-07-31      Red Sox @  White Sox    Win 5-3</pre>
+    </li>
+    <li>The first command failed ...</li>
+    <li>because I spelled "win" with a lowercase <span class="char">w</span></li>
+    <li>If your search string contains one of Unix's special characters</li>
+    <li>You must use a backslash to escape it ...</li>
+    <li>or use quotes</li>
+    <li><code>grep -r</code> will search <b>r</b>ecursively through a directory ...</li>
+    <li>looking at all files in the directory ...</li>
+    <li>and all the subdirectories</li>
+    <li><code>grep -v</code> returns all lines that <b>do not</b> match the search string
+        <pre>
+$ grep <span class="red">-v</span> Win red_sox.txt 
+2011-07-04      Red Sox vs Blue Jays    Loss 7-9
+2011-07-15      Red Sox @  Rays         Loss 6-9
+2011-07-19      Red Sox @  Orioles      Loss 2-6
+2011-07-25      Red Sox vs Royals       Loss 1-3
+2011-07-28      Red Sox vs Royals       Loss 3-4
+2011-07-29      Red Sox @  White Sox    Loss 1-3</pre></li>
+    <li>There are many more useful options for <code>grep</code> ...</li>
+    <li>which can be found on the <code>man</code> page</li>
+	<li>I use <code>grep</code> on an almost daily basis</li>
+	<li>For example, let's say I want to add a field to a database table</li>
+	<li>I keep all my SQL code in text files</li>
+	<li>I can use <code>grep</code> to find every file that references that table</li>
+    </ul>
+
+    <h4 class="topic" id="head"><code>head</code> - View the Top of a File</h4>
+    <ul class="flat">       
+        <li>Sometimes the first few lines of a file are all you need to see</li>
+        <li><code>head</code> displays the first 10 lines of a file
+            <pre>
+$ head red_sox.txt 
+2011-07-02      Red Sox @  Astros       Win 7-5
+2011-07-03      Red Sox @  Astros       Win 2-1
+2011-07-04      Red Sox vs Blue Jays    Loss 7-9
+2011-07-05      Red Sox vs Blue Jays    Win 3-2
+2011-07-06      Red Sox vs Blue Jays    Win 6-4
+2011-07-07      Red Sox vs Orioles      Win 10-4
+2011-07-08      Red Sox vs Orioles      Win 10-3
+2011-07-09      Red Sox vs Orioles      Win 4-0
+2011-07-10      Red Sox vs Orioles      Win 8-6
+2011-07-15      Red Sox @  Rays         Loss 6-9</pre>
+    </li>
+    <li>If you give <code>head</code> a number as an option ...</li>
+    <li>it will display that number of lines
+        <pre>
+$ head <span class="red">-5</span> red_sox.txt 
+2011-07-02      Red Sox @  Astros       Win 7-5
+2011-07-03      Red Sox @  Astros       Win 2-1
+2011-07-04      Red Sox vs Blue Jays    Loss 7-9
+2011-07-05      Red Sox vs Blue Jays    Win 3-2
+2011-07-06      Red Sox vs Blue Jays    Win 6-4</pre></li>
+    </ul>
+	
+	<h4 class="topic" id="tail"><code>tail</code> - View the Bottom of a File</h4>
+	<ul class="flat">       
+        <li><code>tail</code> is like <code>head</code> except it prints the <b>last</b> 10 lines of a file
+            <pre>
+$ tail red_sox.txt 
+2011-07-22      Red Sox vs Mariners     Win 7-4
+2011-07-23      Red Sox vs Mariners     Win 3-1
+2011-07-24      Red Sox vs Mariners     Win 12-8
+2011-07-25      Red Sox vs Royals       Loss 1-3
+2011-07-26      Red Sox vs Royals       Win 13-9
+2011-07-27      Red Sox vs Royals       Win 12-5
+2011-07-28      Red Sox vs Royals       Loss 3-4
+2011-07-29      Red Sox @  White Sox    Loss 1-3
+2011-07-30      Red Sox @  White Sox    Win 10-2
+2011-07-31      Red Sox @  White Sox    Win 5-3</pre>
+    </li>
+    <li>You can give <code>tail</code> a number as an option ...</li>
+    <li>to specify the number of lines printed
+        <pre>
+$ tail <span class="red">-4</span> red_sox.txt 
+2011-07-28      Red Sox vs Royals       Loss 3-4
+2011-07-29      Red Sox @  White Sox    Loss 1-3
+2011-07-30      Red Sox @  White Sox    Win 10-2
+2011-07-31      Red Sox @  White Sox    Win 5-3</pre>
+        </li>
+        <li><code>tail</code> is especially useful when looking at log files</li>
+        <li>Log files are text files that record significant events</li>
+        <li>They are created automatically by programs that provide services ...</li>
+        <li>like a web server</li>
+        <li>The most recent entries are at the end of file ...</li>
+        <li>and those are usually what you want to see ...</li>
+        <li>when you are trying to solve a problem</li>
+        <!-- option to show you new lines when they are added -->
+    </ul>
+	
+	<h4 class="topic" id="sort"><code>sort</code> - Print a File in Sorted Order</h4>
+	<ul class="flat">       
+        <li>Unix has a number of utilities for manipulating text files</li>
+        <li><code>sort</code> prints the contents of a file ...</li>
+        <li>with the lines sorted
+            <pre>
+$ cat  fruit.txt 
+grapes
+pears
+oranges
+cranberries
+apples
+melons
+blueberries
+	
+$ sort  fruit.txt 
+apples
+blueberries
+cranberries
+grapes
+melons
+oranges
+pears</pre></li>
+        <li><code>sort</code> looks at the beginning of each line of a file ...</li>
+        <li>and sorts the line based on these characters</li>
+        <li><b><code>sort</code> does not change the file itself</b> ...</li>
+        <li>it simply prints the sorted contents of the file to the screen</li>
+		<li><code>sort</code> many useful options ...</li>
+		<li>which you can find in the <code>man</code> pages</li>
+		<li><code>sort -r</code> (reverse) will sort the file in reverse alphabetical order
+    <pre>
+$ sort <span class="red">-r</span> fruit.txt 
+pears
+oranges
+melons
+grapes
+cranberries
+blueberries
+apples</pre></li>
+	   <li><code>sort -n</code> (number) will sort a file by number ...</li>
+	   <li>so a line starting with "2" will appear before a line starting with "11"
+    <pre>
+$ cat numbers.txt
+11
+1
+17
+2
+3
+15
+4
+5
+14
+6
+13
+7
+8
+9
+10
+12
+16
+18
+19
+20
+	
+$ sort numbers.txt
+1
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+2
+20
+3
+4
+5
+6
+7
+8
+9
+	
+$ sort <span class="red">-n</span> numbers.txt
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20</pre></li>
+	   <li><code>sort</code> does not change the file on which it is run ...</li>
+	   <li>it merely prints the contents of the file in sorted order</li>
+    </ul>
+    
+    <h3 class="section">Class Exercise 5</h3>
+    <p class="flat">Class Exercise 5 is the first exercise where you will have to write 
+        a shell script.
+    </p>
+    <p>You will create a text file using <code>nano</code>, and type the Linux
+        commands into it.
+    </p>
+    <p>You <b>must</b> create this file in your <span class="path">ex5</span> directory.</p>
+    <p>Please note that the first few sections of Class Exercise 5
+       <b>should not be included</b> in your <span class="path">ex5.sh</span> script.
+    </p>
+    <p>Test your script to see that it works.</p>
+    <p>When your script works, come see me so I can test it with my test script.</p>
+
+    <h3 class="section">Attendance</h3>
+    
+    <h3 class="section">Class Quiz</h3>
+	
+ 
+	<footer>
+		<a href="class_notes_it244.html" class="spacer">Class Notes</a>
+		<a href="class_notes_index_it244.html" class="spacer">Class Notes Index</a>
+	</footer>
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/05_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:23 GMT -->
+</html>

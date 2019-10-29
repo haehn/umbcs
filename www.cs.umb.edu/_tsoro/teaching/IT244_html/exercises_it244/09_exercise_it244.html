@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/09_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title> IT 244: Introduction to Linux/Unix - Class 9 Exercise</title>
+</head>
+<body>
+	<header>
+		<h2>
+		    IT 244: Introduction to Linux/Unix <br>
+		    Class 9 Exercise
+		</h2>	
+	</header>
+
+	<h3>Log in to <span class="host">users3.cs.umb.edu</span></h3>
+    <ul>
+    	<li><span class="under">Run the ssh client</span><br><br>
+        	Connect to <span class="host">users3.cs.umb.edu</span>.
+        </li>
+    </ul>
+	
+	<h3>Directory for this Exercise</h3>
+    <ul>
+        <li><span class="under">Make sure you are in your home directory</span><br>
+            <pre>
+    cd</pre>
+        </li>
+        <li><span class="under">Go to your <span class="path">it244</span> directory</span>
+            <pre>
+    cd  it244</pre>
+        </li>
+        <li><span class="under">Go to your <span class="path">ex</span> directory</span><br>
+            <pre>
+    cd  ex</pre>
+        </li>
+        <li><span class="under">Create an <span class="path">ex9</span> directory</span><br>
+            <pre>
+    mkdir  ex9</pre>
+        </li>       
+        <li><span class="under">Go to your <span class="path">ex9</span> directory</span><br>
+            <pre>
+    cd  ex9</pre>
+        </li>
+    </ul>
+	
+	<h3>Look at the Permissions of Files in a Directory</h3>
+    <ul>
+        <li><span class="under">Go to your home directory</span><br>
+            <pre>
+    cd</pre>
+        </li>
+        <li><span class="under">Make sure you are in your home directory</span><br>
+            <pre>
+    pwd</pre>
+        </li>
+        <li><span class="under">Look at the permissions assigned to the contents of your home directory</span><br>
+            <pre>
+    ls -l</pre>
+        </li>
+        <li><span class="under">Go to my home directory</span><br>
+            <pre>
+    cd ~tsoro</pre>
+        </li>
+        <li><span class="under">Make sure you are in my home directory</span><br>
+            <pre>
+    pwd</pre>
+        </li>
+        <li><span class="under">Look at the permissions assigned to the contents of my home directory</span><br>
+            <pre>
+    ls -l</pre>
+        </li>
+    </ul>
+    
+    <h3>Practice with Permissions</h3>
+    <ul>
+        <li><span class="under">Go to your <span class="path">ex9</span> directory </span><br>
+            <pre>
+    cd ~/it244/ex/ex9</pre>
+        </li>
+        <li><span class="under">Make sure you are in the right directory</span><br>
+            <pre>
+    pwd</pre>
+        </li>
+        <li><span class="under">Use <code>nano</code> to create the file <span class="path">name.txt</span></span><br>
+            <pre>
+    nano name.txt</pre>
+        </li>
+        <li><span class="under">Enter your name in this file and hit Enter</span><br>
+            <br>
+            Then save the file (Control O) and exit (Control X) <code>nano</code>.
+            <br>
+        </li>
+        <li><span class="under">Look at the permissions on this file</span><br>
+            <pre>
+    ls -l name.txt</pre>
+            You have read and write permission on this file
+            <br><br>
+        </li>
+        <li><span class="under">Display the contents of <span class="path">name.txt</span></span><br>
+            <pre>
+    cat name.txt</pre>
+            You have read permission so you can run <code>cat</code> on it.
+            <br>
+        </li>
+        <li><span class="under">Open <span class="path">name.txt</span> with <code>nano</code></span><br>
+            <pre>
+    nano name.txt</pre>
+            You can only open the file if you have read permission.
+            <br>
+        </li>
+        <li><span class="under">Add the city in which you live under your name and hit Enter again</span><br>
+            <br>
+	       Then save the file (Control O) and exit (Control X) <code>nano</code>.
+	       <br>
+        </li>
+        <li><span class="under">Display the content of the file again</span><br>
+            <pre>
+    cat name.txt</pre>
+            You have write permission so you were able to change the file.
+            <br>
+        </li>
+        <li><span class="under">Remove write permission from this file</span><br>
+            <pre>
+    chmod 400 name.txt</pre>
+        </li>
+        <li><span class="under">Look at the permissions for this file</span><br>
+            <pre>
+    ls -l name.txt</pre>
+            You are the only one who has any permissions on this file.
+            <br><br>
+            And all you can do it read it.
+            <br>
+        </li>
+        <li><span class="under">Display the contents of this file</span><br>
+            <pre>
+    cat name.txt</pre>
+        </li>
+        <li><span class="under">Open the file with <code>nano</code></span><br>
+            <pre>
+    nano name.txt</pre>
+        </li>
+        <li><span class="under">Try to add Massachusetts as the third line of this file</span><br>
+            <br>
+             Try to save (Control O) the file.
+             <br><br>
+             You can't because you do not have write permission.
+             <br>
+        </li>
+        <li><span class="under">Quit <code>nano</code></span><br>
+            <pre>
+    Control X</pre>
+            When asked the following, press "N".
+            <pre>
+    Save modified buffer (ANSWERING "No" WILL DESTROY CHANGES) ?</pre>
+        </li>
+        <li><span class="under">Look at the contents of this file</span><br>
+            <pre>
+    cat name.txt</pre>
+            Nothing has changed.
+            <br>
+        </li>
+        <li><span class="under">Remove all privileges from this file</span><br>
+            <pre>
+    chmod 000 name.txt</pre>
+        </li>
+        <li><span class="under">Look at the permissions for this file</span><br>
+            <pre>
+    ls -l name.txt</pre>
+        </li>
+        <li><span class="under">Try to display the contents of the file</span><br>
+            <pre>
+    cat name.txt</pre>
+             You can't because you no longer have read permission.
+             <br>
+        </li>
+        <li><span class="under">Try to open the file with <code>nano</code></span><br>
+            <pre>
+    nano name.txt</pre>
+            You get an empty file because you do not have read permission now on the file
+            <br>
+        </li>
+        <li><span class="under">Quit nano</span><br>
+            <pre>
+    Control X</pre>
+        </li>
+        <li><span class="under">Restore the original privileges</span><br>
+            <pre>
+    chmod 644 name.txt</pre>
+        </li>
+        <li><span class="under">Look at the permissions for this file</span><br>
+            <pre>
+    ls -l name.txt</pre>
+        </li>
+        <li><span class="under">Display the contents of this file</span><br>
+            <pre>
+    cat name.txt</pre>
+    		You can now run <code>cat</code> on the file because you 
+    		have restored your read permission on the file.
+        </li>
+    </ul>
+
+    
+    <h3><code>chmod</code> with Numeric Arguments</h3>
+    <ul>
+        <li><span class="under">Go to your <span class="path">ex9</span> directory </span> <br>
+            <pre>
+    cd ~/it244/ex/ex9</pre>
+        </li>
+        <li><span class="under">Make sure you are in the right directory</span><br>
+            <pre>
+    pwd</pre>
+        </li>
+        <li><span class="under">Create a <span class="path">test.txt</span> file</span><br>
+            <pre>
+    touch test.txt</pre>
+        </li>
+        <li><span class="under">Look at the permissions on your <span class="path">test.txt</span> file</span><br>
+            <pre>
+    ls -l test.txt</pre>
+        </li>
+        <li><span class="under">Remove read permission for all but the owner of the file</span><br>
+            <pre>
+    chmod 600 test.txt</pre>
+        </li>
+        <li><span class="under">Look at the permissions on your <span class="path">test.txt</span> file</span><br>
+            <pre>
+    ls -l test.txt</pre>
+        </li>
+        <li><span class="under">Give read and write permission to everyone</span><br>
+            <pre>
+    chmod 666 test.txt</pre>
+        </li>
+        <li><span class="under">Look at the permissions on your <span class="path">test.txt</span> file</span><br>
+            <pre>
+    ls -l test.txt</pre>
+        </li>
+        <li><span class="under">Restore the original permissions</span><br>
+            <pre>
+    chmod 644 test.txt</pre>
+        </li>
+        <li><span class="under">Look at the permissions on your <span class="path">test.txt</span> file</span><br>
+            <pre>
+    ls -l test.txt</pre>
+        </li>
+        <li><span class="under">Delete <span class="path">test.txt</span></span><br>
+            <pre>
+    rm test.txt</pre>
+        <br><br><br>
+        </li>
+    </ul>    
+
+    <h3>Bash Script for this Exercise</h3>
+    <ul>
+        <li><span class="under">Go to your <span class="path">ex9</span> directory</span><br>
+            <pre>
+    cd ~/it244/ex/ex9</pre>
+        </li>
+        <li><span class="under">Make sure you are in you <span class="path">ex9</span> directory</span><br>
+            <pre>
+    pwd</pre>
+        </li>
+        <li><span class="under">Create the script <span class="path">ex9.sh</span></span><br>
+            <pre>
+    nano  ex9.sh</pre>
+        </li>
+        <li><span class="under">Write into this file  the commands from the previous section</span><br><br>
+            <b>Only enter commands from the section <span class="under"><code>chmod</code> with Numeric Arguments</span></b>.
+            <br>
+        </li>
+        <li><span class="under">Save this file</span><br><br>
+            Save and quit.
+            <br>
+        </li>
+        <li><span class="under">Run this script looking for error messages</span><br>
+            <pre>
+    bash  ex9.sh &gt; /dev/null</pre>
+    			Running <span class="path">ex9.sh</span> this way
+            will only print error messages. <br><br>
+            If you see <b>nothing</b> your script has no Unix errors. 
+            <br><br>
+            If you find any errors, fix them.
+            <br>
+        </li>
+        <li><span class="under">Test you script</span><br>
+			<pre>
+    ~tsoro/it244_test/ex09.sh</pre>
+		When the script asks if you are ready for more, hit Return or Enter.
+			<br>
+		</li>
+        <li><span class="under">Let me check your script</span><br></li>
+    </ul>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/09_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+</html>

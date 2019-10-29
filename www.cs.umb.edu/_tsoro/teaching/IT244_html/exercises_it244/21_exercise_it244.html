@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/21_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title> IT 244: Introduction to Linux/Unix - Class 21 Exercise</title>
+</head>
+<body>
+	<header>
+		<h2> 
+		    IT 244: Introduction to Linux/Unix <br>
+		    Class 21 Exercise
+		</h2>	
+	</header>
+
+
+	<h3>Log in to <span class="host">users3.cs.umb.edu</span></h3>
+    <ul>
+    	<li><span class="under">Run the ssh client</span><br><br>
+        	Connect to <span class="host">users3.cs.umb.edu</span>.
+        </li>
+    </ul>
+        
+    <h3>Directory for this Exercise</h3>
+    <ul>
+        <li><span class="under">Go to your <span class="path">ex</span> directory</span>
+            <pre>
+    cd  ~/it244/ex</pre>
+        </li>
+        <li><span class="under">Create an <span class="path">ex21</span> directory</span><br>
+            <pre>
+    mkdir  ex21</pre>
+        </li>       
+        <li><span class="under">Go to your <span class="path">ex21</span> directory</span><br>
+            <pre>
+    cd  ex21</pre>
+        </li>
+    </ul>
+    
+    <h3>Brace Expansion</h3>
+    <ul>
+        <li><span class="under">Create some files using braces</span><br>
+            <pre>
+    touch test{1,2,3,4,5}.txt</pre>
+        </li>
+        <li><span class="under">Look at the files you just created</span><br>
+            <pre>
+    ls test?.txt</pre>
+        </li>
+        <li><span class="under">Create some additional files using braces</span><br>
+            <pre>
+    touch {foo,bar,bletch}.txt</pre>
+        </li>
+        <li><span class="under">Display all the files you created</span><br>
+            <pre>
+    ls *.txt</pre>
+        </li>
+    </ul>
+    
+    <h3>Tilde, <span class="char">~</span>, Expansion</h3>
+    <ul>
+        <li><span class="under">Display the value of tilde</span><br>
+            <pre>
+    echo ~</pre>
+        </li>
+        <li><span class="under">Use tilde to display the address of <b>my</b> home directory</span><br>
+            <pre>
+    echo ~tsoro</pre><br><br>
+        </li>
+        <li><span class="under">Use tilde followed by a string that is <b>not</b> a Unix ID</span><br>
+            <pre>
+    echo ~xxx</pre>
+            Bash cannot make any sense out of this expression, so it doesn't try.
+            <br><br>
+        </li>
+        <li><span class="under">Use ~+ to display the address of your current directory</span><br>
+            <pre>
+    echo ~+</pre>
+        </li>
+        <li><span class="under">Use ~- to display the address of your previous directory</span><br>
+            <pre>
+    echo ~-</pre>
+        </li>
+    </ul>
+    
+    <h3>Arithmetic Expansion</h3>
+    <ul>
+        <li><span class="under"></span>Create two numeric variables<br>
+            <pre>
+    a=3; b=6</pre>
+        </li>
+        <li><span class="under">Display the values of these new variables</span><br>
+            <pre>
+    echo "a = $a, b = $b"</pre>
+        </li>
+        <li><span class="under">Use these variables in an arithmetic expression</span><br>
+            <pre>
+    echo $(( $a + $b ))</pre>
+        </li>
+        <li><span class="under">Use these variables in another arithmetic expression</span><br>
+            <pre>
+    echo $(( a - b ))</pre>
+            Notice that you did not need to put dollar signs ($) in front
+            of the variable names.
+            <br><br>
+        </li>
+        <li><span class="under">Use these variables in still another arithmetic express</span><br>
+            <pre>
+    echo $((a*b))</pre>
+            Notice that you do not need to use spaces to separate any of the
+            elements of the expression.
+            <br><br>
+        </li>
+        <li><span class="under">Create one last arithmetic expression</span><br>
+            <pre>
+    echo $((b/a))</pre>
+        </li>
+    </ul>
+    
+    <h3>Command Substitution</h3>
+    <ul>
+        <li><span class="under">Use command substitution to see the permissions on the python executable file</span><br>
+            <pre>
+    ls -l $(which python)</pre>
+        </li>
+        <li><span class="under">Use command substitution to set the value of a variable</span><br>
+            <pre>
+    now=$(date)</pre>
+        </li>
+        <li><span class="under">Display the value of this new variable</span><br>
+            <pre>
+    echo $now</pre>
+        </li>
+    </ul>
+    
+    <h3>Pathname Expansion</h3>
+    <ul>
+        <li><span class="under">Display all files ending in ".txt"</span><br>
+            <pre>
+    echo *.txt</pre>
+        </li>
+        <li><span class="under">Display the "test" files created earlier</span><br>
+            <pre>
+    echo test?.txt</pre>
+        </li>
+        <li><span class="under">Display the first two "test" files</span><br>
+            <pre>
+    echo test[12].txt</pre>
+        </li>
+    </ul>
+	
+    <h3>Bash Script for this Exercise</h3>
+    <ul>
+        <li><span class="under">Make sure you are in your <span class="path">ex21</span> directory</span><br>
+            <pre>
+    cd  ~/it244/ex/ex21</pre>
+        </li>
+        <li><span class="under">Create the script <span class="path">ex21.sh</span></span><br>
+            <pre>
+    nano  ex21.sh</pre>
+        </li>
+        <li><span class="under">Write into this file commands from  the sections above</span><br><br>
+            Include Unix commands from the section <span class="under">Brace Expansion</span>, up to and including
+            the section <span class="under">Pathname Expansion</span>. <br>
+            <br><br>
+        </li>
+        <li><span class="under">Save this file</span><br><br>
+            Save and quit.
+            <br><br>
+        </li>
+        <li><span class="under">Make this scipt executable</span><br>
+            <pre>
+    chmod 755 ex21.sh</pre>
+        </li>
+        <li><span class="under">Run this script looking for error messages</span><br>
+            <pre>
+    bash  ex21.sh &gt; /dev/null</pre>
+    			Running <span class="path">ex21.sh</span> this way
+            will only print error messages. <br><br>
+            If you see <b>nothing</b> your script has no Unix errors. <br><br>
+                If you find any errors, fix them.
+                <br><br>
+    			<br><br>
+        </li>
+        <li><span class="under">Test you script</span><br>
+			<pre>
+    ~tsoro/it244_test/ex21.sh</pre>
+		When the script asks if you are ready for more, hit Return or Enter.
+			<br><br>
+		</li>
+        <li><span class="under">Let me check your script</span><br></li>
+    </ul>
+    
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/21_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+</html>

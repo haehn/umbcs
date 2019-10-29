@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/19_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:40 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title> IT 244: Introduction to Linux/Unix - Class 18</title>
+</head>
+<body>
+	<header>
+		<h2> 
+		    IT 244: Introduction to Linux/Unix <br>
+		    Class 18
+		</h2>	
+	</header>
+    <!-- TALK ABOUT THE HASH FUNCTION -->
+    <!-- RUN SEVERAL INSTANCES OF BOTHER IN THE BACKGROUND THEN RUN ps -f -->
+
+    <h3 class="section">Today's Topics</h3>
+    
+    <h4 class="flat_under">Tips and Examples</h4>
+    <ul class="flat">       
+        <li class="flat"><a href="#control_z_editor">Using Control Z with an Editor</a></li>
+        <li class="flat"><a href="#strange_bug">A Strange Bug Involving <span class="char">;</span></a></li>
+    </ul>
+    <br>
+    <h4 class="flat_under">Review</h4>
+    <ul class="flat_top">
+        <li class="flat"><a href="#separating_grouping_commands">Separating and Grouping Commands</a></li>
+        <li class="flat"><a href="#pipe_ampersand_command_separators"><span class="char">|</span> (pipe) and <span class="char">&amp;</span> (ampersand) as Command Separators</a></li>
+        <li class="flat"><a href="#continuing_command_next_line">Continuing a Command onto the Next Line</a></li>
+        <li class="flat"><a href="#parentheses_commands_in_subshell">Using Parentheses, <span class="char">( )</span> , to Run a Group of Commands in a Subshell</a></li>
+        <li class="flat"><a href="#directory_stack">The Directory Stack</a></li>
+        <li class="flat"><a href="#dirs"><code>dirs</code> - Displays the Directory Stack</a></li>
+        <li class="flat"><a href="#pushd"><code>pushd</code> - Pushes a Directory onto the Stack</a></li>
+        <li class="flat"><a href="#popd"><code>popd</code> - Pops a Directory off the Stack</a></li>
+        <li class="flat"><a href="#shell_variables">Shell Variables</a></li>
+        <li class="flat"><a href="#local_variables">Local Variables</a></li>
+        <li class="flat"><a href="#global_variables">Global Variables</a></li>
+        <li class="flat"><a href="#keyword_shell_variables">Keyword Shell Variables</a></li>
+        <li class="flat"><a href="#important_keyword_shell_variables">Important Keyword Shell Variables</a></li>
+        <li class="flat"><a href="#user-created_variables">User-created Variables</a></li>
+    </ul>
+    
+    <h4 class="flat_under">New Material</h4>
+    <ul class="flat_top">
+        <li class="flat"><a href="#positional_and_special_parameters">Positional and Special Parameters</a></li>
+        <li class="flat"><a href="#quoting_variable_values">Quoting and the Evaluation of Variables</a></li>
+        <li class="flat"><a href="#removing_variable_value">Removing a Variable's Value</a></li>
+        <li class="flat"><a href="#variable_attributes">Variable Attributes</a></li>
+        <li class="flat"><a href="#processes">Processes</a></li>
+        <li class="flat"><a href="#system_calls">System Calls</a></li>
+        <li class="flat"><a href="#how_shell_runs_program">How the Shell Runs a Program</a></li>
+        <li class="flat"><a href="#process_structure">Process Structure</a></li>
+        <li class="flat"><a href="#booting_unix">Booting a Unix Machine</a></li>
+        <li class="flat"><a href="#process_identification">Process Identification</a></li>
+    </ul>
+    
+    <h3 class="section">Homework 9</h3>
+    <p class="flat">I have posted Homework 9 <a href="../hw_it244/09_hw_it244.html">here</a>.</p>
+    <p>As usual, it will be due next Sunday at 11:59 PM.</p>
+    
+    <h3 class="section">Quiz 6</h3>
+    <p class="flat">I have posted the answers to Quiz 6 
+        <a href="../weekly_quiz_answers_it244/06_quiz_answers_it244.html">here</a>.
+    </p>
+    
+    <h3 class="section">Review</h3>
+    
+    <h3 class="section">Tips and Examples</h3>
+    
+    <h4 class="topic" id="control_z_editor">Using Control Z with an Editor</h4>
+    <ul class="flat">       
+        <li><code>fg</code> is used to bring a background job into the foreground</li>
+        <li>But it will also bring a suspended job back to life</li>
+        <li>This allows you to use Control Z to switch in and out of a text editor ...</li>
+        <li>while working on a script</li>
+        <li>You launch an editor to work on a script</li>
+        <li>When you want to test your script you hit Control Z</li>
+        <li>This suspends the editor ...</li>
+        <li>and brings you back to the command line ...</li>
+        <li>where you can test your script</li>
+        <li>When you want to return to the editor ...</li>
+        <li>simply run <code>fg</code></li>
+        <li>You can also use this trick with <code>man</code> ...</li>
+        <li>and <code>info</code></li>
+    </ul>
+    
+    <h4 class="topic" id="strange_bug">A Strange Bug Involving <span class="char">;</span></h4>
+    
+    <h3 class="section">Review</h3>
+        
+    <h4 class="topic" id="separating_grouping_commands">Separating and Grouping Commands</h4>
+    <ul class="flat">       
+    <li>You can enter many commands on a single command line ...</li>
+        <li>if you separate them with a semicolon, <span class="char">;</span>
+            <pre>
+$ echo Here are the contents of my home directory <span class="red">;</span> ls <span class="red">;</span> echo
+Here are the contents of my home directory
+bin   course_files  it116       it244       mail         submitted    tmp
+code  html          it116_test  it244_test  public_html  tests_taken  xrchiv</pre>
+            </li>
+            <li>When you hit Enter each command is executed ...</li>
+            <li>in the order it was typed at the command line</li>
+    </ul>
+
+    <h4 class="topic" id="pipe_ampersand_command_separators"><span class="char">|</span> (pipe) and <span class="char">&amp;</span> (ampersand) as Command Separators</h4>
+    <ul class="flat">
+        <li>The pipe, <span class="char">|</span> , and ampersand, <span class="char">&amp;</span> , characters are also command separators</li>
+        <li>When we separate commands with the pipe character, <span class="char">|</span> ...</li>
+        <li>each command takes its input from the previous command</li>
+        <li>Each command is a separate <a class="def" href="../definitions.html#process">process</a></li>
+        <li>We use an ampersand, <span class="char">&amp;</span> , after a command ...</li>
+        <li>to run that command in the <a class="def" href="../definitions.html#background">background</a></li>
+        <li>When we do this, two things happen
+            <ul class="flat">       
+                <li class="flat">The command is disconnected from the keyboard</li>
+                <li class="flat">The command will run at the same time <br>
+                    as the next command you enter</li>
+            </ul>
+        </li>
+        <li>But the ampersand is also a command separator</li>
+        <li>So we can use it to run many commands at the same time
+            <pre>
+$ ./bother.sh &gt; /dev/null <span class="red">&amp;</span> ./bother.sh  &gt; /dev/null <span class="red">&amp;</span> ./bother.sh  &gt; /dev/null <span class="red">&amp;</span> jobs
+[1] 1794
+[2] 1795
+[3] 1796
+[1]   Running                 ./bother.sh &gt; /dev/null &amp;
+[2]-  Running                 ./bother.sh &gt; /dev/null &amp;
+[3]+  Running                 ./bother.sh &gt; /dev/null &amp;</pre>
+    </li>
+    </ul>
+    
+    <h4 class="topic" id="continuing_command_next_line">Continuing a Command onto the Next Line</h4>
+    <ul class="flat">       
+        <li>A command line entry can be as long as you like</li>
+        <li>If you reach the end of your session window while typing your command ...   </li>
+        <li>your text will wrap to the next line</li>
+        <li>But sometimes it helps to break a command line into multiple lines</li>
+        <li>You can do this by typing a backslash, <span class="char">\</span></li>
+        <li>followed <b>immediately</b> by the Enter key
+            <pre>
+$ echo A man <span class="red">\</span>
+&gt; A plan <span class="red">\</span>
+&gt; A canal <span class="red">\</span>
+&gt; Panama
+A man A plan A canal Panama</pre>
+        </li>
+        <li>The backslash turns off the special meaning of newline</li>
+        <li>Normally, when the shell sees a newline ...</li>
+        <li>is runs whatever you have entered at the command line</li>
+        <li>Backslash only escapes the character <b>immediately</b> following it</li>
+        <li>After hitting <span class="char">\</span> and newline ...</li>
+        <li>the shell responds with the greater than symbol, <span class="char">&gt;</span></li>
+        <li>This is the <a class="def" href="../definitions.html#secondary_prompt">secondary prompt</a></li>
+        <li>The shell is telling you it expects more input</li>
+        <li>The normal prompt is your primary prompt</li>
+        <li>You get the primary prompt when the shell is waiting for a command</li>
+        <li>You get the secondary prompt when the shell is waiting ...</li>
+        <li>for more of your command line</li>
+    </ul>
+
+    <h4 class="topic" id="parentheses_commands_in_subshell">Using Parentheses, <span class="char">( )</span> , to Run a Group of Commands in a Subshell</h4>
+    <ul class="flat">
+        <li>A group of commands within, a longer command line ...</li>
+        <li>can be given a subshell of their own ...</li>
+        <li>in which to run</li>
+        <li>You can do this by putting the commands within parentheses
+            <pre>
+<span class="red">(</span> cd ~/bar ; tar-xvf - <span class="red">)</span></pre>
+        </li>
+        <li>The shell creates a subshell and runs the commands in that subshell</li>    
+    </ul>
+
+    <h4 class="topic" id="directory_stack">The Directory Stack</h4>
+    <ul class="flat">       
+        <li>Bash provides a way for you to move back to previous directories</li>
+        <li>The directory stack keeps tracks of each directory you enter ...</li>
+        <li>as long as you use commands that use the stack</li>
+        <li>The stack operates on the principle of last in, first out</li>
+        <li>You can go back to a previous directory ...</li>
+        <li>by removing the top directory from the stack ...</li>
+        <li>and going to that directory</li>
+        <li>You can keep doing this ...</li>
+        <li>until you get where you want to be</li>
+        <li>There are three commands that use the directory stack
+            <ul class="flat">       
+                <li class="flat">dirs</li>
+                <li class="flat">pushd</li>
+                <li class="flat">popd</li>
+            </ul>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="dirs"><code>dirs</code> - Displays the Directory Stack</h4>
+    <ul class="flat">       
+        <li>A stack is a LIFO data structure ...</li>
+        <li>which stands for <b>L</b>ast <b>I</b>n <b>F</b>irst <b>O</b>ut</li>
+        <li>A stack allows you to go back in time to previous values ...</li>
+        <li>of some important variable</li>
+        <li><code>dirs</code> displays the current contents of the directory stack</li>
+        <li>If the stack is empty, <code>dirs</code> displays the current directory
+    <pre>
+$pwd
+~/it244/hw5 
+   
+$ <span class="red">dirs</span>
+~/it244/hw5</pre>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="pushd"><code>pushd</code> - Pushes a Directory onto the Stack</h4>
+    <ul class="flat">       
+        <li>In programming, putting something onto a stack is called a push</li>
+        <li><code>pushd</code> changes your current directory ...</li>
+        <li>just like <code>cd</code> ...</li>
+        <li>but it also adds your new directory to the directory stack</li>
+        <li>When used <b>with</b> an argument, <code>pushd</code>
+            <ul class="flat">       
+                <li class="flat">Places the new directory on the stack</li>
+                <li class="flat">Displays the current contents of the directory stack</li>
+                <li class="flat">Moves to the new directory</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h4 class="topic" id="popd"><code>popd</code> - Pops a Directory off the Stack</h4>
+    <ul class="flat">       
+        <li>In programming, removing a value from a stack is called a pop</li>
+        <li><code>popd</code> changes your directory to another directory</li>
+        <li>But it also removes a directory from the stack</li>
+        <li>When used <b>without</b> an argument, <code>popd</code>
+            <ul class="flat">       
+                <li class="flat">Removes the top directory from the stack</li>
+                <li class="flat">Prints the current stack</li>
+                <li class="flat">Goes to the directory that is now on top of the stack</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h4 class="topic" id="shell_variables">Shell Variables</h4>
+    <ul class="flat">       
+        <li>A <a class="def" href="../definitions.html#variable">variable</a>
+            is a place in memory with a name ...
+        </li>
+        <li>that holds a value</li>
+        <li>Shell variables are variables that can be used in the shell</li>
+        <li>To get the value of a variable ...</li>
+        <li>put a dollar sign, 
+            <span class="char">$</span>, in front of its name
+        <pre>
+$ echo <span class="red">$</span>PATH
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</pre>
+        </li>
+        <li>Some variables are set and maintained by the shell itself</li>
+        <li>They are called 
+            <a class="def" href="../definitions.html#keyword_shell_variable">keyword shell variables</a> ...
+        </li>
+        <li>or just keyword variables</li>
+        <li>Some of these variable are defined in <span class="path">/etc/profile</span></li>
+        <li>Many of these keyword variables can be changed by the user</li>
+        <li>Other variables are created by the user</li>
+        <li>They are called are called user-created variables</li>
+        <li>The environment in which a variable can be used is called the 
+            <a class="def" href="../definitions.html#bash_scope">scope</a>
+        </li>
+        <li>Shell variables have two scopes
+            <ul class="flat">       
+                <li class="flat">Local</li>
+                <li class="flat">Global</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h4 class="topic" id="local_variables">Local Variables</h4>
+    <ul class="flat">       
+        <li><a class="def" href="../definitions.html#bash_local_variable">Local variables</a> 
+            only exist in the shell in which they are defined
+        </li>
+        <li>To create a local variable, use the following format
+            <pre>
+<span class="format">VARIABLE_NAME=VALUE</span></pre>
+        </li>
+        <li>There are <b>no spaces on either side of the equal sign</b> ...</li>
+        <li>when setting Bash variables</li>
+        <li>Here is an example
+            <pre>
+$ city<span class="red">=</span>Boston
+
+$ echo <span class="red">$</span>city
+Boston</pre>
+        </li>
+        <li>Variables are local unless you explicitly make them global</li>
+        <li>If the value assigned to a variable has spaces or tabs ...</li>
+        <li>you must quote it
+            <pre>
+$ hello=<span class="red">"</span>Hello there<span class="red">"</span>
+
+$ echo <span class="red">$</span>hello
+Hello there</pre>
+        </li>
+        <li>If you run a shell script, the local variables will not be visible ...</li>
+        <li>because the script is running in a subshell ...</li>
+        <li>and the local variables are not defined there</li>
+    </ul>
+
+    <h4 class="topic" id="global_variables">Global Variables</h4>
+    <ul class="flat">       
+        <li><a class="def" href="../definitions.html#bash_global_variable">Global variables</a> 
+            are defined in one shell ...
+        </li>
+        <li>and keep their values in all subshells created from that shell</li>
+        <li>Global variables are defined in Bash using the <code>export</code> command
+            <pre>
+$ echo $foo
+FOO
+
+$ <span class="red">export</span> foo=BLETCH
+
+$ echo $foo
+BLETCH
+
+$ ./print_foo.sh
+foo = BLETCH</pre>
+        </li>
+        <li>Usually, global variables are declared in a startup file ...</li>
+        <li>like <span class="path">.bash_profile</span></li>
+        <li>The <code>env</code> command, when used without an argument ...</li>
+        <li>displays the values of all global variables
+            <pre>
+$ env
+TERM=xterm-color
+SHELL=/bin/bash
+SSH_CLIENT=66.92.76.9 53785 22
+OLDPWD=/home/it244gh
+SSH_TTY=/dev/pts/8
+USER=it244gh
+...</pre>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="keyword_shell_variables">Keyword Shell Variables</h4>
+    <ul class="flat">       
+        <li>Keyword shell variables have special meaning to the shell</li>
+        <li>They have short, mnemonic names</li>
+        <li>By convention, the names of keyword variables are <b>always capitalized</b></li>
+        <li>Most keyword variables can be changed by the user</li>
+        <li>This is normally done in the startup file <span class="path">.bash_profile</span></li>
+    </ul>
+    
+    <h4 class="topic" id="important_keyword_shell_variables">Important Keyword Shell Variables</h4>
+    <ul class="flat">       
+        <li>There are a number of keyword variables that affect your Unix session</li>
+        <li>Some of the more important are
+            <blockquote>
+                <table>
+                    <tr>
+                        <th align=left>Variable</th>   <th align="left">Value</th>
+                    </tr>
+                    <tr>
+                        <td><span class="iden">HOME</span></td>  
+                        <td>The absolute pathname of your home directory</td>
+                    </tr>
+                    <tr>
+                    <td><span class="iden">PATH</span></td>  
+                       <td>The list of directories the shell will search when looking for the executable 
+                           file associated with a command you entered at the command line</td>
+                   </tr>
+                   <tr>
+                       <td><span class="iden">SHELL</span></td>  
+                       <td>The absolute pathname of your default shell</td>
+                   </tr>
+                   <tr>
+                       <td><span class="iden">PS1</span></td>  
+                       <td>Your command line prompt - what you see after entering each command</td>
+                   </tr>
+                   <tr>
+                       <td><span class="iden">PS2</span></td>  
+                       <td>The secondary prompt - what you see if you continue a command to a second line</td>
+                   </tr>
+               </table>
+            </blockquote>
+            
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="user-created_variables">User-created Variables</h4>
+    <ul class="flat">       
+        <li>User-created variables are any variables you create</li>
+        <li>By convention, the names of user-created variables are lower case
+            <pre>
+$ foo=FOO
+
+$ echo $foo
+FOO</pre>
+        </li>
+        <li>User-created variables can be either local or global in scope</li>
+    </ul>
+	
+	<h3 class="section">New Material</h3>
+	
+	<h4 class="topic" id="positional_and_special_parameters">Positional and Special Parameters</h4>
+	<ul class="flat">       
+        <li>Positional and special parameters are variables set by Unix ...</li>
+        <li>that change each time you enter a command</li>
+        <li>We have already encountered the special parameter <span class="iden">?</span></li>
+        <li>It contains the status code returned by the last command
+    <pre>
+$ ls bar.txt 
+bar.txt
+
+$ echo $<span class="red">?</span>
+0
+
+$ ls xxx
+ls: cannot access xxx: No such file or directory
+
+$ echo $<span class="red">?</span>
+2</pre>        
+        </li>
+        <li><a class="def" href="../definitions.html#positional_parameter">Positional parameters</a> 
+            are used by shell scripts ...
+        </li>
+        <li>to get command line arguments</li>
+        <li>Positional parameters allow the shell script to get arguments from the command line</li>
+        <li>each word on the command line ...</li>
+        <li>is assigned to a positional parameter</li>
+        <li>The first word is the pathname of the script ...</li>
+        <li>and is assigned to positional parameter <span class="iden">0</span></li>
+        <li>Each succeeding word on the command line ...</li>
+        <li>is assigned to the next integer
+    <pre>
+$ cat print_positionals.sh
+#!/bin/bash
+#
+# Prints the value of the first four positional arguments
+
+echo
+echo 0: $<span class="red">0</span>
+echo 1: $<span class="red">1</span>
+echo 2: $<span class="red">2</span>
+echo 3: $<span class="red">3</span>
+
+$ ./print_positionals.sh foo bar bletch
+0: <span class="red">./print_positionals.sh</span>
+1: <span class="red">foo</span>
+2: <span class="red">bar</span>
+3: <span class="red">bletch</span></pre>
+        </li>
+        <li>Positional parameters are the usual way input is given to a script</li>
+        <li>Another special parameter is <span class="iden">#</span></li>
+        <li><span class="iden">#</span> contains the number of arguments ...</li>
+        <li>passed to a program from the command line
+    <pre>
+$ cat print_arg_numbers.sh 
+#!/bin/bash
+#
+# Prints the number of arguments sent to this script
+
+echo
+echo This script received $<span class="red">#</span> arguments
+
+$ ./print_arg_numbers.sh foo bar bletch
+This script received <span class="red">3</span> arguments</pre>        
+        </li>
+        <li>Notice that <span class="iden">#</span> counts the <b>arguments</b> to the script ...</li>
+        <li>not the name of the script itself</li>
+    </ul>
+    
+    <h4 class="topic" id="quoting_variable_values">Quoting and the Evaluation of Variables</h4>
+    <ul class="flat">       
+        <li>Whenever the value of a variable contains spaces or tabs ...</li>
+        <li>you must quote the string ...</li>
+        <li>or escape the whitespace character</li>
+        <li>There are three ways this
+            <ul class="flat">       
+                <li class="flat">Single quotes, <span class="char">' '</span></li>
+                <li class="flat">Double quotes, <span class="char">" "</span></li>
+                <li class="flat">Backslash, <span class="char">\</span></li>
+            </ul>
+        </li>
+        <li>Single quotes are the most restrictive</li>
+        <li>Everything surrounded by single quotes ...</li>
+        <li>appears in the variable ...</li>
+        <li>exactly as you typed it</li>
+        <li>This means that special meaning of characters ...</li>
+        <li>like <span class="char">$</span> before a variable name ...</li>
+        <li>are ignored
+    <pre>
+$ team="Red Sox'
+
+echo $team
+Red Sox
+
+$ cheer=<span class="red">'</span>Go $team<span class="red">'</span>
+
+$ echo $cheer
+Go <span class="red">$team</span></pre>      
+        </li>
+        <li>Double quotes also preserve spaces and tabs ...</li>
+        <li>in the strings they contain</li>
+        <li>But you can use a <span class="char">$</span> in front of a variable name ...</li>
+        <li>to get the value of a variable ...</li>
+        <li>inside double quotes
+    <pre>       
+$ cheer=<span class="red">"</span>Go $team<span class="red">"</span>
+
+$ echo $cheer
+Go <span class="red">Red Sox</span>  </pre>        
+        </li>
+        <li>Quotes affect everything they enclose</li>
+        <li>The backslash, <span class="char">\</span>, only effects the character immediately following it
+    <pre>
+$ foo=bar
+
+$ echo $foo
+bar
+
+$ foo3=<span class="red">\$</span>foo
+
+$ echo $foo3
+<span class="red">$</span>foo</pre>        
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="removing_variable_value">Removing a Variable's Value</h4>
+    <ul class="flat">       
+        <li>There are two ways of removing the value of a variable</li>
+        <li>You can use the <code>unset</code> command
+            <pre>
+$ echo $foo
+FOO
+
+$ <span class="red">unset</span> foo
+
+$ echo $foo
+
+$</pre>
+        </li>
+        <li>Notice that the variable name was <b>not</b> preceded by a <span class="char">$</span></li>
+        <li>That's because we are dealing with the variable itself ...</li>
+        <li>not its value</li>
+        <li>The other way of removing a variable's value</li>
+        <li>is to set the value of the variable to the empty string
+    <pre>
+$ echo $foo
+FOO
+
+$ <span class="red">foo=</span>
+
+$ echo $foo
+
+$</pre>
+        </li>
+    </ul>
+
+    <h4 class="topic" id="variable_attributes">Variable Attributes</h4>
+    <ul class="flat">       
+        <li>Variables can have attributes ...</li>
+        <li>such as being read only or global</li>
+        <li>We have already seen one way to set the attribute of a variable</li>
+        <li>If you precede the name of a variable with <code>export</code> ...</li>
+        <li>it makes the variable global
+            <pre>
+$ <span class="red">export</span> foo=FOO</pre>
+        </li>
+        <li>You can make a variable read only ...</li>
+        <li>by using the <code>readonly</code> command
+    <pre>
+$ echo $foo
+FOO
+
+$ <span class="red">readonly</span> foo
+
+$ foo=bar
+<span class="red">-bash: foo: readonly variable</span></pre>
+        </li>
+        <li>You must set the value of a variable ...</li>
+        <li>before you make it read only</li>
+        <li>Once you make a variable read only ...</li>
+        <li>it cannot be changed</li>
+        <li>There are many more variable attributes</li>
+        <li>They can be set using the <code>declare</code> command ...</li>
+        <li>which is a
+        		<a class="def" href="../definitions.html#built-in_command">built-in</a>
+        </li>
+        <li>Here are some of the options <code>declare</code>
+            <blockquote>
+                <table>
+		           <tr>
+		               <th>Option</th>  <th>Meaning</th>
+		           </tr>
+		           <tr>
+		               <td><span class="char">a</span></td>  <td>Declares a variable to be an array</td>
+		           </tr>
+		           <tr>
+		               <td><span class="char">f</span></td>  <td>Declares a variable to be a function name</td>
+		           </tr>
+		           <tr>
+		               <td><span class="char">i</span></td>  <td>Declares a variable to be an integer</td>
+		           </tr>
+		           <tr>
+		               <td><span class="char">r</span></td>  <td>Makes a variable read only</td>
+		           </tr>
+		           <tr>
+		               <td><span class="char">x</span></td>  <td>Makes a variable global</td>
+		           </tr>
+                </table>
+            </blockquote>
+        </li>
+        <li>Let's look at some examples
+            <pre>
+$ foo=bar
+
+$ echo $foo
+bar
+
+$ foo=bletch
+
+$ echo $foo
+bletch
+
+$ <span class="red">declare -r foo</span>
+
+$ foo=bling
+<span class="red">-bash: foo: readonly variable</span></pre>
+        </li>
+        <li>The <span class="iden">readonly</span> command is also a built-tin ...</li>
+        <li>and is a synonym for <code>declare -r</code></li>
+        <li><code>export</code> is a built-in too ...</li>
+        <li>and it is a synonym for <code>declare -x</code></li>
+    </ul>
+    
+    <h4 class="topic" id="processes">Processes</h4>
+    <ul class="flat">       
+        <li>A process is a running program</li>
+        <li>Every process has resources ...</li>
+        <li>that it needs to do its job</li>
+        <li>Unix is a multitasking operating system ...</li>
+        <li>so many processes can run at the same time</li>
+        <li>The shell runs in a process like any other command</li>
+        <li>Every time you run a program ...</li>
+        <li>except a built-in ...</li>
+        <li>a new process is created</li>
+        <li>Running a built-in command does not create a process ...</li>
+        <li>because the built-in is part of the shell ..</li>
+        <li>and the shell already has a process</li>
+        <li>When a shell script is run ...</li>
+        <li>your current shell creates a subshell to run the script</li>
+        <li>This subshell runs in a new process</li>
+    </ul>
+    
+    <h4 class="topic" id="system_calls">System Calls</h4>
+    <ul class='flat'>       
+        <li>When you run a command that is not a built-in in ...</li>
+        <li>your shell asks the kernel to create a process ...</li>
+        <li>to run that command</li>
+        <li>How does the shell make this request?</li>
+        <li>It does it through a 
+            <a class="def" href="../definitions.html#system_call">system call</a>
+        </li>
+        <li>Built-ins are procedures contained in the binary instructions for the shell ...</li>
+        <li>that you can run at the command line</li>
+        <li>In a similar way, the kernel contains procedures inside its binary instructions ...</li>
+        <li>that other programs can use</li>
+        <li>When a program needs to have the kernel do something for it ...</li>
+        <li>it runs one of these procedures inside the shell</li>
+        <li>The mechanism by which a program runs one of these procedures ...</li>
+        <li>is called a system call</li>
+        <li>Certain programming languages ...</li>
+        <li>like C ...</li>
+        <li>have features that allow you to make a system call ...</li>
+        <li>directly inside a program written in the language</li>
+    </ul>
+    
+    <h4 class="topic" id="how_shell_runs_program">How the Shell Runs a Program</h4>
+    <ul class='flat'>       
+        <li>To create a process to run a command that you have entered ...</li>
+        <li>your shell calls the kernel procedure <code>fork()</code></li>
+        <li>This procedure makes new process ...</li>
+        <li>that is a duplicate of the process running your shell</li>
+        <li>The only difference between the two processes ...</li>
+        <li>is that the new process knows it was created ...</li>
+        <li>the original process</li>
+        <li>The original shell process is called the 
+            <a class="def" href="../definitions.html#parent_process">parent process</a>
+        </li>
+        <li>and the new process is called the 
+            <a class="def" href="../definitions.html#child_process">child process</a>
+        </li>
+        <li>Every process has to have binary code to make it run</li>
+        <li>The new process has the same binary code as the shell ...</li>
+        <li>but it knows that it is a child process ...</li>
+        <li>and must run the program that was entered at the command line</li>
+        <li>It does this by making a system call to another kernel procedure ...</li>
+        <li>called <code>exec()</code></li>
+        <li>This procedure replaces the binary code of the process ...</li>
+        <li>with the binary code of the command the user entered ...</li>
+        <li>and runs that code</li>
+        <li>When the code finishes running ...</li>
+        <li>it sends an 
+            <a class="def" href="../definitions.html#exit_status"></a>
+            to its parent process
+        </li>
+        <li>The parent process was your shell</li>
+        <li>While the command you entered is running ...</li>
+        <li>you shell has nothing to do ...</li>
+        <li>so it makes a system call to the kernel procedure <code>sleep</code></li>
+        <li>This causes your shell process to go into a state of suspended animation</li>
+        <li>The shell process still exists</li>
+        <li>It does not lose memory in RAM ...</li>
+        <li>but it is not using any process time</li>
+        <li>The shell process continues sleeping ...</li>
+        <li>until it gets the exit status from the child process ...</li>
+        <li>running the program you entered</li>
+        <li>Then the shell process wakes up again ...</li>
+        <li>and it ready for you next command</li>
+    </ul>
+
+    <h4 class="topic" id="process_structure">Process Structure</h4>
+    <ul class="flat">
+        <li>Since every process on the computer ...</li>
+        <li>was created by a parent process ...</li>
+        <li>how is the very first process created?</li>
+        <li>Whenever a Unix system is turned on ...</li>
+        <li>a special first process is created automatically</li>
+        <li>This special process then creates other process ...</li>
+        <li>which can create other process ...</li>
+        <li>and so on</li>
+        <li>This creates a hierarchical structure ...</li>
+        <li>much like the file system</li>
+        <li>In the hierarchical filesystem this is special directory at the top ...</li>
+        <li>called the root ..</li>
+        <li>and every other file or directory is contained in this directory ...</li>
+        <li>or one of its subdirectories</li>
+        <li>Until recently the special first process was <span class="iden">init</span></li>
+        <li>But for various reasons this is no longer the case in Ubuntu ...</li>
+        <li>though it still may be true in other versions of Linux</li>
+        <li>The spontaneous process that is created whenever you power on an Ubuntu system ...</li>
+        <li>is now <span class="iden">systemd</span></li>
+    </ul>
+    
+    <h4 class="topic" id="booting_unix">Booting a Unix Machine</h4>
+    <ul class='flat'>
+        <li>Whenever you turn on a Unix machine ...</li>
+        <li>a spontaneous process is automatically created</li>
+        <li>The code for this process is either <code>init</code> ...</li>
+        <li>or <code>systemd</code></li>
+        <li>and has process id 1</li>
+        <li>This process then creates all other processes ...</li>
+        <li>needed to run the services the machine provides</li>
+        <li>Unix can be run is a mode with only one user ...</li>
+        <li>but this is only done under special circumstances</li>
+        <li>When run in multiuser mode ...</li>
+        <li>Unix will create processes that allow users to log in</li>
+        <li>There are an a number of different programs that can be run in these process ...</li>
+        <li>such as
+            <ul class='flat'>       
+                <li class="flat"><code>getty</code></li>
+                <li class="flat"><code>mingetty</code></li>
+                <li class="flat"><code>agetty</code></li>
+            </ul>
+        </li>
+        <li>Our systems run <code>agetty</code></li>
+        <li>Each one of these processes is connected to a physical or virtual terminal</li>
+        <li>When the code detects an attempt to connect ...</li>
+        <li>it displays a login prompt ...</li>
+        <li>and waits for the user to respond</li>
+        <li>When that happens it runs <code>login</code> ...</li>
+        <li>which is located in the <span class="path">/bin</span>directory ...</li>
+        <li>to verify the password</li>
+        <li>If the password is accepted <code>exec()</code> is called ...</li>
+        <li>on the code for the default shell ...</li>
+        <li>and the process becomes your login shell</li>
+    </ul>
+
+    <h4 class="topic" id="process_identification">Process Identification</h4>
+    <ul class="flat">       
+        <li>Each process has a unique Process ID (PID) number</li>
+        <li>As long as the process runs, it has the same PID</li>
+        <li>After a process terminates ...</li>
+        <li>its PID can be assigned to a new process</li>
+        <li><code>ps -f</code> displays a full listing of information about each process running ...</li>
+        <li>for the user
+            <pre>
+$ ps -f
+UID        PID  PPID  C STIME TTY          TIME CMD
+it244gh  26374 26373  0 13:41 pts/5    00:00:00 -bash
+it244gh  27891 26374  0 13:57 pts/5    00:00:00 ps -f</pre>
+        </li>
+        <li>The UID column shows the Unix username of the account that started the process</li>
+        <li>The PID column is the process ID of the process</li>
+        <li>The PPID column is the process ID of the parent process ...</li>
+        <li>the process that created this process</li>
+        <li>The CMD column lists the command that is running in the process</li>
+        <li>If I were to run <code>sleep</code> in the background ...</li>
+        <li>and then run <code>ps -f</code>, I would see
+            <pre>
+$ sleep 10 &amp; ps -f
+[1] 27352
+UID        PID  PPID  C STIME TTY          TIME CMD
+ghoffman  <span class="red">27292</span> 27287  0 15:12 pts/1    00:00:00 -bash
+ghoffman  27352 <span class="red">27292</span>  0 15:13 pts/1    00:00:00 sleep 10
+ghoffman  27353 <span class="red">27292</span>  0 15:13 pts/1    00:00:00 ps -f</pre>
+        </li>
+        <li>Notice that the parent process of both <code>sleep</code> and <code>ps -f</code> ...</li>
+        <li>is my login shell</li>
+        <li><code>pstree</code> will display a tree of all currently running processes</li>
+        <li>If I run <code>pstree</code> on 
+<span class="host">users3</span> I can see the process structure
+            <pre>
+systemd─┬─accounts-daemon─┬─{gdbus}
+        │                 └─{gmain}
+        ├─acpid
+        ├─agetty
+        ├─atd
+        ├─automount───10*[{automount}]
+        ├─bash
+        ├─bother.sh───sleep
+        ├─cron
+        ├─cups-browsed─┬─{gdbus}
+        │              └─{gmain}
+        ├─dbus-daemon
+        ├─dhclient
+        ├─irqbalance
+        ├─2*[iscsid]
+        ├─lvmetad
+        ├─lxcfs───4*[{lxcfs}]
+        ├─master─┬─pickup
+        │        └─qmgr
+        ├─mdadm
+        ├─ntpd
+        ├─polkitd─┬─{gdbus}
+        │         └─{gmain}
+        ├─rpc.statd
+        ├─rpcbind
+        ├─rsyslogd─┬─{in:imklog}
+        │          ├─{in:imuxsock}
+        │          └─{rs:main Q:Reg}
+        ├─rwhod───rwhod
+        ├─screen───bash
+        ├─screen───bash───vim
+        ├─snapd───7*[{snapd}]
+        ├─sshd─┬─3*[sshd───sshd───bash───alpine]
+        │      ├─2*[sshd───sshd───bash]
+        │      ├─sshd───sshd───bash───pstree
+        │      └─sshd───sshd───bash───ssh
+        ├─10*[systemd───(sd-pam)]
+        ├─systemd-journal
+        ├─systemd-logind
+        ├─systemd-udevd
+        └─ypbind───2*[{ypbind}]
+
+</pre>
+        </li>
+        <li>Where you see a number followed by a <span class="char">*</span> it means there are multiple 
+            versions of that software running in different processes
+        </li>
+        <li>You can see this more clearly if you run <code>pstree</code> with the -p option ...</li>
+        <li>which will show each process along with its process ID
+        <pre>
+systemd(1)─┬─accounts-daemon(2099)─┬─{gdbus}(2136)
+           │                       └─{gmain}(2134)
+           ├─acpid(2076)
+           ├─agetty(2481)
+           ├─atd(2103)
+           ├─automount(42937)─┬─{automount}(42938)
+           │                  ├─{automount}(42939)
+           │                  ├─{automount}(42942)
+           │                  ├─{automount}(42945)
+           │                  ├─{automount}(42946)
+           │                  ├─{automount}(42947)
+           │                  ├─{automount}(42948)
+           │                  ├─{automount}(42949)
+           │                  ├─{automount}(42950)
+           │                  └─{automount}(42951)
+           ├─bash(27573)
+           ├─bother.sh(16996)───sleep(47645)
+           ├─cron(2087)
+           ├─cups-browsed(40751)─┬─{gdbus}(40833)
+           │                     └─{gmain}(40832)
+           ├─dbus-daemon(2089)
+           ├─dhclient(2246)
+           ├─irqbalance(2465)
+           ├─iscsid(2355)
+           ├─iscsid(2356)
+           ├─lvmetad(1199)
+           ├─lxcfs(2101)─┬─{lxcfs}(2126)
+           │             ├─{lxcfs}(2127)
+           │             ├─{lxcfs}(3081)
+           │             └─{lxcfs}(29814)
+           ├─master(21825)─┬─pickup(44495)
+           │               └─qmgr(31008)
+           ├─mdadm(2148)
+           ├─ntpd(2507)
+           ├─polkitd(2164)─┬─{gdbus}(2180)
+           │               └─{gmain}(2178)
+           ├─rpc.statd(2782)
+           ├─rpcbind(2053)
+           ├─rsyslogd(2071)─┬─{in:imklog}(2132)
+           │                ├─{in:imuxsock}(2131)
+           │                └─{rs:main Q:Reg}(2133)
+           ├─rwhod(2449)───rwhod(2450)
+           ├─screen(19504)───bash(19505)
+           ├─screen(20288)───bash(20289)───vim(21881)
+           ├─snapd(2056)─┬─{snapd}(2118)
+           │             ├─{snapd}(2119)
+           │             ├─{snapd}(2120)
+           │             ├─{snapd}(2121)
+           │             ├─{snapd}(2150)
+           │             ├─{snapd}(2151)
+           │             └─{snapd}(2152)
+           ├─sshd(2341)─┬─sshd(3104)───sshd(3160)───bash(3161)───alpine(8255)
+           │            ├─sshd(4288)───sshd(4347)───bash(4348)───alpine(4354)
+           │            ├─sshd(15840)───sshd(15919)───bash(15926)
+           │            ├─sshd(40522)───sshd(40572)───bash(40588)
+           │            ├─sshd(41273)───sshd(41339)───bash(41346)───alpine(41362)
+           │            ├─sshd(46574)───sshd(46658)───bash(46665)───pstree(47648)
+           │            └─sshd(48106)───sshd(48199)───bash(48200)───ssh(48213)
+           ├─systemd(2874)───(sd-pam)(2878)
+           ├─systemd(10316)───(sd-pam)(10320)
+           ├─systemd(15847)───(sd-pam)(15860)
+           ├─systemd(48118)───(sd-pam)(48124)
+           ├─systemd(46589)───(sd-pam)(46600)
+           ├─systemd(41295)───(sd-pam)(41303)
+           ├─systemd(27537)───(sd-pam)(27542)
+           ├─systemd(17838)───(sd-pam)(17842)
+           ├─systemd(14978)───(sd-pam)(14983)
+           ├─systemd(20176)───(sd-pam)(20181)
+           ├─systemd-journal(1164)
+           ├─systemd-logind(2095)
+           ├─systemd-udevd(1207)
+           └─ypbind(2476)─┬─{ypbind}(2477)
+                          └─{ypbind}(2478)</pre>
+        </li>
+        <li>The part in <span class="red">red</span> is my current login shell ...</li>
+        <li>and its child process running <code>pstreet</code></li>     
+        <li>For some reason, the connecting lines in the output of this command ...</li>
+        <li>do not appear properly when running an ssh client on Windows</li>
+    </ul> 
+        
+    <h3 class="section">Attendance</h3>
+    
+	<h3 class="section">Class Quiz</h3>
+	
+	<footer>
+		<a href="class_notes_it244.html" class="spacer">Class Notes</a>
+		<a href="class_notes_index_it244.html" class="spacer">Class Notes Index</a>
+	</footer>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/19_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:41 GMT -->
+</html>

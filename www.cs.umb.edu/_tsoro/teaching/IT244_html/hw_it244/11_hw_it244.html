@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/hw_it244/11_hw_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:57 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title>IT 244: Introduction to Linux/Unix - Homework 11</title>
+</head>
+<body>
+<h2>IT 244: Introduction to Linux/Unix <br>
+    Homework 11
+</h2>
+
+	<h3 class="section">Due Monday, May 7th 11:59 PM</h3>
+	All this work should be done on <span class="host">users3.cs.umb.edu</span>
+	
+	<h3>Deliverables</h3>
+	<ul class="flat">
+		<li>
+			A shell script named <span class="path">parameters.sh</span>
+			<br>
+			30 points
+		</li>
+		<li>
+			A shell script named <span class="path">log_users.sh</span>
+			<br>
+			40 points
+		</li>
+		<li>
+			A shell script named <span class="path">envir.sh</span>
+			<br>
+			30 points
+		</li>
+	</ul>
+
+    Create an <span class="path">hw11</span> directory in your <span class="path">hw</span> 
+    directory inside your <span class="path">it244</span> directory.
+    <br><br>
+	Using the Unix editor of your choice, create the scripts
+	in your <span class="path">hw11</span> directory. 
+	<br><br>
+	Remember to create a <a class="def" href="../../definitions.html#hashbang">hashbang</a> line at the top and to include
+	a comment describing what the script does.
+	<br><br> 
+	Be sure to make this file executable in the manner
+	I described in class. 
+	<br><br>
+	If the script <b>must</b> have some number of arguments, make sure you test for the proper number of arguments.
+	If the script does not get the correct number of arguments, it should print a usage message and quit.
+	<br><br>
+	If you do not have a hashbang line, do not have a comment 
+	describing what the script does,  do not make it properly 
+	executable, or fail to check for arguments and provide a usage message, points will be deducted.
+
+	<h3>Details</h3>
+	<h4><span class="under"><span class="path">parameters.sh</span></span></h4>
+	The script should do the following:
+	<ol class="flat">
+		<li class="flat">
+			Print the the positional parameters 0 through 4 to the terminal.
+		</li>
+		<li>
+			Print the number of arguments given to this script from the command line.
+		</li>
+	</ol>
+		Each positional parameter <b>must</b> be labeled and printed on a separate line.
+		<br><br>
+		Be sure to test this script several times to make sure it works.
+		<br><br>
+		Your output should look something like this
+		<pre>
+$ ./parameters.sh foo bar bletch bling
+$0 ./parameters.sh
+$1 foo
+$2 bar
+$3 bletch
+$4 bling
+$# 4</pre>
+
+	<h4><span class="under"><span class="path">log_users.sh</span></span></h4>
+	The script should do the following:
+	<ol class="flat">
+		<li class="flat">Define a variable <span class="iden">log</span> whose value
+		  is the filename for the log file,  <span class="path">users.log</span> .
+		</li>
+		<li class="flat">
+			<b>Append</b> the date to the log file whose name is contained in <span class="iden">log</span>.
+		</li>
+		<li class="flat">
+			Append a line of dashes to this log file to act as a separator.
+		</li>
+		<li class="flat">
+			Append a list of the users currently on to <span class="host">users3</span> to this log file.
+		</li>
+		<li>
+			Append a blank line to the log file.
+		</li>
+	</ol>
+	The value <span class="path">users.log</span> should be assigned to the variable at the top of the script.
+	<br><br>
+	Thereafter, <b>never</b> never write "users.log" in your script.
+	<br><br>
+	Use the value of <span class="iden">log</span> instead.
+	<br><br>
+	Be sure you <b>append</b> the output so the log grows each time you run the script.
+	<br><br>
+	After running this script twice, the log file <span class="path">users.log</span> should look something like this:
+	<pre>
+    $ cat users.log 
+    Wed Dec  5 10:38:58 EST 2012
+    -----------------
+    Login    Name                    Tty      Idle  Login Time   Office     Office Phone
+    it244gh  Dummy for Glenn Hoffman  pts/0          Dec  5 10:29 (dsl092-066-161.bos1.dsl.speakeasy.net)
+
+    Wed Dec  5 10:39:06 EST 2012
+    -----------------
+    Login    Name                    Tty      Idle  Login Time   Office     Office Phone
+    it244gh  Dummy for Glenn Hoffman  pts/0          Dec  5 10:29 (dsl092-066-161.bos1.dsl.speakeasy.net)</pre>
+	
+	Be sure to test this script several times to make sure it works.
+
+	<h4><span class="under"><span class="path">envir.sh</span></span></h4>
+	The script should do the following:
+	<ol class="flat">
+		<li class="flat">Test that it has been given a command line argument. 
+		  It should print a usage message and exit if no argument is given.
+		</li>
+		<li>List all global variables that contain the string given in
+			the command line argument.
+		</li>                          
+	</ol>
+	Do this using a pipe calling <code>env</code> and then <code>grep</code> to
+	filter the output of <code>env</code> for variables which
+	contain the string given as an argument to the script.
+			<br><br>
+	Thus, if I wanted to see all variables that contained "SSH", I would run
+			<pre>
+		./envir.sh SSH</pre>
+	Be sure to test this script several times to make sure it works.
+
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/hw_it244/11_hw_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:57 GMT -->
+</html>

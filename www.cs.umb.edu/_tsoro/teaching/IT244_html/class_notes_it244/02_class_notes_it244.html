@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/02_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:23 GMT -->
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="../class_notes.css" >
+	<title> IT 244: Introduction to Linux/Unix - Class 2</title>
+</head>
+<body>
+	<header>
+		<h2>
+		    IT 244: Introduction to Linux/Unix <br>
+		    Class 2
+		</h2>	
+	</header>
+	
+	<!-- TALE OUT REFERENCES TO LAB -->
+
+	<h3 class="section">Today's Topics</h3>
+	
+	<h4 class="flat_under">New Material</h4>
+	<ul class="flat_top">
+		<li class="flat"><a href="#opening_remarks">Opening Remarks</a></li>
+		<li class="flat"><a href="#connecting_from_home">Connecting to the Linux Machine from Home</a></li>		
+		<li class="flat"><a href="#operating_systems">Operating Systems</a></li>
+		<li class="flat"><a href="#components_operating_system">Components of the Operating System</a></li>
+		<li class="flat"><a href="#unix">Unix</a></li>
+		<li class="flat"><a href="#different_unix_releases">Different Unix Releases</a></li>
+		<li class="flat"><a href="#gnu_fsf">GNU and the Free Software Foundation</a></li>
+		<li class="flat"><a href="#linus_torvalds">Linus Torvalds</a></li>
+		<li class="flat"><a href="#linux_distributions">Linux Distributions</a></li>
+		<li class="flat"><a href="#ubuntu">Ubuntu</a></li>
+		<li class="flat"><a href="#shells">Shells</a></li>
+		<li class="flat"><a href="#unix_commands">Unix Commands</a></li>
+		<li class="flat"><a href="#class_exercise_today">Today's Class Exercise</a></li>
+	</ul>
+	
+	<h3 class="section">Reading Assignment</h3>
+	<p class="flat">Reading assignment for this week is chapter 1 of Sobell,
+	   <i>Welcome to Linux and Mac OS X</i>
+	</p>
+	<p>You need read this before next week's class.</p>
+	<p>All reading assignments are posted at 
+	   <a href="../readings_it244.html">
+       http://www.cs.umb.edu/~tsoro/teaching/it244_html/readings_it244.html</a>
+    </p>
+    
+    <h3 class="section">Homework 1</h3>
+    <p class="flat">Remember, homework 1 is due this Sunday by 11:59 PM.</p>
+    <p>You will find it <a href="../hw_it244/01_hw_it244.html">here</a>.</p>
+    <p class="flat">There are three parts to this assignment</p>
+    <ul class="flat">
+        <li>An email containing answers to questions on the assignment</li>
+        <li>Registering with class discussion area for this course on Piazza</li>
+        <li>Forwarding you UMB email to an email account you check frequently</li>
+    </ul>
+   <!-- <p>You must send me the email with answers to questions even if you have
+       taken another course with me. -->
+    </p>
+    <p>You must forward your UMB email since I will use that address to send
+       you your scoring sheets for assignments.
+    </p>
+    <p>I will also use this address to send you news of any changes in assignments or
+       other developments
+    </p>
+    <p>I will check that the forwarding is working by sending a test email to your
+       UMB account a week from this coming Friday.
+    </p>
+    <p>You must reply to this test message or you will lose 15 points</p>
+    <p>Remember, you will lose 2 points for every day that the assignment is late.</p>
+    <p>All homework assignments are posted at 
+       <a href="../hw_it244/homework_it244.html">
+            http://www.cs.umb.edu/~tsoro/teaching/it244_html/hw_it244/homework_it244.html
+       </a>
+    </p>
+    <p>Unless you hear otherwise, you should expect a homework assignment each week.</p>
+    
+    <h3 class="section">Completing the Apply Process</h3>
+    <p class="flat">A few of you have not completed the Apply process.</p>
+    <p>You <b>must</b> fix this by going to the see the operators in the Unix Lab.</p>
+    <p>I will read out the names of those students who have not completed the Apply
+       process after taking attendance.
+    </p>
+    
+    <h3 class="section">New Material</h3>
+    
+	<h4 class="topic" id="opening_remarks">Opening Remarks</h4>
+	<ul class="flat">
+	    	<li>We will cover most of the chapters in the textbook</li>
+	    	<li>We will skip chapters 6 &amp; 7 - the <code>vi</code> and <code>emacs</code> editors</li>
+	    	<li>These programs are text editors ...</li>
+	    	<li>that are run at the command line ...</li>
+	    	<li>They are used to create and modify text files</li>
+	    	<li>Text files have no formating ...</li>
+	    	<li>like you would find in Microsoft Word</li>
+	    	<li>Text files only contain characters</li>
+	    	<li>Chapters 6 &amp; 7 show you how to use <code>vi</code> and <code>emacs</code></li>
+	    	<li>But the best way to learn an editor is to use it ...</li>
+	    	<li>not read about it in a book</li>
+	    	<li><code>vi</code> and <code>emacs</code> are full featured <b>text</b> editors</li>
+	    	<li>You will need to use a text editor in this course ...</li>
+	    	<li>to complete your homework and Class Exercises</li>
+	    	<li>But <code>vi</code> and <code>emacs</code> take some time to learn</li>
+	    	<li>Instead of teaching you one of these editors ...</li>
+	    	<li>I'll show you <code>nano</code>, a simple text editor</li>
+	    	<li><code>nano</code> is good enough for our purposes</li>
+	    	<li>You do not have to use <code>nano</code></li>
+	    	<li>You can use any text editor <b>that runs on Unix/Linux</b></li>
+	    	<li>This rules out Notepad or Word</li>
+	    	<li>I'll also skip chapter 9 which covers the TC shell ...</li>
+	    	<li>because it is not used much these days</li>
+	    	<li>We will use the Bash shell in this course</li>
+	    	<li>Bash has more features than the TC shell</li>
+	    	<li>Bash is the default shell in most Linux installations</li>
+	    	<li>We will <b>not</b> be installing Linux in this course</li>
+	    	<li>Modern installers are very good - almost idiot proof ...</li>
+	    	<li>so installing Linux is little more than running the installer ...</li>
+	    	<li>and answering a few simple questions</li>
+	    	<li>If you want to install Linux on your machine ...</li>
+	    	<li>and are having trouble ...</li>
+	    	<li>you can get help from the <a href="http://blu.org/">Boston Linux User Group</a></li>
+	    	<li>This group holds periodic "Installfests" at MIT</li>
+	    	<li>where knowledgeable people can help you with the installation</li>
+	    	<li>All work for the course will be done on a Linux machine ...</li>
+	    	<li>running Ubuntu Linux 16.04</li>
+	    	<li>We will only use the Windows machines in the Lab ...</li>
+	    	<li>to connect to the Linux machine <span class="host">users3.cs.umb.edu</span></li>
+	    	<li>You can use your laptop instead of a Windows machine ...</li>
+	    	<li>to connect to <span class="host">users3.cs.umb.edu</span></li>
+    </ul>
+	
+	<h4 class="topic" id="connecting_from_home">Connecting to the Linux Machine from Home</h4>
+	<ul class="flat">
+	    <li>All work for this course will be done on <span class="host">users3.cs.umb.edu</span></li>
+		<li>You can connect to <span class="host">users3.cs.umb.edu</span> from home</li>
+		<li>To do this, you'll need an Internet connection and an 
+		   <a class="def" href="../definitions.html#ssh_client">ssh client</a>
+		</li>
+		<li>An SSH client is software that uses the 
+		   <a class="def" href="../definitions.html#ssh">SSH</a> protocol ...
+		</li>
+		<li>to connect to a remote Unix/Linux machine</li>
+		<li>An SSH client allows you to use one machine ...</li>
+		<li>to connect to a machine running Linux or Unix</li>
+		<li>When you connect you will get a command line ...</li>
+		<li>where you can run any Unix command</li>
+		<li>If you have a Mac go to the <span class="path">Utilities</span> directory ...</li>
+		<li>inside the <span class="path">Applications</span> directory</li>
+		<li>There you will find the <span class="path">Terminal</span> program</li>
+		<li>Open <span class="path">Terminal</span> and type 
+    		<pre>
+ssh <span class="red">UNIX_USERNAME</span>@users3.cs.umb.edu</pre>
+		</li>
+		<li>Substitute your Unix username for <span class="red">UNIX_USERNAME</span> in this line</li>
+		<li>If you have a Mac, read the instructions 
+            <a href="../../linux/remote_access_mac.html">here</a>
+        </li>
+		<li>Windows does not come with an ssh client ...</li>
+		<li>but many free ones are available</li>
+		<li>The SSH client I recommend for Windows is PuTTY ...</li>
+		<li>which you can get from <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">
+		       http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html</a></li>
+		<li>Download the file <span class="path">putty.exe</span></li>
+		<li>There are certain parameters you need to use with PuTTY ...</li>
+		<li>which you will find in today's class exercise</li>
+		<li>If you have a Windows machine, read the instructions 
+			<a href="../../linux/remote_access_windows.html">here</a>
+		</li>
+		<li>Contact me if you have trouble connecting</li>
+    </ul>
+	
+	<h4 class="topic" id="operating_systems">Operating Systems</h4>
+	<ul class="flat">
+	   	<li>The <a class="def" href="../definitions.html#operating_system">operating system</a> 
+	   		is the software that allows you to use a computer
+		</li>
+		<li>The textbook defines an operating system as 
+			<pre>
+An operating system is the low-level software that schedules tasks, 
+allocates storage, and handles the interfaces to peripheral hardware, 
+such as printers, disk drives, the screen, keyboard, and mouse</pre>
+		</li>
+		<li>An operating system like a city government</li>
+		<li>A city government provides resources - water, sewage, snow plowing</li>
+		<li>It also provides protection - police and fire departments</li>
+		<li>The operating system provides resources ...</li>
+		<li>like access to memory, files and devices</li>
+		<li>It also provides protection to keep one program ...</li>
+		<li>from interfering with another ...</li>
+		<li>and to keep other people from messing with your files</li>
+		<li>Every computer has an operating system of some sort</li>
+		<li>Nowadays computers are found in most of the durable goods you buy ...</li>
+		<li>like cars and refrigerators</li>
+		<li>You never see these computers ...</li>
+		<li>but they are there making everything work properly</li>
+		<li>These "invisible" computers are called embedded systems</li>
+		<li>They too have operating systems ...</li>
+		<li>but they are much simpler than those on a desktop or laptop</li>
+    </ul>
+    
+    <h4 class="topic" id="components_operating_system">Components of the Operating System</h4>
+    <ul class='flat'>       
+        <li>There are two components of an operating system
+            <ul class='flat'>
+                <li class="flat"><a class="def" href="../definitions.html#kernel">Kernel</a></li>
+                <li class="flat"><a class="def" href="../definitions.html#utilities">Utilities</a></li>
+            </ul>
+        </li>
+        <li>The kernel is a program that is always running</li>
+        <li>It controls all access to any hardware connected to the machine</li>
+        <li>Every program that runs on a computer needs resources ...</li>
+        <li>like memory and access to files</li>
+        <li>It gets these resources from the kernel</li>
+        <li>The kernel is like a traffic cop</li>
+        <li>The kernel makes sure that two programs don't use the same resource ...</li>
+        <li>at the same time</li>
+        <li>Utilities are programs that allow you use and manage computer resources</li>
+    </ul>
+	
+	<h4 class="topic" id="unix">Unix</h4>
+	<ul class="flat">
+	   <li>I will use the terms Unix and Linux interchangeably in this course ...</li>
+	   <li>but they are distinct</li>
+	   <li>Unix is an operating system developed as a research tool at Bell Labs</li>
+	   <li>Bell Labs was created as a research facility ...</li>
+	   <li>for the Bell telephone system</li>
+	   <li>Some of the most important advances of the 20th century ...</li>
+	   <li>came from Bell Labs</li>
+	   <li>Researchers there have won many <a href="https://www.bell-labs.com/our-people/recognition/">awards</a> ...</li>
+	   <li>including some very important Nobel Prizes</li>
+	   <li>Unix has a number of powerful features</li>
+	   <li>It is often used in academic, engineering and research environments</li>
+	   <li>Unix was developed before Graphical User Interfaces (GUIs) become common</li>
+	   <li>The Unix philosophy is to create many small programs ...</li>
+	   <li>that do one thing well</li>
+	   <li>Unix allows simple tools to be strung together ...</li>
+	   <li>to perform a complex task</li>
+	   <li>This allows people to write commands that do complicated things ...</li>
+	   <li>on the fly</li>
+	   <li>When first created, Unix was given away free to universities ...</li>
+	   <li>and many Computer Science students learned to use it ...</li>
+	   <li>and grew to like its power</li>
+	   <li>Talented programmers down through the years have made many contributions to Unix ...</li>
+	   <li>which improved it greatly</li>
+	   <li>This tradition continues with Linux</li>
+    </ul>
+
+	<h4 class="topic" id="different_unix_releases">Different Unix Releases</h4>
+	<ul class="flat">
+    		<li>There is no single collection of software that can be called Unix or Linux</li>
+    		<li>A Linux/Unix distributions consist of
+    		<ul class="flat">       
+        		<li class="flat">Kernel</li>
+			<li class="flat">Utilities</li>
+			<li class="flat"><a class="def" href="../definitions.html#application">Applications</a></li>
+		</ul>
+    		</li>
+    		<li>The kernel is always present in the computer's memory ...</li>
+    		<li>and deals directly with the hardware ...</li>
+    		<li>like the CPU, memory and the hard disc</li>
+    		<li>A program cannot talk directly to the hardware ...</li>
+    		<li>but must do so through the kernel</li>
+    		<li>The utilities help you use the machine's resources</li>
+    		<li>Applications are programs that are used to get work done ...</li>
+        <li>such as a word processor or an email client</li>
+    		<li>Over the years a number of different Unix distribution have appeared</li>
+    		<li>One popular Unix distribution is BSD ...</li>
+    		<li>which stands for Berkeley Software Distribution</li>
+    		<li>It was developed by the Computer Systems Research Group ...</li>
+    		<li>at the University of California at Berkeley</li>
+        <li>Berkeley charges nothing for this Unix</li>
+        <li>The BSD license is the least restricted open source license</li>
+        <li>See <a href="http://www.opensource.org/licenses/bsd-license.php">
+            http://www.opensource.org/licenses/bsd-license.php</a> for more information
+        </li>
+        <li>The Macintosh runs a customized version of Unix ...</li>   
+        <li>that comes mainly from BSD</li>
+        <li>Another popular Unix distribution is Unix System V</li>
+        <li>It was released commercially  by AT&amp;T ...</li>
+        <li>the original corporate sponsor of Bell Labs</li>
+        <li>There were four major releases of  System V</li>
+        <li>Release 4, abbreviated SVR4, enjoyed the greatest commercial success</li>
+        <li>The Unix used at UMB was, until recently, Solaris</li>
+        <li>Solaris was developed by Sun Microsystems as a commercial product</li>
+        <li>Subsequently, Sun released most of the code base as an open source project ...</li>
+        <li>called Open Solaris</li>
+        <li>Sun was acquired by Oracle in January 2010</li>
+        <li>We now use the Ubuntu Linux distribution at UMB</li>
+    </ul>
+
+	<h4 class="topic" id="gnu_fsf">GNU and the Free Software Foundation</h4>
+	<ul class="flat">
+		<li>Richard Stallman is a legendary figure in the Unix world </li>
+		<li>He received a MacArthur "genius" grant</li>
+		<li>He worked for many years at the MIT Artificial Intelligence Laboratory</li>
+		<li>When Stallman started programming there was no software industry ...</li>
+		<li>as we know it today</li>
+		<li>The software came with the hardware ...</li>
+		<li>and companies sometimes distributed the source code ...</li>
+		<li>along with the machines</li>
+		<li>Stallman and his associates liked this open environment ...</li>
+		<li>where ideas could be shared freely</li>
+		<li>In these early days, companies were not too concerned about trade secrets</li>
+		<li>Stallman and his fellow programmers had access to the source code ...</li>
+		<li>for the programs they used</li>
+		<li>When a bug was discovered, they could look in the source code ...</li>
+		<li>and fix the problem directly</li>
+		<li>As the software industry became more commercialized ...</li>
+		<li>companies refused to release their source code</li>
+		<li>They wanted to sell software independently from the hardware ...</li>
+		<li>and to do this they needed to keep the source code secret</li>
+		<li>This this bothered Stallman</li>
+		<li>He could no longer look at the source code ...</li>
+		<li>to fix the bugs he found</li>
+		<li>Instead, he had to report the bug to the company ...</li>
+		<li>and then wait for a fix</li>
+		<li>In 1983, Stallman announced plans for the GNU Operating System</li>
+		<li>It would be distributed under the GNU License ...</li>
+		<li>and would be compatible with Unix</li>
+		<li>GNU is a recursive acronym ...</li>
+		<li>that stands for "GNU is not Unix"</li>
+		<li>In 1985 Stallman founded the Free Software Foundation</li>
+		<li>It's mission was to develop GNU software ...</li>
+		<li>and to advance the cause of free software</li>
+		<li>By "free" Stallman meant that every user has the right to read ...</li>
+		<li>and modify the source code</li>
+		<li>It did not mean that an organization could not charge for the software</li>
+		<li>The software was "Free as in speech, not beer"</li>
+		<li>The Free Software Foundation charged a modest amount for its software</li>
+		<li>Stallman's definition of free software is very strict ...</li>
+		<li>and he distinguishes it from open source software</li>
+		<li>Stallman has written books on the subject of free software ...</li>
+		<li>which can be obtained from the <a href="http://shop.fsf.org/category/books/">
+		    Free Software Foundation</a></li>
+		<li>The GNU License is fairly elaborate</li>
+		<li>If any person or company makes a change to software distributed under the GPL ...</li>
+		<li>they must distribute the improved source code under the same license</li>
+		<li>This means a company cannot take software distributed under the GPL ...</li>
+		<li>make some improvements ...</li>
+		<li>and then sell it as proprietary software</li>
+		<li>The GNU project first focused on developing tools ...</li>
+		<li>that could be used to write the software for the operating system</li>
+		<li>Their most important contributions were the programmable text editor, <code>emacs</code> ...</li>
+		<li>and the compiler, <code>gcc</code></li>
+		<li>Most of Unix is written in C ...</li>
+		<li>so developing the GNU C compiler was an important first step</li>
+		<li>Work on the kernel, the heart of the operating system ...</li>
+		<li>was saved for last ...</li>
+		<li>since it would be the most difficult</li>
+		<li>The GNU kernel was to be named Hurd</li>
+    </ul>
+
+	<h4 class="topic" id="linus_torvalds">Linus Torvalds</h4>
+	<ul class="flat">
+	   <li>In the early 90's as Linus Torvalds was working on his Masters thesis</li>
+	   <li>At this time he began a personal project ...</li>
+	   <li>that eventually became a Unix-like kernel</li>
+	   <li>He released the source code for this kernel to the public</li>
+	   <li>Many programmers looked at this code and liked it</li>
+	   <li>They sent in improvements which Linus added to the code</li>
+	   <li>This improved kernel was widely in open source circles</li>
+	   <li>Together with many of the GNU tools ...</li>
+	   <li>it formed the core of what came to be called Linux</li>
+	   <li>Today Linus Torvalds is the chief architect of the Linux kernel</li>
+	</ul>
+
+	<h4 class="topic" id="linux_distributions">Linux Distributions</h4>
+	<ul class="flat">
+	   <li>There are many Linux distributions ...</li>
+	   <li>each released by a different group</li>
+	   <li>Each distribution consists of different choices ...</li>
+	   <li>from various software packages ...</li>
+	   <li>for each component of the operating system</li>
+       <li>The two most common distributions are Ubuntu and Red Hat</li>
+       <li>CentOS is a noncommercial Linux distribution ...</li>
+	   <li>which uses source code provided by Red Hat for their commercial Linux distribution</li>
+ 	</ul>
+	
+	<h4 class="topic" id="ubuntu">Ubuntu</h4>
+    <ul class="flat">       
+        <li>The machine we'll be using in this class is <span class="host">users3</span></li>
+        <li>It is a virtual machine running Ubuntu 16.04.1 LTS</li>
+        <li>Ubuntu is based on Debian Linux</li>
+        <li>Development of Ubuntu is led by <a href="http://www.canonical.com/">Canonical</a> ...</li>
+        <li>a company based on the Isle of Man in Great Britain ...</li>
+        <li>and owned by South African entrepreneur Mark Shuttleworth</li>
+        <li>Ubuntu is named after the Southern African philosophy of ubuntu ...</li>
+        <li>which is often translated as "humanity towards others"</li>
+        <li>A new Ubuntu version is released every 6 months</li>
+        <li>The Ubuntu version number is composed of the year and month of its release</li>
+        <li>So version 16.04 was released in April of 2016</li>
+        <li>LTS stands for "Long Term Support"</li>
+        <li>An LTS version will be supported for 5 years after its release</li>
+        <li>A new LTS version is released every 2 years</li>
+        <li>Every Ubuntu release also has a name</li>
+        <li>The name consists of two words:
+            <ul class="flat">       
+                <li class="flat">An adjective</li>
+                <li class="flat">An animal whose name shares the same first letter</li>
+            </ul>
+        </li>
+        <li>The name for Ubuntu 16.04 LTS is "Xenial Xerus"</li>
+        <li>A xerus is an African ground squirrel</li>
+        <li>Xenial means friendly relations between hosts and guests</li>
+        <li>One of the reasons for Ubuntu's success is its package manager</li>
+        <li>If you type in a command that is not installed ...</li>
+        <li>Ubuntu will suggest packages that will install the software</li>  
+    </ul>
+	
+	<h4 class="topic" id="shells">Shells</h4>
+	<ul class="flat">
+	   <li>The <a class="def" href="../../definitions.html#shell">shell</a> 
+	   		is the program you are talking to ...
+	   </li>
+	   <li>when you type something at the command line</li>
+	   <li>The shell listens to what you type at the command line ...</li>
+	   <li>and asks the kernel to execute the commands you entered</li>
+	   <li>The shell is the program you use to talk to the kernel</li>
+	   <li>Only the kernel can create the 
+	       <a class="def" href="../definitions.html#process">process</a> ...
+	   </li>
+	   <li>that is a running program</li>
+	   <li>Modern shells provide a number of features that make them easier to use</li>
+	   <li>Down through the years there have been a number of different Unix shells</li>
+	   <li>Today, the two most common shells are the TC shell and Bash</li>
+	   <li>We will be using Bash in this course</li>
+	</ul>
+	
+	<h4 class="topic" id="unix_commands">Unix Commands</h4>
+	<ul class="flat">
+		<li>To run a Unix command you go to the command line ...</li>
+        <li>type the name of the command ...</li>
+        <li>followed, perhaps, by options and arguments ...</li>
+        <li>and then hit Enter ...</li>
+        <li>or Return on a Mac</li>
+        <li>Options change what the command does</li>
+        <li>For example the <code>ls</code> command lists the contents of a directory
+        <pre>
+    $ ls
+    foo.txt  it244  work</pre></li>
+	    <li>When <code>ls</code> is used with the <code>-l</code> (for <b>l</b>ong) option ...</li>
+        <li>more information is presented
+    <pre>
+    $ ls -l
+    total 3
+    -rw-r--r-- 1 it244gh libuuid  16 2012-06-26 16:19 foo.txt
+    lrwxrwxrwx 1 it244gh libuuid  34 2012-02-07 09:46 it244 -&gt; /courses/it244/s12/tsoro/it244gh
+    drwxr-xr-x 2 it244gh libuuid 512 2012-06-27 11:08 work</pre></li>
+        <li>Arguments are the things on which the command operates</li>
+        <li>If <code>ls</code> is given the name of a directory as an argument ...</li>
+		<li>it will display the contents of that directory
+        <pre>
+    $ ls html
+    it244_sum17_html  it341_f16_html</pre></li>
+	   <li>Most Unix/Linux commands are very short, to save typing ...</li>
+	   <li>and usually have mnemonic  value</li>
+	   <li>For example, <code>ls</code> stands for "list"</li>
+    </ul> 
+
+	<h4 class="topic" id="class_exercise_today">Today's Class Exercise</h4>
+	<ul class="flat">
+        <li>Today you will use the Windows machines in the Lab ...</li>
+        <li>or your laptops ...</li>
+        <li>to connect to the virtual machine <span class="host">users3</span></li>
+        <li>You will find the instructions on the Class Exercise</li>
+        <li>If you have not completed the apply process ...</li>
+        <li>you will not be able to log in</li>
+        <li>We'll be using the Linux machine named <span class="host">users3</span> ...</li>
+        <li>for all our work in this course</li>
+        <li>In today's Class Exercise, you will enter your first Unix commands</li>
+        <li>The Class Exercise will tell you what do to ...</li>
+        <li>and what commands to enter at the command line</li>
+        <li>Type the commands specified, including any options ...</li>
+        <li>and then the arguments, if any</li>
+        <li>Options are proceeded by a <span class="char">-</span>
+        		or <span class="char">>--</span>
+        </li>
+    </ul>
+    
+    <h3 class="section">Attendance</h3>
+    
+    <h3 class="section">Apply Delinquents</h3>
+    
+
+	<footer>
+		<a href="class_notes_it244.html" class="spacer">Class Notes</a>
+		<a href="class_notes_index_it244.html" class="spacer">Class Notes Index</a>
+	</footer>	
+    
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/02_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:23 GMT -->
+</html>

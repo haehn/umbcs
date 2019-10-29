@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/linux/unix_essentials.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:52:10 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../IT244_html/class_notes.css">
+    <title>Unix Essentials</title>
+</head>
+<body>
+    <header>
+        <h2>Unix Essentials</h2>
+    </header>
+
+    <h3 class="section">Topics</h3>
+    <ul class="flat">       
+        <li class="flat"><a href="#unix_commands">Unix Commands</a></li>
+        <li class="flat"><a href="#filename_completion">Filename Completion</a></li>
+        <li class="flat"><a href="#command_history">Command History</a></li>
+        <li class="flat"><a href="#stopping_running_program">Stopping a Running Program</a></li>
+        <li class="flat"><a href="#editing_on_command_line">Editing on the Command Line</a></li>
+        <li class="flat"><a href="#basic_unix_commands">Basic Unix Commands</a></li>
+    </ul>
+
+    <h4 class="topic" id="unix_commands">Unix Commands</h4>
+    <ul class="flat">       
+        <li>Unix commands are typed at the command line ...</li>
+        <li>after the prompt</li>
+        <li>They usually have the form
+            <pre>
+<span class="format">COMMAND  OPTION  ARGUMENT(S)</span></pre>
+        </li>
+        <li>Where the options are usually preceded by "-" or "--"</li>
+        <li>Nothing happens until you hit the Enter key</li>
+        <li>Then the Unix shell, a command interpreter, tries to execute the command you have entered</li>
+    </ul>
+	
+	<h4 class="topic" id="filename_completion">Filename Completion</h4>
+	<ul class="flat">       
+        <li>Two features of Unix that can save you considerable typing are:
+            <ul class="flat">       
+                <li class="flat">Filename completion</li>
+                <li class="flat">Command history</li>
+            </ul>
+        </li>
+        <li>Filename completion tries to finish a filename for you</li>
+        <li>After you hit the Tab key</li>
+        <li>It works as follows:
+            <ul class="flat">       
+                <li class="flat">Type part of the filename on the command line</li>
+                <li class="flat">Hit the Tab key</li>
+                <li class="flat">If there is only one filename that begins with those letters, Unix will supply the rest</li>
+                <li class="flat">Sometimes Unix will supply a couple of characters and then beep</li>
+                <li class="flat">This means there is more than one filename that matches the characters on the command line</li>
+                <li class="flat">If you hit the Tab key a second time, Unix will show you the list</li>
+                <li class="flat">If there is no filename that matches, Unix will just beep</li>
+            </ul>
+        </li>
+    </ul>
+	
+	<h4 class="topic" id="command_history">Command History</h4>
+	<ul class="flat">       
+        <li>Unix keeps a list of all the commands you type at the terminal</li>
+        <li>If you want to run the last command again, just hit the up arrow key, &uarr; </li>
+        <li>Unix will supply the last command you entered on the command line</li>
+        <li>Just hit Enter to run that command again</li>
+        <li>If you keep hitting the up arrow key, Unix will show the previous command</li>
+        <li>You can keep doing this as long as you like</li>
+        <li>To go in the other direction, hit the down arrow key, &darr;</li>
+    </ul>
+    
+    <h4 class="topic" id="stopping_running_program">Stopping a Running Program</h4>
+    <ul class="flat">       
+        <li>When you run a program from the command line ...</li>
+        <li>you have to wait for it to finish before you can run another command</li>
+        <li>But what if a program has a bug and keeps running?</li>
+        <li>In this case, you need to abort the program</li>
+        <li>In Unix you do this by holding down the Control key while hitting 
+        		<span class="char">C</span> (Ctrl-C)
+        </li>
+        <li>This will kill the currently running program and allow you to run another command</li>
+    </ul>
+	
+	<h4 class="topic" id="editing_on_command_line">Editing on the Command Line</h4>
+	<ul class="flat">       
+        <li>The command line has some editing features that are similar to 
+        		<code>emacs</code> commands
+        </li>
+        <li><span class="char">Ctrl A</span> - Moves the text insertion point 
+        		to the beginning of the current line
+        </li>
+        <li><span class="char">Ctrl E</span> - Moves the text insertion point 
+        		to the end of the current line
+        </li>
+        <li><span class="char">Ctrl U</span> - Remove everything from the text insertion point 
+        		to the beginning of the line
+        </li>
+        <li><span class="char">Ctrl K</span> - Remove everything from the text insertion point 
+        		to the end of the line
+        </li>
+        <li><span class="char">&larr;</span>&nbsp; &nbsp; &nbsp; &nbsp; - Moves the text insertion point 
+        		one character to the left
+        </li>
+        <li><span class="char">&rarr;</span>&nbsp; &nbsp; &nbsp; &nbsp; - Moves the text insertion point 
+        		one character to the right
+        </li>
+    </ul>
+	
+	<h4 class="topic" id="basic_unix_commands">Basic Unix Commands</h4>
+	<ul class="flat">
+        <li><b><code>pwd</code></b> (<b>p</b>rint <b>w</b>orking <b>d</b>irectory)
+	        <ul class="flat">       
+	            <li class="flat"><code>pwd</code> gives you the address of your current directory</li>
+	            <li>It is used without an argument
+            <pre>
+<span class="format">pwd</span></pre>
+	            </li>
+	        </ul>
+	    </li>
+	    <li><b><code>ls</code></b> (<b>l</b>i<b>s</b>t)
+            <ul class="flat">       
+                <li class="flat"><code>ls</code> shows everything that is in a directory
+            <pre>
+<span class="format">ls  DIRECTORY</span></pre>                    
+                </li>
+                <li class="flat">If you run <i>ls</i> without an argument ...</li>
+                <li>it shows what is in the current directory</li>
+            </ul>
+	    </li>
+	    <li><b><code>cd</code></b> (<b>c</b>hange <b>d</b>irectory)
+            <ul class="flat">       
+                <li class="flat"><code>cd</code> moves you to another directory
+                    <pre>
+<span class="format">cd  DIRECTORY</span></pre>
+                </li>
+                <li class="flat">If you run <code>cd</code> without an argument ...</li>
+                <li class="flat">it takes you to your home directory</li>
+                <li>Use <span class="char">..</span> to go up one directory
+                    <pre>
+cd  ..</pre>
+                </li>
+            </ul>
+	    </li>
+	    <li><b><code>mv</code></b> (<b>m</b>o<b>v</b>e)
+	        <ul class="flat">       
+                <li class="flat"><code>mv</code> moves a file or directory ...</li>
+                <li class="flat">from one place to another
+                    <pre>
+<span class="format">mv FILE_OR_DIRECTORY_NAME  NEW_DIRECTORY</span></pre>
+                </li>    
+                <li class="flat">You can also use <code>mv</code> to rename a file or directory
+                    <pre>
+<span class="format">mv FILE_OR_DIRECTORY_NAME  NEW_FILE_OR_DIRECTORY_NAME</span></pre>
+                </li>
+            </ul>
+	    </li>
+	    <li><b><code>cp</code></b> (<b>c</b>o<b>p</b>y)
+	       <ul class="flat">       
+                <li class="flat"><code>cp</code> makes a new copy of a file</li>
+                <li class="flat">To make a copy of the file in the same directory use
+                    <pre>
+<span class="format">cp  ORIGINAL_FILENAME  NEW_FILENAME</span></pre>                
+                </li>
+                <li class="flat">You can also make a copy in another directory
+                    <pre>
+<span class="format">cp  ORIGINAL_FILENAME  DIRECTORY</span></pre>                 
+                </li>
+                <li class="flat">To make a copy of a directory, run <code>cp</code> ...</li>
+                <li>with the -r (for <b>r</b>ecursive) option</li>
+            </ul>
+	    </li>
+	    <li><b><code>cat</code></b> (con<b>cat</b>enate)
+            <ul class="flat">       
+                <li class="flat"><b><code>cat</code></b> prints the contents of a file
+                    <pre>
+<span class="format">cat  FILENAME</span></pre>
+                </li>
+            </ul>	       
+	    </li>
+	    <li><b><code>rm</code></b> <b>r</b>e<b>m</b>ove
+	       <ul class="flat">       
+                <li class="flat"><code>rm</code> deletes a file</li>
+                <li class="flat">It does <b>not</b> work on directories</li>
+                <li class="flat">There is no undelete in Unix</li>
+                <li class="flat">To remove all files in the current directory, use
+                    <pre>
+rm  *</pre>
+                </li>
+           </ul>
+	    </li>
+        <li><b><code>mkdir</code></b> (<b>m</b>a<b>k</b>e <b>dir</b>rectory)
+            <ul class="flat">       
+                <li class="flat"><code>mkdir</code> creates a directory
+                    <pre>
+<span class="format">mkdir  DIRECTORY_NAME</span></pre>
+                </li>
+            </ul>
+        </li>	      
+        <li><b><code>rmdir</code></b> (<b>r</b>e<b>m</b>ove <b>dir</b>ectory )
+            <ul class="flat">       
+                <li class="flat"><code>rmdir</code> deletes a directory</li>
+                <li>It will not work unless the directory is empty</li>
+            </ul>
+        </li>
+        <li><b><code>nano</code></b>
+            <ul class="flat">       
+                <li class="flat"><code>nano</code> is a simple text editor
+                    <pre>
+<span class="format">nano  FILENAME</span></pre>
+                </li>
+                <li class="flat">If the file does not exist, <code>nano</code> will create it</li>
+                <li>You can find instruction on using <code>nano</code> <a href="nano_text_editor.html">here</a></li>
+            </ul>
+        </li>
+    </ul>       
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/linux/unix_essentials.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:52:10 GMT -->
+</html>

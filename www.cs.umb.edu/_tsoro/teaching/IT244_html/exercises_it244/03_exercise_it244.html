@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/03_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title>IT 244: Introduction to Linux/Unix - Class 3 Exercise</title>
+</head>
+<body>
+	<header>
+		<h2>
+		    IT 244: Introduction to Linux/Unix <br>
+		    Class 3 Exercise
+		</h2>	
+	</header>
+
+	<h3>Log in to <span class="host">users3.cs.umb.edu</span></h3>
+	<ul>
+		<li><span class="under">Run the ssh client</span><br><br>
+			Connect to <span class="host">users3.cs.umb.edu</span>.
+		</li>
+	</ul>
+	
+	<h3>Create  <span class="path">ex</span> and <span class="path">ex3</span> Directories</h3>
+    <ul>
+        <li><span class="under">Make sure you are in your home directory</span><br>
+            <pre>
+cd</pre>
+        </li>
+        <li><span class="under">Go to your <span class="path">it244</span> directory</span><br>
+            <pre>
+cd  it244</pre>
+        </li>
+        <li><span class="under">Create an <span class="path">ex</span> directory</span><br>
+        		   if you don't already have one
+            <pre>
+mkdir  ex</pre>
+        </li>
+        <li><span class="under">Go to your <span class="path">ex</span> directory</span><br>
+            <pre>
+cd  ex</pre>
+        </li>
+        <li><span class="under">Create an <span class="path">ex3</span> directory</span><br>
+            <pre>
+mkdir  ex3</pre>
+        </li>
+        <li>Go to your <span class="path">ex3</span> directory
+            <pre>
+cd ex3</pre>
+        </li>
+    </ul>
+    
+	
+	<h3><code>nano</code></h3>
+	<ul class="flat">
+		<li><span class="under">Run <code>nano</code> creating a text file named <span class="path">today.txt</span></span>
+			<pre>
+nano  today.txt</pre>
+		</li>
+		<li><span class="under">Practice with <code>nano</code></span><br>
+			Write a few sentences about what you did today. 
+			<br><br>
+			Use as many of the <code>nano</code> commands, which you see at the bottom of the page, as you can.
+			<br><br>
+			The <span class="char">^</span> character you see before each letter in the
+			help menu at the bottom of the page tells you to hold down
+			the Control key as you type the letter of the command.
+            <br><br>
+			Some important commands do not appear in the menu. 
+			<br><br>
+			Control A will take you to the beginning of the line, Control E will take you to the end of 
+			the line, and Control K will delete the current line. 
+			<br><br>
+			When you use Control K, the line you deleted is placed in a buffer.
+			<br><br>
+			You can get this line back, pasting it in your current position in the file. using Control U.
+		</li>
+		<li><span class="under">Save the file</span>
+			<pre>
+Control O</pre>
+	       After typing this command, the file name will appear at the bottom of the screen.
+	       <br><br>
+	       Hit Enter, to indicate that this is the correct file name.
+		</li>
+		<li><span class="under">Quit <code>nano</code></span><br>
+            <pre>
+Control X</pre>
+        </li>
+		<li>Look at the contents of the file<br>
+			<pre>
+cat today.txt</pre>
+		</li>
+	</ul>
+	
+	<h3><code>script</code></h3>
+	<ul class="flat">
+		<li><span class="under">Run <code>script</code></span>
+			<pre>
+script</pre>
+		</li>
+		<li><span class="under">Move to your home directory</span><br>
+			<pre>
+cd</pre>
+                If you run <code>cd</code> without any arguments, it will take you to your home directory.
+            <br><br>
+		</li>
+		<li><span class="under">Determine your current location</span>
+			<pre>
+pwd</pre>
+				You should be in 
+			<pre>
+/home/YOUR_UNIX_USERNAME</pre>
+		</li>
+		<li><span class="under">List the contents of your home directory</span><br>
+            <pre>
+ls</pre>
+        </li>
+        <li><span class="under">Look at the value of the <span class="iden">SHELL</span> variable</span>
+			<pre>
+echo $SHELL</pre>
+        Pay attention to capitalization. Unix is <b>case sensitive</b>.
+        <br>
+		</li>
+		<li><span class="under">Quit <code>script</code></span>
+			<pre>
+exit</pre>
+		</li>
+		<li><span class="under">Determine your current location</span>
+			<pre>
+pwd</pre>
+				You should be in
+			<pre>
+/home/YOUR_UNIX_ID/ex/ex3</pre>
+				When you run <code>script</code>, a sub-process is generated which contains a new instance of the Bash shell.
+				<br><br>
+				Any changes you make to your environment, such as your current location, disappear
+				when you exit <code>script</code>. 
+				<br><br>
+				Since you started script in your <span class="path">ex3</span> directory, that is where
+				you will return when you exit. 
+				<br><br>
+				Any files you created or changed while you were using <code>script</code> will remain
+				as you left them in your <code>script</code> session
+				since they are part of the file system, not your environment.
+				<br>
+		</li>
+		<li><span class="under">Look at the <span class="path">typescript</span> file</span>
+			<pre>
+cat typescript</pre>
+		</li>
+	</ul>
+	
+	<h3>Stopping a Running Program</h3>
+	<ul class="flat">
+	    <li><span class="under">Go to <span class="path">/home/tsoro/course_files/it244_files</span></span><br>
+            <pre>
+cd /home/tsoro/course_files/it244_files</pre>
+        </li>
+		<li><span class="under">Run a command that won't stop</span><br><br>
+			<pre>
+./run_forever.sh</pre>
+		</li>
+		<li><span class="under">Stop the <code></code> program</span>>
+			<pre>
+Control C</pre>
+        This is the only way you can get out.
+		</li>
+	</ul>
+	
+	<h3>Command Line Editing Practice</h3>
+	<ul class="flat">
+		<li><span class="under">Type something at the command line</span>
+			<pre>
+foo bar bletch</pre>
+		</li>
+		<li><span class="under">Move to the beginning of the command line</span>
+			<pre>
+Control A</pre>
+		</li>
+		<li><span class="under">Move to the end of the command line</span>
+			<pre>
+Control E</pre>
+		</li>
+		<li><span class="under">Clear the command line</span>
+			<pre>
+Control U</pre>
+<br>
+		</li>
+	</ul>
+	
+	<h3>Use the History Feature</h3>
+	<ul class="flat">
+		<li><span class="under">Retrieve the last command</span>
+			<pre>
+&uArr;</pre>
+		</li>
+		<li><span class="under">Keep using &uArr; until you come to</span><br>
+			<pre>
+cat typescript</pre>
+			If you go too far use &darr; until you get to the right command.
+			<br>
+		</li>
+		<li><span class="under">Run the <code>cat</code> command</span><br>
+			<pre>
+Enter</pre>
+		</li>
+	</ul>
+	
+	<h3>Look at a <code>man</code> Page</h3>
+	<ul class="flat">
+		<li><span class="under">Run <code>man</code> on <code>ls</code></span>
+			<pre>
+man ls</pre>
+		</li>
+		<li><span class="under">Scroll down one screen</span>
+			<pre>
+Space</pre>
+		</li>
+		<li><span class="under">Scroll down one line</span>
+			<pre>
+Enter</pre>
+		</li>
+		<li><span class="under">Scroll up one line</span>
+			<pre>
+&uArr;</pre>
+		</li>
+		<li><span class="under">Scroll down one line</span>
+			<pre>
+&dArr;</pre>
+		</li>
+		<li><span class="under">Quit <code>man</code></span>
+			<pre>
+q</pre>
+		</li>
+	</ul>
+	
+	<h3>Experiment with <code>apropos</code></h3>
+	<ul class="flat">
+		<li><span class="under">Run <code>apropos</code> on the word "who"</span>
+			<pre>
+apropos who</pre>
+        <br><br><br><br><br><br><br><br><br>
+		</li>
+	</ul>
+	
+	<h3>Use <code>info</code></h3>
+	<ul class="flat">
+		<li><span class="under">Run the <code>info</code> command on the word "who"</span>
+			<pre>
+info who</pre>
+		</li>
+		<li><span class="under">Display the help menu</span>
+			<pre>
+h</pre>
+		</li>
+		<li><span class="under">Return to the <code>who</code> page</span>
+			<pre>
+l</pre>
+		</li>
+		<li><span class="under">Quit <code>info</code></span>
+			<pre>
+q</pre>
+		</li>
+		<li><span class="under">Run <code>info</code> without an argument</span>
+			<pre>
+info</pre>
+				You should see the first page of the info system.
+		</li>
+		<li><span class="under">Use the down arrow to go to the line labeled "File permissions"</span><br>
+        </li>
+		<li><span class="under">Go to the "File permissions" page</span>
+			<pre>
+Enter</pre>
+        </li>
+        <li><span class="under">Use the down arrow to go to the line labeled "Mode Structure"</span><br>
+        </li>
+        <li><span class="under">Go to the "Mode Structure" page</span>
+            <pre>
+Enter</pre>
+        </li>
+		<li><span class="under">Return to the previous page</span>
+			<pre>
+l</pre>
+        You should be back on the "File permissions" page
+		</li>
+		<li><span class="under">Return to the introductory page</span>
+			<pre>
+l</pre>
+		</li>
+		<li><span class="under">Quit <code>info</code></span>
+			<pre>
+q</pre>
+		</li>
+	</ul>
+	
+	<h3>Checking Your Work</h3>
+	<ul class="flat">
+		<li><span class="under">Tell me when you are done</span><br><br>
+			I need to check your work.
+		</li>
+	</ul>
+	
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/03_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+</html>

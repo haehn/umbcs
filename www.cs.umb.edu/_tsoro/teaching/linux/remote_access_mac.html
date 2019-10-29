@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/linux/remote_access_mac.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:52:11 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../IT244_html/class_notes.css">
+    <title>Connecting to a Unix machine from MacOS</title>
+</head>
+<body>
+    <header>
+        <h2>Connecting to a Unix machine from MacOS</h2>
+    </header>
+
+    <h3 class="flat"><font color="darkblue">Topics</font></h3>
+    <ul class="flat">       
+        <li class="flat"><a href="#software_needed">Software Needed</a></li>
+        <li class="flat"><a href="#logging_on_unix">Logging in to a Unix Machine</a></li>
+        <li class="flat"><a href="#copying_to_unix">Copying Files to a Unix Machine</a></li>
+        <li class="flat"><a href="#copying_to_unix_hard">Copying Files to a Unix Machine - The Hard Way</a></li>
+        <li class="flat"><a href="#accessing_unix_machine_using_umb_wireless_network">Accessing a Unix Machine Using the UMB Wireless Network</a></li>      
+    </ul>
+    
+    <h4 class="topic" id="software_needed">Software Needed</h4>
+    <ul class='flat'>       
+        <li>The Mac comes already has the software you will need to work on a Unix machine</li>
+        <li>The Mac OS is really a customized version of Unix</li>
+        <li>Like all versions of Unix, it has a command line</li>
+        <li>To see the command line, you need to run the Terminal application ...</li>
+        <li>which you will find in the <span class="path">Utilities</span> folder ...</li>
+        <li>inside the <span class="path">Applications</span> folder</li>
+        <li>This will open a window ...</li>
+        <li>where you can talk to your Macintosh through the command line</li>
+        <li>The two programs that come with the Mac are 
+            <ul class='flat'>       
+                <li class="flat"><code>ssh</code> (<b>s</b>ecure <b>sh</b>ell)</li>
+                <li class="flat"><code>scp</code> (<b>s</b>ecure <b>c</b>o<b>p</b>y)</li>
+            </ul>
+        </li>
+        <li>To make copying files to the UMB Unix machines easier ...</li>
+        <li>you can use FileZilla instead of <code>scp</code></li>
+        <li>You can download FileZilla from <a href="https://filezilla-project.org/">https://filezilla-project.org</a></li>
+    </ul>
+
+    <h4 class="topic" id="logging_on_unix">Logging in to a Unix Machine</h4>
+    <ul class='flat'>       
+        <li>Open the Macintosh Terminal application</li>
+        <li>At the command line enter
+            <pre>
+<span class="format">ssh USERNAME@users3.cs.umb.edu</span></pre>
+            where <span class="red">USERNAME</span> is a placeholder ...
+        </li>
+        <li>for <b>your</b> Unix username</li>
+        <li>You will be prompted for your password</li>
+        <li>After you enter it, you get a Unix command line</li>
+        <li>To log into <span class="host">users3</span> I would type
+            <pre>
+ssh ghoffman@users3.cs.umb.edu</pre>        
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="copying_to_unix">Copying Files to a Unix Machine</h4>
+    <ul class='flat'>       
+        <li>Run FileZilla</li>
+        <li>In the Host name box, enter <span class="host">users3.cs.umb.edu</span></li>
+        <li>In the User name box, enter your <b>Unix</b> username</li>
+        <li>In the Password box, enter your <b>Unix</b> password</li>
+        <li>In the Port box, enter 22</li>
+        <li>Click the Quickconnect button</li>
+        <li>You will now see a window with two panes</li>
+        <li>The pane on the left shows the files on your PC</li>
+        <li>The pane on the right show the Unix directory structure</li>
+        <li>You can click and drag a file from your PC to the Unix machine</li>
+        <li>But you can only do this in directories where you have write privileges</li>
+    </ul>
+    
+    <h4 class="topic" id="copying_to_unix_hard">Copying Files to a Unix Machine - The Hard Way</h4>
+    <ul class='flat'>       
+        <li>There is another way to copy files from a Mac to a Unix Machine</li>
+        <li>It involves using the command line</li>
+        <li>Open the Macintosh Terminal application</li>
+        <li>You will find it in the <span class="path">Utilities</span> folder ...</li>
+        <li>inside the <span class="path">Applications</span> folder</li>
+        <li>Using the Unix <code>cd</code> (<b>c</b>hange <b>d</b>irectory) command ...</li>
+        <li>go to the directory (folder), that contains the file you want to transfer</li>
+        <li>Then at the command line enter
+            <pre>
+<span class="format">scp  FILENAME  USERNAME@users3.cs.umb.edu:</span></pre>
+        </li>
+        <li>where <span class="red">FILENAME</span> is the name of the file you want to copy ...</li>
+        <li>and <span class="red">USERNAME</span> is your Unix username</li>
+        <li>You will be prompted for your password</li>
+        <li>Be sure to include the the colon, <span class="char">:</span>, after <span class="host">users3.cs.umb.edu</span></li>
+        <li>If you don't nothing will happen</li>
+        <li>This will transfer the file to your home directory</li>
+        <li>From there you can use the Unix <code>mv</code> (<b>m</b>o<b>v</b>e) command ...</li>
+        <li>to move the file to the proper directory</li>
+        <li>If you wanted to move the file <span class="path">hello.py</span> to the directory ...</li>
+        <li>whose <a class="def" href="../definitions.html#relative_pathname">relative pathname</a> is
+            <span class="path">it116/code_entries/ex_01</span> ...
+        </li>
+        <li>you would type
+            <pre>
+mv hello.py it116/code_entries/ex_01</pre>
+        </li>
+        <li>You can save yourself a step ...</li>
+        <li>by copying the file directly to the correct directory</li>
+        <li>You do this by following the colon with the path to the directory
+            <pre>
+<span class="format">scp FILENAME USERNAME@users3.cs.umb.edu:PATH_TO_DIRECTORY</span></pre>
+        </li>
+        <li>If I wanted to copy the file <span class="path">hello.py</span> to my <span class="path">it116/hw/hw1</span> directory ...</li>
+        <li>I would enter the following at the command line
+            <pre>
+scp hello.py ghoffman@users3.cs.umb.edu:it116/hw/hw1</pre>
+        </li>
+    </ul>    
+    
+    <h4 class="topic" id="accessing_unix_machine_using_umb_wireless_network">Accessing a Unix Machine Using the UMB Wireless Network</h4>
+    <ul class='flat'>       
+        <li>If you are connected to the UMB Wireless network ...</li>
+        <li>you can use <code>ssh</code>, <code>scp</code> and FileZilla ...</li>
+        <li>just as you do from home</li>
+    </ul>
+<h5> Copyright : Glenn Hoffman, Director of the IT program, Umass-Boston</h5>
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/linux/remote_access_mac.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:52:11 GMT -->
+</html>

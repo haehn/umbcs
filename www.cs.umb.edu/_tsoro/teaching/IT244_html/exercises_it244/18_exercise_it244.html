@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/18_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+	<title> IT 244: Introduction to Linux/Unix - Class 17 Exercise</title>
+</head>
+<body>
+	<header>
+		<h2> 
+		    IT 244: Introduction to Linux/Unix <br> 
+		    Class 17 Exercise
+		</h2>	
+	</header>
+
+<h3>Log in to <span class="host">users3.cs.umb.edu</span></h3>
+    <ul>
+    	<li><span class="under">Run the ssh client</span><br><br>
+        	Connect to <span class="host">users3.cs.umb.edu</span>.
+        </li>
+    </ul>
+
+	
+	<h3>Directory for This Exercise</h3>
+    <ul>
+        <li><span class="under">Go to your <span class="path">ex</span> directory</span>
+            <pre>
+    cd  ~/it244/ex</pre>
+        </li>
+        <li><span class="under">Create an <span class="path">ex17</span> directory</span><br>
+            <pre>
+    mkdir  ex17</pre>
+        </li>       
+        <li><span class="under">Go to your <span class="path">ex17</span> directory</span><br>
+            <pre>
+    cd  ex17</pre>
+        </li>
+    </ul>
+	
+    <h3>Continuing a Command on the Next Line</h3>
+    <ul>
+        <li><span class="under">Backslash with <code>echo</code></span><br>
+            <pre>
+    echo  Go  \[Enter]
+    Red  \[Enter]
+    Sox  [Enter]</pre>
+            The greater than symbol, <span class="char">&gt;</span> , that you see after all but
+            the last time you hit Enter is a secondary prompt. 
+            <br><br>
+            It tells you that the shell is awaiting more input.
+            <br><br>
+            This will not work unless you hit the Enter key <b>immediately</b>
+            after typing the backslash.
+            <br><br>
+        </li>
+        <li><span class="under">More practice with backslash</span><br>
+            <pre>
+    echo  The University  \[Enter]
+    of Massachusetts  \[Enter]
+    at Boston  [Enter]</pre>
+        </li>
+        <li><span class="under">Try typing a space before hitting Enter after backslash</span><br>
+            <pre>
+    echo  Hello \[Space][Enter] </pre>
+            The <code>echo</code> command does not wait for further input, it prints
+            its argument and you <b>don't</b> get a secondary prompt.
+            <br><br>
+            The backslash is a quoting character that turns off the special
+            meaning of whatever character comes next. 
+            <br><br>
+            When you hit Enter 
+            <b>immediately</b> after the backslash, you are turning off the
+            special meaning of the new line character, which tells the shell
+            to execute a command. 
+            <br><br>
+            If you put a space, or any other character
+            immediately after the backslash, that is the character that the
+            backslash applies to, not the new line character which the shell
+            receives after you hit Enter.
+        </li>
+    </ul>
+    
+    <h3>Changing Prompts</h3>
+    <ul>
+        <li><span class="under">Change your primary prompt</span><br>
+            <pre>
+    PS1='===&gt; '</pre>
+        Note the single quotes.
+        <br><br>
+        You <b>must</b> use them
+        <br><br>
+        Since you have not added this to your <span class="path">.bash_profile</span>, this will only be
+        your prompt for this terminal session.
+        <br><br>
+        </li>
+        <li><span class="under">Change your secondary prompt</span><br>
+            <pre>
+    PS2='&gt;&gt; '</pre>
+        </li>
+        <li><span class="under">Show your new secondary prompt</span><br>
+            <pre>
+    echo  Go  \[Enter]
+    Red  \[Enter]
+    Sox  [Enter]</pre>
+        You should see your new secondary prompt with each new line.
+        </li>
+    </ul>
+    
+    <h3>Semicolon, <span class="char">;</span>, to Separate Commands</h3>
+    <ul>
+        <li><span class="under">Use three <code>echo</code> commands on the same command line</span><br>
+            <pre>
+    echo  foo;  echo  bar;  echo  bletch</pre>
+            Each echo command generates its own line of output. 
+            <br><br>
+        </li>
+        <li><span class="under">Use three more <code>echo</code> commands on the same line</span><br>
+            <pre>
+    echo  Unix;  echo is not;  echo  for the faint of heart</pre>
+        </li>
+        <li><span class="under">Use different commands on the same line</span><br>
+            <pre>
+    echo;  echo  This is what is in my home directory:;  ls  -al ~</pre>
+        </li>
+    </ul>
+    
+    <h3>&amp; to Separate Commands</h3>
+    <ul>
+        <li><span class="under">Copy <span class="path">hi_bye.sh</span> from <span class="path">~ghoffman/course_files/it244_files</span></span><br>
+            <pre>
+    cp  ~tsoro/course_files/it244_files/hi_bye.sh  <b>.</b></pre>
+        </li>
+        <li><span class="under">Display the contents of <span class="path">hi_bye.sh</span></span><br>
+            <pre>
+    cat hi_bye.sh</pre>
+        </li>
+        <li><span class="under">Run multiple instances of <span class="path">hi_bye.sh</span> with &amp; as a separator, then run the <code>jobs</code> command</span><br>
+            <pre>
+    ./hi_bye.sh  &amp; ./hi_bye.sh  &amp; jobs</pre>
+            The ampersand causes each of the two invocations of <span class="path">hi_bye.sh</span> to run in the background. 
+            <br><br>
+            This means the ampersand has two functions, to cause a command to run in the 
+            background and to separate one command from the next.
+            <br><br> 
+            Notice that <code>jobs</code> is able to report on the two invocations of <span class="path">hi_bye.sh</span> running 
+            in the background, because it is running in the foreground.
+            <br><br>
+        </li>
+        <li><span class="under">Wait for completion of jobs</span><br>
+        <br>
+        After the second Goodbye appears, hit Enter.
+        <br><br>
+        You should see a report that the two jobs have terminated.
+        </li>
+    </ul>
+    
+    <h3>Important Keyword Shell Variables</h3>
+    <ul>
+        <li><span class="under">Display <span class="iden">PATH</span></span><br>
+            <pre>
+    echo  $PATH</pre>
+        </li>
+        <li><span class="under">Display <span class="iden">HOME</span></span><br>
+            <pre>
+    echo  $HOME</pre>
+        </li>
+        <li><span class="under">Display <span class="iden">SHELL</span></span><br>
+            <pre>
+    echo  $SHELL</pre>
+        </li>
+        <li><span class="under">Display <span class="iden">PS2</span></span><br>
+            <pre>
+    echo  $PS2</pre>
+        </li>
+        <li><span class="under">Display some of your global variables</span><br>
+            <pre>
+    env</pre>
+        </li>
+    </ul>
+    
+
+    <h3>Local Variables</h3>
+    <ul>
+        <li><span class="under">Create a local variable</span><br>
+            <pre>
+    greeting=Hello</pre>
+        </li>
+        <li><span class="under">Display the local variable you just created</span><br>
+            <pre>
+    echo  $greeting</pre>
+        </li>
+        <li><span class="under">Assign a string with a space in it to this local variable</span><br>
+            <pre>
+    greeting='Hello there'</pre>
+        </li>
+        <li><span class="under">Display the new value of this variable</span><br>
+            <pre>
+    echo  $greeting</pre>
+        </li>
+        <li><span class="under">Copy <span class="path">print_foo.sh</span> from  
+        <span class="path">~tsoro/course_files/it244_files</span></span><br>
+            <pre>
+    cp  ~tsoro/course_files/it244_files/print_foo.sh  <b>.</b></pre>
+        </li>
+        <li><span class="under">Print this script to the screen</span><br>
+            <pre>
+    cat  print_foo.sh</pre>
+            This script simply prints the value of the variable <span class="iden">foo</span> to Standard Output.
+            <br><br>
+        </li>
+        <li><span class="under">Create the local variable <span class="iden">foo</span></span><br>
+            <pre>
+    foo=FOO</pre>
+        </li>
+        <li><span class="under">Print the value of <span class="iden">foo</span></span><br>
+            <pre>
+    echo $foo</pre>
+        </li>
+        <li><span class="under">Run <span class="path">print_foo.sh</span></span><br>
+            <pre>
+    ./print_foo.sh</pre>
+            The script prints no value for <span class="iden">foo</span>, 
+            since <span class="iden">foo</span> was a local variable defined
+            in your original shell. 
+            <br><br>
+            The script runs in a subshell and cannot see
+            the local variables of its parent shell.
+        </li>
+    </ul>
+    
+    <h3>Global Variables</h3>
+    <ul>
+        <li><span class="under">Set <span class="iden">foo</span> to a new value and export it</span><br>
+            <pre>
+    export foo=BAR</pre>
+        </li>
+        <li><span class="under">Print <span class="iden">foo</span> in your current shell</span><br>
+            <pre>
+    echo $foo</pre>
+        </li>
+        <li><span class="under">Run <span class="path">print_foo.sh</span></span><br>
+            <pre>
+    ./print_foo.sh</pre>
+            Since the <code>export</code> command makes <span class="iden">foo</span> a global variable,
+            <span class="path">print_foo.sh</span> can now see this variable in the subshell in which
+            it is run.<br><br><br>
+        </li>
+    </ul>
+    
+    <h3>The Directory Stack</h3>
+    <ul>
+        <li><span class="under">Go to <span class="path">~tsoro/course_files/it244_files/dir_tree</span></span><br>
+            <pre>
+    cd  ~tsoro/course_files/it244_files/dir_tree</pre>
+        </li>
+        <li><span class="under">Look at your current location</span><br>
+            <pre>
+    pwd</pre>
+        </li>
+        <li><span class="under">Look at the contents of the directory</span><br>
+            <pre>
+    ls</pre>
+        </li>
+        <li><span class="under">Use <code>dirs</code> to look at the directory stack</span><br>
+            <pre>
+    dirs</pre>
+            It only lists the current directory.
+            <br><br>
+        </li>
+        <li><span class="under">Go down one level using <code>pushd</code></span><br>
+            <pre>
+    pushd  proj</pre>
+            Two directories are now listed.
+            <br><br>
+        </li>
+        <li><span class="under">Display your location</span><br>
+            <pre>
+    pwd</pre>
+        </li>
+        <li><span class="under">Look at the contents of the directory</span><br>
+            <pre>
+    ls</pre>
+        </li>
+        <li><span class="under">Go down another level</span><br>
+            <pre>
+    pushd  proj1</pre>
+            Three directories are now listed.
+        </li>
+        <li><span class="under">Display your location</span><br>
+            <pre>
+    pwd</pre>
+        </li>
+        <li><span class="under">Go up one level using <code>popd</code></span><br>
+            <pre>
+    popd</pre>
+            Now, only two directories are listed, because you poped the previous directory from the stack.
+        </li>
+        <li><span class="under">Display your location</span><br>
+            <pre>
+    pwd</pre><br><br><br>
+        </li>
+        <li><span class="under">Go up one level, suppress output and get location, all on one line</span><br>
+            <pre>
+    popd  &gt;  /dev/null;  pwd</pre>
+            By redirecting output to <span class="path">/dev/null</span>, you have stopped <code>popd</code> from printing out the directory stack.
+            <br><br>
+            By using a semi-colon followed by <code>pwd</code>, you have displayed your current location
+            without having to wait for a prompt.
+    </ul>
+    
+    <h3>Bash Script for This Exercise</h3>
+    <ul>
+        <li><span class="under">Go back to your <span class="path">ex17</span> directory</span><br>
+            <pre>
+    cd  ~/it244/ex/ex17</pre>
+        </li>
+        <li><span class="under">Create the script <span class="path">ex17.sh</span></span><br>
+            <pre>
+    nano  ex17.sh</pre>
+        </li>
+        <li><span class="under">Write into this file commands from certain of the sections above</span>
+            <br><br>
+            Include Unix commands from the section <span class="under">Important Keyword Shell variables</span>, 
+            up to and including the section <span class="under">The Directory Stack</span>.
+            <br><br>
+        </li>
+        <li><span class="under">Save this file</span><br><br>
+            Save and quit.
+        </li>
+        <li><span class="under">Make this script executable</span><br>
+            <pre>
+    chmod 755 ex17.sh</pre>
+        </li>
+        <li><span class="under">Run this script looking for error messages</span><br>
+            <pre>
+    bash  ex17.sh &gt; /dev/null</pre>
+    			Running <span class="path">ex17.sh</span> this way
+            will only print error messages. <br><br>
+            If you see <b>nothing</b> your script has no Unix errors. <br><br>
+            If you find any errors, fix them.
+        </li>
+        <li><span class="under">Test you script</span><br>
+			<pre>
+    ~tsoro/it244_test/ex17.sh</pre>
+		When the script asks if you are ready for more, hit Return or Enter.
+			<br><br>
+		</li>
+        <li><span class="under">Let me check your script</span><br></li>
+    </ul>
+    
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/18_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+</html>

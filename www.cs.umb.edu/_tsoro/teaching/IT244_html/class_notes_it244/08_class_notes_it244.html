@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/08_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:25 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../../class_notes.html">
+	<title> IT 244: Introduction to Linux/Unix - Class 8</title>
+</head>
+<body>
+	<header>
+		<h2> 
+		    IT 244: Introduction to Linux/Unix <br>
+		    Class 8
+		</h2>	
+	</header>
+
+    <h3 class="section">Today's Topics</h3>
+    
+    <h4 class="flat_under">Tips and Examples</h4>
+    <ul class="flat">       
+        <li class="flat"><a href="#be_sure_you_know_were_you_are">Be Sure You Know Where You Are</a></li>
+    </ul>
+    <br>  
+    <h4 class="flat_under">Review</h4>
+    <ul class="flat_top">
+        <li class="flat"><a href="#hierarchical_file_system">The Hierarchical Filesystem</a></li>
+        <li class="flat"><a href="#files_directories">Unix Files and Directories</a></li>
+        <li class="flat"><a href="#filenames">Filenames</a></li>
+        <li class="flat"><a href="#case_sensitivity">Case Sensitivity</a></li>
+        <li class="flat"><a href="#filename_extensions">Filename Extensions</a></li>
+        <li class="flat"><a href="#current_directory">Current Directory</a></li>
+        <li class="flat"><a href="#home_directory">Your Home Directory</a></li>
+        <li class="flat"><a href="#navigation">Navigating the Hierarchical File Systems</a></li>
+    </ul>
+    <br>
+    <h4 class="flat_under">New Material</h4>
+    <ul class="flat_top">
+        <li class="flat"><a href="#hidden_filenames">Hidden Filenames</a></li>
+        <li class="flat"><a href="#startup_files">Startup Files</a></li>
+        <li class="flat"><a href="#dot_&dot_dot">The <span class="char">.</span> and <span class="char">. .</span> Directory Entries</a></li>
+        <li class="flat"><a href="#pathnames">Pathnames</a></li>
+        <li class="flat"><a href="#absolute_pathnames">Absolute Pathnames</a></li>
+        <li class="flat"><a href="#tilde">Tilde, <span class="char">~</span>, in Pathnames</a></li>
+        <li class="flat"><a href="#relative_pathnames">Relative Pathnames</a></li>
+        <li class="flat"><a href="#relative_pathnames_current_dir">Relative Pathnames in Your Current Directory</a></li>
+        <li class="flat"><a href="#relative_pathnames_descendant">Relative Pathnames in a Subdirectory</a></li>
+        <li class="flat"><a href="#relative_pathnames_ancestor">Relative Pathnames above the Current Directory</a></li>
+        <li class="flat"><a href="#relative_pathnames_other">Relative Pathnames Neither above Nor below the Current Directory</a></li>
+        <li class="flat"><a href="#standard_directories">Standard Directories</a></li>       
+        <li class="flat"><a href="#your_home_directory_versus_/home">Your Home Directory versus <span class="path">/home</span></a></li>
+        <li class="flat"><a href="#two_uses_of_/">The Two Uses of <span class="char">/</span></a></li>
+        <li class="flat"><a href="#two_special_uses_of_.">The Two Special Uses of <span class="char">.</span></a></li>  
+    </ul>
+    
+    <h3 class="section">Reading Assignment</h3>
+    <p class="flat">The reading assignment for this week is chapter 3 of Sobell, <i>The Utilities</i>.</p>
+    <p>You will find a list of all reading assignments <a href="../readings_it244.html">here</a>.</p>
+    <p>There is a link to this page on the class web page.</p>
+    
+    <h3 class="section">Homework 4</h3>
+    <p class="flat">I have posted Homework 4 <a href="../hw_it244/03_hw_it244.html"> here</a>.</p>
+    <p>As usual, it will be due next Sunday at 11:59 PM.</p>
+    
+    <h3 class="section">Tips and Examples</h3>
+    
+    <h4 class="topic" id="be_sure_you_know_were_you_are">Be Sure You Know Where You Are</h4>
+    <ul class="flat">       
+        <li>Whenever you are working at the command line ...</li>
+        <li>you always have a current directory</li>
+        <li>It is important that you always know your current directory</li>
+        <li>If you think you are in one directory ...</li>
+        <li>but you really are in another ...</li>
+        <li>you can get into trouble</li>
+        <li>Every semester I get at least one email from a student ...</li>
+        <li>saying some file has disappeared</li>
+        <li>Linux will never delete a file ...</li>
+        <li>unless you tell it to</li>
+        <li>The file is always somewhere ...</li>
+        <li>but it may not be where you think it is</li>
+        <li>Often the file is in their home directory</li>
+        <li>When you think a file has disappeared ...</li>
+        <li>look for it in other directories</li>
+        <li>Another problem can arise if you are in the wrong directory</li>
+        <li>If you try to save a file ...</li>
+        <li>and get error message that you don't have permission ...</li>
+        <li>it means you are in the wrong directory</li>
+        <li>The owner of a directory decides who can do what ...</li>
+        <li>in that directory</li>
+        <li>If you are in a directory where you do not have write permission ...</li>
+        <li>you won't be able to create or change anything</li>
+        <li>A text editor like <code>nano</code> will open a file ...</li>
+        <li>whatever directory you are in</li>
+        <li>But you won't be able to save it ...</li>
+        <li>unless you have write permission in that directory</li>
+    </ul>
+    
+    <h3 class="section">Review</h3>
+    
+    <h4 class="topic" id="hierarchical_file_system">The Hierarchical Filesystem</h4>
+    <ul class="flat">       
+        <li>Unix uses a <a class="def" href="../definitions.html#hierarchical_filesystem">hierarchical filesystem</a></li>
+        <li>This means there is one directory at the top ...</li>
+        <li>called the 
+            <a class="def" href="../definitions.html#root_directory">root directory</a> 
+        </li>
+        <li>The root directory is indicated by a simple slash character, <span class="char">/</span></li>
+        <li>All other directories are contained within the root directory ...</li>
+        <li>or one of its many subdirectories</li>
+        <li>This structure is called a tree because it looks like a tree turned upside down</li>
+        <li>A hierarchical filesystem also resembles a family tree</li>
+        <li>So we often use terms that describe family members ...</li>
+        <li>when talking about directories</li>
+        <li>The directory up one level from your current directory is called the 
+            <a class="def" href="../definitions.html#parent_directory">parent directory</a>
+        </li>
+        <li>All directories above the current directory are called 
+            <a class="def" href="../definitions.html#ancestor">ancestors</a>
+        </li>
+        <li>All directories inside the current directories are called 
+            <a class="def" href="../definitions.html#child_directory">child directories</a>
+        </li>
+        <li>All directories below the current directory can be called 
+            <a class="def" href="../definitions.html#descendant">descendants</a>
+        </li>
+        <li>All directories and files within the same parent directory are called 
+            <a class="def" href="../definitions.html#sibling">siblings</a>
+        
+        </li>
+    </ul>
+	<img src="image1_note8.png" height="50%"/>
+
+    <h4 class="topic" id="files_directories">Unix Files and Directories</h4>
+    <ul class="flat">       
+        <li><a class="def" href="../definitions.html#file">Files</a> 
+        		are linear arrangements of data ...
+        </li>
+        <li>on a storage device</li>
+        <li>There are several types of files
+            <ul class="flat">       
+                <li class="flat">Program files</li>
+                <li class="flat">Text files</li>
+                <li class="flat">Data files</li>
+                <li class="flat">Configuration files</li>
+            </ul>
+        </li>
+        <li>Directories are simply containers that hold files</li>
+        <li>Unix tends to treat everything is sees as a file</li>
+        <li>Unix even considers devices, such as printers, as files</li>
+        <li>Directories are files too, as far as Unix is concerned</li>
+        <li>You cannot run <code>cat</code>, <code>more</code> or <code>less</code> on a directory ...</li>
+        <li>or on a device</li>
+        <li>The information that directory files contain ...</li>
+        <li>can only be accessed by system programs and system calls</li>
+    </ul>
+
+    <h4 class="topic" id="filenames">Filenames</h4>
+    <ul class="flat">       
+        <li>When you ask Unix for a file you must give it two pieces of information
+            <ul class="flat">       
+                <li class="flat">The name of the file</li>
+                <li class="flat">The location of the file in the hierarchical file system</li>
+            </ul>
+        </li>
+        <li>Every file has a filename</li>
+        <li>The maximum number of characters permitted in a filename ...</li>
+        <li>varies from one Unix to another</li>
+        <li>Most Unix flavors allow file names of up to 255 characters</li>
+        <li>It is best to keep filenames short</li>
+        <li>This makes typing and remembering them easier</li>
+		<li>Never use a space in a file or directory name</li>
+		<li>This is a <b>bad idea</b></li>
+	    <li>Use an underscore, <span class="char">_</span> , instead of a space in file names</li>
+		<li>To avoid problems, only use the following characters in file names
+            <ul class="flat">       
+                <li class="flat">Uppercase letters (A-Z)</li>
+                <li class="flat">Lowercase letters (a-z)</li>
+                <li class="flat">Digits (0-9)</li>
+                <li class="flat">Underscore <span class="char">_</span></li>
+                <li class="flat">Dash <span class="char">-</span></li>
+                <li class="flat">Period <span class="char">.</span></li>
+            </ul>
+        </li>
+        <li>You cannot have two files with the same name ...</li>
+        <li>in the same directory</li>
+    </ul>
+    
+    <h4 class="topic" id="case_sensitivity">Case Sensitivity</h4>
+    <ul class="flat">       
+        <li>Unix is <b>case sensitive</b></li>
+        <li>This means that "Foo", "foo" and "FOO" ...</li>
+        <li>are three different things ...</li>
+        <li>as far as Unix is concerned</li>
+        <li>Unix utility and program names are always lowercase</li>
+        <li>Some operating systems do not distinguish ...</li>
+        <li>between UPPERCASE and lowercase characters</li>
+        <li>Windows is such a system</li>
+        <li>Make life easy for yourself</li>
+        <li>Use only lowercase characters in Unix filenames</li>
+    </ul>
+            
+    <h4 class="topic" id="filename_extensions">Filename Extensions</h4>
+    <ul class="flat">       
+        <li>Extensions are strings of characters ...</li>
+        <li>that appear at the end of the filename ...</li>
+        <li>after a period, <span class="char">.</span></li>
+        <li>Extensions are <b>not</b> recognized by the Unix filesystem</li>
+        <li>As far as Unix is concerned ...</li>
+        <li>they are just legal characters ...</li>
+        <li>that are part of the filename</li>
+        <li>Some Unix programs expect their files ...</li>
+        <li>to have certain extensions</li>
+        <li>For example, the C compiler, <code>gcc</code> ...</li>
+        <li>expects the filenames of source code files to end in <span class="char">.c</span></li>
+        <li>The Java compiler, <code>javac</code> ...</li>
+        <li>expects Java source files to have <span class="char">.java</span> ...</li>
+        <li>at the end of the filename</li>
+        <li>The extensions are required by these program ...</li>
+        <li>not by Unix</li>
+    </ul>     
+
+
+    <h4 class="topic" id="current_directory">Current Directory</h4>
+    <ul class="flat">       
+        <li>The way a Unix command works ...</li>
+        <li>depends, somewhat, on your environment</li>
+        <li>One of the most important parts of your environment ...</li>
+        <li>is your <a class="def" href="../definitions.html#current_directory">current directory</a></li>
+        <li>The <code>pwd</code> (<b>p</b>rint <b>w</b>orking <b>d</b>irectory) command ...</li>
+        <li>will always tell you your current directory</li>
+    </ul>
+    
+    <h4 class="topic" id="home_directory">Your Home Directory</h4>
+    <ul class="flat">       
+        <li>Whenever you log in to a Unix host ...</li>
+        <li>you will always find yourself in your 
+            <a class="def" href="../definitions.html#home_directory">home directory</a>
+        </li>
+        <li>This a directory that belongs to your Unix account <b>only</b></li>
+        <li>You have full control of everything inside this directory</li>
+        <li>If you use <code>cd</code> with no arguments ...</li>
+        <li>it will take you to your home directory
+		<pre>
+$ cd
+    
+$ pwd
+/home/tsoro</pre>
+        </li>
+        <li>Your home directory contains a number of hidden files ...</li>
+        <li>which customize your environment ...</li>
+        <li>like <span class="path">.plan</span> </li>
+        <li>On most Unix systems, home directories are found inside the <span class="path">/home</span> directory</li>
+        <li>On a Mac, home directories appear inside <span class="path">/Users</span></li>
+        <li>The name of your home directory ...</li>
+        <li>is the same as your Unix username</li>   
+     </ul>
+    
+    <h4 class="topic" id="navigation">Navigating the Hierarchical File Systems</h4>
+    <ul class="flat">       
+        <li>Any file or directory in the filesystem ...</li>
+        <li>will be one of four positions ...</li>
+        <li>relative to your current directory</li>
+        <li>It can be <b>inside</b> your current directory</li>
+        <li>It can be <b>below</b> your current directory</li>
+        <li>It can be <b>above</b> your current directory</li>
+        <li>It can be <b>off to the side</b> of your current directory</li>
+        <li>In this last case, you must go up ...</li>
+        <li>before you can go down to reach this file</li>
+    </ul>
+    <img src="image2_note8.png" height="50%"/>
+    
+    <h3 class="section">New Material</h3>
+	
+	<h4 class="topic" id="hidden_filenames">Hidden Filenames</h4>
+	<ul class="flat">       
+        <li>A file whose filename begins with a period, <span class="char">.</span> &nbsp;...</li>
+        <li>is a "hidden" or "invisible" file</li>
+        <li><code>ls</code> does not display these files unless you use the -a option</li>
+        <li>Two special hidden files <span class="char">.</span> and <span class="char">..</span> appear in every directory
+        <pre>
+$ ls  -a
+.  ..  hw3  work</pre></li>
+	<li>We'll discuss them shortly</li>
+    </ul>
+	
+	<h4 class="topic" id="startup_files">Startup Files</h4>
+	<ul class="flat">       
+        <li>The files  <span class="path">.login</span> and <span class="path">.bash_profile</span> are 
+            <a class="def" href="../definitions.html#startup_file">startup files</a>
+        </li>
+        <li>Startup file contain Unix commands that are run ...</li>
+        <li>just before you get the first shell prompt</li>
+        <li>These customize your Unix environment</li>
+        <li>They only work when placed inside your home directory</li>
+        <li>They can set variables which can help you with your work</li>
+        <li>We'll talk more about this in a future class</li>
+    </ul>
+
+	<h4 class="topic" id="dot_&dot_dot">The <span class="char">.</span> and <span class="char">. .</span> Directory Entries</h4>
+	<ul class="flat">       
+        <li>Every directory has at least two entries: <span class="char">.</span> and <span class="char">. .</span> </li>
+        <li>When a new directory is created, these entries are always there</li>
+        <li><span class="char">.</span> stands for the current directory</li>
+        <li><span class="char">. .</span> stands for the parent directory ...</li>
+        <li>the directory <b>immediately above</b> your current directory
+        <pre>
+$ pwd
+/home/tsoro
+    
+$ cd ..
+    
+$ pwd
+/home</pre>
+    </li>
+	<li><span class="char">.</span> is most often used in two circumstances
+	   <ul class="flat">
+	       <li class="flat">To run a program in your current directory</li>
+	       <li class="flat">To move or copy a file to your current directory</li>
+	   </ul>
+	   <pre>
+$ ls
+it244  notes.txt  work  work2
+    
+$ cd  work
+    
+$ ls
+bletch.txt  foo.txt
+    
+$ cp  ../notes.txt  <span class="char">.</span>
+    
+$ ls
+bletch.txt  foo.txt  notes.txt</pre>
+    </ul>
+    
+    <h4 class="topic" id="pathnames">Pathnames</h4>
+    <ul class="flat">       
+        <li>Every file has a <a class="def" href="../definitions.html#pathname">pathname</a> ...</li>
+        <li>which is used to access the file</li>
+        <li>A pathname has two components
+            <ul class="flat">       
+                <li class="flat">A path to reach the file</li>
+                <li class="flat">The name of the file</li>
+            </ul>
+        </li>
+        <li>A pathname is like an address on a letter ...</li>
+        <li>a name ...</li>
+        <li>and directions to get there</li>
+        <li>The name of the file is always at the end of a pathname</li>
+        <li>What comes before the filename ...</li>
+        <li>is the path to the directory that holds the file</li>
+        <li>A <a class="def" href="../definitions.html#path">path</a> is the list of directories you must go through ...</li>
+        <li>to get to the file</li>
+        <li>When you see a slash, <span class="char">/</span> , to the right of a name</li>
+        <li>it means the name refers to a directory</li>
+        <li>When a path consists of several directories ...</li>
+        <li>a slash, <span class="char">/</span> , separates the directory names</li>
+        <li>There are two types of pathnames
+            <ul class="flat">       
+                <li class="flat">Absolute</li>
+                <li class="flat">Relative</li>
+            </ul>
+        </li>
+    </ul>
+            
+    <h4 class="topic" id="absolute_pathnames">Absolute Pathnames</h4>
+    <ul class="flat">
+        <li>The directory at the top of the filesystem ...</li>   
+        <li>is called the root directory</li>
+        <li>The root directory is represented by a single slash, <span class="char">/</span></li>
+        <li>It can stand alone ...</li>
+        <li>or appear as the first character before a directory name</li>
+        <li>An <a class="def" href="../definitions.html#absolute_path">absolute path</a> is a list of directories ...</li>
+        <li>starting with the root directory ...</li>
+        <li>and ending with the directory that holds the file</li>
+        <li>When you add the filename to the end of an absolute path ...</li>
+        <li>you have an <a class="def" href="../definitions.html#absolute_pathname">absolute pathname</a></li>
+        <li>The absolute pathname of my startup file, <span class="path">.bash_profile</span> ...</li>
+        <li> in my home directory ...</li>
+        <li>is <span class="path">/home/tsoro/.bash_profile</span></li>
+        <li>This means that my home directory,  <span class="path">tsoro</span> ...</li>
+        <li>is under the directory named <span class="path">home</span> ...</li>
+        <li>which is under the root directory, <span class="path">/</span></li>       
+        <li>The advantage of an absolute pathname ...</li>
+        <li>is that it can be used from any part of the filesystem</li>
+        <li>It does not depend on where you are ...</li>
+        <li>at a given moment</li>
+        <li>The disadvantage is that absolute pathnames tend to be long</li>
+        <li>It is easy to make a mistake when typing an absolute pathname</li>
+        <li>An absolute pathname <b>always</b> begins with either a slash, <span class="char">/</span> ...</li>
+        <li>or a tilde, <span class="char">~</span> </li>
+    </ul>
+    <img src="image3_note8.png" height="50%" />
+    
+    <h4 class="topic" id="tilde">Tilde, <span class="char">~</span>, in Pathnames</h4>
+    <ul class="flat">       
+        <li>There is one form of absolute path that is short</li>
+        <li>This is the tilde character, <span class="char">~</span></li>
+        <li>Tilde stands for the absolute address of your home directory</li>
+        <li>This means you can use tilde, <span class="char">~</span> ... </li>
+        <li>anywhere you would normally use a path to your home directory
+	<pre>
+$ pwd
+/home/tsoro/it244
+    
+$ cd <span class="red">~</span>
+    
+$ pwd
+/home/tsoro</pre></li>
+        <li>When you put a tilde in front of a Unix username ...</li>
+        <li>it stands for the home directory of that account
+        <pre>
+$ cd <span class="red">~tsoro</span>
+    
+$ pwd
+/home/tsoro</pre></li>
+    </ul>
+    
+    <h4 class="topic" id="relative_pathnames">Relative Pathnames</h4>
+    <ul class="flat">       
+        <li>Absolute pathnames are useful ...</li>
+        <li>because you can use them anywhere</li>
+        <li>But they are long and easy to mistype</li>
+        <li>It is easier to use <a class="def" href="../definitions.html#relative_pathname">relative pathnames</a></li>
+        <li>In a relative pathname ...</li>
+        <li>the path starts from your <b>current directory</b></li>
+        <li>In an absolute pathname ...</li>
+        <li>the path starts from the root directory, <span class="path">/</span></li>
+        <li>The only difference between an absolute ...</li>
+        <li>and a relative path ...</li>
+        <li>is where they start</li>
+        <li>An address on a letter is like an absolute pathname</li>
+        <li>If you address a letter to me at
+            <pre>
+Glenn Hoffman
+40 Central Street
+Somerville, Massachusetts 02143
+USA</pre>
+        </li>
+        <li>you can mail it to me anywhere in the world ...</li>
+        <li>and it will get to me</li>
+        <li>If someone asked me the directions to the men's room ...</li>
+        <li>from the Web Lab ...</li>
+        <li>I would say
+            <pre>
+Go out the door
+Turn left
+Take you first door on the right</pre>
+        </li>
+        <li>These directions only work from the Web Lab</li>
+        <li>This is like a relative path</li>
+        <li>While all absolute pathnames start with a slash, <span class="char">/</span>, 
+            or a tilde, <span class="char">~</span> 
+        </li>
+        <li>relative pathnames <b>never do</b></li>
+        <li>The absence of a slash, <span class="char">/</span> , or a tilde, <span class="char">~</span> </li>
+        <li>at the start of a pathname ...</li>
+        <li>means it is a relative pathname</li>
+        <li>As far as Unix is concerned it makes no difference ...</li>
+        <li>whether you use and absolute or relative pathname</li>
+        <li>Relative pathnames are more convenient ...</li>
+        <li>and are most often used</li>
+        <li>There are four types of relative pathnames
+            <ul class="flat">       
+                <li class="flat">When the file is in <b>your current directory</b></li>
+                <li class="flat">When the file is in a <b>subdirectory</b> of your current directory</li>
+                <li class="flat">When the file is in a directory that is above your current directory</li>
+                <li class="flat">When the file is in a directory that is <b>neither above or below</b> of your current directory</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h4 class="topic" id="relative_pathnames_current_dir">Relative Pathnames in Your Current Directory</h4>
+    <ul class="flat">
+        <li>Using a relative pathname with a file or directory ...</li>
+        <li>inside your current directory ...</li>
+        <li>is easy</li>
+        <li>The relative pathname is simply the name of the file or directory</li>
+        <li>The "path" part of the relative pathname is nothing</li>
+        <li>because the file or directory you want ...</li>
+        <li>is already inside your current directory
+            <pre>
+$ ls
+notes.txt  it244  work  work2
+    
+$ cat notes.txt 
+foo
+foo
+foo to you</pre>
+        </li>
+        <li>Notice that all I need to get the file  ...</li>
+	    <li>is the file name</li>
+	    <li>It's the same for directories</li>
+    </ul>
+    <img src="image4_note8.png" height="50%"/>
+
+    <h4 class="topic" id="relative_pathnames_descendant">Relative Pathnames in a Subdirectory</h4>
+    <ul class="flat">
+        <li>Things get a little more complicated ...</li>
+        <li>when you are dealing with a file in a subdirectory</li>
+        <li>In this case you must list every directory ...</li>
+        <li>between your current directory ...</li>
+        <li>and the file you want
+            <pre>
+$ ls work
+bletch.txt  foo.txt  notes.txt
+    
+$ cat <span class="red">work</span>/notes.txt 
+foo
+    foo
+    foo to you</pre></li>
+    <li>You must use a slash, <span class="char">/</span> ...</li>
+    <li>to separate the name of each directory ...</li>
+    <li>from the name of the file or directory ..</li>
+    <li>that comes after it</li>
+    <li>Notice that there is <b>nothing</b> ...</li>
+    <li>no slash, <span class="char">/</span>, or tilde, <span class="char">~</span> ...</li>
+	<li>before the name of the first directory in the path</li>
+    </ul>
+    <img src="image5_note8.png" height="50%"/>
+    
+    <h4 class="topic" id="relative_pathnames_ancestor">Relative Pathnames above the Current Directory</h4>
+    <ul class="flat">       
+    	<li>Every directory has a <span class="char">. .</span> entry</li>
+    	<li>that refers to the directory immediately above it</li>
+    	<li>If I wanted to list the contents of the parent directory ...</li>
+    	<li>I would use
+    		<pre>
+ls <span class="red">..</span></pre>
+    	</li>
+    	<li>You can use many <span class="char">. .</span> entries ...</li>
+    	<li>to refer to a directory several levels up</li>
+        <li>Use one &nbsp;<span class="char">. .</span>&nbsp; </li>
+        <li>for each directory up the chain of directories in the path ...</li>
+        <li>with a slash, <span class="char">/</span>, between each &nbsp;<span class="char">. .</span></li>
+    </ul>
+    <img src="image6_note8.png" height="50%"/> 
+    
+    <h4 class="topic" id="relative_pathnames_other">Relative Pathnames Neither above Nor below the Current Directory</h4>
+    <ul class="flat">       
+        <li>What if the file is neither above nor below?</li>
+        <li>Here you have to go up to a common ancestor directory ...</li>
+        <li>and then go down to the directory that holds the file</li>
+        <li>The path starts with one or more &nbsp;<span class="char">. .</span>&nbsp; ...</li>
+        <li>and keeps going up ...</li>
+        <li>until you get to a directory that is an ancestor ...</li>
+        <li>of <b>both</b> your current directory ...</li>
+        <li>and the file you are trying to reach</li>
+        <li>Once you get to the common ancestor ...</li>
+        <li>you go down to the directory that holds the file</li>
+    </ul>
+    <img src="image7_note8.png" height="50%"/>
+    
+    <h4 class="topic" id="standard_directories">Standard Directories</h4>
+    <ul class="flat">       
+        <li>In the early days of Linux ...</li>
+        <li>each distribution stored its important files ...</li>
+        <li>in different directories</li>
+        <li>This made it hard to document programs</li>
+        <li>It also made things hard for developers ...</li>
+        <li>working with different flavors of Linux</li>
+        <li>Fortunately, reason has since prevailed</li>
+        <li>We now have something called the FHS</li>
+        <li>It stands for Linux Filesystem Hierarchy Standard</li>
+        <li>It has been adopted by most major Linux distributions</li>
+        <li>The standard does not say ...</li>
+        <li>where to find different kinds of files</li>
+        <li>Instead it says that if you have a certain directory ...</li>
+        <li>what files you can find in that directory</li>
+        <li>You can see a listing for the FHS on page 96 ...</li>
+        <li>of the current version of Sobell ...</li>
+        <li>or page 91 of the previous edition</li>
+        <li>Most Linux distributions do not use all these directories</li>
+        <li>But when they do, they use them for the type of files ...</li>
+        <li>specified by the standard</li>
+    </ul>
+  
+    <h4 class="topic" id="your_home_directory_versus_/home">Your Home Directory versus <span class="path">/home</span></h4>
+    <ul class="flat">       
+        <li>Most Unix accounts have a home directory ...</li>
+        <li>though not all</li>
+        <li>One of the Ubuntu commands that creates an account ...</li>
+        <li>has an option to <b>not</b> create a home directory ...</li>
+        <li>for that account</li>
+        <li>On most Unix and Linux systems ...</li>
+        <li>all home directories are contained in the directory <span class="path">/home</span> ...</li>
+        <li>which is directly under the root directory ...</li>
+        <li>written as <span class="char">/</span></li>
+        <li>On the Mac, home directories are contained in <span class="path">/Users</span> ...</li>
+        <li>also directly under the root directory</li>
+        <li>Do not confuse <span class="path">/home</span> with your home directory</li>
+    </ul>
+    
+    <h4 class="topic" id="two_uses_of_/">The Two Uses of <span class="char">/</span></h4>
+    <ul class="flat">
+        <li><span class="char">/</span> is used in two different ways ...</li>
+        <li>when writing pathnames</li>
+        <li>When <span class="char">/</span> appears at the beginning of a pathname ...</li>
+        <li>it refers to the root directory ...</li>
+        <li>the directory at the top of the <a class="def" href="../definitions.html#filesystem">filesystem</a></li>
+        <li>The root directory is the only directory ...</li>
+        <li>that is <b>not</b> contained in another directory</li>
+        <li>Here is an example of this use of <span class="char">/</span>
+            <pre>
+ls <span class="red">/</span>home</pre>
+        </li>
+        <li>This is the absolute address of <span class="path">home</span> ...</li>
+        <li>which holds the home directories of all users</li>
+        <li>When the <span class="char">/</span> is <b>not</b> at the beginning of a pathname ...</li>
+        <li>it is used a separator ...</li>
+        <li>a character to mark the boundary between a directory ...</li>
+        <li>and the name of a file ...</li>
+        <li>or another directory</li>
+        <li>Here is an example of this use of <span class="char">/</span>
+            <pre>
+ls it244<span class="red">/</span>hw</pre>
+        </li>
+        <li>This is the relative pathname of the <span class="path">hw</span> directory ...</li>
+        <li>inside the <span class="path">it244</span> directory</li>
+        <li>A pathname can use the <span class="char">/</span> in both ways
+            <pre>
+ls <span class="red">/</span>home<span class="red">/</span>tsoro</pre>
+        </li>
+        <li>Here the first <span class="char">/</span> means the root ...</li>
+        <li>while the second is used to separate the <span class="path">home</span> directory ...</li>
+        <li>from <b>my</b> home directory, <span class="path">tsoro</span></li>
+    </ul>
+    
+    <h4 class="topic" id="two_special_uses_of_.">The Two Special Uses of <span class="char">.</span></h4>
+    <ul class="flat">       
+        <li>Another character that has more then one use ...</li>
+        <li>when writing pathnames ...</li>
+        <li>is <span class="char">.</span> </li>
+        <li>When <span class="char">.</span> appears alone ...</li>
+        <li>it means the current directory</li>
+        <li>So the following command
+            <pre>
+cp /home/tsoro/test.txt <span class="char">.</span></pre>
+        </li>
+        <li>copies a file to the current directory</li>
+        <li>When <span class="char">.</span> appears as the first character ...</li>
+        <li>in a filename or directory name ...</li>
+        <li>the <code>ls</code> command will not list these directory entries ...</li>
+        <li>unless you use the <code>-a</code> option</li>
+        <li>These "invisible" files are used ...</li>
+        <li>to configure Linux ...</li>
+        <li>and Linux programs</li>
+        <li>Examples are <span class="path">.forward</span> and <span class="path">.plan</span></li>
+        <li>Unlike <span class="char">/</span> ...</li>
+        <li><span class="char">.</span> can be used ...</li>
+        <li>as an ordinary character in a file or directory name
+            <pre>
+$ touch a.b.c.d....
+
+$ ls
+a.b.c.d....</pre>
+        </li>
+    </ul>
+    
+	<h3 class="section">Attendance</h3>    
+
+    <h3 class="section">Class Quiz</h3>
+
+	<footer>
+		<a href="class_notes_it244.html" class="spacer">Class Notes</a>
+		<a href="class_notes_index_it244.html" class="spacer">Class Notes Index</a>
+	</footer>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/08_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:31 GMT -->
+</html>

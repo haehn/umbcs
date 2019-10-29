@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/21_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:41 GMT -->
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="../class_notes.css">
+	<title> IT 244: Introduction to Linux/Unix - Class 21</title>
+</head>
+<body>
+	<header>
+		<h2> 
+		    IT 244: Introduction to Linux/Unix <br>
+		    Class 21
+		</h2>	
+	</header>
+
+	<!-- USE $- IN SECTION ABOUT BASH OPTIONS AND EXPLAIN EACH OPTION -->
+	<!-- SHOW MAN PAGE FOR bash -->
+	<!-- TALK ABOUT OPTION TO CONTROL LINE EDITING FOR READLINE LIBRARY -->
+	<!-- GIVE EXAMPLE OF COMMAND LINE WITH AS MANY REWRITE FEATURES AS POSSIBLE 
+		 AND SHOW THE RE-WRITEN COMMAND LINE AT EACH STEP
+	-->
+	<!-- USE assignment_collect.sh TO SHOW BOTH PATHNAME AND COMMAND COMPLETION -->
+    <!-- FUNCTIONS ARE SCRIPTS YOU WRITE TO RAM NOT A FILE -->
+	
+    <h3 class="section">Today's Topics</h3>
+	<h4 class="flat_under">Review</h4>
+    <ul class="flat">       
+        <li class="flat"><a href="#history">History</a></li>
+        <li class="flat"><a href="#using_hstory">Using the History Mechanism</a></li>
+        <li class="flat"><a href="#fc">Using <code>fc</code> to Edit and Run an Old Command</a></li>
+        <li class="flat"><a href="#readline_library">The Readline Library</a></li>
+        <li class="flat"><a href="#readline_completion">Readline Completion</a></li>
+        <li class="flat"><a href="#pathname_completion">Pathname Completion</a></li>
+        <li class="flat"><a href="#command_completion">Command Completion</a></li>
+        <li class="flat"><a href="#variable_completion">Variable Completion</a></li>
+        <li class="flat"><a href="#aliases">Aliases</a></li>
+        <li class="flat"><a href="#single_quotes_double_quotes_aliases">Single Quotes Versus Double Quotes in Aliases</a></li>
+        <li class="flat"><a href="#functions">Functions</a></li>
+    </ul>
+    <br>
+    <h4 class="flat_under">New Material</h4>
+    <ul class="flat_top">
+        <li class="flat"><a href="#bash_features_options">Bash Features and Options</a></li>
+        <li class="flat"><a href="#processing_command_line">Processing the Command Line</a></li>
+        <li class="flat"><a href="#history_expansion">History Expansion</a></li>
+        <li class="flat"><a href="#alias_substitution">Alias Substitution</a></li>
+        <li class="flat"><a href="#brace_expansion">Brace Expansion</a></li>
+        <li class="flat"><a href="#tilde_expansion">Tilde, <span class="char">~</span>, Expansion</a></li>
+        <li class="flat"><a href="#parameter_and_variable_expansion">Parameter and Variable Expansion</a></li>
+        <li class="flat"><a href="#arithmetic_expansion">Arithmetic Expansion</a></li>
+        <li class="flat"><a href="#command_substitution">Command Substitution</a></li>
+        <li class="flat"><a href="#word_splitting">Word Splitting</a></li>
+        <li class="flat"><a href="#pathname_expansion">Pathname Expansion</a></li>
+        <li class="flat"><a href="#process_substitution">Process Substitution</a></li>
+    </ul>
+
+    <h3 class="section">Homework 10</h3>
+    <p class="flat">I have posted Homework 10 <a href="../hw_it244/10_hw_it244.html">here</a>.</p>
+    <p>As usual, it will be due next Sunday at 11:59 PM.</p>
+    
+    <h3 class="section">Quiz 7</h3>
+    <p class="flat">I have posted the answers to Quiz 7 
+        <a href="../weekly_quiz_answers_it244/07_quiz_answers_it244.html">here</a>.
+    </p>
+    
+    <h3 class="section">Review</h3>
+    
+    <h4 class="topic" id="history">History</h4>
+    <ul class="flat">  
+        <li>When you use the up arrow, <span class="char">&uarr;</span>, to get a previous command ...</li>     
+        <li>you are using the history mechanism</li>
+        <li>The history mechanism maintains a list of the command lines you type</li>
+        <li>These command line entries are called events</li>
+        <li>To view the history list, use the <code>history</code> command
+            <pre>
+    $ history
+        2  exit
+        3  cd
+        4  cd it244/work
+        5  pwd
+        6  rm -rf *
+        7  cd ~/it244/work
+        8  pwd
+        9  cp ~ghoffman/examples_it244/bother.sh .
+       10  ls /home/ghoffman/examples_it244
+       11  cp ~ghoffman/examples_it244/bother.sh .
+       12  ./bother.sh
+       13  ./bother.sh &amp;
+       14  jobs
+       ...</pre>
+        </li>
+        <li>If you run <code>history</code> without an argument ...</li>
+        <li>it will display all the events in this history list</li>
+        <li>By default, this list contains 500 values</li>
+        <li>To restrict how many lines are displayed ...</li>
+        <li>run <code>history</code> followed by a number
+            <pre>
+    $ history 10
+      498  ps
+      499  exit
+      500  exit
+      501  history
+      502  cd
+      503  cd it244
+      504  cd work
+      505  ls
+      506  history
+      507  history 10</pre>
+        </li>
+        <li>Notice that there is no <span class="char">-</span> in front of the number ...</li>
+        <li>as there <b>must</b> be when using <code>head</code> or <code>tail</code></li>
+    </ul>
+
+    <h4 class="topic" id="using_hstory">Using the History Mechanism</h4>
+    <ul class="flat">       
+        <li>If you know the event number  of a previous command ...</li>
+        <li>you can run it again by using an exclamation mark, <span class="char">!</span> ...</li>
+        <li>followed by the event number 
+            <pre>
+    $ !517
+    echo $PATH
+    /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</pre>
+        </li>
+        <li>Notice, that the history mechanism prints out the old command line ...</li>
+        <li>before running it</li>
+        <li>There must be <b>no space between the ! and the number</b> ...</li>
+        <li>or you will get an error message
+            <pre>
+    $ <span class="red">! 517</span>
+    517: command not found</pre>
+        </li>
+        <li>If you follow the <span class="char">!</span> with a letter ...</li>
+        <li>the last command line that began with that letter will be run
+            <pre>
+    $ <span class="red">!e</span>
+    echo $PATH
+    /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</pre>
+        </li>
+    </ul>
+
+    <h4 class="topic" id="fc">Using <code>fc</code> to Edit and Run an Old Command</h4>
+    <ul class="flat">       
+        <li>The utility <code>fc</code> (<b>f</b>ix <b>c</b>ommand) allows you to edit a previous command line ...</li>
+        <li>and then run the new command</li>
+        <li><code>fc</code> is a built-in, so it executes quickly</li>
+        <li>When run with no arguments <code>fc</code> will bring up an editor window ...</li>
+        <li>holding the last command line</li>
+        <li>You can then
+            <ul class="flat">       
+                <li class="flat">Modify the command in the editor window</li>
+                <li class="flat">Save your changes</li>
+                <li class="flat">Execute the modified command</li>
+            </ul>
+        </li>
+        <li>Running <code>fc</code> with an event number ...</li>
+        <li>will put that event in the editor window</li>
+        <li>If you change your mind while in <code>fc</code> ...</li>
+        <li>you must delete all text from the window</li>
+        <li>If you don't <code>fc</code> will try to execute whatever you have left in the window</li>
+        <li><code>fc</code> can also be used to view the history list</li>
+        <li>When run with the -l option, <code>fc</code> will list the last 16 command lines</li>
+        <li>You can also tell <code>fc</code> to list all command lines starting with a certain number</li>
+        <li>You do this by running <code>fc -l</code> followed by a space and a number
+            <pre>
+    $ fc -l 522
+    522  echo $PATH
+    523  traceroute -a standford.edu
+    524  echo $PATH
+    525  echo $PATH
+    526  echo $PATH
+    527  fc -l</pre>
+        </li>
+        <li>You can also use <code>fc -l</code> to specify a range of events</li>
+        <li>To do this follow <code>fc -l</code> with two numbers
+            <pre>
+    $ fc -l 522 525
+    522  echo $PATH
+    523  traceroute -a standford.edu
+    524  echo $PATH
+    525  echo $PATH</pre>
+        </li>
+    </ul>
+
+    <h4 class="topic" id="readline_library">The Readline Library</h4>
+    <ul class="flat">       
+        <li>The readline library is a collection of procedures ...</li>
+        <li>which let you edit the command line</li>
+        <li>When you use Control key combinations on the command line ...</li>
+        <li>you are using the readline library</li>
+        <li>Any program running under Bash and written in C can use the readline library</li>
+        <li>There are two modes available in the readline library
+            <ul>
+                <li class="flat"><code>emacs</code> mode</li>
+                <li class="flat"><code>vim</code> mode</li>
+            </ul>
+        </li>
+        <li><span class="host">users3</span> is configured to use <code>emacs</code> mode by default</li>
+        <li>That is the mode we have been using</li>
+        <li>Here are some of the more useful commands for the emacs version of the readline library
+            <blockquote>
+                <table>
+                    <tr>
+                        <th align="left">Command</th><th align="left">Meaning</th>
+                    </tr>
+                    <tr>
+                        <th><span class="char">Control A</span></th><td>Move to the beginning of the line</td>
+                    </tr>
+                    <tr>
+                        <th><span class="char">Control E</span></th><td>Move to the end of the line</td>
+                    </tr>
+                    <tr>
+                        <th><span class="char">Control U</span></th><td>Remove everything from the text entry point to the beginning of the line</td>
+                    </tr>
+                    <tr>
+                        <th><span class="char">Control K</span></th><td>Remove everything from the text entry point to the end of the line</td>
+                    </tr>
+                    <tr>
+                        <th><span class="char">&rarr;</span></th><td>Move the text entry point one character to the right</td>
+                    </tr>
+                    <tr>
+                        <th><span class="char">&larr;</span></th><td>Move the text entry point one character to the left</td>
+                    </tr>
+                    <tr>
+                        <th><span class="char">&uarr;</span></th><td>Recall the previous command line entry in the history list</td>
+                    </tr>
+                    <tr>
+                        <th><span class="char">&darr;</span></th><td>Recall the following command line entry in the history list</td>
+                    </tr>
+                </table>
+            </blockquote>        
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="readline_completion">Readline Completion</h4>
+    <ul class="flat">       
+        <li>The readline library provides a completion mechanism</li>
+        <li>Type a few letters of something ...</li>
+        <li>and readline completion will try to supply the rest</li>
+        <li>There are three forms of completion provided by the readline library
+            <ul>
+                <li class="flat"><a class="def" href="../definitions.html#pathname_completion">Pathname completion</a></li>
+                <li class="flat"><a class="def" href="../definitions.html#command_completion">Command completion</a></li>
+                <li class="flat"><a class="def" href="../definitions.html#variable_completion">Variable completion</a></li>
+            </ul>
+        </li>
+    </ul>
+
+    <h4 class="topic" id="pathname_completion">Pathname Completion</h4>
+    <ul class="flat">       
+        <li>The readline library provides pathname completion</li>
+        <li>You begin typing a pathname, then hit Tab</li>
+        <li>If there is only one pathname that matches ...</li>
+        <li>the readline library will provide the the rest of the pathname</li>
+        <li>If there is more than one possible completion ...</li>
+        <li>the readline library will beep</li>
+        <li>You can then enter more characters ...´</li>
+        <li>before hitting Tab again ...</li>
+        <li>or you can hit Tab right after the first beep ...</li>
+        <li>and the readline library will give you a list of possible completions
+            <pre>
+    $ ls hw<span class="red">[Tab][Tab]</span>
+    hw2/ hw4/ hw5/ hw6/</pre>
+        </li>
+        <li>If the second Tab still gives you a beep ...</li>
+        <li>there are no possible completions</li>
+    </ul>
+    
+    <h4 class="topic" id="command_completion">Command Completion</h4>
+    <ul class="flat">       
+        <li>The readline library will complete the name of a command for you</li>
+        <li>Begin typing a command ...</li>
+        <li>then hit Tab ...</li>
+        <li>and the readline library will try to supply the rest of the command</li>
+        <li>If there is more than one possibility ...</li>
+        <li>you will hear a beep</li>
+        <li>If you hit Tab a second time ...</li>
+        <li>you will see a list of possible completions</li>
+    </ul>
+
+    <h4 class="topic" id="variable_completion">Variable Completion</h4>
+    <ul class="flat">       
+        <li>When you type a dollar sign, <span class="char">$</span> , followed immediately by some text ...</li>
+        <li>you are entering a variable name</li>
+        <li>The readline library knows this </li>
+        <li>and will attempt to complete the name of the variable</li>
+        <li>If there is more than one possibility, you will hear a beep</li>
+        <li>If you then hit Tab another time </li>
+        <li>you will see a list of possible completions</li>
+        <li>If no list appears after the second Tab ...</li>
+        <li>there are no possible variable name completions</li>
+    </ul>
+    
+    <h4 class="topic" id="aliases">Aliases</h4>
+    <ul class="flat">       
+        <li>An <a class="def" href="../definitions.html#alias">alias</a>
+            alias is a string that the shell replaces with some other string
+        </li>
+        <li>Usually, the value assigned to the alias ...</li>
+        <li>is a command or part of a command</li>
+         <li>To define an alias, you use the <code>alias</code> command</li>
+        <li><code>alias</code> uses the following format in Bash
+            <pre>
+    <span class="format">alias ALIAS_NAME=ALIAS_VALUE</span></pre>
+        </li>
+        <li>In Bash, there must be <b>no</b> spaces on either side of the equal sign, <span class="char">=</span></li>
+        <li>If the value assigned to the alias has spaces, it must be quoted
+    <pre>
+    alias  la="ls -a'</pre>
+        </li>
+        <li>If you run <code>alias</code> with no arguments, it will list all aliases currently defined
+        <pre>
+    $ alias
+    alias bin="pu $bin'
+    alias binl="ls $bin'
+    alias ck755="ls -l *.sh | tr '\''-'\'' '\'' '\'' | grep '\''rwxr xr x'\'''
+    ...</pre>        
+        </li>
+        <li>If you follow <code>alias</code> with the name of an alias, it will display the definition
+            <pre>
+    $ alias ll
+    alias ll="ls -l'</pre>
+        </li>
+        <li>In Bash, an alias cannot accept an argument</li>
+        <li>Although a alias cannot accept an argument in Bash an argument can follow it</li>
+        <li>I can use my <span class="iden">ll</span> and follow it with the name of a directory</li>
+        <li>So you can't give an argument to an alias in Bash ...</li>
+        <li>unless you are giving it to the last command in the alias</li>
+        <li>Instead of allowing Bash to have aliases that accept an argument ...</li>
+        <li>Bash has functions</li>
+        <li>Aliases are <b>not</b> global</li>
+        <li>They only work in the shell in which they are defined</li>
+    </ul>
+    
+    <h4 class="topic" id="single_quotes_double_quotes_aliases">Single Quotes Versus Double Quotes in Aliases</h4>
+    <ul class="flat">       
+        <li>There are two types of quotes in Bash
+            <ul class="flat">       
+                <li class="flat">Single quotes - <span class="char">' '</span></li>
+                <li class="flat">Double quotes - <span class="char">" "</span></li>
+            </ul>
+        </li>
+        <li>You must use quotes, or a backslash, <span class="char">\</span> ...</li>
+        <li>when you give a variable a value that contains whitespace</li>
+        <li>The whitespace characters are
+            <ul>
+                <li class="flat">Spaces</li>
+                <li class="flat">Tabs</li>
+                <li class="flat">Newlines (carriage returns)</li>
+            </ul>     
+        </li>
+        <li>Single quotes turn off all special meanings of characters
+            <pre>
+    $ echo 'My name is $name'
+    My name is $name</pre>
+        </li>
+        <li>Variables are <b>not evaluated</b> when they are enclosed in single quotes</li>
+        <li>But double quote allow you to use the dollars sign, <span class="char">$</span> ...</li>
+        <li>to get the value of a variable
+            <pre>
+    $ echo "My name is $name"
+    My name is Glenn Hoffman</pre>
+        </li>
+        <li>Usually you want to use single quotes ...</li>
+        <li>when defining alias</li>
+        <li>If you use single quotes any variables in the alias ...</li>
+        <li>will be evaluated <b>when you use the alias</b></li>
+        <li>If you use double quotes, any variable in the alias ...</li>
+        <li>will be evaluated <b>when it is defined</b> </li>
+        <li>When the shell see as alias on the command line ...</li>
+        <li>it simply substitutes the value of the alias ...</li>
+        <li>for the name of the alias</li>
+    </ul>
+    
+    <h4 class="topic" id="functions">Functions</h4>
+    <ul class="flat">       
+        <li>A function is a collection of commands that is given a name</li>
+        <li>Functions <b>can</b> accept arguments from the command line</li>
+        <li>Functions can be run anywhere you happen to be  in the filesystem ...</li>
+        <li>because function exist in memory ...</li>
+        <li>not on the disk</li>
+        <li>You simply type the name of the function to run it</li>
+        <li>Functions, unlike aliases, can have arguments</li>
+        <li>They use the same positional arguments that shell scripts use</li>
+        <li>The first positional argument is <span class="iden">$1</span> ...</li>
+        <li>the second <span class="iden">$2</span> ...</li>
+        <li>and so on</li>
+        <li>Functions differ from shell scripts in a number of ways
+            <ul>
+                <li class="flat">They are stored in memory (RAM), rather than in a file on disk</li>
+                <li class="flat">The shell preprocesses the function so it can execute more quickly</li>
+                <li class="flat">The shell executes the function in it's own process</li>
+            </ul>
+        </li>
+        <li>So functions run much faster than shell scripts</li>
+        <li>Functions are local to the shell in which they are defined</li>
+        <li>They do not work in subshells</li>
+        <li>Functions definitions have the following form
+            <pre>
+    <span class="format">FUNCTION_NAME ()
+    {
+        COMMANDS
+    }</span></pre>
+        </li>
+        <li>Once you type the final <span class="char">}</span> the definition is complete</li>
+        <li>You can define a function on a single command line
+            <pre>
+    $ echo3 () { echo $1; echo $1; echo $1;} 
+    
+    $ echo3 foo
+    foo
+    foo
+    foo</pre>
+        </li>
+        <li>But you <b>must</b> use a semi-colon after each command ...</li>
+        <li>including the last command</li>
+        <li>For clarity you can precede the function name ...</li>
+        <li>with the keyword <code>function</code></li>
+        <li>The keyword <code>function</code> is optional</li>
+        <li>You can pass command line arguments to a function</li>
+        <li>You do this using the positional parameters
+            <pre>
+    $ print_args ()
+    &gt; {
+    &gt;   echo "arg1: $1"
+    &gt;   echo "arg2: $2"
+    &gt; }
+    
+    $ print_args foo bar
+    arg1: foo
+    arg2: bar</pre>
+        </li>
+        <li>Functions, like aliases, <b>only work in the shell in which they are defined</b></li>
+    </ul>
+    
+	
+	<h3 class="section">New Material</h3>
+    
+    <h4 class="topic" id="bash_features_options">Bash Features and Options</h4>
+    <ul class="flat">       
+        <li>There are a number of features of the shell ...</li>
+        <li>which you can turn on and off</li>
+        <li>One example is the <code>noclobber</code> option</li>
+        <li>When this option is set ...</li>
+        <li>you cannot overwrite the contents of a file ...</li>
+        <li>with redirected output</li>
+        <li>To set a feature, use <code>set -o</code> ...</li>
+        <li>followed by a space and the feature name
+            <pre>
+    $ set <span class="red">-o</span> noclobber</pre>
+        </li>
+        <li>If I now try to redirect output to a file, the shell will prevent this
+            <pre>
+    $ echo "Go Red Sox" &gt; output.txt 
+    <span class="red">bash: output.txt: cannot overwrite existing file</span></pre>
+        </li>
+        <li>To unset a feature use <code>set +o</code> ...</li>
+        <li>followed by a space and the feature name
+            <pre>
+    $ set <span class="red">+o</span> noclobber</pre>
+        </li>
+        <li>I can now overwrite a file with redirection
+            <pre>
+    $ cat output.txt 
+    foo
+    
+    $ echo "Go Red Sox" &gt; output.txt
+    
+    $ cat output.txt 
+    Go Red Sox</pre>
+        </li>
+        <li>You can find a list of shell features and options in Sobell</li>
+        <li>Shell features and options will not be on the final</li>
+    </ul>
+
+    <h4 class="topic" id="processing_command_line">Processing the Command Line</h4>
+    <ul class="flat">       
+        <li>The shell can modify what you enter at the command line</li>
+        <li>It does this to provide features like aliases</li>
+        <li>To do this properly ...</li>
+        <li>the shell must modify the command line in a specific order</li>
+        <li>Otherwise, things could become terribly confused</li>
+        <li>There are 10 different ways in which the shell can modify the command line</li>
+        <li>The order in which the shell performs them is as follows
+		    <ol>
+		        <li class="flat">History Expansion</li>
+		        <li class="flat">Alias Substitution</li>
+		        <li class="flat">Brace Expansion</li>
+		        <li class="flat">Title, <span class="char">~</span>, Expansion</li>
+		        <li class="flat">Parameter and Variable Expansion</li>
+		        <li class="flat">Arithmetic expansion</li>
+		        <li class="flat">Command substitution</li>
+		        <li class="flat">Word splitting</li>
+		        <li class="flat">Pathname expansion</li>
+		        <li class="flat">Process substitution</li>
+		    </ol>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="history_expansion">History Expansion</h4>
+    <ul class="flat">       
+        <li>The first substitution Bash performs is history expansion</li>
+        <li>History expansion occurs when you use the exclamation mark, <span class="char">!</span> ...</li>
+        <li>in front of an <a class="def" href="../definitions.html#bash_event">event</a> ID ...</li>
+        <li>to recall a previous command from the history list
+                <pre>
+    $ history 5
+      540  cat output.txt 
+      541  echo "Go Red Sox" &gt; output.txt
+      542  cat output.txt 
+      543  echo foo
+      544  history 5
+      
+    $ !543
+    echo foo
+    foo</pre>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="alias_substitution">Alias Substitution</h4>
+    <ul class="flat">       
+        <li>After history expansion, Bash performs alias substitution
+        <pre>
+$ alias ll="ls -l'
+
+$ ll
+total 2
+lrwxrwxrwx 1 it244gh man    34 Sep  6 21:09 it244 -&gt; /courses/it244/f12/ghoffman/it244gh
+drwxr-xr-x 2 it244gh ugrad 512 Oct 27 09:16 work</pre></li>
+        <li>The shell evaluates an alias by substituting the <b>value</b> of an alias ...</li>
+        <li>for the <b>name</b> of the alias</li>
+    </ul>
+
+    <h4 class="topic" id="brace_expansion">Brace Expansion</h4>
+    <ul class="flat">       
+        <li>After alias substitution, Bash performs brace expansion</li>
+        <li>Braces, <span class="char">{ }</span>, allow you to write several strings ...</li>
+        <li>in one operation</li>
+        <li>The braces contain strings of characters ...</li>
+        <li>separated by <b>commas</b></li>
+        <li>The shell expands a brace by creating multiple strings ...</li>
+        <li>one for each string contained in the braces</li>
+        <li>If I wanted to create "foo" files numbered 1 to 5...</li>
+        <li>I could use braces expansion as follows
+            <pre>
+    $ touch foo<span class="red">{</span>1,2,3,4,5<span class="red">}</span>.txt
+    
+    $ ls
+    foo1.txt  foo2.txt  foo3.txt  foo4.txt  foo5.txt</pre>
+        </li>
+        <li>The shell expanded the braces ...</li>
+        <li>to create as many files ...</li>
+        <li>as there were strings inside the braces</li>
+        <li>The shell takes the string that appears before the braces ...</li>
+        <li>and sticks it in front of every string inside the braces ...</li>
+        <li>followed by the text the follows the braces ...</li>
+        <li>creating many new strings on the command line</li>
+        <li>The strings inside the braces can contain one or more characters</li>
+        <li>but each string must be separated from the others by a comma
+            <pre>
+    $ touch {a<span class="red">,</span>ab<span class="red">,</span>abc}.txt
+    
+    $ ls
+    abc.txt  ab.txt  a.txt</pre>        
+        </li>
+        <li>There should not be any unquoted spaces or tabs ...</li>
+        <li>within the braces</li>
+        <li>If there is, the expansion will not work properly
+            <pre>
+$ touch {b , bc, b c d}.txt
+
+$ ls -l
+total 0
+-rw-r--r-- 1 it244gh ugrad 0 Nov 14 10:37 ,
+-rw-r--r-- 1 it244gh ugrad 0 Nov 14 10:37 b
+-rw-r--r-- 1 it244gh ugrad 0 Nov 14 10:37 {b
+-rw-r--r-- 1 it244gh ugrad 0 Nov 14 10:37 bc,
+-rw-r--r-- 1 it244gh ugrad 0 Nov 14 10:37 c
+-rw-r--r-- 1 it244gh ugrad 0 Nov 14 10:37 d}.txt</pre>
+        </li>
+    </ul>
+
+    <h4 class="topic" id="tilde_expansion">Tilde, <span class="char">~</span>, Expansion</h4>
+    <ul class="flat">       
+        <li>After brace expansion, Bash performs tilde expansion</li>
+        <li>Whenever Bash sees a tilde, <span class="char">~</span>, by itself ...</li>
+        <li>it substitutes the absolute address of your home directory
+            <pre>
+    $ echo <span class="red">~</span>
+    /home/it244gh</pre>
+        </li>
+        <li>Whenever Bash sees a <span class="char">~</span> followed by a Unix username ...</li>
+        <li>it substitutes the absolute address of the home directory of that account
+            <pre>
+    $ echo <span class="red">~ghoffman</span>
+    /home/ghoffman</pre>
+        </li>
+        <li>If there is no username matching the string following the <span class="char">~</span></li>
+        <li>no expansion is performed
+        <pre>
+    $ echo <span class="red">~xxx</span>
+    <span class="red">~xxx</span></pre>
+        </li>
+        <li>There are two other tilde expansions
+            <ul>
+                <li class="flat"><span class="char">~+</span></li>
+                <li class="flat"><span class="char">~-</span></li>
+            </ul>  
+        </li>
+        <li>When Bash sees <span class="char">~+</span> ...</li>
+        <li>it substitutes the value of the current directory
+            <pre>
+    $ pwd
+    /home/it244gh/work
+    
+    $ echo <span class="red">~+</span>
+    /home/it244gh/work</pre>
+        </li>
+        <li>When Bash sees <span class="char">~-</span></li>
+        <li>it substitutes the value of the previous directory
+            <pre>
+    $ pwd
+    /home/it244gh/work
+    
+    $ cd
+    
+    $ pwd
+    /home/it244gh
+    
+    $ echo <span class="red">~-</span>
+    /home/it244gh/work</pre>
+        </li>
+    </ul>
+
+    <h4 class="topic" id="parameter_and_variable_expansion">Parameter and Variable Expansion</h4>
+    <ul class="flat">       
+        <li>After tilde expansion, Bash performs parameter and variable expansion
+            <pre>
+    $ echo $<span class="red">SHELL</span>
+    /bin/bash
+    
+    $ echo $<span class="red">?</span>
+    0</pre>
+        </li>
+        <li>Notice that this expansion comes after alias expansion ...</li>
+        <li>so you can use variables and parameters ...</li>
+        <li>when defining aliases</li>
+    </ul>
+    
+    <h4 class="topic" id="arithmetic_expansion">Arithmetic Expansion</h4>
+    <ul class="flat">       
+        <li>After parameter and variable expansion, Bash performs 
+            <a class="def" href="../definitions.html#arithmetic_expansion">arithmetic expansion</a>
+        </li>
+        <li>Unix treats everything on the command line as text ...</li>
+        <li> unless told otherwise
+        <pre>
+    $ echo 5 + 4
+    5 + 4</pre></li>
+        <li>Arithmetic expansion allows Bash to interpret characters as numbers ...</li>
+        <li>and to perform ordinary arithmetic upon them</li>
+        <li>But it does more than that</li>
+        <li>Whenever bash sees the <span class="char">$((</span> ...</li>
+        <li>it treats everything that follows as a number ...</li>
+        <li>or an arithmetic operator ...</li>
+        <li>until it sees <span class="char">))</span>
+            <pre>
+    $ echo <span class="red">$((</span> 5 + 4 <span class="red">))</span>
+    9</pre>
+        </li>
+        <li>It then evaluates the arithmetic expression inside the double parentheses ...</li>
+        <li>and subsitutes the resulting numeric value ...</li>
+        <li>for the entire <span class="char">$(( </span>... <span class="char">))</span> expression</li>
+        <li>The rules for evaluating arithmetic expressions </li>
+        <li>are the same as for the C programming language</li>
+        <li>They are mostly what you would expect</li>
+        <li>    You can use variables within an arithmetic expression
+        <pre>
+    $ a=5
+    
+    $ b=3
+    
+    $ echo $a $b
+    5 3
+    
+    $ echo <span class="red">$((</span> $a - $b <span class="red">))</span>
+    2</pre>
+        </li>
+        <li>Arithmetic expansion recognizes the following operators
+        		<table>
+        			<tr>
+        				<th align="left">Operator</th><th align="left">Description</th>
+        			</tr>
+        			<tr>
+        				<td>+</td>	<td>Addition</td>
+        			</tr>
+        			<tr>
+        				<td>-</td>	<td>Subtraction</td>
+        			</tr>
+        			<tr>
+        				<td>*</td>	<td>Multiplication</td>
+        			</tr>
+        			<tr>
+        				<td>/</td>	<td>Divison</td>
+        			</tr>
+        			<tr>
+        				<td>%</td>	<td>Remainder</td>
+        			</tr>
+        			<tr>
+        				<td>**</td>	<td>Exponentiation</td>
+        			</tr>
+        			<tr>
+        				<td>==</td>	<td>Equality</td>
+        			</tr>
+        			<tr>
+        				<td>!=</td>	<td>Inequality</td>
+        			</tr>
+        			<tr>
+        				<td>&gt;</td>	<td>Greater than</td>
+        			</tr>
+        			<tr>
+        				<td>&gt;=</td>	<td>Greater than or equal</td>
+        			</tr>
+        			<tr>
+        				<td>&lt;</td>	<td>Less than</td>
+        			</tr>
+        			<tr>
+        				<td>&lt;=</td>	<td>Less than or equal</td>
+        			</tr>
+        			<tr>
+        				<td>||</td>	<td>Logical OR</td>
+        			</tr>
+        			<tr>
+        				<td>&amp;&amp;</td>	<td>Logical AND</td>
+        			</tr>
+        			<tr>
+        				<td>!</td>	<td>Logical N0T</td>
+        			</tr>
+        			<tr>
+        				<td>=</td>	<td>Assignment</td>
+        			</tr>
+        			<tr>
+        				<td>++</td>	<td>Increment</td>
+        			</tr>
+        			<tr>
+        				<td>--</td>	<td>Decrement</td>
+        			</tr>
+        		</table>
+        </li>
+        <li>Inside the arithmetic expression itself ...</li>
+        <li>you do not have to use a <span class="char">$</span> to get the value of a variable
+    <pre>
+    $ echo $a $b
+    5 3
+    
+    $ echo $(( <span class="red">a</span> * <span class="red">b</span> ))
+    15</pre>
+    </ul>
+
+    <h4 class="topic" id="command_substitution">Command Substitution</h4>
+    <ul class="flat">       
+        <li>After arithmetic expansion, Bash performs 
+            <a class="def" href="../definitions.html#command_substitution">command substitution</a>
+        </li>
+        <li>Command substitution uses the following format
+    <pre>
+    <span class="format">$(COMMANDS)</span></pre>
+        </li>
+        <li>Where COMMANDS are any valid Unix commands</li>
+        <li>The commands inside the <span class="char">( )</span> are run in a subshell ...</li>
+        <li>and the entire command substitution expresseion ...</li>
+        <li><span class="char">$( )</span> and whatever is inside it ...</li>
+        <li>is replaced by the output of the commands</li>
+        <li>For example, if I wanted to set a variable to the current time and date, I could use
+            <pre>
+    $ today=<span class="red">$(date)</span>
+    
+    $ echo $today
+    Tue Oct 25 17:00:07 EDT 2011</pre>
+        </li>
+        <li>There is an alternate format for command substitution</li>
+        <li>You can place the command within back tics, <span class="char">` `</span>
+            <pre>
+    $ ls -l <span class="red">`</span>which bash<span class="red">`</span>
+    -rwxr-xr-x 1 root root 954896 2011-03-31 17:20 /bin/bash</pre>
+        </li>
+        <li>Before running <code>ls</code>, Bash first runs the command
+            <pre>
+    which bash</pre>
+        </li>
+        <li>And replaces the command with the value returned by <code>which</code></li>
+        <li><code>ls</code> can now take <span class="path">/bin/bash</span> as its argument</li>
+        <li>Comand substitution can be used inside double quotes
+            <pre>
+    $ echo "Today is $(date +'%A, %B %d, %Y')"
+    Today is Wednesday, November 13, 2013</pre>
+        </li>
+        <li>The back tic is the character you get by holding down the Shift key ...</li>
+        <li>and pressing the same key you use for <span class="char">~</span></li>
+        <li>The back tics do not work in the TC shell ...</li>
+        <li>and is easily mistaken for the single quote, <span class="char">'</span> ...</li>
+        <li>so I will not use it in this course</li>
+    </ul>
+    
+    <h4 class="topic" id="word_splitting">Word Splitting</h4>
+    <ul class="flat">       
+        <li>After command substitution, Bash performs word splitting</li>
+        <li>When Bash gets a command line ...</li>
+        <li>it spits the text into tokens</li>
+        <li>Tokens are strings of characters ..</li>
+        <li>usually separated by whitespace
+            <ul>
+                <li class="flat">Spaces</li>
+                <li class="flat">Tabs</li>
+                <li class="flat">Newlines (carriage returns)</li>
+            </ul>
+        </li>
+        <li>I have found a small script which demonstrates word splitting ...</li>
+        <li>by showing all command arguments
+        		<pre>
+$ args.sh foo bar bletch 
+3 args: [foo] [bar] [bletch]</pre>
+        </li>
+        <li>Word splitting does not work ...</li>
+        <li>when strings are quoted
+        		<pre>
+$ args.sh 'foo bar bletch' 
+1 args: [foo bar bletch]
+
+$ args.sh "foo bar bletch"
+1 args: [foo bar bletch]</pre>
+        </li>
+        <li>But word splitting does work ...</li>
+        <li>with both command substituion
+        		<pre>
+$ args.sh $(date)
+6 args: [Wed] [Apr] [12] [16:19:17] [EDT] [2017]</pre>
+        </li>
+        <li>and variable substitution
+        		<pre>
+$ cheer="Let's go Red Sox!"
+
+$ args.sh $cheer
+4 args: [Let's] [go] [Red] [Sox!]</pre>
+        </li>
+        <li>But there are some situations ...</li>
+        <li>where you want another character to separate tokens</li>
+        <li>You can do this using the Unix keyword variable <span class="iden">IFS</span></li>
+        <li><span class="iden">IFS</span> stands for <b>I</b>nternal <b>F</b>ield <b>S</b>eparator</li>
+        <li>If you give <span class="iden">IFS</span> a value ...</li>
+        <li>say the colon <span class="char">:</span> ...</li>
+        <li>Bash will be use this character to separate tokens
+			<pre>
+$ args.sh $PATH
+1 args: [/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/lib/oracle/12.1/client64/bin:/home/ghoffman/bin/shell:/home/ghoffman/bin/python/umb:/home/ghoffman/bin:/home/ghoffman/bin/shell:/home/ghoffman/bin/python/umb]
+
+$ IFS=:
+
+$ args.sh $PATH
+15 args: [/usr/local/sbin] [/usr/local/bin] [/usr/sbin] [/usr/bin] [/sbin] [/bin] [/usr/games] [/usr/local/games] [/snap/bin] [/usr/lib/oracle/12.1/client64/bin] [/home/ghoffman/bin/shell] [/home/ghoffman/bin/python/umb] [/home/ghoffman/bin] [/home/ghoffman/bin/shell] [/home/ghoffman/bin/python/umb]</pre>
+        </li>
+        <li>Word splitting will not be on the final</li>
+    </ul>
+    
+    <h4 class="topic" id="pathname_expansion">Pathname Expansion</h4>
+    <ul class="flat">       
+        <li>After word splitting, Bash performs 
+            <a class="def" href="../definitions.html#pathname_expansion">pathname expansion</a> ...
+        </li>
+        <li>also known as <a class="def" href="../definitions.html#globbing">globbing</a></li>
+        <li>Pathname expansion is where you use 
+        		<a class="def" href="../definitions.html#bash_meta-characters">meta-characters</a> ...
+        	</li>
+        <li>to specify one or more <a class="def" href="../definitions.html#pathname">pathnames</a></li>
+        <li>The metacharacters are used to create patterns ...</li>
+        <li>that are called <a class="def" href="../definitions.html#ambiguous_file_reference">ambiguous file references</a></li>
+        <li>The metacharacters are
+            <ul>
+                <li class="flat"><span class="char">?</span></li>
+                <li class="flat"><span class="char">*</span></li>
+                <li class="flat"><span class="char">[ ]</span></li>
+            </ul>
+        </li>
+        <li>Here are some examples
+            <pre>
+    $ ls t<span class="red">*</span>
+    test1.txt  test2.txt  test3.txt
+    
+    $ echo t<span class="red">*</span>
+    test1.txt test2.txt test3.txt</pre>
+        </li>
+    </ul>
+
+    <h4 class="topic" id="process_substitution">Process Substitution</h4>
+    <ul class="flat">       
+        <li>After pathname expansion, Bash performs 
+            <a class="def" href="../definitions.html#process_substitution">process substitution</a>
+        </li>
+        <li>Process substitution allows you to create a file on the fly</li>
+        <li>A command is run in a sub-shell ...</li>
+        <li>and the lines generated by that command are treated as a file ...</li>
+        <li>which can be used by other Unix/Linux commands</li>
+        <li>Process substitution uses the following format
+    <pre>
+    <span class="format">&lt;(COMMAND)</span></pre>
+        </li>
+        <li>The output of the command that appears between the parenthesis ...</li>
+        <li>is placed in a Unix structure called a named pipe</li>
+        <li>Normal Unix pipes connect the output of one command ...</li>
+        <li>to the input of another command</li>
+        <li>Each command runs inside its own process ...</li>
+        <li>so a pipe allows one process to talk to another</li>
+        <li>This is called interprocess communications</li>
+        <li>Normal Unix pipes are also known as anonymous pipes ...</li>
+        <li>because they have no name</li>
+        <li>Anonymous pipes only last as long a it takes for the first command ...</li>
+        <li>to talk to the second command</li>
+        <li>Named pipes can last longer than anonymous pipes</li>
+        <li>They can actually be created and removed at the command line</li>
+        <li>When Unix performs process substitution it creates a process to run a command ...</li>
+        <li>and sends the output of that command to a named pipe</li>
+        <li>Then Unix redirects input ...</li>
+        <li>to come from the named pipe</li>
+        <li>We can use named pipes to compare the contents of two directories
+            <pre>
+    $ diff -y <span class="red">&lt;(ls -1 tia777/ce)</span> <span class="red">&lt;(ls -1 jgreen/ce)</span>
+    ce1                             ce1
+    ce10                            ce10
+    ce11                                  &lt;
+    ce2                             ce2
+    ce3                             ce3
+    ce4                             ce4
+    ce5                             ce5
+    ce6                             ce6
+    ce7                             ce7
+    ce8                             ce8
+    ce9                             ce9</pre>
+        </li>
+        <li>Here we have two <code>ls</code> commands ...</li>
+        <li>each running in their own subshell ...</li>
+        <li>and each one sending output ...</li>
+        <li>to its own named pipe</li>
+        <li>We can then run <code>diff</code> to look for differences ...</li>
+        <li>in these two "files"</li>
+        <li>Process substitution will not be on the final</li>
+    </ul>
+    
+    
+        
+    <h3 class="section">Attendance</h3>
+    
+    <h3 class="section">Class Quiz</h3>
+    
+	<footer>
+		<a href="class_notes_it244.html" class="spacer">Class Notes</a>
+		<a href="class_notes_index_it244.html" class="spacer">Class Notes Index</a>
+	</footer>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/21_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:42 GMT -->
+</html>

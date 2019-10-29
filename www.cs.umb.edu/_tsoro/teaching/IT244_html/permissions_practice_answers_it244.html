@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/permissions_practice_answers_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:57 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.html" media="screen" />
+    <title>IT 244: Introduction to Linux/Unix - Answers to Practice with Permissions</title>
+</head>
+<body>
+	<header>
+		<h2>
+		    IT 244: Introduction to Linux/Unix <br>
+		    Answers to Practice with Permissions
+		</h2>	
+	</header>
+
+	<ul class="flat">
+    	<li>The file notes.txt
+    		<ul class="flat">
+    			<li class="flat">Owner - read, write</li>
+    			<li class="flat">Group - read, write</li>
+    			<li class="flat">Everyone - read, write</li>
+    		</ul>
+    		<pre><span class="answer">  chmod 666 notes.txt</span></pre>
+    	</li>
+    	<li>The file work/notes.txt
+    		<ul class="flat">
+    			<li class="flat">Owner - read, write</li>
+    			<li class="flat">Group - read</li>
+    			<li class="flat">Everyone - read</li>
+    		</ul>
+            <pre><span class="answer">  chmod 644 work/notes.txt</span></pre>
+    	</li>
+    	<li>The file it244work/notes.txt
+    		<ul class="flat">
+    			<li class="flat">Owner - read, write</li>
+    			<li class="flat">Group - read</li>
+    			<li class="flat">Everyone - no permissions</li>
+    		</ul>
+            <pre><span class="answer">  chmod 640 it244/work/notes.txt</span></pre>
+        </li>
+        <li>The file work/label_now.sh
+            <ul class="flat">
+                <li class="flat">Owner - read, write, execute</li>
+                <li class="flat">Group - read, execute</li>
+                <li class="flat">Everyone - read, execute</li>
+            </ul>
+            <pre><span class="answer">  chmod 755 work/label_now.sh</span></pre>
+        </li>
+        <li>The file it244/work/label_now.sh
+            <ul class="flat">
+                <li class="flat">Owner - all permissions</li>
+                <li class="flat">Group - read, execute</li>
+                <li class="flat">Everyone - no permissions</li>
+            </ul>
+            <pre><span class="answer">  chmod 750 it244/work/label_now.sh</span></pre>
+        </li>
+        <li>The file work/label
+            <ul class="flat">
+                <li class="flat">Owner - write, execute</li>
+                <li class="flat">Group - execute</li>
+                <li class="flat">Everyone - execute</li>
+            </ul>
+        <pre><span class="answer">  chmod 311 work/label</span></pre>
+        </li>
+        <li>The file it244/work/label
+            <ul class="flat">
+                <li class="flat">Owner - all permissions</li>
+                <li class="flat">Group - execute</li>
+                <li class="flat">Everyone - execute</li>
+            </ul>
+            <pre><span class="answer">  chmod 711 it244/work/label</span></pre>
+        </li>
+        <li>The file ~ghoffman/it244/work/label
+            <ul class="flat">
+                <li class="flat">Owner - read, execute</li>
+                <li class="flat">Group - execute</li>
+                <li class="flat">Everyone - no permissions</li>
+            </ul>
+            <pre><span class="answer">  chmod 510 ~ghoffman/it244/work/label</span></pre>
+        </li>
+        <li>The directory dir1
+            <ul class="flat">
+                <li class="flat">Owner - all permissions</li>
+                <li class="flat">Group - all permissions</li>
+                <li class="flat">Everyone - all permissions</li>
+            </ul>
+            <pre><span class="answer">  chmod 777 dir1</span></pre>
+        </li>
+        <li>The directory dir1/dir2
+            <ul class="flat">
+                <li class="flat">Owner - <code>ls</code>, create &amp; delete files &amp; directories <code>cd</code> permissions</li>
+                <li class="flat">Group - <code>ls</code>, <code>cd</code> permissions</li>
+                <li class="flat">Everyone - <code>ls</code> permissions</li>
+            </ul>
+            <pre><span class="answer">  chmod 754 dir1/dir2</span></pre>
+        </li>
+        <li>The directory ~ghoffman/dir3
+            <ul class="flat">
+                <li class="flat">Owner - <code>ls</code>, <code>cd</code> permissions</li>
+                <li class="flat">Group - <code>ls</code>, <code>cd</code> permissions</li>
+                <li class="flat">Everyone - no permissions</li>
+            </ul>
+            <pre><span class="answer">  chmod 550 ~ghoffman/dir3</span></pre>
+        </li>
+        <li>The directory dir5
+            <ul class="flat">
+                <li class="flat">Owner - <code>ls</code>, <code>cd</code> permissions</li>
+                <li class="flat">Group - <code>cd</code> permissions</li>
+                <li class="flat">Everyone - <code>ls</code> permissions</li>
+            </ul>
+            <pre><span class="answer">  chmod 514 dir5</span></pre>
+        </li>
+
+    </ul>
+<h5> Copyright : Glenn Hoffman, Director of the IT program, Umass-Boston</h5>
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/permissions_practice_answers_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:57 GMT -->
+</html>
+

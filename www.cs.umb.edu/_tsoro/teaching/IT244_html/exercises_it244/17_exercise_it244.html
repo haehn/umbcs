@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/17_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title> IT 244: Introduction to Linux/Unix - Class 16 Exercise</title>
+</head>
+<body>
+	<header>
+		<h2> IT 244: Introduction to Linux/Unix<br>
+		     Class 16 Exercise
+		</h2>	
+	</header>
+
+	<h3>Log in to <span class="host">users3.cs.umb.edu</span></h3>
+    <ul>
+    	<li><span class="under">Run the ssh client</span><br><br>
+        	Connect to <span class="host">users3.cs.umb.edu</span>.
+        </li>
+    </ul>
+	
+	<h3>Directory for this Exercise</h3>
+    <ul>
+        <li><span class="under">Go to your <span class="path">ex</span> directory</span>
+            <pre>
+    cd  ~/it244/ex</pre>
+        </li>
+        <li><span class="under">Create an <span class="path">ex16</span> directory</span><br>
+            <pre>
+    mkdir  ex16</pre>
+        </li>       
+        <li><span class="under">Go to your <span class="path">ex16</span> directory</span><br>
+            <pre>
+    cd  ex16</pre>
+        </li>
+    </ul>
+	
+    <h3>Redirecting Standard Error</h3>
+    <ul>
+        <li><span class="under">Copy 2 text files from <span class="path">~tsoro/course_files/it244_files</span> to your 
+            <span class="path">ex16</span> directory</span><br>
+            <pre>
+    cp  ~tsoro/course_files/it244_files/foo[12].txt  .</pre>
+        </li>
+        <li><span class="under">Run <code>ls</code> to make sure the copy operation worked</span><br>
+            <pre>
+    ls</pre>
+        </li>
+        <li><span class="under">Run <code>cat</code> on <span class="path">foo1.txt</span> and <span class="path">foo2.txt</span></span><br>
+            <pre>
+    cat  foo?.txt</pre>
+            When you give <code>cat</code> two files as arguments, it prints the first, followed by the second.
+        </li>
+        <li><span class="under">Run <code>cat</code> on a file that does not exist</span><br>
+            <pre>
+    cat  xxx.txt</pre>
+            <code>cat</code> sends an error message to standard error, which is the terminal by default.
+        </li>
+        <li><span class="under">Run <code>cat</code> on two files, one nonexistent, sending standard output to a file</span><br>
+            <pre>
+    cat  foo1.txt xxx.txt  &gt;  foo_xxx.txt</pre>
+            The error message went to the terminal, not the file.
+        </li>
+        <li><span class="under">Print the contents of <span class="path">foo_xxx.txt</span></span><br>
+            <pre>
+    cat  foo_xxx.txt</pre>
+            Notice that the error message was not inserted into the file.
+        </li>
+        <li><span class="under">Run <code>cat</code> on two files, one nonexistent, sending standard error to a file</span><br>
+            <pre>
+    cat  foo1.txt xxx.txt  2&gt;  errors.txt</pre>
+            Notice that the contents of the first file is displayed on the terminal, but not the error message.
+        </li>
+        <li><span class="under">Print <span class="path">errors.txt</span></span><br>
+            <pre>
+    cat  errors.txt</pre>
+        <span class="path">errors.txt</span> contains the error message that would have gone to the
+        screen if you had not redirected standard error.
+        </li>
+        <li><span class="under">Run <code>cat</code> on two files, one nonexistent, sending all output to a file</span><br>
+            <pre>
+    cat  foo1.txt  xxx.txt  &amp;&gt;  everything.txt</pre>
+            Noting appears on the screen.
+        </li>
+        <li><span class="under">Print <span class="path">everything.txt</span></span><br>
+            <pre>
+    cat  everything.txt</pre>
+            Both the output and error message were redirected to the same file
+        </li>
+    </ul>
+        
+    <h3>Shell Scripts</h3>
+    <ul>
+        <li><span class="under">Create a script to keep track of the contents of your current directory</span><br>
+            <pre>
+    nano  dir_snap.sh</pre>
+        </li>
+        <li><span class="under">Enter the hashbang line</span><br>
+            <pre>
+    #!/bin/bash</pre>
+        </li>
+        <li><span class="under">Enter a comment describing what the script does</span><br>
+            <pre>
+    #
+    # This script takes periodic snapshots of the current directory and
+    # sends them to a file "snapshot.log"</pre>
+        </li>
+        <li><span class="under">Enter a blank line</span><br>
+            <br>
+            This makes the script more readable.
+        </li>
+        <li><span class="under">Enter a line which will record the date</span><br>
+            <pre>
+    date  &gt;&gt;  snapshot.log</pre>
+            To be useful, the log file needs a date stamp. 
+            <br><br>
+            Notice that we are appending to a file, even though it doesn't exist at first. 
+            <br><br>
+            If you use the append symbol <span class="char">&gt;&gt;</span> on a file that doesn't exist, 
+            that file will be created and the output sent to it. 
+        </li>
+        <li><span class="under">Enter a line which will record the current directory</span><br>
+            <pre>
+    pwd  &gt;&gt; snapshot.log</pre>
+        </li>
+        <li><span class="under">Enter a separator line</span><br>
+            <pre>
+    echo  ------------------------  &gt;&gt;  snapshot.log</pre>
+        This makes the file more readable.
+        </li>
+        <li><span class="under">Enter a line to send a long listing for all files to the log file</span><br>
+            <pre>
+    ls  -l  &gt;&gt;  snapshot.log</pre>
+        </li>
+        <li><span class="under">Enter a line to send a blank line to the log file</span><br>
+            <pre>
+    echo  &gt;&gt;  snapshot.log</pre>
+            This will make the log more readable.
+        </li>
+        <li><span class="under">Enter a line to show the script is finished</span><br>
+            <pre>
+    echo sent directory listing to snapshot.log</pre>
+        </li>
+        <li><span class="under">Save the file and exit nano</span>
+        </li>
+        <li><span class="under">Make the file executable</span>
+            <pre>
+    chmod  755  dir_snap.sh</pre>
+        </li>
+        <li><span class="under">Look at the permissions on the script</span><br>
+            <pre>
+    ls  -l  dir_snap.sh</pre>
+        </li>
+        <li><span class="under">Run the script</span><br>
+            <pre>
+    ./dir_snap.sh</pre>
+        </li>
+        <li><span class="under">Look at the contents of snapshot.log</span><br>
+            <pre>
+    cat  snapshot.log</pre>
+        </li>
+        <li><span class="under">Run the script again</span><br>
+            <pre>
+    ./dir_snap.sh</pre>
+            Notice that additional information is added to the end of the file.
+        </li>
+        <li><span class="under">Look at the contents of snapshot.log</span><br>
+            <pre>
+    cat  snapshot.log</pre>
+        </li>
+        <li><span class="under">Testing</span><br>
+            You will <b>not</b> be able to run my test script for this exercise. <br>
+            Instead, run the script in your <span class="path">ex16</span> and then
+            run <code>cat</code> on <span class="path">snapshot.log</span>.
+		</li>
+        <li><span class="under">Let me check your script</span><br></li>
+    </ul>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/17_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+</html>

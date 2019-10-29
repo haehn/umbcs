@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/12_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title> IT 244: Introduction to Linux/Unix - Class 12 Exercise</title>
+</head>
+<body>
+	<header>
+		<h2>
+		    IT 244: Introduction to Linux/Unix <br>
+		    Class 12 Exercise
+		</h2>	
+	</header>
+	<h3>Log in to <span class="host">users3.cs.umb.edu</span></h3>
+    <ul>
+    	<li><span class="under">Run the ssh client</span><br><br>
+        	Connect to <span class="host">users3.cs.umb.edu</span>.
+        </li>
+    </ul>
+	
+	<h3>Directory for this Exercise</h3>
+    <ul>
+        <li><span class="under">Go to your <span class="path">ex</span> directory</span>
+            <pre>
+    cd  ~/it244/ex</pre>
+        </li>
+        <li><span class="under">Create an <span class="path">ex12</span> directory</span><br>
+            <pre>
+    mkdir  ex12</pre>
+        </li>       
+        <li><span class="under">Go to your <span class="path">ex12</span> directory</span><br>
+            <pre>
+    cd  ex12</pre>
+        </li>
+    </ul>
+    
+    <h3>Redirecting Input</h3>
+    <ul>
+        <li><span class="under">Make sure you are in the <span class="path">ex12</span> directory</span><br>
+            <pre>
+    pwd</pre>
+        </li>
+        <li><span class="under">Copy the program <span class="path">repeat.sh</span> from my <span class="path">course_files/it244_files</span> 
+            directory to your <span class="path">ex12</span> directory</span><br>
+            <pre>
+    cp  ~tsoro/course_files/it244_files/repeat.sh  .</pre>
+        </li>
+        <li><span class="under">Copy the text file <span class="path">five_lines.txt</span> from the <span class="path">course_files/it244_files</span> 
+        directory to your <span class="path">ex12</span> directory</span><br>
+            <pre>
+    cp  ~tsoro/course_files/it244_files/five_lines.txt  .</pre>
+        </li>
+        <li><span class="under">Make sure the copy operation worked</span><br>
+            <pre>
+    ls</pre>
+        </li>
+        <li><span class="under">Run the program <span class="path">repeat.sh</span></span><br>
+            <pre>
+    ./repeat.sh</pre>
+    			Enter 5 lines of text when prompted by the script.
+            <br><br>
+            This program simply prints whatever input it receives to standard output.
+            <br><br>
+        </li>
+        <li><span class="under">Look at the contents of <span class="path">five_lines.txt</span></span><br>
+            <pre>
+    cat five_lines.txt</pre>
+        </li>
+        <li><span class="under">Run the same program taking input from a file</span><br>
+            <pre>
+    ./repeat.sh &lt; five_lines.txt</pre>
+        <span class="path">repeat.sh</span> took its input from the file <span class="path">five_lines.txt</span>
+        and printed each line on the screen.
+        </li>
+    </ul>
+    
+	
+    <h3>Redirecting Output</h3>
+    <ul>
+        <li><span class="under">Create a file containing information on those connected to users3.cs.umb.edu</span><br>
+            <pre>
+    who &gt; current_users.txt</pre>
+        </li>
+        <li><span class="under">Display the contents of the file you just created</span><br>
+            <pre>
+    cat current_users.txt</pre>
+        </li>
+        <li><span class="under">Create a file containing a listing of all the files in my home directory</span><br>
+            <pre>
+    ls ~tsoro &gt; gh_dir.txt</pre>
+        </li>
+        <li><span class="under">Display the contents of the file you just created</span><br>
+            <pre>
+    cat gh_dir.txt</pre>
+        </li>
+    </ul>
+    
+    <h3>Appending Output to a File</h3>
+    <ul>
+        <li><span class="under">Use <code>echo</code> to send a string to a file.</span><br>
+            <pre>
+    echo foo &gt; lines.txt</pre>
+        </li>
+        <li><span class="under">Use <code>cat</code> to display the contents of <span class="path">lines.txt</span></span><br>
+			<pre>
+    cat lines.txt</pre>
+		</li>
+		<li><span class="under">Write another string to <span class="path">lines.txt</span></span><br>
+			<pre>
+    echo bar &gt; lines.txt</pre>
+		</li>
+        <li><span class="under">Use <code>cat</code> to display the contents of <span class="path">lines.txt</span></span><br>
+            <pre>
+    cat lines.txt</pre>
+            Notice that the previous contents of <span class="path">lines.txt</span> have vanished.
+            <br><br>
+        </li>
+        <li><span class="under">Send another line to <span class="path">lines.txt</span></span><br>
+            <pre>
+    echo bletch &gt;&gt; lines.txt</pre>
+        </li>
+        <li><span class="under">Use <code>cat</code> to display the contents of <span class="path">lines.txt</span></span><br>
+            <pre>
+    cat lines.txt</pre>
+            Notice that your first line is still there.
+            <br><br>
+        </li>
+                <li><span class="under">Send still another line to the file</span><br>
+			<pre>
+    echo bling &gt;&gt; lines.txt</pre>
+		</li>
+		<li><span class="under">Run <code>cat</code> on <span class="path">lines.txt</span></span><br>
+			<pre>
+    cat lines.txt</pre>
+		</li>
+    </ul>
+    <h3><span class="path">/dev/null</span></h3>
+    <ul>
+        <li><span class="under">Use <code>echo</code> to display a string in your terminal session window</span><br>
+            <pre>
+    echo bonkers</pre>
+        </li>
+        <li><span class="under">Now perform the same operation, but send output to <span class="path">/dev/null</span></span><br>
+            <pre>
+    echo bonkers &gt; /dev/null</pre>
+            Nothing appears in the terminal window since you have sent the string "bonkers" 
+            into oblivion by redirecting the output of <code>echo</code> to <span class="path">/dev/null</span>.
+        </li>
+    </ul>
+    
+    <h3>Bash Script for this Exercise</h3>
+    <ul>
+        <li><span class="under">Make sure you are in your <span class="path">ex12</span> directory</span><br>
+            <pre>
+    pwd</pre>
+        If not, see me.
+        <br><br>
+        </li>
+        <li><span class="under">Create the script <span class="path">ex12.sh</span></span><br>
+            <pre>
+    nano  ex12.sh</pre>
+        </li>
+        <li><span class="under">Write into this file the commands from certain sections above</span><br>
+            <br>
+            Enter all commands from the section <span class="under">Redirecting output</span> up to the
+            and including the section <span class="under">/dev/null</span>
+            <br><br>
+            <b>Do not enter commands from the section <span class="under">Redirecting input</span></b>
+            <br><br>
+        </li>
+        <li><span class="under">Save this file</span><br><br>
+            Save and quit.
+            <br><br>
+        </li>
+        <li><span class="under">Make this file executable</span><br>
+            <pre>
+    chmod 755 ex12.sh</pre><br><br><br>
+        </li>
+        <li><span class="under">Run this script looking for error messages</span><br>
+            <pre>
+    bash  ex12.sh &gt; /dev/null</pre>
+    			Running <span class="path">ex12.sh</span> this way
+            will only print error messages. <br><br>
+            If you see <b>nothing</b> your script has no Unix errors. <br><br>
+                If you find any errors, fix them.
+                <br><br>
+    			<br><br>
+        </li>
+        <li><span class="under">Test you script</span><br>
+			<pre>
+    ~tsoro/it244_test/ex12.sh</pre>
+		When the script asks if you are ready for more, hit Return or Enter.
+			<br><br>
+		</li>
+        <li><span class="under">Let me check your script</span><br></li>
+    </ul>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/12_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+</html>

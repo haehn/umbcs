@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/10_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title> IT 244: Introduction to Linux/Unix - Class 10 Exercise</title>
+</head>
+<body>
+	<header>
+		<h2>
+		    IT 244: Introduction to Linux/Unix<br>
+		    Class 10 Exercise
+		</h2>	
+	</header>
+
+	<!-- NEED TO ADD A SECTION ON CREATING A SHELL SCRIPT AND GIVING IT SETUID PERMISSION -->
+
+	<h3>Log in to <span class="host">users3.cs.umb.edu</span></h3>
+    <ul>
+    	<li><span class="under">Run the ssh client</span><br><br>
+        	Connect to <span class="host">users3.cs.umb.edu</span>.
+        </li>
+    </ul>
+
+    <h3>Directory for this Exercise</h3>
+    <ul>
+        <li><span class="under">Go to your <span class="path">ex</span> directory</span>
+            <pre>
+    cd  ~/it244/ex</pre>
+        </li>
+        <li><span class="under">Create an <span class="path">ex10</span> directory</span><br>
+            <pre>
+    mkdir  ex10</pre>
+        </li>       
+        <li><span class="under">Go to your <span class="path">ex10</span> directory</span><br>
+            <pre>
+    cd  ex10</pre>
+        </li>
+    </ul>
+    
+    <h3>Setuid</h3>
+    <ul>
+        <li><span class="under">Find the absolute path of the <code>passwd</code> program</span><br>
+            <pre>
+    which passwd</pre>
+        </li>
+        <li><span class="under">Look at the permissions on this file</span><br>
+            <pre>
+    ls -l /usr/bin/passwd</pre>
+            Notice that the execute column for user (owner) has an <span class="char">s</span> in the execute column
+            and that the owner is root.
+            <br>
+        </li>
+        <li><span class="under">Look at the permissions of the file that contains account data</span><br>
+            <pre>
+    ls -l /etc/passwd</pre>
+        Notice that while everyone can read this file, only the owner, root, can modify it.
+        <br><br>
+        But since the <code>passwd</code> command has setuid enabled,
+        anyone who runs this command has the access permissions that root has.
+        </li>
+    </ul>
+
+	<h3>Directory Permissions</h3>
+	<ul>
+		<li><span class="under">Go to the <span class="path">dir_permissions</span> directory in my 
+            <span class="path">course_files/it244_files</span> directory</span><br>
+			<pre>
+    cd ~tsoro/course_files/it244_files/dir_permissions</pre>
+		</li>
+	<li><span class="under">Make sure you are in the right directory</span><br>
+			<pre>
+    pwd</pre>
+		</li>
+	<li><span class="under">Look at the permissions of the contents of this directory</span><br>
+			<pre>
+    ls -l</pre>
+		</li>
+		<li><span class="under">Look at the contents of <span class="path">dir1</span> and their permissions</span><br>
+			<pre>
+    ls -l dir1</pre>
+			You have read permission for this directory, so you can
+			run <code>ls</code> on it.
+			<br>
+		</li>
+		<li><span class="under">Enter <span class="path">dir1</span></span><br>
+			<pre>
+    cd dir1</pre>
+			You have execute permission so you can enter the directory.
+			<br>
+		</li>
+		<li><span class="under">Make sure you are in the right directory</span><br>
+            <pre>
+    pwd</pre>
+        </li>
+		<li><span class="under">Create a file whose name is your user name in this directory</span><br>
+			<pre>
+    touch YOUR_UNIX_USERNAME</pre>
+    			Where you replace YOUR_UNIX_USERNAME with your unix username
+		</li>
+		<li><span class="under">Perform a long listing of the contents of <span class="path">dir1</span></span><br>
+			<pre>
+    ls -l</pre>
+			Since you have write permissions to this directory, you can create a file in
+			it. Notice that you are the owner of this newly created file.
+			<br>
+		</li>
+		<li><span class="under">Return to the <span class="path">dir_permissions</span> directory</span><br>
+			<pre>
+    cd ..</pre>
+		</li>
+		<li><span class="under">Make sure you are in the right directory</span><br>
+            <pre>
+    pwd</pre>
+        </li>
+		<li><span class="under">Look at the permissions on <span class="path">dir2</span></span><br>
+			<pre>
+    ls -ld dir2</pre>
+			Running <code>ls -l</code> on <span class="path">dir2</span> gives you a long listing of the
+			contents of <span class="path">dir2</span>. 
+			<br><br>
+			If you want to see the permissions on the
+			directory itself, you must use the -d option.
+			<br>
+		</li>
+		<li><span class="under">Look at the contents of the <span class="path">dir2</span> directory and their permissions</span><br>
+			<pre>
+    ls -l dir2</pre>
+			You have read permission, so you can do this.
+			<br>
+		</li>
+		<li><span class="under">Enter <span class="path">dir2</span></span><br>
+			<pre>
+    cd dir2</pre>
+			You can enter this directory because you have execute permission on it.
+			<br>
+		</li>
+		<li><span class="under">Make sure you are in the right directory</span><br>
+            <pre>
+    pwd</pre>
+        </li>
+		<li><span class="under">Try to create a file in this directory.</span><br>
+			<pre>
+    touch YOUR_UNIX_USERNAME</pre>
+			This command fails because you do not have write permission
+			for this directory.
+			<br>
+		</li>
+		<li><span class="under">Return to the <span class="path">dir_permissions</span> directory</span><br>
+			<pre>
+    cd ..</pre>
+		</li>
+		<li><span class="under">Make sure you are in the right directory</span><br>
+            <pre>
+    pwd</pre>
+        </li>
+		<li><span class="under">Look at the permissions on <span class="path">dir3</span></span><br>
+			<pre>
+    ls -ld dir3</pre>
+		</li>
+		<li><span class="under">Try to list the contents of <span class="path">dir3</span></span><br>
+			<pre>
+    ls dir3</pre>
+			You can do this because you have read permission on <span class="path">dir3</span>.
+			<br>
+		</li>
+		<li><span class="under">Try to <code>cd</code> into this directory</span><br>
+			<pre>
+    cd dir3</pre>
+		This command fails because you do not have execute permission on <span class="path">dir3</span>.
+		<br>
+		</li>
+	<li><span class="under">Try to create a file in <span class="path">dir3</span></span><br>
+			<pre>
+    touch dir3/YOUR_UNIX_USERNAME</pre>
+			This command fails because you do not have write permission
+			on <span class="path">dir3</span>.
+			<br>
+		</li>
+		<li><span class="under">Look at the permissions on <span class="path">dir4</span></span><br>
+			<pre>
+    ls -ld dir4</pre>
+		</li>
+		<li><span class="under">Try to list the contents of <span class="path">dir4</span></span><br>
+			<pre>
+    ls dir4</pre>
+			This command fails because you do not have read permission on <span class="path">dir4</span>.
+			<br><br><br><br>
+		</li>
+		<li><span class="under">Enter <span class="path">dir4</span></span><br>
+			<pre>
+    cd dir4</pre>
+			This command succeeds because you have execute permission on <span class="path">dir4</span>.
+			<br>
+		</li>
+		<li><span class="under">Confirm that you are in <span class="path">dir4</span></span><br>
+			<pre>
+    pwd</pre>
+		</li>
+		<li><span class="under">Try to list the contents of <span class="path">dir4</span> now that you are inside the directory.</span><br>
+			<pre>
+    ls</pre>
+			Again the command fails because you do not have read permission.
+			<br>
+		</li>
+		<li><span class="under">Try to create a file in this directory.</span><br>
+            <pre>
+    touch YOUR_UNIX_USERNAME</pre>
+            This command fails because you do not have write permission
+            for this directory.
+            <br>
+        </li>
+	</ul>
+	
+	<h3>Links</h3>
+	<ul>
+		<li><span class="under">Return to your home directory</span><br>
+			<pre>
+    cd </pre>
+		</li>
+		<li><span class="under">Confirm that you are in your home directory</span><br>
+			<pre>
+    pwd</pre>
+		</li>
+		<li><span class="under">Create a link to the <span class="path">ex10</span></span><br>
+			<pre>
+    ln  -s  it244/ex/ex10  ex10</pre>
+		</li>
+		<li><span class="under">List the contents of your home directory along with permissions</span><br>
+			<pre>
+    ls -l</pre>
+			Notice that you have at least two links in your home directory, the <span class="path">it244</span> link
+			that was created when you applied successfully for this course, and the one
+			you just created. 
+			<br><br>
+			Notice  that the <span class="path">it244</span> link uses an absolute pathname
+			while the one you just created uses a relative pathname. 
+			<br><br>
+			Notice that the link you just created references another link, <span class="path">it244</span>.
+			<br>
+		</li>
+		<li><span class="under">Enter your <span class="path">ex10</span> directory using this new link</span><br>
+			<pre>
+    cd ex10</pre>
+		</li>
+		<li><span class="under">Display your current location</span><br>
+			<pre>
+    pwd</pre><br><br>
+		</li>
+		<li><span class="under">Now show your true location</span><br>
+			<pre>
+    pwd -P</pre>
+	       What you think of as your <span class="path">it244</span> directory is really
+	       a link to a directory, named after you Unix ID, in the <span class="path">/courses/it244/s13/tsoro/</span> directory.
+	       <br>
+		</li>
+		<li><span class="under">Return to your parent directory</span><br>
+			<pre>
+    cd ..</pre>
+		</li>
+		<li><span class="under">Show your location</span><br>
+			<pre>
+    pwd</pre>
+			Notice that you jumped back to your <span class="path">it244</span> directory, ignoring the
+			fact that your <span class="path">ex10</span> directory was inside your <span class="path">ex</span> driectory.
+			<br>
+		</li>
+		<li><span class="under">Go back to your home directory</span><br>
+			<pre>
+cd </pre>
+		</li>
+		<li><span class="under">Remove the link</span><br>
+			<pre>
+rm ex10</pre>
+		This will allow me to test your script.
+		</li>
+	</ul>
+	
+	<h3>Bash Script for this Exercise</h3>
+    <ul>
+        <li><span class="under">Go to your <span class="path">ex10</span> directory</span><br>
+            <pre>
+    cd ~/it244/ex/ex10</pre>
+        </li>
+        <li><span class="under">Make sure you are in you <span class="path">ex10</span> directory</span><br>
+            <pre>
+    pwd</pre>
+        </li>
+        <li><span class="under">Create the script <span class="path">ex10.sh</span></span><br>
+            <pre>
+    nano  ex10.sh</pre>
+        </li>
+        <li><span class="under">Write into this file  the commands you used above</span><br><br>
+            Include Unix commands from the section 
+            <span class="under">Setuid</span>  up to and including the section 
+            <span class="under">Links</span>.
+            <br>
+        </li>
+        <li><span class="under">Save this file</span><br><br>
+            Save and quit.
+            <br>
+        </li>
+        <li><span class="under">Test you script</span><br>
+			<pre>
+    ~tsoro/it244_test/ex10.sh</pre>
+		</li>
+        <li><span class="under">Let me check your script</span><br></li>
+    </ul>
+

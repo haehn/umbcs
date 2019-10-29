@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from www.cs.umb.edu/~fatemeh/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:46:58 GMT -->
+<head>
+	<meta charset="UTF-8">
+	<meta content="en-us" http-equiv="Content-Language">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta name="google-site-verification" content="IGomC4gEuuEjqT-VkfvF2GssHBDfw6jkGiYPac6yiYU" />
+	<meta name="keyword" content="Fatemeh Afrasiabi , Shaghayegh Afrasiabi, Summer,CS310 , Advanced Data Structures and Algorithms , CS310: Advanced Data Structures and Algorithms, UMass Boston, Universitty of Masschusetts Boston, summer 2019, Boston, فاطمه افراسیابی, شقایق, افراسیابی, amirkabir university, فاطمه, fatemeh, afrasiabi"/>
+	
+	<title>CS310 - Summer 2019</title>
+	<link rel="stylesheet" href="../../cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"
+		integrity="sha256-2YQRJMXD7pIAPHiXr0s+vlRWA7GYJEK0ARns7k2sbHY=" crossorigin="anonymous" />
+	<link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+	<nav>
+		<ul class="two columns nav-menu">
+			<li><a href="#announcements">Announcements</a></li>
+			<li><a href="#prof">Instructor</a></li>
+			<li><a href="#description">Course Description</a></li>
+			<li><a href="#text">Textbook</a></li>
+			<li><a href="#eval">Evaluation</a></li>
+			<li><a href="#late">Late Day Policy</a></li>
+			<li><a href="#homework">Homework and Programming assignments</a></li>
+			<li><a href="#Notes">Weekly notes</a> </li>
+			<li><a href="#resources">Resources</a> </li>
+			<li><a href="#accommodations">Accommodations</a></li>
+			<li><a href="#conduct">Student Conduct</a></lli>
+		</ul>
+	</nav>
+	<main class="container">
+		<div class="ten columns">
+
+			<div id="header">
+				<h1>CS310: Advanced Data Structures and Algorithms</h1>
+				<h2>
+					<strong>Summer 2019</strong> | Mo Tu Th 6:00-7:30 pm, M01-0409
+				</h2>
+			</div>
+
+			<hr>
+
+			<h2><a name="Announcements"></a>Announcements</h2>
+
+			<table class="u-full-width">
+				<thead>
+					<tr>
+						<td><strong>Date</strong></td>
+						<td><strong>Announcement</strong></td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>5/28/2019</td>
+						<td>Please open an account with the course in our Unix system<br></td>
+					</tr>
+
+					<tr>
+						<td>6/01/2019</td>
+						<td>HW1 is available! Bring a hardcopy on due date to class<br></td>
+					</tr>
+					
+					<tr>
+						<td>6/04/2019</td>
+						<td>Classroom has changed to M01-0409<br></td>
+					</tr>
+					
+					<tr>
+						<td>6/11/2019</td>
+						<td>HW2 is available! Bring a hardcopy on due date to class<br></td>
+					</tr>
+					
+					<tr>
+						<td>6/19/2019</td>
+						<td>HW1 solution is available!<br></td>
+					</tr>
+
+					<tr>
+						<td>6/25/2019</td>
+						<td>Midterm Exam is going to be on Monday July 1st. Check out the topics!<br></td>
+					</tr>
+					<tr>
+						<td>6/25/2019</td>
+						<td>HW3 is available!<br> The programming is also uploaded.</td>
+					</tr>
+					
+					<tr>
+						<td>6/30/2019</td>
+						<td>HW2 solution is available!</td>
+					</tr>
+					
+					<tr>
+						<td>7/12/2019</td>
+						<td>HW4 is available! Bring a hardcopy on due date to class<br></td>
+					</tr>
+					
+					<tr>
+						<td>7/15/2019</td>
+						<td>HW3 solution is available!</td>
+					</tr>
+					
+					<tr>
+						<td>7/19/2019</td>
+						<td>HW5 is available! Bring a hardcopy on the final exam day to class<br> No exceptions!</td>
+					</tr>
+					
+					<tr>
+						<td>7/23/2019</td>
+						<td>Makeup session will be on Wednesday July 24th. 6-7:30 p.m. at IT LAB (S-3-143)</td>
+					</tr>
+					
+					<tr>
+						<td>7/23/2019</td>
+						<td>Final Exam is going to be on Thursday July 25th. Check out the topics!<br></td>
+					</tr>
+					
+					
+					
+
+
+				</tbody>
+			</table>
+
+			<h2><a name="prof"></a>Instructor&nbsp;&nbsp;</h2>
+			<div class="row">
+				<div class="three columns avatar-container">
+				</div>
+				<div class="nine columns">
+					Fatemeh Afrasiabi<br>
+					Office: S-3-134<br>
+					Office Hours: Tuesday, Thursday 5:00-6:00 pm or by appointment<br>
+					e-mail: <a href="mailto:fatemeh.afrasiabi001@umb.edu">fatemeh.afrasiabi001@umb.edu</a><br>
+					Homepage: <a href="https://www.cs.umb.edu:443/~fatemeh">http://www.cs.umb.edu/~fatemeh</a><br>
+				</div>
+			</div>
+
+			<hr>
+
+			<p><a name="ta"></a><a name="description"></a></p>
+			<h2>Course Description</h2>
+			<p>A systematic study of the methods of structuring and
+				manipulating data in computing. Application programming interfaces, data
+				abstraction, and the encapsulation of implementations. The
+				design and analysis of algorithms. Advanced techniques
+				for program development and organization.</p>
+
+			<p><b>See the course <a href="../../www.cs.umb.edu_443/_fatemeh/Syllabus.html">syllabus</a> for a detailed list
+					of topics.</b></p>
+
+			<p>Prerequisites are:</p>
+			<ul>
+
+				<li><a href="../academics/courses/CS210/index.html">CS210</a> (Intermediate Computing)</li>
+				<li><a href="../academics/courses/CS240/index-2.html">CS240</a> (C/Unix)</li>
+				<li><a href="http://www.math.umb.edu/courses/course_page.php?id=9">MATH 140</a> (Calculus I) or permission from
+					the
+					instructor</li>
+			</ul>
+
+			<hr>
+
+			<a name="text"></a>
+			<h2>Textbook</h2>
+
+			<table class="u-full-width">
+				<thead>
+					<tr>
+						<td>
+							<p>
+								<b>Required:</b>
+							</p>
+							<p><a href="http://algs4.cs.princeton.edu/home/">Algorithms (4th Edition)</a>, by Robert Sedgewick and
+								Kevin
+								Wayne,<br>Addison-Wesley, ISBN-13: 978-0321573513
+								ISBN-10: 032157351X</p>
+						</td>
+						<td><img src="CS310_files/cover.png" border="0" height="160"></td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							<p>
+								<a href="https://www.amazon.com/Algorithm-Design-Jon-Kleinberg/dp/0321295358">Algorithms
+									Design</a>, by Jon Kleinberg and Eva Tardos<br>Pearson, ISBN-13: 978-0321295354
+								ISBN-10: 0321295358
+							</p>
+						</td>
+						<td><img src="CS310_files/kleinberg-tardos.html" border="0" height="160"></td>
+					</tr>
+					
+					
+				</tbody>
+				<thead>
+					<tr>
+						<td>
+							<p>
+								<b>Supplement:</b>
+							</p>
+							<p><a href="https://mitpress.mit.edu/books/introduction-algorithms">Introduction to Algorithms, Third Edition)</a>, by Cormen, Leiserson, Rivest, and Stein<br>
+MIT press, 2009</p>
+						</td>
+						<td><img src="CS310_files/Clrs3.jpg" border="0" height="160"></td>
+					</tr>
+				</thead>
+				
+			</table>
+
+			<p><a name="eval"></a></p>
+			<h2>Grade Evaluation</h2>
+			<table class="u-full-width">
+				<tbody>
+					<tr>
+						<td><b>Homework assignments:</b></td>
+						<td>20% (5 homework assignments)<br></td>
+					</tr>
+					<tr>
+						<td><b>Programming assignment:</b></td>
+						<td>10% (1 programming assignment)<br></td>
+					</tr>
+					<tr>
+						<td><b>Midterm Exam:</b></td>
+						<td> 30%</td>
+					</tr>
+					<tr>
+						<td><b>Final Exam:</b></td>
+						<td> 40%</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<p>See <a href="../../www.cs.umb.edu_443/_fatemeh/Syllabus.html">syllabus</a> for the numerical to letter grade
+				conversion.
+			</p>
+
+			<hr>
+
+			<p><a name="late"></a></p>
+			<h2>Late day policy</h2>
+			<h6><strong>Homework assignments:</strong></h6>
+			<p>One late submission with permission.</p>
+
+			<h6><strong>Programming assignments:</strong></h6>
+			<p>
+				One late submission with permission.
+			</p>
+
+			<hr>
+
+			<a name="homework"></a>
+			<h2>Homework/Programming assignments</h2>
+			<table class="u-full-width">
+				<thead>
+					<tr>
+						<td width="22%"><b>Assignment (PDF)</b></td>
+						<td width="15%"><b>Posted on</b></td>
+						<td width="20%"><b>Due Date</b></td>
+						<td width="20%"><b>Handouts</b></td>
+						<td width="15%"><b>Sample Solution</b></td>
+					</tr>
+				</thead>
+				<tbody>
+
+					<tr>
+						<td><a href="../../www.cs.umb.edu_443/_fatemeh/CS310_files/CS310%20summer-hw1.html">Homework #1</a></td>
+						<td> Sat, June 1st</td>
+						<td> Thu, June 13th</td>
+						<td> Runtime Slides</td>
+						<td><a href="../../www.cs.umb.edu_443/_fatemeh/CS310_files/CS310%20summer%202019-s1.html">Solution</a></td>
+					</tr>
+					
+					<tr>
+						<td><a href="../../www.cs.umb.edu_443/_fatemeh/CS310_files/CS310%20summer%202019-hw2.html">Homework #2</a></td>
+						<td> Tue June 11th</td>
+						<td> Mon, June 24th</td>
+						<td> First 3 slides</td>
+						<td> <a href="../../www.cs.umb.edu_443/_fatemeh/CS310_files/Summer2019-hw2-sol.html">Solution</a></td>
+					</tr>
+					 <tr>
+						<td><a href="../../www.cs.umb.edu_443/_fatemeh/CS310_files/CS310%20summer%202019-hw3.html">Homework #3</a>
+						<a href="../../www.cs.umb.edu_443/_fatemeh/CS310_files/pa01.html">(pa1)</td>
+						<td> Tue June 25th</td>
+						<td> Tue, July 2nd(1-3)<br>
+						Sun, July 14th(pa1)</td>
+						<td> Graphs & MST</td>
+						<td> <a href="../../www.cs.umb.edu_443/_fatemeh/CS310_files/CS310%20summer%202019-hw3-sol.html">Solution</a></td>
+					</tr>
+					
+					<tr>
+						<td><a href="../../www.cs.umb.edu_443/_fatemeh/CS310_files/CS310%20summer%202019-hw4.html">Homework #4</a>
+						<td> Fri July 12th</td>
+						<td> Thu, July 18th</td>
+						<td> Greedy & DP</td>
+						<td> <a href="../../www.cs.umb.edu_443/_fatemeh/CS310_files/CS310%20summer%202019-hw4-sol.html">Solution</a></td>
+					</tr>
+					
+					
+					<tr>
+						<td><a href="../../www.cs.umb.edu_443/_fatemeh/CS310_files/Midterm%20Bonus%20Questions.html">Midterm Bonus</a>
+						<td> Mon July 15th</td>
+						<td> Final exam day</td>
+						<td> Midterm topics</td>
+						<td> &nbsp;</td>
+					</tr>
+					
+					<tr>
+						<td><a href="../../www.cs.umb.edu_443/_fatemeh/CS310_files/CS310%20summer%202019-hw5.html">Homework #5</a>
+						<td> Fri July 19th</td>
+						<td> Final exam day</td>
+						<td> Tries,Compression,<br>Flow,Reductions</td>
+						<td> &nbsp;</td>
+					</tr>
+					
+
+				</tbody>
+			</table>
+
+			<a name="Notes"></a>
+			<h2>Weekly notes</h2>
+			<table class="u-full-width notes-table">
+				<thead>
+					<tr>
+						<th>Week</th>
+						<th>Topic</th>
+						<th>
+							Book Chapters</th>
+						<th>Session Dates</th>
+						<th>Session Info</th>
+						<th>Slides/notes</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td rowspan="2" nowrap="nowrap" valign="middle">
+							<p>1</p>
+						</td>
+						<td rowspan="2" nowrap="nowrap" valign="middle">
+							<p>Intro & Runtime</p>
+						</td>
+						<td rowspan="2" nowrap="nowrap" valign="middle">
+							<p class="row-middle">
+								K&amp;T, Ch. 1-2</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>Tuesday, <br>
+								May 28</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>Introduction</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>
+								<a href="../../www.cs.umb.edu_443/_fatemeh/CS310_files/intro_new.html">Introduction</a></p>
+							<p>
+							</p>
+				
+							<p><a href="../../www.cs.princeton.edu/_wayne/kleinberg-tardos/pdf/01StableMatching.pdf">Matching notes
+									from
+									K &amp; T</a></p>
+						</td>
+					</tr>
+					<tr>
+						<td nowrap="nowrap" valign="middle" class="pl-15">
+							<p>Thursday,<br>
+								May 30</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>Big O</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>
+								<a href="../../www.cs.umb.edu_443/_fatemeh/CS310_files/runtime.html">Runtime</a> </p>
+						</td>
+					</tr>
+					
+					<tr>
+						<td rowspan="3" nowrap="nowrap" valign="middle">
+							<p>2</p>
+						</td>
+						<td rowspan="3" nowrap="nowrap" valign="middle">
+							<p>Runtime & Collections</p>
+						</td>
+						
+						
+						<td rowspan="3" nowrap="nowrap" valign="middle">
+							<p class="row-middle">
+								K&amp;T, Ch. 1-2<br>
+								S&amp;W, Ch. 1.4</p>
+						</td>
+						
+						<td nowrap="nowrap" valign="middle">
+							<p>Monday, <br>
+								June 3</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>
+								Big O<br>Recursion</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>
+								Runtime Slides</p>
+						
+						</td>
+					</tr>
+					<tr>
+				
+						<td nowrap="nowrap" valign="middle" class="pl-15">
+							<p>Tuesday,<br>
+								June 4</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>APIs & Collections</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>
+								<a href="../../www.cs.umb.edu_443/_fatemeh/CS310_files/APICollections1.html">API & Collections</a> </p>
+						</td>
+					</tr>
+					
+					<tr>
+				
+						<td nowrap="nowrap" valign="middle" class="pl-15">
+							<p>Thursday,<br>
+								June 6</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>Collections</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>
+								Collections Slides</p>
+						</td>
+					</tr>
+					
+					<tr>
+						<td rowspan="3" nowrap="nowrap" valign="middle">
+							<p>3</p>
+						</td>
+						<td rowspan="3" nowrap="nowrap" valign="middle">
+							<p>Hashing</p>
+						</td>
+						
+						
+						<td rowspan="3" nowrap="nowrap" valign="middle">
+							<p class="row-middle">
+								S&W, Ch. 3.4</p>
+						</td>
+						
+						<td nowrap="nowrap" valign="middle">
+							<p>Monday, <br>
+								June 10</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>
+								Hash functions, <br>
+							Collisions</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>
+								<a href="../../www.cs.umb.edu_443/_fatemeh/CS310_files/Hashing.html">Hashing-Updated</a></p>
+						
+						</td>
+					</tr>
+					<tr>
+				
+						<td nowrap="nowrap" valign="middle" class="pl-15">
+							<p>Tuesday,<br>
+								June 11</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>Class cancelled</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>&nbsp;
+								  </p>
+						</td>
+					</tr>
+					
+					<tr>
+				
+						<td nowrap="nowrap" valign="middle" class="pl-15">
+							<p>Thursday,<br>
+								June 13</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>Separate Chaining, <br>
+							 Probing</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>
+								<a href="../../www.cs.umb.edu_443/_fatemeh/CS310_files/34HashTables.html">S&W Hashing Slides </a></p>
+						</td>
+					</tr>
+				
+					
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<tr>
+						<td rowspan="3" nowrap="nowrap" valign="middle">
+							<p>4</p>
+						</td>
+						<td rowspan="3" nowrap="nowrap" valign="middle">
+							<p>Graphs</p>
+						</td>
+						
+						
+						<td rowspan="3" nowrap="nowrap" valign="middle">
+							<p class="row-middle">
+								S&W Ch. 3.4,4.1 <br>
+								
+									K&T Ch. 3</p>
+						</td>
+						
+						<td nowrap="nowrap" valign="middle">
+							<p>Monday, <br>
+								June 17</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>
+								Undirected Graphs</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>
+								<a href="../../algs4.cs.princeton.edu/lectures/41UndirectedGraphs.pdf"> S&W Undirected Graphs </a> <br>
+								<a href="../../www.cs.princeton.edu/_wayne/kleinberg-tardos/pdf/03Graphs.pdf"> K&T Graphs </a>
+								</p> 
+						
+						</td>
+					</tr>
+					<tr>
+				
+						<td nowrap="nowrap" valign="middle" class="pl-15">
+							<p>Tuesday,<br>
+								June 18</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>Directed Graphs</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p><a href="../../algs4.cs.princeton.edu/lectures/42DirectedGraphs.pdf"> S&W Directed Graphs </a> <br>
+								  </p>
+						</td>
+					</tr>
+					
+					<tr>
+				
+						<td nowrap="nowrap" valign="middle" class="pl-15">
+							<p>Thursday,<br>
+								June 20</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>MST</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>
+								<a href="../../algs4.cs.princeton.edu/lectures/43MinimumSpanningTrees.pdf" > S&W MST </a> </p>
+						</td>
+					</tr>
+		
+		
+		
+		
+		<tr>
+						<td rowspan="3" nowrap="nowrap" valign="middle">
+							<p>5</p>
+						</td>
+						<td rowspan="3" nowrap="nowrap" valign="middle">
+							<p>MST,<br>Greedy Algs</p>
+						</td>
+						
+						
+						<td rowspan="3" nowrap="nowrap" valign="middle">
+							<p class="row-middle">
+									
+								S&W Ch. 4.2-4.3 <br>
+									K&T Ch. 4</p>
+						</td>
+						
+						<td nowrap="nowrap" valign="middle">
+							<p>Monday, <br>
+								June 24</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>
+								MST Prim's <br>
+								Greedy Algorithms
+								</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>
+								<a href="../../www.cs.princeton.edu/_wayne/kleinberg-tardos/pdf/04GreedyAlgorithmsI.pdf"> K&T Greedy Algs </a> <br>
+								
+								</p> 
+						
+						</td>
+					</tr>
+					<tr>
+				
+						<td nowrap="nowrap" valign="middle" class="pl-15">
+							<p>Tuesday,<br>
+								June 25</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>Greedy Algorithms</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>Same
+								  </p>
+						</td>
+					</tr>
+					
+					<tr>
+				
+						<td nowrap="nowrap" valign="middle" class="pl-15">
+							<p>Thursday,<br>
+								June 27</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>Greedy, Midterm practice</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>
+								<a href="../../www.cs.umb.edu_443/_fatemeh/CS310_files/mid_s2019.html" > Sample Midterm </a><br> 
+								<a href="../../www.cs.umb.edu_443/_fatemeh/CS310_files/mid_s2019_sol.html" > (Sol) </a><br>
+								<a href="../../www.cs.umb.edu_443/_fatemeh/CS310_files/Midterm%20Topics%20and%20Rules.html" > Midterm Topics </a> </p>
+						</td>
+					</tr>
+		
+		
+		
+		<tr>
+						<td rowspan="3" nowrap="nowrap" valign="middle">
+							<p>6</p>
+						</td>
+						<td rowspan="3" nowrap="nowrap" valign="middle">
+							<p>Greedy</p>
+						</td>
+						
+						
+						<td rowspan="3" nowrap="nowrap" valign="middle">
+							<p class="row-middle">
+								S&W Ch. 4.4 <br>
+								K&T Ch. 4,6</p>
+						</td>
+						
+						<td nowrap="nowrap" valign="middle">
+							<p>Monday, <br>
+								July 1</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>
+								Midterm Exam</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>
+								&nbsp;
+								</p> 
+						
+						</td>
+					</tr>
+					<tr>
+				
+						<td nowrap="nowrap" valign="middle" class="pl-15">
+							<p>Tuesday,<br>
+								July 2</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>Optimal Caching, <br>Dijkstra</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p><a href="../../www.cs.princeton.edu/_wayne/kleinberg-tardos/pdf/04GreedyAlgorithmsI.pdf"> K&T Greedy I </a> <br>
+							<a href="../../www.cs.princeton.edu/_wayne/kleinberg-tardos/pdf/04GreedyAlgorithmsII.pdf"> K&T Greedy II </a> <br>	  
+								  </p>
+						</td>
+					</tr>
+					
+					<tr>
+				
+						<td nowrap="nowrap" valign="middle" class="pl-15">
+							<p>Thursday,<br>
+								July 4</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>Holiday</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>
+								&nbsp; </p>
+						</td>
+					</tr>
+		
+		
+		<tr>
+						<td rowspan="3" nowrap="nowrap" valign="middle">
+							<p>7</p>
+						</td>
+						<td rowspan="3" nowrap="nowrap" valign="middle">
+							<p>Dynamic Programming</p>
+						</td>
+						
+						
+						<td rowspan="3" nowrap="nowrap" valign="middle">
+							<p class="row-middle">
+								
+								K&T Ch. 4,6</p>
+						</td>
+						
+						<td nowrap="nowrap" valign="middle">
+							<p>Monday, <br>
+								July 8</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>
+								&nbsp;</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>
+								&nbsp;
+								</p> 
+						
+						</td>
+					</tr>
+					<tr>
+				
+						<td nowrap="nowrap" valign="middle" class="pl-15">
+							<p>Tuesday,<br>
+								July 9</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>Dijkstra, <br> Interval Scheduling</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>
+							<a href="../../www.cs.princeton.edu/_wayne/kleinberg-tardos/pdf/06DynamicProgrammingI.pdf"> K&T DP </a> <br>
+							<a href="../../www.cs.umb.edu_443/_fatemeh/CS310_files/Instructions%20for%20the%20programming%20assignment.html"> Instructions for pa1 </a>	
+								  </p>
+						</td>
+					</tr>
+					
+					<tr>
+				
+						<td nowrap="nowrap" valign="middle" class="pl-15">
+							<p>Thursday,<br>
+								July 11</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>DP Properties, LCS, Knapsack</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>
+								<a href="../../www.cs.umb.edu_443/_fatemeh/CS310_files/Dynamicprogramming.html"> My DP slides </a> </p>
+						</td>
+					</tr>
+					
+					
+					
+					
+					
+					
+					
+					<tr>
+						<td rowspan="3" nowrap="nowrap" valign="middle">
+							<p>8</p>
+						</td>
+						<td rowspan="3" nowrap="nowrap" valign="middle">
+							<p>Tries,Compression</p>
+						</td>
+						
+						
+						<td rowspan="3" nowrap="nowrap" valign="middle">
+							<p class="row-middle">
+								
+								S&W Ch. 5.2, 5.5</p>
+						</td>
+						
+						<td nowrap="nowrap" valign="middle">
+							<p>Monday, <br>
+								July 15</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>
+								Tries</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>
+								<a href="../../www.cs.umb.edu_443/_fatemeh/CS310_files/Tries.html"> S&W Tries </a>
+								</p> 
+						
+						</td>
+					</tr>
+					<tr>
+				
+						<td nowrap="nowrap" valign="middle" class="pl-15">
+							<p>Tuesday,<br>
+								July 16</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>Data Compression, LZW</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>
+							<a href="../../www.cs.umb.edu_443/_fatemeh/CS310_files/Compression.html"> S&W Compression </a>
+								  </p>
+						</td>
+					</tr>
+					
+					<tr>
+				
+						<td nowrap="nowrap" valign="middle" class="pl-15">
+							<p>Thursday,<br>
+								July 18</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>Flow</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>
+								<a href="../../www.cs.umb.edu_443/_fatemeh/CS310_files/flow.html"> Flow-updated </a></p>
+						</td>
+					</tr>
+					
+					
+					
+					<tr>
+						<td rowspan="4" nowrap="nowrap" valign="middle">
+							<p>9</p>
+						</td>
+						<td rowspan="4" nowrap="nowrap" valign="middle">
+							<p>Flow, Reductions</p>
+						</td>
+						
+						
+						<td rowspan="4" nowrap="nowrap" valign="middle">
+							<p class="row-middle">
+								
+								K&T Ch. 8</p>
+						</td>
+						
+						<td nowrap="nowrap" valign="middle">
+							<p>Monday, <br>
+								July 22</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>
+								Flow, Reductions</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>
+								
+								<a href="../../www.cs.umb.edu_443/_fatemeh/CS310_files/NP.html"> Reductions </a></p>
+						
+						</td>
+					</tr>
+					<tr>
+				
+						<td nowrap="nowrap" valign="middle" class="pl-15">
+							<p>Tuesday,<br>
+								July 23</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>Reductions</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>
+							&nbsp;
+								  </p>
+						</td>
+					</tr>
+					
+					<tr>
+				
+						<td nowrap="nowrap" valign="middle" class="pl-15">
+							<p>Wednesday,<br>
+								July 24</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>Makeup class</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>
+								<a href="../../www.cs.umb.edu_443/_fatemeh/CS310_files/practicefinal.html"> Practice final </a></p>
+						</td>
+					</tr>
+					
+					<tr>
+				
+						<td nowrap="nowrap" valign="middle" class="pl-15">
+							<p>Thursday,<br>
+								July 25</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>Final Exam</p>
+						</td>
+						<td nowrap="nowrap" valign="middle">
+							<p>
+								<a href="../../www.cs.umb.edu_443/_fatemeh/CS310_files/Final%20Topics%20and%20Rules.html"> Final topics </a></p>					
+						</td>
+					</tr>
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+		
+					
+				</tbody>
+			</table>
+
+			<p>
+				<a name="resources"></a>
+			</p>
+			<h2>Resources</h2>
+			<ul style="margin-top:0in" type="circle">
+				<li><b><a href="http://www.oracle.com/technetwork/java/api-141528.html">Java API Documentation</a></b></li>
+				<li><b><a href="http://algs4.cs.princeton.edu/home/">Sedgewick and Wayne Notes</a></b></li>
+				<li><b><a href="http://algs4.cs.princeton.edu/code/">algs4 Documentation</a></b></li>
+				<li><b><a href="http://www.cs.princeton.edu/~wayne/kleinberg-tardos/">Kleinberg and Tardos Notes</a></b></li>
+				<li><b><a href="https://www.cs.umb.edu:443/cs310/Generics.html">Notes on Generics</a></b></li>
+				<li><b><a href="http://docs.oracle.com/javase/tutorial/">Java Tutorials</a></b></li>
+				<li><b><a href="http://www.oracle.com/technetwork/java/codeconvtoc-136057.html">Java Coding Conventions</a></b>
+				</li>
+				
+				<li><b><a href="http://wicket.sourceforge.net/wicket-quickstart/demos/EclipseDemo.html">Eclipse demo</a></b>
+				</li>
+				<li><b><a href="https://www.cs.umb.edu:443/~ghoffman/linux/unix_cs_students.html">Basic Unix tutorial</a></b></li>
+				
+
+			</ul>
+
+			<hr>
+
+			<b><a name="accommodations"></a>Accommodations:&nbsp;</b>
+			<p>
+				Section 504 of the
+				Americans with Disabilities Act of 1990 offers guidelines for curriculum
+				modifications and adaptations for students with documented disabilities. If
+				applicable, students may obtain adaptation recommendations from the Ross Center
+				for Disability Services, Campus Center, UL Room 211, (617-287-7430). The student
+				must present these recommendations and discuss them with each professor within a
+				reasonable period, preferably by the end of Drop/Add period.</p>
+
+			<hr />
+
+			<b><a name="conduct"></a>Student Conduct:&nbsp;</b>
+			<p>
+				Students are required to
+				adhere to the University Policy on Academic Standards and Cheating, to the
+				University Statement on Plagiarism and the Documentation of Written Work, and to
+				the Code of Student Conduct as delineated in the catalog of Undergraduate
+				Programs. The Code is available online at:
+				<a href="http://www.umb.edu/life_on_campus/policies/code/">
+					http://www.umb.edu/life_on_campus/policies/code/</a>
+			</p>
+		</div>
+</body>
+
+
+<!-- Mirrored from www.cs.umb.edu/~fatemeh/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:51:10 GMT -->
+</html>

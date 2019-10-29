@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/11_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:37 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../../class_notes.html">
+	<title> IT 244: Introduction to Linux/Unix - Class 11</title>
+</head>
+<body>
+	<header>
+		<h2> 
+		    IT 244: Introduction to Linux/Unix <br>
+		    Class 11
+		</h2>	
+	</header>
+
+     <h3 class="section">Today's Topics</h3>
+
+    <h4 class="flat_under">Tips and Examples</h4>
+    <ul class="flat">
+        <li class="flat"><a href="#viewing_directory_permissions">Viewing Directory Permissions</a></li>
+    		<li class="flat"><a href="#never_use_dot_dot_in_absolute_pathname">Never Use <span class="char">. .</span> in an Absolute Pathname</a></li>
+        <li class="flat"><a href="#write_permissions_on_directory">Write Permissions on a Directory</a></li>
+        <li class="flat"><a href="#using_ls_command">Using the <code>ls</code> Command</a></li>
+        <li class="flat"><a href="#cmod_chant">The <code>chmod</code> Chant</a></li>
+        <li class="flat"><a href="#using_dot_when_copying_file">Using <span class="char">.</span> When Copying a File</a></li>
+    </ul>
+    <br>
+    <h4 class="flat_under">Review</h4>
+    <ul class="flat_top">
+        <li class="flat"><a href="#root_account">The root Account</a></li>
+        <li class="flat"><a href="#setuid">Setuid and Setgid Permissions</a></li>
+        <li class="flat"><a href="#dir_access_permissions">Directory Access Permissions</a></li>
+        <li class="flat"><a href="#links">Links</a></li>
+        <li class="flat"><a href="#link_types">The Two Types of Links</a></li>
+        <li class="flat"><a href="#ln"><code>ln</code></a></li>
+        <li class="flat"><a href="#removing_link">Removing a Link</a></li>
+    </ul>
+    
+    <h4 class="flat_under">New Material</h4>
+    <ul class="flat_top">
+        <li class="flat"><a href="#cmd_line_syntax">Syntax of the Command Line</a></li>
+        <li class="flat"><a href="#cmd_options">Command Options</a></li>
+        <li class="flat"><a href="#tty"><code>tty</code></a></li>
+        <li class="flat"><a href="#parsing_cmds">Parsing the Command Line</a></li>
+        <li class="flat"><a href="#path">The <span class="iden">PATH</span> System Variable</a></li>
+        <li class="flat"><a href="#prog_current_dir">Running a Program in the Current Directory</a></li>
+        <li class="flat"><a href="#running_cmd">Running the Command Entered on the Command Line</a></li>
+    </ul>
+    
+    <h3 class="section">Reading Assignment</h3>
+    <p class="flat">The reading assignment for this week is chapter 5 of Sobell, 
+            <i>The Shell</i>.
+    </p>
+
+    <h3 class="section">Homework 6</h3>
+    <p class="flat">I have posted homework 6 <a href="../hw_it244/06_hw_it244.html">here</a>.</p>
+    <p>It is due this coming Sunday at 11:59 PM.</p>
+    
+    <h3 class="section">Mid-term</h3>
+    <p class="flat">The mid-term exam for this course will be held on Tuesday, October  24th.</p>
+    <p>It will consist of 25 questions like those on the quizzes.</p>
+    <p>You will have the entire class period to work on the exam.</p>
+    <p>60% of the questions will come from the Ungraded Class Quizzes.</p>
+    <p>The last class before the exam, Thursday, October  19th, will be a review session.</p>
+    <p>You will only be responsible for the material in the Class Notes for that class
+       on the exam.
+    </p>
+    <p>The Mid-term is a closed book exam.</p>
+    
+    <h3 class="section">Quiz 3</h3>
+    I have posted the answers to Quiz 3 <a href="../weekly_quiz_answers_it244/03_quiz_answers_it244.html">here</a>.
+    
+    <h3 class="section">Tips and Examples</h3>
+    
+    <h4 class="topic" id="viewing_directory_permissions">Viewing Directory Permissions</h4>
+    <ul class="flat">
+        <li>If you run <code>ls -l</code> on a directory ...</li>
+        <li>it will show the permission of everything <b>inside</b> that directory</li>
+        <li>What if you wanted to see the permission on the directory itself</li>
+        <li>You have two options</li>
+        <li>You can run <code>ls -l</code> on the parent directory ...</li>
+        <li>or you can run <code>ls -ld</code></li>  
+        <li>The <code>-d</code> option tells <code>ls</code> ...</li>
+        <li>to display the <b>directory</b> ...</li>
+        <li>not the things <b>inside</b> the directory</li>
+        <li>So if I were in a directory that contained another directory named <span class="path">dir</span>
+        	<pre>
+$ ls
+dir  test</pre>
+        </li>
+        <li>and I ran <code>ls -l</code> on <span class="path">dir</span> ...</li>
+        <li>it would show me the permission on everything <b>inside</b> <span class="path">dir</span> ...</li>
+        <li><b>not</b> on <span class="path">dir</span> itself
+        	<pre>
+$ ls -l dir
+total 0
+-rw-rw-r-- 1 ghoffman faculty 0 Oct  7 21:56 bar.txt
+-rw-rw-r-- 1 ghoffman faculty 0 Oct  7 21:56 foo.txt</pre>
+        </li>
+        <li>I could run <code>ls</code> on the parent directory
+        	<pre>
+$ ls -l
+total 2
+drwxrwxr-x 2 ghoffman faculty 512 Oct  7 21:56 dir
+drwxrwxr-x 2 ghoffman faculty 512 Oct  7 22:10 test</pre>
+        </li>
+        <li>or run <code>ls -ld</code> directly on the directory 
+        	<pre>
+$ ls -ld dir
+drwxrwxr-x 2 ghoffman faculty 512 Oct  7 21:56 dir</pre>
+        </li>
+    </ul>   
+
+    <h4 class="topic" id="never_use_dot_dot_in_absolute_pathname">Never Use <span class="char">. .</span> in an Absolute Pathname</h4>
+    <ul class="flat">       
+        <li>Sometimes when scoring a homework script I'll come across a 
+        	<a class="def" href="../definitions.html#pathname">pathname</a>
+        	like this
+        	<pre>
+/courses/it244/f16/ghoffman/../..</pre>
+        </li>
+        <li>This is a valid pathname ...</li>
+        <li>but it's stupid</li>
+        <li>Since the first character in the pathname is <span class="char">/</span> ...</li>
+        <li>this is an <a class="def" href="../definitions.html#absolute_pathname">absolute pathname</a> ...</li>
+        <li>which means it will work whatever directory you are in</li>
+        <li><span class="char">. .</span> means your 
+        	<a class="def" href="../definitions.html#parent_directory">parent directory</a>
+        </li>
+        <li><span class="char">. .</span> should only be used in a
+        	<a class="def" href="../definitions.html#relative_pathname">relative pathname</a>
+        </li>
+        <li>When you use it in an absolute pathname ...</li>
+        <li>it merely goes back to a previous directory</li>
+        <li>So the pathname above first goes down to <span class="path">/courses/it244/f16/ghoffman</span></li>
+        <li>and then goes up two directories to <span class="path">/courses/it244</span> ...</li>
+        <li>so it's just a longer way of writing the absolute pathname <span class="path">/courses/it244</span></li>
+        <li>You should never write anything on the command line ...</li>
+        <li>that is longer than you need it to be ...</li>
+        <li>because that increases the chance of an error</li>
+    </ul>
+    
+    <h4 class="topic" id="write_permissions_on_directory">Write Permissions on a Directory</h4>
+    <ul class="flat">       
+        <li>Write permission on a directory only applies to the <b>content</b> of the directory</li>
+        <li>It does not apply to the directory itself</li>
+        <li>If you have write permission on a directory you can
+            <ul class="flat">       
+                <li class="flat">Create a file or directory inside the directory</li>
+                <li class="flat">Delete a file or directory inside the directory</li>
+                <li class="flat">Rename a file or directory inside the directory</li>
+            </ul>
+        </li>
+        <li>In order to delete of change the name of the directory itself ...</li>
+        <li>you must have write permission on the <b>parent</b> directory</li>
+    </ul>
+    
+    <h4 class="topic" id="using_ls_command">Using the <code>ls</code> Command</h4>
+    <ul class="flat">       
+        <li>You don't have to be in a directory to run <code>ls</code> on it</li>
+        <li>If you run <code>ls</code> without an argument ...</li>
+        <li>it will list the contents of your current directory</li>
+        <li>But if you give <code>ls</code> a directory pathname ...</li>
+        <li>it will list the contents of that directory
+            <pre>
+$ ls ~tsoro/course_files/
+cs115_files  it244_files  it341_files</pre>
+        </li>
+        <li>If you want to see the access permissions on the directory <span class="path">it244_files</span> ...</li>
+        <li>you might  be tempted to run <code>ls -l</code> on this directory ...</li>
+        <li>but if you did you would not get the permissions on <span class="path">it244_files</span>
+        <pre>
+$ ls -l ~tsoro/course_files/it244_files/
+total 57
+-rwxrwxr-x 1 ghoffman faculty  163 Sep 15 12:48 bother10.sh
+-rwxrwxr-x 1 ghoffman faculty  131 Sep 15 12:48 bother.sh
+-rwxrwxr-x 1 ghoffman faculty  167 Sep 15 12:48 break.sh
+...</pre>
+        </li>
+        <li>Instead you see the permissions on the <b>contents</b> of <span class="path">it244_files</span></li>
+        <li>To see the permissions for the directory itself ...</li>
+        <li>and not the contents of the directory</li>
+        <li>you need to use the -d (<b>d</b>irectory) option along with the -l option
+            <pre>
+$ ls -l<span class="char">d</span> ~tsoro/course_files/it244_files
+drwxrwxr-x 6 ghoffman faculty 1536 Sep 15 12:51 /home/ghoffman/course_files/it244_files</pre>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="cmod_chant">The <code>chmod</code> Chant</h4>
+    <ul class="flat">       
+        <li>All of you need to memorize the following
+            <pre>
+<span class="red">read    write    execute
+4       2        1
+owner  group    everyone</span></pre>
+        </li>
+        <li>This is all the information you need to use <code>chomd</code> ...</li>
+        <li>with the numeric format for specifying permission</li>
+    </ul>
+    
+    <h4 class="topic" id="using_dot_when_copying_file">Using <span class="char">.</span> When Copying a File</h4>
+    <ul class="flat">       
+        <li>Sometimes, when copying a file to their current directory ...</li>
+        <li>students will use a long pathname</li>
+        <li>In other words, they do something like this
+            <pre>
+$ pwd
+/home/it244gh/it244/work
+    
+$cp ../test.txt <span class="red">~/it244/work</span></pre>
+        </li>
+        <li>They could have saved themselves some typing by using &nbsp;<span class="char">.</span></li>
+        <li><span class="char">.</span> stands for your current directory ...</li>
+        <li>wherever you are in the filesystem</li>
+        <li>In the above example, <span class="char">.</span> would have made things much easier
+            <pre>
+$cp ../test.txt <span class="char">.</span></pre>
+        </li>
+    </ul>
+    
+    <h3 class="section">Review</h3>
+    
+    <h4 class="topic" id="root_account">The root Account</h4>
+    <ul class="flat">       
+        <li>On every Unix or Linux system there is a special account named 
+            <a class="def" href="../definitions.html#root_account">root</a>
+        </li>
+        <li>root can access any file ...</li>
+        <li>or run any program</li>
+        <li>root is an administrator account</li>
+        <li>It is used for system configuration and maintenance</li>
+        <li>Even a system administrator should not log in as root</li>
+        <li>Instead he or she should use a regular Unix account ...</li>
+        <li>and use <code>sudo</code> when running a command ...</li>
+        <li>that needs root privileges</li>
+        <li><code>sudo</code> allows a user to run a command ...</li>
+        <li>that normally only root can run</li>
+        <li>When you run <code>sudo</code> it asks you for <b>your</b> password ...</li>
+        <li>not the password of the root account</li>
+        <li>In order to run <code>sudo</code> you must be on the sudoers list ...</li>
+        <li>a change which only the root account can make</li>
+    </ul>
+
+    <h4 class="topic" id="setuid">Setuid and Setgid Permissions</h4>
+    <ul class="flat">       
+        <li>Sometimes a program needs to read or modify a file ...</li>
+        <li>to do the work it was designed to do</li>
+        <li>For example the <code>passwd</code> command ...</li>
+        <li>which is used to change the password for an account ...</li>
+        <li>has to make changes to the file <span class="path">/etc/shadow</span></li>
+        <li>When you need to change your password you run <code>passwd</code></li>
+        <li>But <span class="path">/etc/shadow</span> is owned by the root account ...</li>
+        <li>and no other account can change it</li>
+        <li>To deal with situations like this, two special permissions were created 
+            <ul class="flat">       
+                <li class="flat">setuid</li>
+                <li class="flat">setgid</li>
+            </ul>
+        </li>
+        <li>If a program file has <a class="def" href="../definitions.html#setuid_permission">setuid permission</a> ...</li>
+        <li>anyone who runs the program ...</li>
+        <li>has all the permissions of the owner of that file ...</li>
+        <li>but only while the file is running</li>
+        <li>This permission means it can change any <b>other</b> files ...</li>
+        <li>that the script or program needs to do its job</li>
+        <li>If a program file has <a class="def" href="../definitions.html#setgid_permission">setgid permission</a> set ...</li>
+        <li>anyone who runs the program ...</li>
+        <li>has the permissions of the group assigned to that file...</li>
+        <li>while the file is running</li>
+        <li>setuid and setgid permissions are only given to <b>executable</b> files ...</li>
+        <li>that is, programs and scripts</li>
+        <li>But while the permission is <b>set</b> on the executable files ...</li>
+        <li>it works on <b>other</b> files ...</li>
+        <li>which the executable file has to change</li>
+        <li>A file with setuid permission ...</li>
+        <li>will have <span class="char">s</span> 
+            in place of <span class="char">x</span> ...
+        </li>
+        <li>in the column for the owner's execute permission</li>
+        <li>A file with setgid permission ...</li>
+        <li>will have <span class="char">s</span> 
+            in place of <span class="char">x</span> ...</li>
+            <li>for the group execute permission</li>
+        <li>Since setuid and setgid permission ...</li>
+        <li>apply only to executable files ...</li>
+        <li>there is no ambiguity in replacing <span class="char">x</span> 
+            with <span class="char">s</span>
+        </li>
+    </ul>    
+   
+    <h4 class="topic" id="dir_access_permissions">Directory Access Permissions</h4>
+    <ul class="flat">       
+        <li>The Unix <a class="def" href="../definitions.html#access_permissions">access permissions</a> 
+            work a little differently for directories ...
+        </li>
+        <li>than they do for files</li>
+        <li>Read and write permissions for a directory are similar to those for a file</li>
+        <li>Read permission allows you to list the contents of that directory using <code>ls</code></li>
+        <li>Write permission allows you to create, delete ...</li>
+        <li>or change the name of <b>entries</b> in that directory</li>
+        <li>Write permission on a <b>directory</b> ...</li>
+        <li>does not allow you to change the <b>contents</b> of a file ...</li>
+        <li>in that directory</li>
+        <li>If you have write permission on a directory you can change what's inside it ...</li>
+        <li>but you cannot rename the directory or delete it ...</li>
+        <li>unless you have write permission on its <b>parent</b> directory</li>
+        <li>Execute permission on a directory allows you to do two things</li>
+        <li>It allows you to enter that directory using <code>cd</code></li>
+        <li>It also allows you to read a file in that directory</li>
+        <li>if you already have read permission on that file ...</li>
+        <li>or change the contents of a file if you have write permission</li>
+        <li>Without execute permission on a directory ...</li>
+        <li>you cannot access any file in that directory</li>
+    </ul>
+    
+    <h4 class="topic" id="links">Links</h4>
+    <ul class="flat">       
+        <li><a class="def" href="../definitions.html#link">Links</a> are like shortcuts on a Windows machine</li>
+        <li>or aliases on a Mac</li>
+        <li>Links allow you to move around the filesystem using short names</li>
+        <li>Each of you has an entry in your home directory called <span class="path">it244</span></li>
+        <li>In the home directory of my test account, it244gh, I have such a link
+            <pre>
+$ ls -l it244
+<span class="red">l</span>rwxrwxrwx 1 ghoffman faculty 36 Oct  5 11:42 it244 -&gt; <span class="red">/courses/it244/sum17/ghoffman/ghoffman</span></pre>
+        </li>
+        <li>This is a link to<span class="path">/courses/it244/sum17/ghoffman/ghoffman</span> </li>
+        <li>If you <code>cd</code> into this location and use <code>pwd</code>
+            <pre>
+$ cd it244
+    
+$ pwd
+/home/tsoro/it244</pre>
+        </li>
+        <li>This path reflects the route you took to get here</li>
+        <li>But it is <b>not</b> the real pathname of the directory</li>
+        <li>You can only get that information if you use <code>pwd</code> with the -P (note the capitalization) option
+            <pre>   
+$ pwd -P
+/courses/it244/sum17/ghoffman/ghoffman</pre>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="link_types">The Two Types of Links</h4>
+    <ul class="flat">       
+        <li>There are two types of links
+            <ul class="flat">       
+                <li class="flat">Hard links</li>
+                <li class="flat">Symbolic, or soft, links</li>
+            </ul>
+        </li>
+        <li><a class="def" href="../definitions.html#hard_link">Hard links</a> are older</li>
+        <li>A hard link is like a duplicate file name</li>
+        <li>Hard links can only point to files ...</li>
+        <li>not directories</li>
+        <li>You can only have a hard link to a file ...</li>
+        <li>if that file is on the same hard disk volume ...</li>
+        <li>as the link</li>
+        <li><a class="def" href="../definitions.html#symbolic_link">Symbolic links</a> are much more flexible</li>
+        <li>You can use either an absolute or relative pathname ...</li>
+        <li>when creating a symbolic link</li>
+        <li>A symbolic link can point to a file or directory anywhere in the filesystem</li>
+        <li>Deleting a symbolic link does not delete the file or directory it points to</li>
+    </ul>
+    
+    <h4 class="topic" id="ln"><code>ln</code></h4>
+    <ul class="flat">       
+        <li>To create a symbolic or soft link, use <code>ln</code> with the -s option</li>
+        <li><code>ln</code> takes two arguments, a pathname and the name for the link
+            <pre>
+$ pwd
+/home/it244gh
+    
+$ ln <span class="red">-s</span> ~ghoffman/examples_it244 examples
+    
+$ ls -l examples
+<span class="red">l</span>rwxrwxrwx 1 it244gh libuuid 28 2012-09-17 17:53 examples -&gt; <span class="red">/home/ghoffman/examples_it244</span></pre>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="removing_link">Removing a Link</h4>
+    <ul class="flat">       
+        <li>To delete a link, use <code>rm</code></li>
+        <li>If you delete a symbolic link ...</li>
+        <li>it will not affect the file or directory it points to</li>
+    </ul>
+
+	<h3 class="section">New Material</h3>
+	
+	<h4 class="topic" id="cmd_line_syntax">Syntax of the Command Line</h4>
+	<ul class="flat">       
+        <li>The syntax of the command line is straightforward</li>
+        <li>First comes the command ...</li>
+        <li>then, perhaps, some options ...</li>
+        <li>finally some arguments</li>
+        <li>The command is executed when you hit the Enter key
+            <pre>
+<span class="format">COMMAND  [OPTIONS]  [ARG_1]  [ARG_2]  ...  [ARG_N]  </span></pre></li>
+        <li>The brackets indicate that the contents are optional</li>
+        <li>Commands vary in the number of arguments they accept</li>
+        <li>Some accept none ...</li>
+        <li>others require a specific number of arguments ...</li>
+        <li>still others accept a variable number of arguments</li>
+        <li>Arguments must be separated by one or more spaces</li>
+    </ul>
+    
+    <h4 class="topic" id="cmd_options">Command Options</h4>
+    <ul class="flat">       
+        <li>Many commands have options</li>
+        <li>Options modify the behavior of the command</li>
+        <li>Options are usually preceded by one or two dashes, <span class="char">-</span></li>
+        <li>GNU programs frequently have options that are preceded by two dashes, <span class="char">--</span></li>
+        <li>The options in GNU programs are usually words</li>
+        <li>The options in other Unix programs are usually a single letter</li>
+        <li>When a command uses a single dash, <span class="char">-</span>, before an option ...</li>
+        <li>you can usually combine options ...</li>
+        <li>behind a single <span class="char">-</span></li>
+        <li>An example of this is <code>ls -ltr</code></li>
+        <li>This means run <code>ls</code>
+            <ul class="flat">       
+                <li class="flat">To get a long listing</li>
+                <li class="flat">Sorted by modification date and time</li>
+                <li class="flat">In reverse order</li>
+            </ul>
+        </li>
+        <li>Options using two dashes, <span class="char">--</span>, cannot usually be combined</li>
+        <li>In this case, each option must be written separately ...</li>
+        <li>and preceded by two dashes</li>
+        <li>Sometimes the option can have it's own argument</li>
+        <li>When this happens, the argument is usually separated from the option by spaces
+            <pre>
+gcc  -o  <span class="red">prog</span>  prog.c</pre></li>
+        <li>Utilities that report the size of files usually do so in bytes</li>
+        <li>This works well with small files</li>
+        <li>But with large files, a size in bytes can be hard to read</li>
+        <li>Such utilities often have a <code>-h</code>, or <code>--human-readable</code>, option</li>
+        <li>With this option, the file size will be displayed ...</li>
+        <li>in kilobytes, megabytes or gigabytes, as appropriate</li>
+        <li><code>df</code>  (<b>d</b>isk <b>free</b>) shows the amount of space on the various filesystems
+            <pre>
+$ df 
+Filesystem                       1K-blocks     Used Available Use% Mounted on
+/dev/sda1                         12253360  6027788   5580096  52% /
+none                                     4        0         4   0% /sys/fs/cgroup
+udev                               2013316        4   2013312   1% /dev
+tmpfs                               404836      560    404276   1% /run
+none                                  5120        0      5120   0% /run/lock
+none                               2024172        0   2024172   0% /run/shm
+none                                102400        0    102400   0% /run/user
+blade66:/disk/sd0g/courses/it244   8260768  2615904   5562240  32% /courses/it244
+blade82:/disk/sd0f/home/jdu        8260768  8171264      6912 100% /home/jdu
+mx1:/disk/sd1e/spool/mail          4129312  3403648    684384  84% /spool/mail
+blade82:/disk/sd1h/home/ghoffman  78805984 32988544  45029408  43% /home/ghoffman</pre>
+		</li>
+		<li>When used with the -h opition ...</li>
+        <li><code>df</code> produces more readable output
+            <pre>
+$ df -h
+Filesystem                        Size  Used Avail Use% Mounted on
+/dev/sda1                          12G  5.8G  5.4G  52% /
+none                              4.0K     0  4.0K   0% /sys/fs/cgroup
+udev                              2.0G  4.0K  2.0G   1% /dev
+tmpfs                             396M  568K  395M   1% /run
+none                              5.0M     0  5.0M   0% /run/lock
+none                              2.0G     0  2.0G   0% /run/shm
+none                              100M     0  100M   0% /run/user
+blade66:/disk/sd0g/courses/it244  7.9G  2.5G  5.4G  32% /courses/it244
+blade82:/disk/sd0f/home/jdu       7.9G  7.8G  6.8M 100% /home/jdu
+mx1:/disk/sd1e/spool/mail         4.0G  3.3G  669M  84% /spool/mail
+blade82:/disk/sd1h/home/ghoffman   76G   32G   43G  43% /home/ghoffman</pre>
+		</li>
+		<li>The <code>-h</code> also works with <code>ls</code></li>
+		<li>If I run <code>ls -l</code> on a directory ...</li>
+		<li>the file size will be given in bytes
+			<pre>
+$ ls -l
+total 1236
+-rw-rw-r-- 1 ghoffman faculty 26211 Jun 12 09:23 01_class_notes_it244.html
+-rw-rw-r-- 1 ghoffman faculty 26138 Jun 21 15:25 02_class_notes_it244.html
+-rw-rw-r-- 1 ghoffman faculty 29395 Jun  6 11:21 03_class_notes_it244.html
+...</pre>
+		</li>
+		<li>But if I use <code>ls -lh </code> ...</li>
+		<li>I get a much more readble result
+			<pre>
+$ ls -lh
+total 1.3M
+-rw-rw-r-- 1 ghoffman faculty  26K Jun 12 09:23 01_class_notes_it244.html
+-rw-rw-r-- 1 ghoffman faculty  26K Jun 21 15:25 02_class_notes_it244.html
+-rw-rw-r-- 1 ghoffman faculty  29K Jun  6 11:21 03_class_notes_it244.html</pre>
+		</li>
+        <li>Many commands display a help message when run with the --help option
+        	<pre>
+$ mkdir --help
+Usage: mkdir [OPTION]... DIRECTORY...
+Create the DIRECTORY(ies), if they do not already exist.
+
+Mandatory arguments to long options are mandatory for short options too.
+  -m, --mode=MODE   set file mode (as in chmod), not a=rwx - umask
+  -p, --parents     no error if existing, make parent directories as needed
+  -v, --verbose     print a message for each created directory
+  -Z, --context=CTX  set the SELinux security context of each created
+                      directory to CTX
+      --help     display this help and exit
+      --version  output version information and exit
+
+Report mkdir bugs to bug-coreutils@gnu.org
+GNU coreutils home page: &lt;http://www.gnu.org/software/coreutils/&gt;
+General help using GNU software: &lt;http://www.gnu.org/gethelp/&gt;
+For complete documentation, run: info coreutils 'mkdir invocation'</pre>
+        </li>
+        <li>All GNU utilities accept this option</li>
+    </ul>
+    
+    <h4 class="topic" id="tty"><code>tty</code></h4>
+    <ul class="flat">       
+        <li>As you type at the command line ...</li>
+        <li>the characters you type are collected by a program called <code>tty</code></li>
+        <li><code>tty</code> is a <a class="def" href="../definitions.html#device_driver">device driver</a> 
+            that is part of the 
+            <a class="def" href="../definitions.html#kernel">kernel</a>
+        </li>
+        <li>It looks at each character as you type ...</li>
+        <li>and takes appropriate action</li>
+        <li>Most of the time, <code>tty</code> just places the character in a 
+        	<a class="def" href="../definitions.html#buffer">buffer</a>
+        </li>
+        <li>A buffer is a space in memory ...</li>
+        <li>that holds data for later processing</li>
+        <li>But <code>tty</code> responds differently to special characters</li>
+        <li>When the character you type is the backspace ...</li>
+        <li>it erases the previous character from the buffer</li>
+        <li>When the character is the Control U ...</li>
+        <li><code>tty</code> erases the buffer from the current insertion point ...</li>
+        <li>to the beginning of the line</li>
+        <li><code>tty</code> is responsible for all 
+            <a class="def" href="../definitions.html#command_line_editing">command line editing</a>
+        </li>
+        <li>When <code>tty</code> sees a newline character ...</li>
+        <li>it passes the contents of the buffer to the shell</li>
+        <li>Newline is the character you get from hitting Enter on a windows machine ...</li>
+        <li>or Return on a Mac</li>
+    </ul>
+    
+    <h4 class="topic" id="parsing_cmds">Parsing the Command Line</h4>
+    <ul class="flat">       
+        <li>The shell takes the contents of the buffer ...</li>
+        <li>and breaks it up into <a class="def" href="../definitions.html#token">tokens</a></li>
+        <li>Tokens are the strings of text separated by spaces or tabs</li>
+        <li>This action is called 
+            <a class="def" href="../definitions.html#parsing">parsing</a>
+        </li>
+        <li>So parsing the act of making a list of all the strings ...</li>
+        <li>on the command line ...</li>
+        <li>and throwing away the whitespace</li>
+        <li>Next, the shell looks for the name of the command</li>
+        <li>Usually, the command name is the first string on the command line</li>
+        <li>The command can be specified by a simple filename
+            <pre>
+ls</pre></li>
+        <li>Or by using a pathname to the executable file
+            <pre>
+/bin/ls</pre></li>
+    </ul>
+    
+    <h4 class="topic" id="path">The <span class="iden">PATH</span> System Variable</h4>
+    <ul class="flat">
+        <li>When you run a program by typing a pathname at the terminal ...</li>
+        <li>such as <span class="path">/usr/bin/php</span> ...</li>
+        <li>the shell has no difficulty finding the executable file to run</li>
+        <li>How can the shell know where to find an executable file ...</li>
+        <li>if all it gets is the name of the file?</li>
+        <li>Programs are executable files ...</li>
+        <li>that can be stored anywhere in the filesystem</li>
+        <li>So how does the shell find the correct file?</li>
+        <li>The shell checks a system variable called <span class="iden">PATH</span></li>
+        <li><span class="iden">PATH</span> contains a list of directories ...</li>
+        <li>to search for an executable file ...</li>
+        <li>whose name matches the command typed at the command line</li>
+        <li>The shell searches each of these directories listed in <span class="iden">PATH</span> ...</li>
+        <li>until it finds an executable file ...</li>
+        <li>with the name of the command</li>
+        <li><span class="iden">PATH</span> always has a default value ...</li>
+        <li>which is created when the system is installed</li>
+        <li>Here is the default value on our system
+            <pre>
+$ echo $PATH
+/usr/local/sbin<span class="red">:</span>/usr/local/bin<span class="red">:</span>/usr/sbin<span class="red">:</span>/usr/bin<span class="red">:</span>/sbin<span class="red">:</span>/bin<span class="red">:</span>/usr/games<span class="red">:</span>/usr/local/games<span class="red">:</span>/snap/bin<span class="red">:</span>/usr/lib/oracle/12.1/client64/bin</pre>
+        </li>
+        <li>The absolute pathname of each directory ...</li>
+        <li>is separated from the next by a colon, <span class="char">:</span></li>
+        <li>If the shell reaches the end of the directory listings in <span class="iden">PATH</span> ...</li>
+        <li>without finding the executable file ...</li>
+        <li>it will print an error message</li>
+        <li>If the shell finds an executable file ...</li>
+        <li>but you do not have execute permission ...</li>
+        <li>it will tell you this in an error message</li>
+        <li>You can modify the <span class="iden">PATH</span> variable in your own Unix environment</li>
+        <li>We'll see how to do this in a few classes</li>
+ 
+    </ul>
+    
+    <h4 class="topic" id="prog_current_dir">Running a Program in the Current Directory</h4>
+    <ul class="flat">       
+        <li>For reasons having to do with security ...</li>
+        <li>you should never put the current directory, <span class="char">.</span> ...</li>
+        <li>in the <span class="iden">PATH</span> list</li>
+        <li>Then how do you run a program in your current directory?</li>
+        <li>You can do this using the following construction
+            <pre>
+<span class="format">./PROGRAM_NAME</span></pre></li>
+        <li>This will always work ...</li>
+        <li>regardless of the contents of <span class="iden">PATH</span></li>
+        <li>Here is an example
+            <pre>
+$ ls -l foo.sh
+-rwxrwxr-x 1 ghoffman grad 16 Oct  1 15:49 foo.sh
+    
+$ <span class="red">./</span>foo.sh 
+Foo to you</pre></li>
+    <li>Notice that I did not have to run <code>bash</code> to run this script</li>
+    <li>That's because the script file has execute permission set</li>
+    </ul> 
+    
+    <h4 class="topic" id="running_cmd">Running the Command Entered on the Command Line</h4>	
+    <ul class="flat">  
+		<li>When you type a command at the command line ...</li>
+		<li>the <a class="def" href="../definitions.html#shell">shell</a> has to find the right executable file ...</li>     
+		<li>by looking through the directories listed in <span class="iden">PATH</span></li>
+		<li>If you have execute permission on the executable file ...</li>
+		<li>the shell will ask the kernel to start a <a class="def" href="../definitions.html#process">process</a> for that program</li>
+		<li>A process is a running program</li>
+		<li>Only the kernel can create a process ...</li>
+		<li>so the shell gives the kernel the pathname of the executable file ...</li>
+		<li>and the kernel does the rest</li>
+		<li>Each process needs resources to do its job</li>
+		<li>One of the most important resources is memory</li>
+		<li>Each process has memory allocated to it ...</li>
+		<li>that it alone can use</li>
+		<li>This prevents one program from interfering with another</li>
+		<li>In addition to memory, the kernel gives the process</li>
+		<li>various system resources ...</li>
+		<li>such as pointers to certain files</li>
+		<li>The kernel also gives the program the list of tokens from the command line
+		    <ul class="flat">       
+		        <li class="flat">The name used to call the program</li>
+		        <li class="flat">The options used</li>
+		        <li class="flat">The arguments used</li>
+		    </ul></li>
+		<li>The shell does not check the options or arguments</li>
+		<li>The shell has no idea what options or arguments ...</li>
+		<li>are appropriate to a given program</li>
+		<li>The program has the responsibility ...</li>
+		<li>to check the options and arguments for correctness</li>
+		<li>If the program gets the wrong options or arguments ...</li>
+		<li>it is the responsibility of the program ...</li>
+		<li>to print an error message and take appropriate action</li>
+		<li>While the program is running, the shell waits for it to finish</li>
+		<li>It does this by going into an inactive state ...</li>
+		<li>known as "sleep"</li>
+		<li>When the program finishes it must tell the shell that it is done</li>
+		<li>It does this by sending the shell an 
+		    <a class="def" href="../definitions.html#exit_status">exit status</a>
+		</li>
+		<li>The exit status is an integer that must be 0 or greater</li>
+		<li>An exit status of 0 means the program finished without error</li>
+		<li>Any exit status greater than zero indicates an error</li>
+		<li>A program can issue different exit status values ...</li>
+		<li>for different types of errors</li>
+		<li>You can see the exit status of the last program ...</li>
+		<li>by looking at the value of the system variable <span class="iden">?</span> 
+		    <pre>
+$ cat foo
+cat: foo: No such file or directory
+    
+$ echo $?
+1</pre></li>
+		<li>The exit status is 1, meaning the command failed</li>
+		<li>Notice that I had to put a dollar sign, <span class="char">$</span> ...</li>
+		<li>in front of the name of the variable ...</li>
+		<li>to get its value</li>
+		<li>When the shell gets an exit status ...</li>
+		<li>it returns to an active state</li>
+		<li>It prints a prompt to the screen ...</li>
+		<li>and it waits for the next command</li>
+    </ul>
+    
+    <h3 class="section">Attendance</h3>
+    
+    <h3 class="section">Class Quiz</h3>
+
+	<footer>
+		<a href="class_notes_it244.html" class="spacer">Class Notes</a>
+		<a href="class_notes_index_it244.html" class="spacer">Class Notes Index</a>
+	</footer>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/11_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:37 GMT -->
+</html>

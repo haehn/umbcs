@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/03_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:23 GMT -->
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="../class_notes.css">
+	<title> IT 244: Introduction to Linux/Unix - Class 3</title>
+</head>
+<body>
+	<header>
+		<h2> 
+		    IT 244: Introduction to Linux/Unix <br>
+		    Class 3
+		</h2>	
+	</header>
+
+	<h3 class="section">Today's Topics</h3>
+	<h4 class="flat_under">Tips and Examples</h4>
+	<ul class="flat_top">       
+        <li class="flat"><a href="#class_exercises">Class Exercises</a></li>
+    </ul>
+	<h4 class="flat_under">Review</h4>
+	<ul class="flat_top">       
+        <li class="flat"><a href="#shells">Shells</a></li>
+		<li class="flat"><a href="#unix_commands">Unix Commands</a></li>
+    </ul>
+	<h4 class="flat_under">New Material</h4>
+	<ul class="flat_top">
+        <li class="flat"><a href="#command_line">The Command Line</a></li>
+		<li class="flat"><a href="#script">The Unix <code>script</code> Command</a></li>
+		<li class="flat"><a href="#editor">The Editor Used in This Class</a></li>
+		<li class="flat"><a href="#nano">The <code>nano</code> Text Editor</a></li>
+		<li class="flat"><a href="#correcting_mistakes">Correcting Mistakes on the Command Line</a></li>
+		<li class="flat"><a href="#retrieving_last_command">Retrieving Your Last Command</a></li>
+		<li class="flat"><a href="#aborting_running_program">Stopping a Running Program</a></li>
+		<li class="flat"><a href="#using_options">Using Options with Unix Commands</a></li>
+		<li class="flat"><a href="#help_with_unix_commands">Getting Help with Unix Commands</a></li>
+		<li class="flat"><a href="#system_manual">The System Manual</a></li>
+		<li class="flat"><a href="#info_system">The <code>info</code> System</a></li>
+		<li class="flat"><a href="#apropos">Searching for a Keyword with <code>apropos</code></a></li>
+		<li class="flat"><a href="#getting_help_from_internet">Getting Help from the Internet</a></li>
+		<li class="flat"><a href="#hw_dirs">Homework Directories</a></li>
+		<li class="flat"><a href="#class_exercises">Class Exercises</a></li> 
+		<li class="flat"><a href="#hw_script">Using <code>script</code> in Homework 2</a></li>
+	</ul>
+	
+	<h3 class="section">Reading Assignment</h3>
+	<p class="flat">The reading assignment for this week is chapter 2 of Sobell, <i>Getting Started</i>.</p>
+	<p>You will find a list of all reading assignments <a href="../readings_it244.html">here</a>.</p>
+	<p>There is a link to this page on the class web page.</p>
+	
+	<h3 class="section">Homework 2</h3>
+	<p class="flat">I have posted <a href="../hw_it244/02_hw_it244.html">homework 2</a>.</p>
+	<p>As usual, it will be due this coming Sunday at 11:59 PM.</p>
+	<p>You will find a list of all homework assignments <a href="../hw_it244/homework_it244.html">here</a>.</p>
+	<p>The class web page has a link to this page.</p>
+    <p>Let's take a look at the assignment</p>
+    
+    <h3 class="section">Tips and Examples</h3>
+
+	<h4 class="topic" id="class_exercises">Class Exercises</h4>
+	<ul class='flat'>       
+        <li>There is a Class Exercise for every class ...</li>
+        <li>excep the review sessions</li>
+        <li>Each Class Exercise must be in a separate directory ...</li>
+        <li>inside the <span class="path">ex</span> directory ...</li>
+        <li>inside your <span class="path">it244</span> directory</li>
+        <li>If you finish the execise in class I will check it</li>
+        <li>If you do not finish it in class you can finish it later</li>
+		<li>All Class Exercises must be finished before Sunday at 11:59 PM</li>
+		<li>If the execise is not complete or it has an error ...</li>
+		<li>you will lose two points for each day it is late</li>
+		<li>I will not check a Class Exercise from a previous class because it takes too much time</li>
+		<li>If I have not checked you Class Exercise in class ...</li>
+		<li>I will check it in the following week</li>
+		<li>If you want to run my test scripts on your Class Exercise ...</li>
+		<li>you will find my test scripts here <span class="path">/home/tsoro/code/it244_code/testing_scripts_it244</span></li>
+    </ul>
+    
+    <h3 class="section">Review</h3>
+    
+    <h4 class="topic" id="shells">Shells</h4>
+	<ul class="flat">
+	   <li>The <a class="def" href="../definitions.html#shell">shell</a>
+	   		is the program you are talking to ...
+	   </li>
+	   <li>when you type something at the command line</li>
+	   <li>The shell listens to what you type at the command line ...</li>
+	   <li>and then asks the 
+	       <a class="def" href="../definitions.html#kernel">kernel</a>
+	       to run the program for you
+	   </li>
+	   <li>The shell is the program you use to talk to the kernel</li>
+	   <li>Modern shells provide a number of features that make them easier to use</li>
+	   <li>Down through the years there have been a number of different Unix shells</li>
+	   <li>Today, the two most common shell are the TC shell and Bash</li>
+	   <li>Bash is the shell we will be using in this course</li>
+	</ul>
+	
+	<h4 class="topic" id="unix_commands">Unix Commands</h4>
+	<ul class="flat">
+        <li>To run a Unix command, you type the command ...</li>
+        <li>followed, perhaps, by options and arguments ...</li>
+        <li>and then hit Enter ...</li>
+        <li>or Return on a Mac</li>
+        <li>Options change what the command does</li>
+        <li>For example the <code>ls</code> command lists the contents of a directory
+        <pre>
+$ ls
+foo.txt  it244  work</pre></li>
+	    <li>When <code>ls</code> is used with the <code>-l</code> (for <b>l</b>ong) option ...</li>
+        <li>more information is presented
+    <pre>
+$ ls -l
+total 3
+-rw-r--r-- 1 it244gh libuuid  16 2012-06-26 16:19 foo.txt
+lrwxrwxrwx 1 it244gh libuuid  34 2012-02-07 09:46 it244 -&gt; /courses/it244/s12/tsoro/it244gh
+drwxr-xr-x 2 it244gh libuuid 512 2012-06-27 11:08 work</pre></li>
+		<li>There <b>must always be a space</b> between the command ...</li>
+		<li>and the option</li>
+		<li>If you don't but a space in between ...</li>
+		<li>you will get an error
+			<pre>
+$ ls-l
+ls-l: command not found</pre>
+		</li>
+        <li>Arguments are the things on which the command operates</li>
+        <li>If <code>ls</code> is given the name of a directory as an argument ...</li>
+		<li>it will display the contents of that directory
+        <pre>
+$ ls html
+it244_s17_html  it341_f16_html</pre></li>
+	   <li>Most Unix/Linux commands are very short, to save typing ...</li>
+	   <li>and usually have mnemonic  value</li>
+	   <li>For example, <code>ls</code> stands for "list"</li>
+    </ul> 
+    
+    <h3 class="section">New Material</h3>
+    
+    <h4 class="topic" id="command_line">The Command Line</h4>
+    <ul class="flat">       
+        <li>In this course we will be using the command line</li>
+        <li>On the command line, you talk to the machine by typing</li>
+        <li>You have to be careful what you type</li>
+        <li>If you make a mistake of even one character ...</li>
+        <li>the command will not work</li>
+        <li>This is not the way most of you have interacted with computers</li>
+        <li>You are used to a <b>G</b>raphical <b>U</b>ser <b>I</b>nteface ...</li>
+        <li>where a great deal of effort has been spent ...</li>
+        <li>trying to make things easier for the user</li>
+        <li>The command line is <b>NOT</b> a user friendly environment</li>
+        <li>I sometimes call it a user hostile environment</li>
+        <li>So why do we study the command line?</li>
+        <li>Because the command line has more power</li>
+        <li>GUI's take time to create and maintain ...</li>
+        <li>so they will never have all the features of the command line</li>
+        <li>Most Linux/Unix server installations never install a GUI</li>
+        <li>A GUI uses system resources that are better spent on services</li>
+        <li>The commands you type at the command line can be put into text files</li>
+        <li>These files are called shell scripts</li>
+        <li>Instead of typing the commands ...</li>
+        <li>you can simply run the shell script</li>
+        <li>This makes it easy to automate routine tasks</li>
+    </ul>
+
+	<h4 class="topic" id="script">The Unix <code>script</code> Command</h4>
+	<ul class="flat">
+        <li>Sometimes it is useful to keep a record of your Unix session</li>
+        <li>If you are installing new software ...</li>
+        <li>it is good to keep a record of the options you chose</li>
+        <li>Unix provides the <code>script</code> command for this purpose</li>
+        <li>When you run <code>script</code>, Unix creates a new shell session ...</li>
+        <li>and everything you type at the keyboard ...</li>
+        <li>and everything that gets printed to the screen ...</li>
+        <li>is stored in a text file</li>
+        <li>This text file is a record of everything that happened ...</li>
+        <li>in that shell session</li>
+        <li>If you run <code>script</code> with no arguments ...</li>
+        <li>the session will be recorded in a file named <span class="path">typescript</span>
+        <li>This file will be created in the directory you were in ...</li>
+        <li>when you started <code>script</code></li>
+        <li>If you run <code>script</code> with an argument ...</li>
+        <li><code>script</code> will use that argument as the name of the transcript file</li>
+        <li>To end the <code>script</code> session, type <code>exit</code> at the command line</li>
+        <li><b><code>script</code> does not save anything to disk until you type <code>exit</code></b></li>
+        <li>If you quit your ssh session before typing <code>exit</code> ...</li>
+        <li><b>NOTHING will be recorded</b></li>
+        <li>Be sure you type <code>exit</code> before disconnecting from your ssh session</li>
+        <li>If you quit <code>script</code> ...</li>
+        <li>and then later run <code>script</code> again ...</li>
+        <li>you will lose your first session results</li>
+        <li>The file created by the second run of <code>script</code> ...</li>
+        <li>will overwrite the contents of the first session</li>
+        <li>If you want to add to an existing <span class="path">typescript</span> file ...</li>
+        <li>run <code>script <code>-a</code></code></li>
+        <li>When you type <code>exit</code> to end a <code>script</code> session ...</li>
+        <li>you will find yourself back in the directory ...</li>
+        <li>from which you ran <code>script</code></li>
+        <li>This will happen even if you changed directories in your <code>script</code> session</li>
+    </ul>
+	
+	<h4 class="topic" id="editor">The Editor Used in This Class</h4>
+	<ul class="flat">
+	    <li>Unix can be customized in many ways</li>
+	    <li>All these customizations are done by editing text files</li>
+	    <li>For this reason, you need to know Unix text editor</li>
+	    <li>You will also need a text editor when writing scripts</li>
+		<li>Most Unix system administrators use the <code>vim</code> text editor</li>
+		<li><code>vim</code> is an updated version of the <code>vi</code> editor</li>
+		<li>The textbook devotes an entire chapter to <code>vim</code> ...</li>
+		<li>and another chapter to <code>emacs</code></li>
+		<li><code>emacs</code> is preferred by programmers</li>
+		<li>I don't want to spend class time teaching you either editor</li>
+		<li>The only way to learn an editor is to use it</li>
+		<li>Both <code>vim</code> and <code>emacs</code> have many features ...</li>
+		<li>and using them can be very confusing at first</li>
+		<li>Today I'll show you <code>nano</code>, a simple text editor</li>
+		<li>Today's Class Exercise will give you some practice with <code>nano</code></li>
+		<li>You are free you use any <b>Unix</b> text editor in this class</li>
+		<li><b>Do not use a word processor, such as Microsoft Word</b></li>
+		<li>Such programs create create files with non-printing format characters...</li>
+		<li>which makes it very difficult to read them ...</li>
+		<li>and impossible to run them on Unix</li>
+		<li>If you use something that is <b>NOT</b> a Unix text editor ...</li>
+		<li>when you are creating a homework file ...</li>
+		<li><b>I'll deduct 10 points from your grade</b></li>
+    </ul>
+	
+	<h4 class="topic" id="nano">The <code>nano</code> Text Editor</h4>
+	<ul class="flat">       
+        <li><code>nano</code> is a simple text editor created as part of the GNU project</li>
+        <li>In <code>nano</code> you issue a command by holding down the Control key ...</li>
+        <li>while pressing a letter key</li>
+        <li>You can move to the beginning of a line of text by pressing Control <span class="char">A</span> ...</li>
+        <li>and move to the end of the line with Control <span class="char">E</span></li>
+        <li>When I write something like "Control A" ...</li>
+        <li>I mean hold down the Control key while pressing the <span class="char">A</span> key</li>
+        <li>Although I used a capital A here ...</li>
+        <li>I do not mean you should hold down the shift key</li>
+        <li>I use capital letters when writing control key sequences ...</li>
+        <li> because the capital letters are easier to read</li>
+        <li>Some of the basic <code>nano</code> commands appear at the bottom of the page</li>
+        <li>The <span class="char">^</span>
+            in this list of commands stands for the Control key ...
+            </li>
+        <li>so <span class="char">^O</span> means Control <span class="char">O</span></li>
+        <li>The <code>nano</code> feature set is limited</li>
+        <li>You can only work with one file at a time</li>
+        <li>You can search for text ...</li>
+        <li>but there is no search and replace feature</li>
+        <li><code>nano</code> does have a limited cut and paste feature</li>
+        <li>If you press Control <span class="char">K</span> the <b>entire line</b> will disappear ...</li>
+        <li>then if you go to another line and press Control <span class="char">U</span> ...</li>
+        <li>the line will be pasted back at that point</li>
+        <li>When you want to save a file you press Control <span class="char">O</span> ...</li>
+        <li>and the name of the file will appear at the bottom of the screen</li>
+        <li>You need to hit Enter to accept that name ...</li>
+        <li>and complete the save process</li>
+        <li>Control <span class="char">X</span> will quit <code>nano</code></li>
+        <li>I have created a web page with instructions for using <code>nano</code> 
+            <a href="../../linux/nano_text_editor.html">here</a>
+        </li>
+        <li>There is a link to it on the class web page</li>
+    </ul>
+	
+	<h4 class="topic" id="correcting_mistakes">Correcting Mistakes on the Command Line</h4>
+	<ul class="flat">       
+        <li>The command line is <b>NOT</b> a user friendly environment</li>
+        <li>There are no menus</li>
+        <li>You have to remember the names of all commands</li>
+        <li>This is one reason Unix command names tend to be short</li>
+        <li>If you make a mistake typing a command ...</li>
+        <li>Unix will respond with a cryptic error message</li>
+        <li>Fortunately, Unix provides 
+            <a class="def" href="../definitions.html#command_line_editing">command line editing</a>
+        </li>
+        <li>that make it relatively easy to correct mistakes</li>
+        <li>Control <span class="char">A</span> moves to the beginning of the command line</li>
+        <li>Control <span class="char">E</span> moves to the end of the command line</li>
+        <li>Control <span class="char">U</span> removes all text from your current position ...</li>
+        <li>to the beginning of the line</li>
+        <li>Control <span class="char">K</span> removes all text from your current position ...</li>
+        <li>to the end of the line</li>
+        <li>Any text deleted by using Control <span class="char">U</span> or 
+        		Control <span class="char">K</span> ...
+        </li>
+        <li>is put in a paste buffer ...</li>
+        <li>and you can paste it back on the command line using Control <span class="char">Y</span></li>
+        <li>The right and left arrow keys can also be used ...</li>
+        <li>to move back and forth over the command line</li>
+        <li>Today's class exercise will let you practice these features</li>
+    </ul>
+	
+	<h4 class="topic" id="retrieving_last_command">Retrieving Your Last Command</h4>
+	<ul class="flat">       
+        <li>When you get an error message from the command line ...</li>
+        <li>you need to enter the command again</li>
+        <li>This can be very annoying for long and complicated commands</li>
+        <li>Fortunately, Unix remembers the commands you run ...</li>
+        <li>and let's you run them again</li>
+        <li>This feature allows you to retrieve the last command you typed</li>
+        <li>You use this feature by pressing the up and down arrow keys</li>
+        <li>To retrieve the last command, simply hit the up arrow</li>
+        <li>To retrieve the next to last command, hit the up arrow twice</li>
+        <li>Once you have used the up arrow ...</li>
+        <li>you can use the down arrow to go in the opposite direction</li>
+        <li>Get in the habit of using the history feature</li>
+        <li>It can save you a lot of typing</li>
+    </ul>
+	
+	<h4 class="topic" id="aborting_running_program">Stopping a Running Program</h4>
+	<ul class="flat">       
+        <li>Most Unix commands execute quickly</li>
+        <li>Unix commands run programs</li>
+        <li>But some programs, like a compiler, can take a long time to finish</li>
+        <li>When you need to abort a running program use Control <span class="char">C</span></li>
+        <li>This will work on most Unix systems</li>
+    </ul>
+	
+	<h4 class="topic" id="using_options">Using Options with Unix Commands</h4>
+	<ul class="flat">       
+        <li>Most Unix commands have options which modify their behavior</li>
+        <li>These options appear after the command</li>
+        <li>You must type a space before entering the option</li>
+        <li>Before the GNU project, most options used a single letter ...</li>
+        <li>and were preceded by a single dash</li>
+        <li>Most GNU utilities use options which consist of words ...</li>
+        <li>preceded by two dashes</li>
+        <li>Often, commands will support both option formats
+        <pre>
+$ cat --help
+Usage: cat [OPTION]... [FILE]...
+Concatenate FILE(s), or standard input, to standard output.
+
+    <span class="red">-A, --show-all</span>           equivalent to -vET
+    <span class="red">-b, --number-nonblank</span>    number nonempty output lines
+     ...</pre></li>
+    </ul>
+
+    <h4 class="topic" id="help_with_unix_commands">Getting Help with Unix Commands</h4>
+    <ul class="flat">       
+        <li>Most Unix commands have a help option</li>
+        <li>This option will provide a brief description of the command</li>
+        <li>It will also provide a list of options
+        <pre>
+$ ls --help
+Usage: ls [OPTION]... [FILE]...
+List information about the FILEs (the current directory by default).
+Sort entries alphabetically if none of -cftuvSUX nor --sort.
+
+Mandatory arguments to long options are mandatory for short options too.
+  -a, --all                  do not ignore entries starting with .
+  -A, --almost-all           do not list implied . and ..
+  ...</pre></li>
+        <li>Depending on the command, you can use <code>-h</code>, 
+            or <code>--help</code>, or both, to get help
+        </li>
+    </ul>
+	
+	<h4 class="topic" id="system_manual">The System Manual</h4>
+	<ul class="flat">       
+        <li>Unix comes with two extensive documentation systems</li>
+        <li>The first system consist of the <code>man</code> pages</li>
+        <li>To use this system type <code>man</code> ...</li>
+        <li>followed by the name of the Unix command
+        <pre>
+man ls</pre>
+    	</li>
+    	<li>The man pages are usually several screens in length</li>
+        <li>To advance, hit the Enter key to move down one line ...</li>
+        <li>or the Space bar to move to the next screen</li>
+        <li>To exit, type <span class="char">q</span></li>
+        <li>You can move up and down through the <code>man</code> pages ...</li>
+        <li>by pressing the up and down arrow keys</li>
+        <li>The <code>man</code> pages are often very technical</li>
+        <li>They can be quite intimidating</li>
+        <li>But you don't have to read all of the page</li>
+        <li>You only have to read enough to answer your question</li>
+        <li>I usually read the first few lines which show the arguments expected</li>
+        <li>Then I skim down the list of options</li>
+        <li>Learn the art of reading just enough to get the job done</li>
+        <li>A dear friend of mine called this "guerrilla reading"</li>
+        <li>Go in ...</li>
+        <li>get what you need ...</li>
+        <li>and get out</li>
+    </ul>
+	
+	<h4 class="topic" id="info_system">The <code>info</code> System</h4>
+	<ul class="flat">       
+        <li>Linux also provides an entirely different documentation system</li>
+        <li>This system is menu-based ...</li>
+        <li>and was created by the GNU project</li>
+        <li>To enter this system use the <code>info</code> command</li>
+        <li>You can follow <code>info</code> with the name of a command</li>
+        <li>If you don't give an argument to <code>info</code> ...</li>
+        <li>you will see an introductory section</li>
+        <li>The up and down arrow keys will move up and down ...</li>
+        <li>one line at a time</li>
+        <li>The Space bar moves you down one screenful</li>
+        <li>The <code>info</code> system uses links ...</li>
+        <li>which are indicated by an asterisk, <span class="char">*</span></li>
+        <li>To use a link, move down to a line with an asterisk ...</li>
+        <li>and hit Enter</li>
+        <li>This will take you to a new page</li>
+        <li>To return to where you were, type <span class="char">l</span> (the letter "el")</li>
+        <li>Type <span class="char">h</span> for help</li>
+        <li>When you are done with the help page ...</li>
+        <li>type <span class="char">l</span> (el)</li>
+        <li>To leave the <code>info</code> system type <span class="char">q</span></li>
+        <li>For any utility created by the GNU project ...</li>
+        <li>the <code>info</code> documents are superior to the <code>man</code> pages</li>
+    </ul>
+	
+	<h4 class="topic" id="apropos">Searching for a Keyword with <code>apropos</code></h4>
+	<ul class="flat">       
+        <li><code>man</code> pages are useful ...</li>
+        <li>but only if you know the name of the command</li>
+        <li>What if you don't know the name of the command?</li>
+        <li>For this situation <code>apropos</code> was created</li>
+        <li>Follow <code>apropos</code> with a key word ...</li>
+        <li>and it will give you a list of <code>man</code> page topics</li>
+        <li><code>apropos</code>  takes the word you give it as an argument ...</li>
+        <li>and searches the short description line at the top of all <code>man</code> pages ...</li>
+        <li> for a match
+            <pre>
+$ apropos who
+at.allow (5)         - determine who can submit jobs via at or batch
+at.deny (5)          - determine who can submit jobs via at or batch
+bsd-from (1)         - print names of those who have sent mail
+btrfs-filesystem (8) - command group of btrfs that usually work on the whole filesystem
+from (1)             - print names of those who have sent mail
+rwho (1)             - who is logged in on local machines
+rwhod (8)            - system status server
+w (1)                - Show who is logged on and what they are doing.
+w.procps (1)         - Show who is logged on and what they are doing.
+who (1)              - show who is logged on
+whoami (1)           - print effective userid
+whom (1mh)           - report to whom a message would go</pre></li>
+    </ul>
+    
+    <h4 class="topic" id="getting_help_from_internet">Getting Help from the Internet</h4>
+    <ul class="flat">       
+    	<li>The Internet is also a very good source of information about Linux</li>
+    	<li>If you get a strange error message ...</li>
+    	<li>try typing it into Google</li>
+    	<li>There is a large amount of Linux documentation on the web</li>
+    	<li>One place to start is the Linux Documentation Project ...</li>
+    	<li>which you will find at <a href="http://www.tldp.org/">www.tldp.org</a></li>
+    </ul>
+    
+    <h4 class="topic" id="hw_dirs">Homework Directories</h4>
+    <ul class="flat">
+        <li>When you first log in, you will be in your home directory</li>
+        <li>You homework needs to go into another directory</li>
+        <li>Each of you should have a class directory, <span class="path">it244</span>...</li>
+        <li>in your home directory</li>
+        <li>For each homework assignment you <b>must</b> create a new homework directory ...</li>
+        <li>inside the <span class="path">hw</span> directory ...</li>
+        <li>inside your <span class="path">it244</span> directory</li>
+        <li>I use a shell script to collect your homework</li>
+        <li>If you put your homework in a different place ...</li>
+        <li>the script will fail</li>
+        <li>Grading homework takes a lot of time</li>
+        <li>Having to search for your work makes the grading take longer</li>
+        <li>If you put your homework somewhere else <b>you will lose 10 points</b></li>
+    </ul>
+    
+    <h4 class="topic" id="class_exercises">Class Exercises</h4>
+    <ul class="flat">       
+        <li>After I finish speaking at the beginning of each class ...</li>
+        <li>I will distribute a Class Exercise</li>
+        <li>You must work on this in class ...</li>
+        <li>so I can help you if you get into trouble</li>
+        <li>For each Class Exercise, you must create a new directory ...</li>
+        <li>inside a <span class="path">ex</span> directory ...</li>
+        <li>inside your <span class="path">it244</span> directory</li>
+        <li>When you are finished with the Class Exercise ...</li>
+        <li>call me over so I can check it</li>
+        <li>If you don't finish the Class Exercise in class ...</li>
+        <li>you can continue working on it ...</li>
+        <li>either at home or on campus</li>
+        <li>But you should finish it by Sunday at 11:59 PM</li>
+        <li>If you get stuck working on the assignment outside of class ...</li>
+        <li>post your problem on the class discussion area</li>
+        <li>I will not penalize you if you fail to complete the assignment on time ...</li>
+        <li>due to some emergency ...</li>
+        <li>but you must inform me of this in an email</li>
+    </ul>
+     
+	<h4 class="topic" id="hw_script">Using <code>script</code> in Homework 2</h4>
+    <ul class="flat">       
+        <li><a href="../hw_it244/02_hw_it244.html">Homework 2</a> is your first homework assignment using Unix</li>
+        <li>Most of the assignment involves work on <span class="host">users3</span></li>
+        <li>You need to create a text file using <code>nano</code> ...</li>
+        <li>or some other <code>Unix text</code> editor</li>
+        <li>You will also be asked to run a series of commands</li>
+        <li>Since I need a record of what you have done ...</li>
+        <li>so I can check you off for this assignment ...</li>
+        <li>you will have to use the <code>script</code> command</li>
+        <li>The <code>script</code> command keeps a record of what you type ...</li>
+        <li>and what Linux prints to the screen ...</li>
+        <li>in a text file</li>
+        <li>I will look this file to see you have completed the work</li>
+        <li>Your <code>script</code> session does not have to be perfect</li>
+        <li>If you make a mistake while running <code>script</code> ...</li>
+        <li>simply try again</li>
+        <li>But it is best for me if you practice what you need to do ...</li>
+        <li>before you use <code>script</code></li>
+        <li>If you don't, the typescript files can become very long</li>
+        <li>This means the grading takes much more time than it has to</li>
+        <li>So, please, run through the homework first without using <code>script</code></li>
+        <li>As you complete each step of the homework ...</li>
+        <li>you can copy and paste the Unix command into a text file</li>
+        <li>Then when you are <b>sure</b> that you have everything working ...</li>
+        <li>Run <code>script</code> copying command from your text file</li>
+        <li>This will save me a lot of time</li>
+        <li>Please <b>DO NOT</b> use an editor, like <code>nano</code> ...</li>
+        <li>while running <code>script</code></li>
+        <li>In other words, do not use <code>nano</code> inside <code>script</code></li>
+        <li>The control key sequences mess up the output</li>
+        <li>This makes it hard for me to read and grade your work</li>
+    </ul>
+        
+    <h3 class="section">Attendance</h3>
+    
+    <h3 class="section">Class Quiz</h3>
+    
+    
+	<footer>
+		<a href="class_notes_it244.html" class="spacer">Class Notes</a>
+		<a href="class_notes_index_it244.html" class="spacer">Class Notes Index</a>
+	</footer>
+    
+    
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/03_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:23 GMT -->
+</html>

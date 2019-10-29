@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/midterm_answers_f17_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:57 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="class_notes.css">
+    <title>IT 244: Introduction to Linux/Unix - Answers to Mid-term Exam</title>
+</head>
+<body>
+    <header>
+        <h2>
+            IT 244: Introduction to Linux/Unix <br>
+            Answers to Mid-term Exam
+        </h2>   
+    </header>
+	<ol class='flat'>
+		<li><!-- 3.6.0 -->
+             How do you you abort a running program? 
+            <pre><span class="answer">Control C</span></pre>
+        </li>
+        <li><!-- 4.5.1 -->
+            What would you type at the command line to see <b>all</b> the files in the directory 
+            named <span class="path">/home/tsoro</span>?
+            <pre><span class="answer">ls  -a  /home/tsoro</span></pre>
+        </li>
+        <li><!-- 7.1.0 -->
+            What is the name of the directory at the top of the Unix filesystem?
+            <pre><span class="answer">root</span></pre>
+        </li>
+        <li><!-- 7.2.0 -->
+            What symbol is used to represent the top of the Unix filesystem?
+            <pre><span class="answer">/</span></pre>
+        </li>
+        <li><!-- 7.3.0 -->
+            What is the parent directory?
+            <pre><span class="answer">the directory directly above your current directory</span></pre>
+        </li>
+        <li><!-- 8.1.0 -->
+            What is a startup file?
+            <pre><span class="answer">a text file containing Unix commands that are run just before the shell gives you a prompt</span></pre>
+        </li>
+        <li><!-- 8.8.0 -->
+            What directory is the starting point for an absolute path?
+            <pre><span class="answer">the root directory</span></pre>
+        </li>
+        <li><!-- 8.9.0 -->
+            What directory is the starting point for a relative path?
+            <pre><span class="answer">the current directory</span></pre>
+        </li>
+        <li><!-- 9.1.0 -->
+            By default, which account is the owner of a file or directory?
+            <pre><span class="answer">the account that created it</span></pre>
+        </li>
+        <li><!--  9.2.0 -->
+            Name the three types of access permissions.
+            <pre><span class="answer">read, write and execute</span></pre>
+        </li>
+        <li><!--  9.3.0 -->
+            Name the three categories of accounts which are used in assigning access permissions.
+            <pre><span class="answer">owner, group, everyone else</span></pre>
+        </li>
+        <li><!-- 10.3.0 -->
+            If you have read permission on a directory, can you read the files in that directory?
+            <pre><span class="answer">no, you need read permission on each file</span></pre>
+        </li>
+        <li><!-- 10.4.0 -->
+            If you have write permission on a directory, what can you do in that directory?
+            <pre><span class="answer">create a file or directory, delete a file or directory, rename a file or directory inside the directory</span></pre>
+        </li>
+        <li><!-- 10.5.0 -->
+            If you have write permission on a directory to you have write permission on the files it contains?
+            <pre><span class="answer">no, you need write permission on each file</span></pre>
+        </li>
+        <li><!-- 11.4.0 -->
+            What does the <span class="path">PATH</span> shell variable contain?
+            <pre><span class="answer">the list of directories the shell must search to find the file to run a command</span></pre>
+        </li>
+                <li>Write two commands that will take you to <b>your</b> home directory, 
+            that is, make <b>your</b> home directory the current directory.
+            <pre><span class="answer">Any two of the following are acceptable
+cd
+cd  ~
+cd ~UNIX_ID
+cd /home/UNIX_ID</span></pre>
+        </li>
+        
+        <li>Look at the <a href='midterm_directory_tree_it244.html'>diagram</a>
+         on the last page. Assume that you are in /<font color='blueviolet'>home/tsoro</font>. 
+         Now write the <b>single</b> command you would use to go to the directory named
+         <font color='blueviolet'>frank</font> 
+         using an <b>absolute</b> pathname.
+            <pre><span class="answer">cd /classes/it/it244/frank</span></pre>
+        </li>
+
+        <li>Again, look at the <a href='midterm_directory_tree_it244.html'>diagram</a>
+            on the last page. Assume that you are in the directory 
+            <font color='blueviolet'>/classes</font>.
+            Write the <b>single</b> command you would use to go to the directory 
+            <font color='blueviolet'>/classes/it/it244/frank</font> using a <b>relative</b> pathname.
+            <pre><span class="answer">cd it244/frank</span></pre>
+        </li>
+        
+        <li>Look at the <a href='midterm_directory_tree_it244.html'>diagram</a> on the last page.
+            Assume that you are in the directory <font color='blueviolet'>/home</font>.
+            Write a <b>single</b> command to go to the directory <font color='blueviolet'>/classes/it244</font> 
+            using a <b>relative</b> pathname. 
+            <pre><span class="answer">cd  ../classes/it/it244</span></pre>
+        </li>
+        
+        <li>Look at the <a href='midterm_directory_tree_it244.html'>diagram</a> on the last page.
+            Assume that you are in the directory named <font color='blueviolet'>frank</font>.
+            Write a command to create a symbolic link to the directory named
+            <font color='blueviolet'>classes</font>.
+               <pre><span class="answer">ln -s /classes
+    or
+ln -s ../.. classes</span></pre>    
+        </li>
+        
+        <li>Write the <b>single</b> command you would use to move the directory named 
+            <span class="path">work</span>
+            from your home directory to your current directory.
+            <pre><span class="answer">mv ~/dir .</span></pre>
+        </li>
+        
+        <li>Write the <b>single</b> command you would use to create the file
+            <span class="path">logged_on.txt</span> which would contain a listing
+            of all users currently logged on in <b>reverse</b> alphabetical order.
+            <pre><span class="answer">who | sort -r > logged_on.txt</span></pre>
+        </li>
+        
+        <li>Write the <b>single</b> command you would use to give the following permissions to the
+            file <span class="path">work.sh</span>. <br>
+            The owner should be able to do anything with the file. <br>
+            The group should only be able to read and execute the file. <br>
+            Everyone else should only be able to read the file. <br>
+            <pre><span class="answer">chmod 754 work.sh</span></pre>
+        </li>
+        
+        <li>Write the<b>single</b> command you would use to to give the following permission to
+            the directory <span class="path">dir1</span>.
+            The owner should be able to do everything. <br>
+            The group should be able to run <code>ls</code> and <code>cd</code> on the
+            directory. <br>
+            Everyone else should have no permission on the directory. <br>
+            <pre><span class="answer">chmod 750 dir1</span></pre>
+        </li>
+        
+        <li>The file <font color='blueviolet'>red_sox.txt</font> in your current directory has the format
+            <pre>
+        2011-07-02      Red Sox @  Astros       Win 7-5
+        2011-07-03      Red Sox @  Astros       Win 2-1
+        2011-07-04      Red Sox vs Blue Jays    Loss 7-9
+        2011-07-05      Red Sox vs Blue Jays    Win 3-2
+        …</pre>
+            Write a command to find all Red Sox wins when they are <b>not</b> playing at home. <br>
+            When "vs" appears between the names of the two teams, it means it is a home game. <br>
+            <pre><span class="answer">grep  Win  red_sox.txt   |   grep -v  vs</span></pre>
+        </li>
+	</ol>
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/midterm_answers_f17_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:58 GMT -->
+</html>

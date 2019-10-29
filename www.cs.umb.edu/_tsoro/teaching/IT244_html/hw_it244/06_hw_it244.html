@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/hw_it244/06_hw_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:57 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title>IT 244: Introduction to Linux/Unix - Homework 6</title>
+</head>
+<body>
+<h2>    
+    IT 244: Introduction to Linux/Unix <br>
+    Homework 6
+</h2>
+
+	<h3 class="section">Due Sunday, March 04th at 11:59 PM</h3>
+	All this work should be done on <span class="host">users3.cs.umb.edu</span>
+	
+	<h3 class="section">Deliverables</h3>
+	<ol>
+		<li>
+			A shell script named <span class="path">hw6.sh</span> that performs the operations listed below. <br>
+        	This file should be in an <span class="path">hw6</span> directory inside your 
+        	<span class="path">hw</span> directory inside your <span class="path">it244</span> directory. <br>
+        	100 points
+  		</li>
+	</ol>
+
+	<h3>Requirements</h3>
+	<ul class="flat">
+		<li>Create an <span class="path">hw6</span> directory in your <span class="path">hw</span> directory 
+    		inside your <span class="path">it244</span> directory
+    	</li>
+    	<li>Go to the <span class="path">hw6</span> directory and run Unix commands that will execute the steps below</li>
+    	<li>When you have a command line that does what the step asks you to do, paste it into 
+			<span class="path">hw6.sh</span> using <code>nano</code> or any other text editor
+		</li>
+		<li>When you have completed all the steps, create an <code>echo</code> statement before the commands 
+    		for each step, that will print the step number to the terminal
+    	</li>
+    </ul>
+    
+	<h3>Testing</h3>
+	<ul class="flat">       
+         <li>The script <span class="path">hw6.sh</span> <b>must</b> have the format specified in
+        	this <a href="../shell_scripts_homework.html">document</a>
+        </li>
+        <li>Scripts that do not follow the rules specified in the document mentioned above will 
+        	will have points deducted from their score
+        </li>
+        <li>Be sure to test your script and correct any errors you find</li>
+        <li>You will lose 5 points for each error that occurs when running your script</li>
+        <li>To run your script and see only the error messages run the following command
+        	<pre>
+bash  hw6.sh  &gt;  /dev/null</pre>
+        </li>
+    </ul>
+    
+    <h3>Steps for Script</h3>
+	<ol>
+		<li> <!-- Step 1 -->
+		Run a command which will show how much free space exists on the file system. <br>
+		You <b>must</b> use an option which will show the space in a way that 
+	    is easy for human beings, like us, to understand. 
+		</li>
+		<li> <!-- Step 2 -->
+	    Run <code>cat</code> with an option that prints to the terminal a help message for this command.
+		</li>
+		<li> <!-- Step 3 -->
+	    Print to the terminal the value of a variable that shows where the shell will look 
+	    for an executable file to match the command you typed at the terminal. 
+		</li>
+		<li> <!-- Step 4 -->
+	    In <span class="path">~tsoro/course_files/it244_files</span> you will find a file named 
+	    <span class="path">hello.sh</span>. <br>
+	    Stay in your <span class="path">hw6</span> 
+	    directory and run <span class="path">hello.sh</span> using an <b>absolute</b> pathname.  <br>
+	    Run this script <b>without using</b> <code>bash</code>,  or any other shell, followed by the name
+	    of file.
+		</li>
+		<li> <!-- Step 5 -->
+	    Copy <span class="path">hello.sh</span> to your <span class="path">hw6</span> directory. <br>
+	    List the contents of your <span class="path">hw6</span> directory to make sure file was copied. <br>
+	    Run this copy <span class="path">hello.sh</span> using a <b>relative</b> pathname. <br>
+	    You must do this while staying in your 
+	    <span class="path">hw6</span> directory and without using <code>bash</code> or any other shell.
+		</li>
+		<li> <!-- Step 6 -->
+	    In the directory <span class="path">/home/tsoro/course_files/it244_files</span>, 
+	    you will find a <span class="path">red_sox.txt</span> file. <br>
+	    Stay in your <span class="path">hw6</span> directory. <br>
+	    Using redirection, create the file <span class="path">red_sox_wins.txt</span>.<br>
+	    This file must contain all the entries in <span class="path">red_sox.txt</span> 
+	    where the Red Sox won. <br>
+	    <b>Do not</b> copy the <span class="path">red_sox.txt</span>
+	    file to your <span class="path">hw6</span> but use a relative or absolute path to this file in
+	    the <span class="path">/home/tsoro/course_files/it244_files</span> directory. <br>
+	    Print the contents of this file to the terminal.
+		</li>
+		<li> <!-- Step 7 -->
+	    List the contents of your current directory. <br>
+	    Print to the terminal the exit status of the command you just ran. <br>
+	    Try to list the contents of a directory that does not exists like <span class="path">xxxxxxx</span>. <br>
+	    Print to the terminal the exit status of the command you just ran. <br>
+		</li>
+		<li> <!-- Step 8 -->
+		Stay in your <span class="path">hw6</span> directory. <br>
+	    Using <code>ls</code> and output redirection, create a file named <span class="path">dir_listing.txt</span> 
+	    that contains the list of files in your <b>home</b> directory. <br>
+	    Print this file to the terminal.
+		</li>
+		<li> <!-- Step 9 -->
+		Stay in your <span class="path">hw6</span> directory. <br>
+	    Using redirection, create a file named <span class="path">list.txt</span> containing a list
+	    of all the users currently logged in. <br>
+	    Print this file to the terminal.
+		</li>
+		<li> <!-- Step 10 -->
+		Stay in your <span class="path">hw6</span> directory. <br>
+	    Using redirection, add a listing of the contents of your <span class="path">hw6</span> directory to
+	    <span class="path">dir_listing.txt</span>. <br>
+	    That is, I want you to keep the original contents of <span class="path">dir_listing.txt</span> intact 
+	    while running <code>ls</code> of your current directory to it. <br>
+	    Print this file to the terminal.
+		</li>
+	</ol>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/hw_it244/06_hw_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:57 GMT -->
+</html>

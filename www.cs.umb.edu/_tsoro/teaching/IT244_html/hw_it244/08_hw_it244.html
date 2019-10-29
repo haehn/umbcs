@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/hw_it244/08_hw_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:57 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title>IT 244: Introduction to Linux/Unix - Homework 8</title>
+</head>
+<body>
+<h2>
+    IT 244: Introduction to Linux/Unix <br>
+    Homework 8
+</h2>
+
+    <!-- STEP 4 REQUIRES TWO POPDS. SHOULD BE CHANGED -->
+    <!-- IMPROVE WORDING OF STEP 7 -->
+	<h3 class="section">Due Sunday, April 01st 11:59 PM</h3>
+    All this work should be done on <span class="host">users3.cs.umb.edu</span>
+    
+	<h3 class="section">Deliverables</h3>
+	<ol>
+		<li>
+			A shell script named <span class="path">hw8.sh</span> that performs the operations listed below. <br>
+        	This file should be in an <span class="path">hw8</span> directory inside your 
+        	<span class="path">hw</span> directory inside your <span class="path">it244</span> directory. <br>
+        	100 points
+  		</li>
+	</ol>
+
+	<h3 class="section">Requirements</h3>
+	<ul class="flat">
+		<li>Create an <span class="path">hw8</span> directory in your <span class="path">hw</span> directory 
+    		inside your <span class="path">it244</span> directory
+    	</li>
+    	<li>Go to the <span class="path">hw8</span> directory and run Unix commands that will execute the steps below</li>
+    	<li>When you have a command line that does what the step asks you to do, paste it into 
+			<span class="path">hw8.sh</span> using <code>nano</code> or any other text editor
+		</li>
+		<li>When you have completed all the steps, create an <code>echo</code> statement before the commands 
+    		for each step, that will print the step number to the terminal
+    	</li>
+    </ul>
+    
+	<h3 class="section">Testing</h3>
+	<ul class="flat">       
+         <li>The script <span class="path">hw8.sh</span> <b>must</b> have the format specified in
+        	this <a href="../shell_scripts_homework.html">document</a>
+        </li>
+        <li>Scripts that do not follow the rules specified in the document mentioned above will 
+        	will have points deducted from their score
+        </li>
+        <li>Be sure to test your script and correct any errors you find</li>
+        <li>You will lose 5 points for each error that occurs when running your script</li>
+        <li>To run your script and see only the error messages run the following command
+        	<pre>
+./hw8.sh  &gt;  /dev/null</pre>
+        </li>
+    </ul>
+    
+    <h3 class="section">Steps for Script</h3>
+	<ol>
+		<li> <!-- Step 1 -->
+	        Perform the following actions
+		    <ul class="flat">       
+	            <li class="flat">Run <code>ls</code> on a file that does not exist</li>
+	            <li class="flat">Run <code>ls</code> on the same file, but redirect Standard Error to 
+	                <span class="path">/dev/null</span>
+	            </li>
+	            <li class="flat">Run <code>ls</code> on the same file, but redirect Standard Error to 
+	                <span class="path">errors.txt</span>
+	            </li>
+	            <li class="flat">Print <span class="path">errors.txt</span> to the terminal</li>
+	        </ul>
+		   Run one command for each of the items above.
+		</li>
+		
+		<li> <!-- Step 2 -->
+		Using 3 commands <b>on the same command line</b>
+		   <ul class="flat">       
+	        <li class="flat">Go to your home directory</li>
+	        <li class="flat">Run <code>ls</code></li>
+	        <li class="flat">Return to your <span class="path">hw8</span> directory</li>
+	        </ul>
+		</li>
+		<li> <!-- Step 3 -->
+	        Copy <span class="path">bother10.sh</span> from <span class="path">/home/tsoro/course_files/it244_files</span>
+	        to your <span class="path">hw8</span> directory. <br>
+	        Write a <b>single</b> command line that
+	        <ul class="flat">       
+	            <li class="flat">Runs <span class="path">bother10.sh</span> in the background sending the output to <span class="path">/dev/null</span></li>
+	            <li class="flat">Runs <span class="path">bother10.sh</span> in the background sending the output to <span class="path">/dev/null</span></li>
+	            <li class="flat">Runs <span class="path">bother10.sh</span> in the background sending the output to <span class="path">/dev/null</span></li>
+	            <li class="flat">Runs <code>ps</code> in the <b>foreground</b></li>
+	        </ul>
+		</li>
+		<li> <!-- Step 4 -->
+	        Using the directory stack mechanism do the following
+	        <ul class="flat">       
+	            <li class="flat">Go to <b>your</b> home directory</li>
+	            <li class="flat">Show your position in the filesystem</li>
+	            <li class="flat">Go to <b>my</b> home directory</li>
+	            <li class="flat">Show your position in the filesystem</li>
+	            <li class="flat">Return to <b>your</b> home directory</li>
+	            <li class="flat">Show your position in the filesystem</li>
+	            <li class="flat">Return to you <span class="path">hw8</span> directory</li>
+	            <li class="flat">Show your position in the filesystem</li>
+	        </ul>
+		</li>
+		<li> <!-- Step 5 -->
+	        Do the following
+	        <ul class="flat">       
+	            <li class="flat">Create the <b>local</b> variable <span class="iden">foo</span> and assign it the value "FOO"</li>
+	            <li class="flat">Create the <b>global</b> variable <span class="path">bar</span> and assign it the value "BAR"</li>
+	            <li class="flat">Write a <b>single</b> command that will print the values of <span class="iden">foo</span> and <span class="iden">bar</span></li>
+	        </ul>
+		</li>
+		
+		<li> <!-- Step 6 --> 
+		    Do the following
+		    <ul class='flat'>       
+                <li  class='flat'>Copy <span class="path">print_foo_bar.sh</span> from 
+                    <span class="path">/home/tsoro/course_files/it244_files</span>
+                    to your <span class="path">hw8</span> directory
+                </li>
+                <li class='flat'>Run <span class="path">print_foo_bar.sh</span></li>
+            </ul>
+	        The value of <span class="iden">foo</span> will not print because it is local to the 
+	        login shell and cannot be seen in a subshell.
+		</li>
+		
+		<li> <!-- Step 7 -->
+	        Do the following
+	        <ul class="flat">       
+	            <li class="flat">Create the <b>global</b> variable <span class="iden">my_city</span> 
+	               and assign it the name of the town you live in
+	            </li>
+	            <li class="flat">Write an <code>echo</code> statement that uses <span class="iden">my_city</span> 
+	               to tell me where you live. <br>
+	                The <b>entire</b> statement <b>must</b> be quoted.
+	            </li>
+	        </ul>
+		</li>
+		
+		<li> <!-- Step 8 -->
+	        Print the value of the keyword shell variable whose value is a list of all the directories Bash will search to find an executable file with the
+	        same name as the command you typed on the command line.
+		</li>
+		
+		<li> <!-- Step 9 -->
+	        Print the value of the keyword shell variable whose value is the absolute pathname of your default shell.
+		</li>
+		
+		<li> <!-- Step 10 -->
+	        Run a command that will show you all your global variables.
+		</li>
+	
+	</ol>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/hw_it244/08_hw_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:57 GMT -->
+</html>

@@ -1,0 +1,141 @@
+.carousel {
+  position: relative;
+  margin-bottom: 0px;
+}
+.carousel-inner {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+.carousel-inner > .item {
+  display: none;
+  position: relative;
+  -webkit-transition: 0.6s ease-in-out left;
+  transition: 0.6s ease-in-out left;
+}
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img {
+  line-height: 1;
+}
+.carousel-inner > .active,
+.carousel-inner > .next,
+.carousel-inner > .prev {
+  display: block;
+}
+.carousel-inner > .active {
+  left: 0;
+}
+.carousel-inner > .next,
+.carousel-inner > .prev {
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+.carousel-inner > .next {
+  left: 100%;
+}
+.carousel-inner > .prev {
+  left: -100%;
+}
+.carousel-inner > .next.left,
+.carousel-inner > .prev.right {
+  left: 0;
+}
+.carousel-inner > .active.left {
+  left: -100%;
+}
+.carousel-inner > .active.right {
+  left: 100%;
+}
+
+.carousel-indicators {
+  top: 15px;
+  right: 15px;
+  position: absolute;
+  bottom: 10px;
+  z-index: 15;
+  margin-left: -30%;
+  padding-left: 0;
+  list-style: none;
+  text-align: center;
+  height: 15px;
+}
+.carousel-indicators li {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin: 1px;
+  text-indent: -999px;
+  border: 1px solid black;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: rgba(242, 241, 235, 0.8);
+}
+.carousel-indicators .active {
+  margin: 0;
+  width: 12px;
+  height: 12px;
+  background-color: #ffffff;
+}
+.carousel-caption {
+  position: absolute;
+  left: 15%;
+  right: 15%;
+  bottom: 20px;
+  z-index: 10;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  color: #fff;
+  text-align: left;
+  text-shadow: none;
+  width: 50%;
+}
+.carousel-caption .btn {
+  text-shadow: none;
+}
+
+.carousel-caption {
+  left: 20%;
+  right: 20%;
+  padding-bottom: 30px;
+}
+.carousel-indicators {
+  bottom: 20px;
+}
+
+.carousel-indicators .active {
+	background-color:#fff
+}
+.carousel-caption {
+	position:absolute;
+	right:0;
+	bottom:0;
+	left:0;
+	padding:15px;
+	background:rgba(242, 241, 235, 0.6);
+}
+.carousel-caption h4,.carousel-caption p {
+	line-height:20px;
+	color:#fff
+}
+.carousel-caption h4 {
+	margin:0 0 5px
+}
+.carousel-caption p {
+	margin-bottom:0
+}
+.carousel-control.right {
+  text-align: center;
+}
+
+div.carousel div.carousel-caption,
+div.carousel div.carousel-caption p,
+div.carousel div.carousel-caption h1,
+div.carousel div.carousel-caption h2,
+div.carousel div.carousel-caption h3,
+div.carousel div.carousel-caption h4,
+div.carousel div.carousel-caption h5,
+div.carousel div.carousel-caption span,
+div.carousel div.carousel-caption a {
+	font-weight: normal;
+}

@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/24_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:43 GMT -->
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="../class_notes.css">
+	<title> IT 244: Introduction to Linux/Unix - Class 24</title>
+</head>
+<body>
+	<header>
+		<h2> 
+		    IT 244: Introduction to Linux/Unix <br>
+		    Class 24
+		</h2>	
+	</header>
+
+    <!-- IN PRACTICAL EXAMPLES SECTION DO upsvn.sh FIRST -->
+    <!-- DEVELOPE HW COLLECTION SCRIPT USING INCREMENTAL DEVELOPMENT -->
+    <!-- REWITE EXAMPLES AT END OF CLASS NOTES -->
+    <h3 class="section">Today's Topics</h3>
+    <h4 class="flat_under">Review</h4>
+    <ul class="flat_top">
+		<li class="flat"><a href="#using_test_in_scripts">Using <code>test</code> in Scripts</a></li>
+		<li class="flat"><a href="#checking_arguments_to_script">Checking the Arguments to a Script</a></li>
+		<li class="flat"><a href="#if_then_else">The <code>if ... then ... else ...</code> Construct</a></li>
+		<li class="flat"><a href="#if_then_elif">The <code>if ... then ... elif ...</code> Construct</a></li>
+        <li class="flat"><a href="#debugging_scripts">Debugging Scripts</a></li>
+    </ul>
+  
+    <h4 class="flat_under">New Material</h4>
+    <ul class="flat_top">
+        <li class="flat"><a href="#for_in_loops"><code>for ... in ...</code> Loops</a></li>
+		<li class="flat"><a href="#for_loops"><code>for</code> Loops</a></li>
+		<li class="flat"><a href="#three_statement_for_loops">Three Statement <code>for</code> Loops</a></li>
+		<li class="flat"><a href="#while_loops"><code>while</code> Loops</a></li>
+		<li class="flat"><a href="#until_loops"><code>until</code> Loops</a></li>
+		<li class="flat"><a href="#continue"><code>continue</code></a></li>
+		<li class="flat"><a href="#break"><code>break</code></a></li>
+		<li class="flat"><a href="#real_world_for_loops">Real World <code>for</code> Loop Examples</a></li>
+    </ul>
+    
+    <h3 class="section">Homework 11</h3>
+    <p class="flat">I have posted homework 11 <a href="../hw_it244/11_hw_it244.html">here</a>.</p>
+    <p>It is due this coming Sunday at 11:59 PM.</p>
+    <p>This is the last homework assignment.</p>
+    
+    <h3 class="section">Final Exam</h3>
+    <p class="flat">The final exam will be given on Tuesday, December 19th from 3:00 - 6:00.</p>
+    <p>The exam will be given in McCormack 3-430.</p>
+    <p>There will be 50 questions, which will be similar to the questions on the mid-term and
+       the quizzes.
+    </p>
+    <p>As with the Mid-term, 60% of the questions will come from the ungraded Class Quizzes.</p>
+    <p>The questions will cover <b>all</b> of the material for this course.</p>
+    <p>The last class, Tuesday, December 12th, will be a review session.</p>
+    <p>You will only be responsible for the material contained in the Class Notes for
+       that class, and the Class Notes for the review session for the Mid-term,
+       which you will find <a href="14_class_notes_it244.html">here</a>.
+    </p> 
+    <p>Although the time alloted for the exam is 3 hours, I would
+       expect that most of you would not need that much time.
+    </p>
+    <p>You will not be able to leave the room until you turn in your exam paper
+       so you should visit the restroom before you take the test.
+    </p>
+    <p>The final is a closed book exam.</p>
+    
+    <h3 class="section">Review</h3>
+    <h4 class="topic" id="using_test_in_scripts">Using <code>test</code> in Scripts</h4>
+	<ul class="flat">
+	    <li>To make shell scripting look more like a "real" programming language ...</li>
+    	<li>Bash provides a synonym for <code>test</code> ...</li>
+    	<li>a pair of square brackets, <span class="char">[ ] </span></li>
+    	<li>To test whether the value of the variable <span class="iden">number1</span> </li>
+    	<li>is greater than the value of the variable <span class="iden">number2</span> </li>
+		<li>you could write either
+			<pre>
+    <span class="red">test</span> $number1 -gt $number2</pre>
+	or
+			<pre>
+    <span class="red">[</span> $number1 -gt $number2 <span class="red">]</span></pre></li>
+	    <li>Whenever you use this construction </li>
+		<li>there <b>must</b> be a space ...</li>
+		<li>before and after each square bracket</li>
+		<li><code>test</code> returns true or false through the exit status</li>
+		<li>If <code>test</code> returns an exit status of 0 ...</li>
+		<li>it means the condition was true</li>
+		<li>If the condition is false ...</li>
+		<li><code>test</code> returns an exit status of 1</li>
+    </ul>
+	
+	<h4 class="topic" id="checking_arguments_to_script">Checking the Arguments to a Script</h4>
+	<ul class="flat">
+	    <li>If a script <b>must</b> have a certain number of arguments to run ...</li>
+    	<li>it should check for them</li>
+    	<li>If it doesn't get the right number of arguments ...</li>
+    	<li>it should print a usage message and exit</li>
+    	<li>A usage message has a standard form
+    		<pre>
+    <span class="format">Usage:   PROGRAM_NAME  ARG1  ARG2  ...</span></pre>
+    	</li>
+    	<li>After the program name, there should be one string for each argument </li>
+    	<li>The string should indicate what sort of value is needed</li>
+    	<li>For example <span class="red">DIR_NAME</span> when a directory name is required</li>
+    	<li>Use the positional parameter <span class="iden">0</span> along with the <code>basename</code> command ...</li>
+    	<li>to get the program name</li>
+    </ul>
+	
+	<h4 class="topic" id="if_then_else">The <code>if ... then ... else ...</code> Construct</h4>
+	<ul class="flat">
+	    <li>The another conditional is the <code>if ... then ... else ...</code> construct ...</li>
+    	<li> which has the following format
+    			<pre>
+    <span class="format">if  COMMAND
+    then
+      COMMAND_1
+      COMMAND_2
+      ....
+    else
+      COMMAND_A
+      COMMAND_B
+      ...
+    fi</span></pre>
+    	</li>
+    	<li>If COMMAND returns an exit status of 0 ...</li>
+    	<li>COMMAND_1, COMMAND_2, ... will be executed ...</li>
+    	<li>otherwise COMMAND_A, COMMAND_B, ..., will be run</li>
+    </ul>
+	
+	<h4 class="topic" id="if_then_elif">The <code>if ... then ... elif ...</code> Construct</h4>
+	<ul class="flat">
+    	<li>The <code>if ... then ... elif ...</code> construct allows you to create 
+	nested <code>if</code> statements
+	<pre>
+    <span class="format">if COMMAND
+    then
+      COMMAND_1
+      COMMAND_2
+      ...
+    elif ANOTHER_COMMAND
+    then
+      COMMAND_A
+      COMMAND_B
+      ...
+    ...
+    else
+      COMMAND_N1
+      COMMAND_N2
+      ...
+    fi</span></pre></li>
+		<li><code>elif</code> stands for "else if"</li>
+		<li>Notice that <code>elif</code> must be followed by <code>then</code></li>
+		<li>The <code>then</code> must either be on the next line ...</li>
+		<li>or the same line separated by a semi-colon, <span class="char">;</span></li>
+		<li>The <code>else</code> statement must be terminated by a <code>fi</code></li>
+		<li><code>elif</code> only requires a single <code>fi</code> at the end</li>
+    </ul>
+    
+    <h4 class="topic" id="debugging_scripts">Debugging Scripts</h4>
+    <ul class="flat">
+    	<li>If you run a script using <code>bash</code> with the -x option ...</li>
+    	<li>the shell will print each line of the script ...</li>
+    	<li>just before it executes that line
+    		<pre>
+    $ cat match_three.sh 
+    #! /bin/bash
+    #
+    # takes three stings as input and compares them
+
+    if [ $# -lt 3 ]
+    then
+        echo Usage: $(basename $0) string1 string2 string3
+        exit 1
+    fi
+
+    if [ "$1" = "$2" -a "$2" = "$3" ]
+    then
+        echo "All arguments match"
+    elif [ "$1" = "$2" ]
+    then
+        echo "Arguments 1 and 2 match"
+    elif [ "$1" = "$3" ]
+    then
+        echo  "Arguments 1 and 3 match"
+    elif [ "$2" = "$3" ]
+    then
+        echo  "Arguments 2 and 3 match"
+    else
+        echo "No arguments match"
+    fi
+    
+    $ <span class="red">bash -x</span> match_three.sh foo bar foo
+    <span class="red">+ '[' 3 -lt 3 ']'
+    + '[' foo = bar -a bar = foo ']'
+    + '[' foo = bar ']'
+    + '[' foo = foo ']'
+    + echo 'Arguments 1 and 3 match'</span>
+    Arguments 1 and 3 match</pre>
+    	</li>
+    	<li>Before <code>bash</code> prints a line from the script ...</li>
+    	<li>it prints a plus sign, <span class="char">+</span></li>
+    	<li>to let you know that the line is not output from the script</li>
+    </ul>
+    
+	<h3 class="section">New Material</h3>
+	
+	<h4 class="topic" id="for_in_loops"><code>for ... in ...</code> Loops</h4>
+	<ul class="flat">
+	    <li>The most common programming construct after the <code>if</code> statement ...</li>
+		<li>is the loop</li>
+		<li>Bash provides many kinds of loops ...</li>
+		<li>but we'll start with the <code>for ... in </code>loop ...</li>
+		<li>which has the following format
+	<pre>
+    <span class="format">for LOOP_VARIABLE  in  LIST_OF_VALUES
+    do
+        COMMAND_1
+        COMMAND_2
+        ...
+    done</span></pre></li>
+	<li>The <code>do</code> must be on a different line from <code>for</code> ...</li>
+	<li>unless you place a semicolon, <span class="char">;</span>, before the <code>do</code> ...</li>
+    <li>just like <code>then</code> in an <code>if</code> statement</li>
+    <li>The commands between <code>do</code> and <code>done</code> ...</li>
+    <li>are repeated each time through the loop</li>	
+	<li>In a <code>for ... in</code> loop, Bash
+		<ul class="flat">
+    		<li class="flat">Assigns the first value in the LIST_OF_VALUES ...<br>
+    		      to the variable specified by LOOP_VARIABLE
+    		</li>
+    		<li class="flat">Executes the commands between <code>do</code> and  <code>done</code> </li>
+    		<li class="flat">Assigns the next value in the LIST_OF_VALUES ...<br>
+    		      to the LOOP_VARIABLE
+    		</li>
+    		<li class="flat">Executes the commands between <code>do</code> and the <code>done</code> again</li>
+    		<li class="flat">And so on until each value in LIST_OF_VALUES has been used</li>
+    	</ul>
+	</li>
+	<li>Here is an example
+		<pre>
+    $ cat fruit.sh
+    #! /bin/bash
+    #
+    # demonstrates the for in loop
+
+    <span class="red">for fruit in apples oranges pears bananas
+    do
+        echo $fruit
+    done</span>
+    echo Task complete.
+	
+    $ ./fruit.sh 
+    apples
+    oranges
+    pears
+    bananas
+    Task complete.</pre>
+		</li>
+		<li>Notice that the variable <span class="iden">fruit</span> ...</li>
+		<li>does not have a dollar sign in front of it ...</li>
+		<li>when it appears after <code>for</code></li>
+		<li>That's because here we are dealing with the variable ...</li>
+		<li>not its value</li>
+		<li>We are telling Bash which variable to use ...</li>
+		<li>when storing the values in the list</li>
+    </ul>
+		
+	<h4 class="topic" id="for_loops"><code>for</code> Loops</h4>
+	<ul class="flat">       
+        <li>The <code>for</code> loop ...</li>
+        <li>is simpler than the <code>for ... in ...</code> loop</li>
+        <li>and has the following format
+            <pre>
+    <span class="format">for LOOP_VARIABLE
+    do
+        COMMAND_1
+        COMMAND_2
+        ...
+    done</span></pre>
+        </li>
+        <li>The difference between the two <code>for</code> loops ...</li>
+        <li>is where they get the values ...</li>
+        <li>assigned to the loop variable</li>
+        <li>The <code>for ... in ...</code> loop gets values ...</li>
+        <li>from the list that follows <code>in</code> </li>
+        <li>These values are "<a class="def" href="../../definitions.html#hard_coded">hard coded</a>" into the script</li>
+        <li>They never change</li>
+        <li>In practice, the list of values is often created using 
+        	<a class="def" href="../../definitions.html#bash_meta-characters">meta-characters ...</a>
+        </li>
+        <li>so the actual values changed depending on where the <code>for</code> loop is run</li>
+        <li>The plain <code>for</code> loop gets its values from the command line</li>
+        <li>The plain <code>for</code> loop ...</li>
+        <li>can have different values each time it is run</li>
+        <li>Here is an example
+            <pre>
+    $ cat for_test.sh 
+    #! /bin/bash
+    #
+    # demonstrates the simple for loop
+
+    <span class="red">for arg
+    do
+        echo $arg
+    done</span>
+    
+    $ ./for_test.sh <span class="red">foo bar bletch</span>
+    foo
+    bar
+    bletch
+    
+    $ ./for_test.sh <span class="red">bing bang boom</span>
+    bing
+    bang
+    boom</pre>
+        </li>
+    </ul>
+	
+	<h4 class="topic" id="three_statement_for_loops">Three Statement <code>for</code> Loops</h4>
+	<ul class="flat">       
+        <li>The <code>for</code> loops above are very different ...</li>
+        <li>from the for loops in programming languages</li>
+        <li>In  programming languages, the <code>for</code> statement
+        	<ul class="flat">
+    			<li class="flat">Initializes a loop variable</li>
+    			<li class="flat">Tests the value of the loop variable ... <br>
+    			     to decide whether to run the loop one more time
+    			</li>
+    			<li class="flat">Changes the loop variable ... <br>
+    			     at the end of the loop code
+    			</li>
+    		</ul>
+        </li>
+        <li>The <code>for</code> statements in programming lanugages ...</li>
+        <li><b>create</b> the values used in the loop</li>
+        <li>But the <code>for</code> loops above ...</li>
+        <li><b>must be given</b> the values ...</li>
+        <li>used in the loop</li>
+        <li>In the <code>for ... in ...</code> statement ...</li>
+        <li>the values come after <code>in</code> ...</li>
+        <li>in the script itself</li>
+        <li>In the plain <code>for</code> statement ...</li>
+        <li>the values are given at the command line</li>
+        <li>But there is a third form of <code>for</code> loop in Bash</li>
+        <li>This form creates the values for the loop variable the same way ...</li>
+        <li>as the for loop in programming languages</li>
+        <li>It has the following form
+            <pre>
+    <span class="format">for (( STMT_1; STMT_2; STMT_3 ))
+    do
+        COMMAND_1
+        COMMAND_2
+        ...
+    done</span></pre>
+        </li>
+        <li>Notice that the three statements ...</li>
+        <li>are inside <b>double parentheses</b></li>
+        <li>That means that anything inside ...</li>
+        <li>will be treated as numbers ...</li>
+        <li>not text</li>
+        <li>The first statement sets the value of the loop variable</li>
+        <li>The second is a logical statement</li>
+        <li>As long as it is true ...</li>
+        <li>the loop will continue</li>
+        <li>The third statement changes the value ...</li>
+        <li>of the loop variable ...</li>
+        <li><b>after</b> each pass through of the loop</li>
+        <li>Let's look at an example
+            <pre>
+    $ cat count_to_five.sh 
+    #! /bin/bash
+    #
+    # this script demonstrates the three statement for loop
+
+    for <span class="red">(( count=1; count&lt;=5; count++ ))</span>
+    do
+        echo $count
+    done
+    
+    $ ./count_to_five.sh 
+    1
+    2
+    3
+    4
+    5</pre>
+        </li>
+        <li>The statement <span class="iden">count</span>++ ...</li>
+        <li>increases the value of <span class="iden">count</span> by one</li>
+        <li>Without this third statement ...</li>
+        <li>the loop would never end ...</li>
+        <li>and we would have an infinite loop</li>
+    </ul>
+    
+    <h4 class="topic" id="while_loops"><code>while</code> Loops</h4>
+    <ul class="flat">
+        <li>The first two <code>for</code> loops keep running ...</li>
+    	<li>until all values supplied to them ...</li>
+    	<li>have been used in the loop</li>
+    	<li>A <code>while</code> loop continue running ...</li>
+    	<li>as long as the test command returns a status code of 0</li>
+    	<li><code>while</code> loops have the form
+    		<pre>
+    <span class="red">while  COMMAND
+    do
+        COMMAND_1
+        COMMAND_2
+        ...
+    done</span></pre>
+    	</li>
+    	<li>As long as the COMMAND returns a status code of 0</li>
+    	<li>the commands between <code>do</code> and <code>done</code> ...</li>
+    	<li>will be run</li>
+    	<li>Let's look at an example
+			<pre>
+    $ cat count_to_nine.sh 
+    #! /bin/bash
+    #
+    # counts to 9, then stops
+	
+    number=0
+    <span class="red">while [ $number -lt 10 ] </span>
+    do
+        echo -n $number
+        <span class="red">(( number += 1))</span>
+    done
+	
+    $ ./count_to_nine.sh 
+    0123456789</pre>
+    	</li>
+    	<li>The line after <code>echo -n</code> ...</li>
+    	<li>the one with the double parentheses ...</li>
+    	<li>tells Bash to interpret the expression as a number...</li>
+    	<li>not a string</li>
+    	<li>The <span class="char">+=</span> operator ...</li>
+        <li>tells Bash to add the number that follows ...</li>
+        <li>in this case 1 ...</li>
+        <li>to the current value of <span class="iden">number</span></li>
+        <li>The <code>echo</code> command in the while loop uses the -n option ...</li>
+        <li>and does not print a newline</li>
+        <li>This allows the script to print the numbers ...</li>
+        <li>one right after the other ...</li>
+        <li>all on the same line</li>
+        <li>To end the output and get a new line ...</li>
+        <li>we need the final <code>echo</code> command</li>
+        <li>The condition that the <code>while</code> loop tests ...</li>
+        <li>must change ...</li>
+        <li>or the <code>while</code> loop will run forever
+            <pre>
+    $ cat forever.sh 
+    #! /bin/bash
+    #
+    # this loop runs forever
+    
+    number=0
+    while <span class="red">[ $number -lt 10 ]</span>
+    do
+      echo  $number
+    done
+    
+    $ ./forever.sh 
+    0
+    0
+    0
+    0
+    <span class="red">^C</span>  </pre>
+        </li>
+        <li>The value of <span class="iden">number</span> never changes ...</li>
+        <li>so the expression given to <code>test</code> never becomes false ...</li>
+        <li>and the script loops forever ...</li>
+        <li>until it is aborted</li>
+    </ul>	
+	
+	<h4 class="topic" id="until_loops"><code>until</code> Loops</h4>
+	<ul class="flat">       
+        <li>The <code>until</code> loop is similar the <code>while</code> loop ...</li>
+        <li>except that the <code>until</code> loop ends ...</li>
+        <li>when the test condition becomes <b>true</b></li>
+        <li>Whereas the <code>while</code> loop stops ...</li>
+        <li>when the text condition becomes <b>false</b></li>
+        <li>The <code>until</code> loop has the form
+            <pre>
+    <span class="format">until COMMAND </span>
+    do
+        COMMAND_1
+        COMMAND_2
+        ...
+    done</pre>
+        </li>
+        <li>Here is an example
+    <pre>
+    $ cat count_until.sh
+    #! /bin/bash
+    #
+    # counts from 1 to its argument, then stops 
+    
+    if [ $# -eq 0 ]
+    then
+        echo Usage:  $(basename $0)  NUMBER
+        exit 1
+    fi
+    
+    number=1
+    <span class="red">until [ $number -gt $1 ]</span>
+    do
+      echo  $number
+      (( number += 1))
+    done
+    
+    $ ./count_until.sh <span class="red">10</span>
+    1
+    2
+    3
+    4
+    5
+    6
+    7
+    8
+    9
+    <span class="red">10</span>
+    
+    $</pre>
+        </li>
+        <li><code>while</code> loops are used much more often ...</li>
+        <li>than <code>until</code> loop</li>
+    </ul>
+
+	<h4 class="topic" id="continue"><code>continue</code></h4>
+	<ul class="flat">       
+        <li>Normally, a loop will run through all the commands ...</li>
+        <li>between <code>do</code> and <code>done</code> ...</li>
+        <li>for each pass through the loop</li>
+        <li>Sometimes, however, you want to skip ...</li>
+        <li>all or part of the loop commands ...</li>
+        <li>for a specific pass through the loop</li>
+        <li>Let's say you are calculating interest ...</li>
+        <li>for a group of savings accounts</li>
+        <li>In doing this you perform a series of operations ...</li>
+        <li>on all savings accounts</li>
+        <li>But if you get to an account that has been closed ...</li>
+        <li>you don't want to perform these operations</li>
+        <li>In other words, you want to stop working on a specific account ...</li>
+        <li>but continue looping through the other accounts</li>
+        <li>It is for situations like this that <code>continue</code> was created</li>
+        <li>When the shell comes to <code>continue</code> inside a loop ...</li>
+        <li>it stops running the loop code ...</li>
+        <li>and jumps to the top of the loop ...</li>
+        <li>to begin another pass through the loop</li>
+        <li>Here is an example
+    <pre>
+    $ cat continue.sh
+    #! /bin/bash
+    #
+    # demonstrates how continue works
+    
+    total=0    
+    for number in 1 2 3 4 5 
+    do
+        if [ $number -eq 2 -o $number -eq 4  ]
+        then  
+            <span class="red">continue</span>
+        fi    
+        echo Adding $number to $total
+        (( total += $number ))
+    done
+    echo 
+    echo total: $total
+    
+    $ ./continue.sh
+    Adding 1 to 0
+    Adding 3 to 1
+    Adding 5 to 4
+
+    total: 9</pre>
+        </li>
+        <li>Whenever the variable <span class="iden">number</span> is 2 or 4, ...</li>
+        <li>execution of the rest of the code stops ...</li>
+        <li>and the next pass through the loop begins</li>
+        <li><code>continue</code> does not cause the script ...</li>
+        <li>to break out of the loop ...</li>
+        <li>it merely stops execution ...</li>
+        <li>of the loop code for one iteration</li>
+    </ul>
+	
+	<h4 class="topic" id="break"><code>break</code></h4>
+	<ul class="flat">
+	    <li>Every time you start a loop ...</li>
+	    <li>you specify what will cause the loop to end</li>
+	    <li>With <code>for ... in</code> and simple <code>for</code> loops ...</li>
+        <li>the code exits the loop ...</li>
+        <li>when every value in the argument list ...</li>
+        <li>has been used</li>
+        <li>In the <code>while</code>, <code>until</code>, and three statement <code>for</code> loops ...</li>
+        <li>the code exits the loop when a logical condition is met</li>
+        <li>In all cases ...</li>
+        <li>the terminating condition is specified ...</li>
+        <li>at the top of the loop</li>
+        <li>But what if you encountered some unusual condition ...</li>
+        <li>and wanted to break out of the loop entirely?</li>
+        <li>To do this, you would have to use <code>break</code></li>
+        <li>When bash comes across the <code>break</code> ...</li>
+        <li>in the code inside a loop ...</li>
+        <li>it jumps out of the loop completely ...</li>
+        <li>and proceeds with the commands following the loop</li>
+        <li>Let's look at an example
+            <pre>
+    $ cat break.sh
+    #! /bin/bash
+    #
+    # demonstrates how break works
+
+    for filename in *
+    do
+        if  [ -x $filename ]
+        then
+            echo First executable file: $filename
+            <span class="red">break</span>
+        fi
+    done
+    
+    $ ./break.sh
+    First executable file: bother.sh</pre>
+        </li>
+        <li>This script looks at each file in the current directory</li>
+        <li>When it finds a file that is executable, </li>
+        <li>it prints that filename and stops</li>
+        <li>The loop will end either
+            <ul class="flat">       
+                <li class="flat">When it finds an executable file</li>
+                <li class="flat">Or when it has examined every file ... <br>
+                        and found no executable file
+                </li>
+            </ul>
+        </li>
+        <li>Notice how I got the values for the variable <span class="iden">filename</span> ...</li>
+        <li>in the <code>for ... in</code> loop</li>
+        <li>I used <span class="char">*</span></li>
+        <li>When the script is run the value of <span class="char">*</span> ...</li>
+        <li>on this line of the script ...</li>
+        <li>is replaced with the name of every file or directory ...</li>
+        <li>in the current directory</li>
+    </ul>
+    
+    	<h4 class="topic" id="real_world_for_loops">Real World <code>for</code> Loop Examples</h4>
+    <ul class="flat">       
+        <li>I use <code>for</code> loop often ...</li>
+        <li>when doing administrative work for my classes</li>
+        <li>For example, <span class="path">assignment_collect.sh</span> collects all files with the .sh extension ...</li>
+        <li>from your homework directory ...</li>
+        <li>if I run it like this
+        	<pre>
+assignment_collect.sh  sh</pre>
+        </li>
+        <li>I run this script to collect your homework assignments ...</li>
+        <li>from the appropriate homework directory in your class directory</li>
+        <li>But sometimes this script collects more than I want</li>
+        <li>For example homework 5 asked you to copy the file <span class="path">work.sh</span> ...</li>
+        <li>to your homework directory</li>
+        <li>This means that when I collect this homework assignment I will get <span class="path">work.sh</span> ...</li>
+        <li>as well as your <span class="path">hw5.sh</span> file</li>
+        <li>Since I commit all your homework assignments to my Supathersion repository ...</li>
+        <li>I want to remove all <span class="path">work.sh</span> files ...</li>
+        <li>before running the commit command</li>
+        <li>I can do this with the following <code>for</code> loop ...</li>
+        <li>which I enter at the command line
+        	<pre>
+$ for id in $lncl
+&gt; do
+&gt; rm $id/work.sh
+&gt; done</pre>
+        </li>
+        <li>The shell variable <span class="iden">lncl</span> ...</li>
+        <li>contains the username of all my IT 244 students ...</li>
+        <li>as you can see from the following <span class="iden">for</span> loop 
+        	<pre>
+$ for id in $lncl
+&gt; do
+&gt; echo $id
+&gt; done
+
+adelasse
+ali
+andre001
+ashish1
+...</pre>
+        </li>
+        <li>When I want to get the latest versions of all files I have backed up in Supathersion ...</li>
+        <li>I run the script <span class="path">upsvn.sh</span>
+        	<pre>
+cat -n upsvn.sh
+     1	pushd $wksp &amp;&gt; /dev/null
+     2	for entry in *
+     3	do
+     4	    if [ -d $entry  ]
+     5	    then
+     6	    	echo $entry
+     7	    	cd $entry
+     8	        svn update
+     9	        cd ..    	
+    10		fi
+    11	done
+    12	echo notes
+    13	cd $notes
+    14	svn update
+    15	popd &amp;&gt; /dev/null</pre>
+        </li>
+        <li>The first line takes me to the directory where I keep many of my files</li>
+        <li>The second line begins a <code>for</code> loop using the variable <span class="iden">entry</span> </li>
+        <li>Each time through the loop, <span class="iden">entry</span> gets a pathname ...</li>
+        <li>of something in this directory</li>
+        <li>Line 4 starts an <code>if</code> statement ...</li>
+        <li>whose body will be executed only if <span class="iden">entry</span> is a directory</li>
+        <li>Line 7 goes into this directory ...</li>
+        <li>where I run the Supathersion update command ...</li>
+        <li>and then pop back up to the parent directory ...</li>
+        <li>for the next pass through the loop</li>
+        <li>The last few lines update another directory</li>
+<!--  
+$ for id in $lncl
+> do
+> ./ex20.sh $id
+> finger $id | head -1
+> read -p "->  Next? " 
+> done
+
+for file in *
+do
+    echo $file
+    if [ -f $file -a  -e $file ]
+    then
+	echo $file is executable
+	break
+    fi
+done
+
+for value in red blue green
+do
+    echo $value
+    echo $value
+done
+
+read -p 'Directory: ' dir
+while [ ! -d $dir  ]
+do
+    echo $dir is not a directory
+    read -p'Directory: ' dir
+done
+ls $dir
+
+read -p 'Directory: ' dir
+until [ -d $dir  ]
+do
+    echo $dir is not a directory
+    read -p'Directory: ' dir
+done
+ls $dir
+
+
+for value 
+do
+    echo $value
+    echo $value
+done
+
+-->        
+    </ul>
+    
+    <h3 class="section">Attendance</h3>
+    
+    <h3 class="section">Class Quiz</h3>
+
+	<footer>
+		<a href="class_notes_it244.html" class="spacer">Class Notes</a>
+		<a href="class_notes_index_it244.html" class="spacer">Class Notes Index</a>
+	</footer>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/24_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/hw_it244/04_hw_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:57 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title>IT 244: Introduction to Linux/Unix - Homework 4</title>
+</head>
+<body>
+<h2>
+    IT 244: Introduction to Linux/Unix <br>
+    Homework 4
+</h2>
+    <!-- REMOVE PWD -->
+	<h3 class="section">Due Sunday, February 18th at 11:59 PM</h3>
+	All this work should be done on <span class="host">users3.cs.umb.edu</span>
+	<h3>Deliverables</h3>
+	<ol>
+		<li>
+			A shell script named <span class="host">hw4.sh</span> that performs the operations listed below. <br>
+        		This file should be in an <span class="host">hw4</span> directory inside your 
+        		<span class="host">hw</span> directory inside your <span class="host">it244</span> directory. <br>
+        		100 points
+  		</li>
+	</ol>
+
+	<h3>Requirements</h3>
+	<ul class="flat">
+		<li>Create an <span class="host">hw4</span> directory in your <span class="host">hw</span> directory 
+    		inside your <span class="host">it244</span> directory
+    	</li>
+    	<li>Go to the <span class="host">hw4</span> directory and run Unix commands that will execute the steps below</li>
+    	<li>When you have a command line that does what the step asks you to do, paste it into 
+			<span class="host">hw4.sh</span> using <code>nano</code> or any other text editor
+		</li>
+		<li>When you have completed all the steps, create an <code>echo</code> statement before the commands 
+    		for each step, that will print the step number to the terminal
+    	</li>
+    </ul>
+    
+	<h3>Testing</h3>
+	<ul class="flat">     
+         <li>The script <span class="host">hw4.sh</span> <b>must</b> have the format specified in
+        	this <a href="../shell_scripts_homework.html">document</a>
+        </li>
+        <li>Scripts that do not follow the rules specified in the document mentioned above will 
+        	will have points deducted from their score
+        </li>
+        <li>Be sure to test your script and correct any errors you find</li>
+        <li>You will lose 5 points for each error that occurs when running your script</li>
+        <li>To run your script and see only the error messages run the following command
+        	<pre>
+bash  hw4.sh  &gt;  /dev/null</pre>
+        </li>
+    </ul>
+    
+    <h3>Steps for Script</h3>
+	<ol>
+		<li> <!-- Step 1 -->
+			Using <b>one Unix command</b>, go to <b>my</b> home directory using tilde, <span class="char">~</span>. <br>
+			Once you are there, show me that you are in the right directory using <code>pwd</code>.
+		</li>
+		
+		<li> <!-- Step 2 -->
+			Using <b>one Unix command</b>, go to <b>your</b> home directory using tilde, <span class="char">~</span>. <br>
+			Once you are there, show me that you are in the right directory using <code>pwd</code>.
+		</li>
+		
+		<li> <!-- Step 3 -->
+	        Make sure you are in <b>your</b> home directory. <br>
+			Using <b>one Unix command</b>, go to your <span class="host">hw4</span> directory inside your 
+			<span class="host">hw</span> directory, inside your
+			<span class="host">it244</span> directory using a <b>relative</b> pathname. <br>
+			Once you are there,  show me that you are in the right directory. 
+		</li>
+		
+		<li> <!-- Step 4 -->
+			Using <b>one Unix command</b>, go to <b>my</b> home directory using an <b>absolute</b> pathname. <br>
+			Once you are there, show me that you are in the right directory.
+		</li>
+		
+		<li> <!-- Step 5 -->
+			Using <b>one Unix command</b>, go to the <span class="host">it244_files</span> directory inside 
+			the <span class="host">course_files</span> directory, inside <b>my</b> home
+			directory, using an <b>absolute</b> pathname. <br>
+			Once you are there, show me that you are in the right directory.
+		</li>
+		
+		<li> <!-- Step 6 -->
+			Using <b>one Unix command</b>, go to <b>my</b> home directory using a <b>relative</b> pathname employing 
+			<span class="char">..</span>. Once you are there, show me that you are in the right directory.
+		</li>
+		
+		<li> <!-- Step 7 -->
+		    Using <b>one Unix command</b>, go to <b>your</b> home directory. <br>
+		    Once you are there go to your <span class="host">it244</span> directory using a 
+			<b>relative</b> pathname. <br>
+			Show me that your are in the correct directory. 
+		</li>
+		
+		<li> <!-- Step 8 -->
+		    Make sure you are in your <span class="host">it244</span> directory. <br>
+			Using <code>touch</code> create a file named <span class="host">test.txt</span>. <br>
+			Go to your <span class="host">hw4</span> directory. <br>
+			Using <b><span class="char">..</span></b> stay in your <span class="host">hw4</span> directory but list 
+			the contents of your <span class="host">it244</span> directory. <br>
+		</li>
+		
+		<li> <!-- Step 9 -->
+		    Make sure you are in your <span class="host">hw4</span> directory. <br>
+		    Stay in this directory and
+			copy the <span class="host">test.txt</span> file from your <span class="host">it244</span> 
+			directory to your <span class="host">hw4</span> directory using a <b>relative</b> pathname. <br>
+			Show me that the copy operation succeeded by listing the contents of that directory.
+		</li>
+		
+		<li> <!-- Step 10 -->
+	        Using <b>one Unix command</b> and multiple instances of <span class="char">..</span> , 
+	        go to your home directory. <br>
+	        Once you are there, show me  that you are in the right directory. <br>
+	        Using <b>one Unix command</b>, copy the <span class="host">test.txt</span> file from your
+	        <span class="host">it244/hw/hw4</span> directory to your home directory. <br>
+	        List the contents of the directory so I know the copy succeeded.
+		</li>
+	</ol>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/hw_it244/04_hw_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:57 GMT -->
+</html>

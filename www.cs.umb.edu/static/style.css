@@ -1,0 +1,70 @@
+#mainav li li a, #mainav .active li a {
+    background-color:rgba(0,0,0,0.8); 
+    border-color:rgba(0,0,0,0.8);
+}
+
+body {
+
+	font-family: "Source Sans Pro", Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+	letter-spacing: 0.01em;
+	line-height: 1.4em;
+	color: #005a8c;
+}
+.container {
+	font-family: "Source Sans Pro", Arial, Helvetica, sans-serif;
+	font-size: 18px;
+	font-weight: 400;
+	letter-spacing: 0.01em;
+	line-height: 1.4em;
+	color: #000;
+}
+
+.row0, .row0 a,
+.row5, .row5 a,
+.row1 {
+
+}
+
+.actions li {
+    display: inline;
+    list-style-type: none;
+    padding-right: 10px;
+    font-size: 1.2em;
+}
+
+#mainav li li:first-child a, #slide-wrapper figure img, #slide-wrapper figure .view:hover::before {
+	border-radius: 0 0 0 0;
+}
+
+#mainav li li:last-child a, #slide-wrapper figure img, #slide-wrapper figure .view:hover::before {
+	border-radius: 0 0 0 0;
+}
+
+#mainav li li {
+	width: 100%;
+	margin: 0;
+	text-align: left;
+	text-transform: none;
+	border: solid;
+	border-width: 0 0 1px 0;
+}
+.carousel-caption {
+  text-shadow: none;
+}
+
+.row4 h2 {
+    font-size: 18px !important ;
+}
+table.normaltable, table.normaltable th, table.normaltable td {
+	background-color: #F9F9F9;
+	border: 0 solid;
+	border-collapse: collapse;
+	vertical-align: top;
+	box-sizing: border-box;
+	position:relative;
+}
+.one_fifth {
+	display:inline-block; float:left; margin:0 0 0 3.06748466257669%; list-style:none; box-sizing:border-box;
+}

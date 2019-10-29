@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/23_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:42 GMT -->
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="../class_notes.css">
+	<title> IT 244: Introduction to Linux/Unix - Class 23</title>
+</head>
+<body>
+	<header>
+		<h2> 
+		    IT 244: Introduction to Linux/Unix <br>
+		    Class 23
+		</h2>	
+	</header>
+
+    <!-- INCREMENTAL DEVELOPMENT NEEDS TO BE  A SEPARATE SECTION WITH A DICTIONARY ENTRY -->
+    <!-- RUN set -x TO SHOW WHY YOU ONLY WANT TO DO THIS WHEN EXPLICITLY RUNNING BASH -->
+    <!-- MENTION PS4 IN DISCUSSION ABOUT bash -x -->
+    <!-- NEEDS MORE -->
+    <!-- TALK ABOUT READABILITY, GOOD VARIABLE NAMES, COMMENTS -->
+    <h3 class="section">Today's Topics</h3>
+    <h4 class="flat_under">Tips and Examples</h4>
+    <ul class="flat_top">       
+        <li class="flat"><a href="#real_world_script_example">A Real World Script Example</a></li>
+    </ul>
+    <h4 class="flat_under">Review</h4>
+    <ul class="flat_top">
+        <li class="flat"><a href="#shell_script_control_structures">Shell Script Control Structures</a></li>
+        <li class="flat"><a href="#if_then_construct">The <code>if ... then ...</code> Construct</a></li>
+        <li class="flat"><a href="#test"><code>test</code></a></li>
+        <li class="flat"><a href="#test_operators">The <code>test</code> Operators</a></li>
+    </ul>
+
+    <h4 class="flat_under">New Material</h4>
+    <ul class="flat_top">
+        <li class="flat"><a href="#using_test_in_scripts">Using <code>test</code> in Scripts</a></li>
+        <li class="flat"><a href="#checking_arguments_to_script">Checking the Arguments to a Script</a></li>
+        <li class="flat"><a href="#if_then_else">The <code>if ... then ... else ...</code> Construct</a></li>
+        <li class="flat"><a href="#if_then_elif">The <code>if ... then ... elif ...</code> Construct</a></li>
+        <li class="flat"><a href="#debugging_scripts">Debugging Scripts</a></li>
+        <li class="flat"><a href="#indenting_when_writing_scripts">Indenting When Writing Scripts</a></li>
+    </ul>
+
+	<h3 class="section">Quiz 8</h3>
+	The answers to Quiz 8 are posted <a href="../weekly_quiz_answers_it244/08_quiz_answers_it244.html">here</a>.
+	<br><br>
+	Let's take a look.
+	
+	<h3 class="section">Homework 11</h3>
+	I have posted homework 11 <a href="../hw_it244/11_hw_it244.html">here</a>.
+	<br><br>
+	It is <b>not</b> due this Sunday.
+    <br><br>
+    Instead it is due Sunday, December 3rd, at 11:59 PM. 
+	
+	<h3 class="section">Announcement</h3>
+    <p class="flat">There will be <b>no</b> graded quiz this week.</p>
+    <p>But there will be one the following week covering the material in
+       the previous 3 Class Quizzes.
+    </p>
+
+    
+    <h3 class="section">Tips and Examples</h3>
+    
+    <h4 class="topic" id="real_world_script_example">A Real World Script Example</h4>
+    <ul class="flat">
+        <li>Unix has <a class="def" href="../definitions.html#daemon">daemons</a> ...</li>
+        <li>which are processes that run in the background ...</li>
+        <li>and provide various services</li>
+        <li>The reason we can log into <span class="host">users3</span> ...</li>
+        <li>is that there is an ssh daemon, <code>sshd</code> ...</li>
+        <li>that listens to port 22 on <span class="host">users3</span> ...</li>
+        <li>and creates a login session when you connect to that port</li>
+        <li>Unix and Linux machines have a daemon, named <code>cron</code> ...</li>
+        <li>that will run commands  or scripts at specific times</li>
+        <li>You create something called a cron job ...</li>
+        <li>and tell <code>cron</code> when to run it</li>
+        <li>When that time rolls around ...</li>
+        <li><code>cron</code> will run the job</li>
+        <li>Usually, the job is a shell script</li>
+        <li>I have a client who uses a database application I created</li>      
+        <li>The tables in the database are backed up every night ...</li>
+        <li>by a <code>cron</code> job that runs a special shell script</li>
+        <li>Let's look at this script
+                <pre>
+    $ cat -n backup_tables.sh 
+         1  #!/bin/bash
+         2  #
+         3  # backs up all tables in the version2 database
+         4  
+         5  cd $v2/sql/bak
+         6  rm *.bak 2&gt; /dev/null
+         7  dir=$(date +%Y-%m-%d)
+         8  rm -rf $dir
+         9  mysql version2 -u root -p$1 &lt; $v2s/scripts/backup.sql
+        10  mkdir $dir
+        11  cp *.bak $dir
+        12  date=$(date +%Y-%m-%d)
+        13  echo $date ": Table backup complete"</pre>
+        </li>
+        <li>Line 5 of the script uses the variable <span class="iden">v2</span> ...</li>
+        <li>to go to the backup directory</li>
+        <li><span class="iden">v2</span> holds the absolute pathname ...</li>
+        <li>of the directory containing code for this client</li>
+        <li>I need this variable because the pathname of this directory on my machine ...</li>
+        <li>is different from the pathname of the same directory </li>
+        <li>on the machine running the application ...</li>
+        <li>in the clients office</li>
+        <li>I define this variable in <span class="path">~/.bash_profile</span> on each machine ...</li>
+        <li>to hold the correct absolute pathname for that machine</li>
+        <li>In line 6, the script removes backup files ...</li>
+        <li>all of which have a .bak extension
+            <pre>
+    rm *.bak 2&gt; /dev/null</pre>
+        </li>
+        <li>Copies of these files exist elsewhere ...</li>
+        <li>so this operation just removes one copy of the files</li>
+        <li>Notice that I redirect standard error to <span class="path">/dev/null</span></li>
+        <li>If I don't do this, and there are no files to delete ...</li>
+        <li>I'll get an error message that can be confusing</li>
+        <li>Line 7 sets the value of the <span class="iden">dir</span> variable ...</li>
+        <li>to today's date expressed in yyyy-mm-dd format
+            <pre>
+    dir=<span class="red">$(</span>date +%Y-%m-%d<span class="red">)</span></pre>
+        </li>
+        <li>This means I am using <a class="def" href="../definitions.html#command_substitution">command substitution</a></li>
+        <li>The shell runs the <code>date</code> command in a subshell ...</li>
+        <li>and replaces the command on the command line ...</li>
+        <li>with the results of running the command</li>
+        <li>Line 8 removes any directory already created ...</li>
+        <li>to hold backup files for today's date
+        <pre>
+    rm -rf $dir</pre>
+        </li>
+        <li>The script can be run more than once in a given day</li>
+        <li>So I want only the most recent backup files ...</li>
+        <li>in the directory containing today's backup</li>
+        <li>Line 9 runs a mysql script that actually creates the backup
+            <pre>
+    mysql version2 -u root -p$1 &lt; $v2s/scripts/backup.sql</pre>
+        </li>
+        <li>The backup files, with the .bak extension ...</li>
+        <li>are created in the backup directory</li>
+        <li>Another mysql script can restore the tables from these files</li>
+        <li>Line 10 creates a new directory whose name is today's date
+            <pre>
+    mkdir $dir</pre>
+        </li>
+        <li>This gives me an historical archive</li>
+        <li>Line 11 copies the newly created backup files into this directory
+            <pre>
+    cp *.bak $dir</pre>
+        </li>
+        <li>Line 12 creates the <span class="iden">date</span> variable ...</li>
+        <li>that also contains today's date
+            <pre>
+    date=<span class="red">$(</span>date +%Y-%m-%d<span class="red">)</span></pre>
+        </li>
+        <li>Again I use command substitution</li>
+        <li>I use this variable in line 13 to print a message ...</li>
+        <li>which will go to a log file
+            <pre>
+    echo $date ": Table backup complete"</pre>
+        </li>
+        <li>In the command line of the cron job ...</li>
+        <li>I redirect this output to a log file</li>
+        <li>Why didn't I use the <span class="iden">dir</span> variable defined above?</li>
+        <li>At some time in the future ...</li>
+        <li>I might want a different date string ...</li>
+        <li>or a different name for the backup directory ...</li>
+        <li>so this gives me flexibility</li>
+        <li>I really should change the last line so it prints the message ...</li>
+        <li>only if everything goes well</li>
+        <li>To do this, I would need to use a conditional statement ...</li>
+        <li>and the special parameter <span class="iden">$?</span></li>
+    </ul>
+    
+    <h3 class="section">Review</h3>
+    
+    <h4 class="topic" id="shell_script_control_structures">Shell Script Control Structures</h4>
+    <ul class="flat">       
+        <li>Control structures are Unix statements that change the order of execution ...</li>
+        <li>of commands within a program or script</li>
+        <li>There are two basic types of control structures
+            <ul>
+                <li class="flat">Loops</li>
+                <li class="flat">Conditionals</li>
+            </ul>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="if_then_construct">The <code>if ... then ...</code> Construct</h4>
+    <ul class="flat">       
+        <li>The first conditional is the <code>if ... then</code> statement ...</li>
+        <li>which has the format
+            <pre>
+    <span class="format">if COMMAND
+    then
+        COMMAND_1
+        COMMAND_2
+        ...
+    fi</span></pre>
+        </li>
+        <li>COMMAND is <b>any</b> Unix command</li>
+        <li>COMMAND_1, COMMAND_2, ... are a series of Unix commands</li>
+        <li>The most common comman used with <code>if</code> is <code>test</code> ...</li>
+        <li>which must be followed by arguments that form a logical expression</li>
+        <li>It is used to test the truth or falsity of a condition</li>        
+        <li>The keyword <code>then</code> must either be on a separate line from <code>if</code> ...</li>
+        <li>or on the same line, but separated by a semi-colon</li>
+        <li>The keyword <code>fi</code> must close the conditional statement</li>
+        <li>The statements between <code>then</code> and <code>fi</code> are executed ...</li>
+        <li>depending on the status code ...</li>
+        <li>given by the command that follows <code>if</code></li>
+        <li>If the command following <code>if</code> runs without error ...</li>
+        <li>then it will return an exit status of 0 ...</li>
+        <li>which the <code>if ... then</code> statement treats as true</li>
+    </ul>
+    
+    <h4 class="topic" id="test"><code>test</code></h4>
+    <ul class="flat">       
+        <li>The <code>test</code> command evaluates a logical expression ...</li>
+        <li>given to it as an argument ...</li>
+        <li>and returns a status code of 0 ...</li>
+        <li>if the expression evaluates to true</li>
+        <li>It returns a status code of 1 ...</li>
+        <li>if the expression evaluates to false</li>
+        <li>In an <code>if</code> statement, a status code of 0 means true ...</li>
+        <li>and a status code greater than 0 means means false</li>
+    </ul>        
+        
+    <h4 class="topic" id="test_operators">The <code>test</code> Operators</h4>
+    <ul>    
+        <li><code>test</code> has a number of operators</li>
+        <li>The operators test for different conditions</li>
+        <li>When used with two arguments, the operators are placed between</li>
+        <li>Some operators work only on numbers
+            <blockquote>
+                <table>
+                    <tr>
+                        <th align="left">Operator</th><th align="left">Condition Tested</th>  
+                    </tr>
+                    <tr>
+                        <th><span class="red">-eq</span></th><td>Two numbers are equal</td>   
+                    </tr>
+                    <tr>
+                        <th><span class="red">-ne</span></th><td>Two numbers are not equal</td>   
+                    </tr>
+                    <tr>
+                        <th><span class="red">-ge</span></th><td>The first number is greater than, or equal to, the second</td>   
+                    </tr>
+                    <tr>
+                        <th><span class="red">-gt</span></th><td>The first number is greater than the second</td> 
+                    </tr>
+                    <tr>
+                        <th><span class="red">-le</span></th><td>The first number is less than, or equal to, the second</td>  
+                    </tr>
+                    <tr>
+                        <th><span class="red">-lt</span></th><td>The first number is less than the second</td>    
+                    </tr>
+                </table>
+            </blockquote>
+        </li>
+        <li><code>test</code> uses the different operators when comparing <b>strings</b>
+            <blockquote>
+                <table>
+                    <tr>
+                        <th align="left">Operator</th><th align="left">Condition Tested</th>
+                    </tr>
+                    <tr>
+                        <th><span class="red">=</span></th><td>When placed between strings, are the two strings the same</td> 
+                    </tr>
+                    <tr>
+                        <th><span class="red">!=</span></th><td>When placed between strings, are the two strings not the same</td>    
+                    </tr>
+                </table>
+            </blockquote>
+        </li>
+        <li>Note that <code>test</code> uses symbols (<span class="char">=</span>) when comparing strings</li>
+        <li>But letters preceded by a dash (<span class="char">-eq</span>) when comparing numbers</li>
+        <li>There are a couple of operators that apply only to a single string
+            <blockquote>
+                <table>
+                    <tr>
+                        <th align="left">Operator</th><th align="left">Condition Tested</th>
+                    </tr>
+                    <tr>
+                        <th><span class="red">-z</span></th><td>Whether the string given as an argument has a length of 0</td>    
+                    </tr>
+                </table>
+            </blockquote>
+        </li>
+        <li>In these cases, the operator comes before the string</li>
+        <li>Other operators apply to files and directories
+            <blockquote>
+                <table>
+                    <tr>
+                        <th align="left">Operator</th><th align="left">Condition Tested</th>
+                    </tr>
+                    <tr>
+                        <th><span class="red">-d</span></th><td>Whether the argument is a directory</td>  
+                    </tr>
+                    <tr>
+                        <th><span class="red">-e</span></th><td>Whether the argument exits as a file or directory</td>    
+                    </tr>
+                    <tr>
+                        <th><span class="red">-f</span></th><td>Whether the argument is an ordinary file (not a directory)</td>   
+                    </tr>
+                    <tr>
+                        <th><span class="red">-r</span></th><td>Whether the argument exists and is readable</td>  
+                    </tr>
+                    <tr>
+                        <th><span class="red">-s</span></th><td>Whether the argument exists and has a size greater than 0</td>    
+                    </tr>
+                    <tr>
+                        <th><span class="red">-w</span></th><td>Whether the argument exists and is writable</td>  
+                    </tr>
+                    <tr>
+                        <th><span class="red">-x</span></th><td>Whether the argument exists and is executable</td>    
+                    </tr>
+                </table>
+            </blockquote>
+        </li>
+        <li>There are two additional operators ...</li>
+        <li>that <code>test</code> uses when evaluating two  expressions</li>
+        <li>It is placed between the two expressions
+            <blockquote>
+                <table>
+                <tr>
+                    <th align="left">Operator</th><th align="left">Condition Tested</th>
+                    </tr>
+                    <tr>
+                        <th><span class="red">-a</span></th><td>Logical AND meaning both expressions must be true</td>    
+                    </tr>
+                    <tr>
+                        <th><span class="red">-o</span></th><td>Logical OR meaning either of the two expressions must be true</td>    
+                    </tr>
+                </table>
+            </blockquote>
+        </li>
+        <li>The exclamation mark, <span class="char">!</span> is a negation operator</li>
+        <li>It changes the value of the following logical expression
+            <ul class="flat">       
+                <li class="flat">It changes a false expression to true</li>
+                <li class="flat">And a true expression to false</li>
+            </ul>
+        </li>
+    </ul>
+    
+	
+	<h3 class="section">New Material</h3>
+	
+    <h4 class="topic" id="using_test_in_scripts">Using <code>test</code> in Scripts</h4>
+    <ul class="flat">
+        <li>We can use <code>test</code> in an <code>if</code> statement 
+           <pre>
+    $ if <span class="red">test</span> foo <span class="red">=</span> foo
+    &gt; then
+    &gt; echo "The two strings are equal"
+    &gt; fi
+    The two strings are equal</pre>
+        </li>
+        <li>But this looks very different from an <code>if</code> statement ...</li>
+        <li>in programming languages</li>
+        <li>To make the <code>if</code> statement ...</li>
+        <li>look more like a "real" programming language ...</li>
+        <li>Bash provides a synonym for <code>test</code> ...</li>
+        <li>a pair of square brackets, <span class="char">[ ]</span> </li>
+        <li>To test whether the value of <span class="iden">number1</span> ...</li>
+        <li>is greater than the value of <span class="iden">number2</span></li>
+        <li>you could write either
+            <pre>
+    if <span class="red">test</span> $number1 -gt $number2</pre>
+    or
+            <pre>
+    if <span class="red">[</span> $number1 -gt $number2 <span class="red">]</span></pre></li>
+        <li>Whenever you use <span class="char">[ ]</span> ...</li>
+        <li>instead if <code>test</code> ...</li>
+        <li>there <b>must</b> be a space ...</li>
+        <li>before and after each square bracket</li>
+        <li>If you don't you will get an error message
+        <pre>
+    $ [ 5 -ne 6]
+    -bash: [: missing `]'</pre>
+        </li>
+        <li>That's because Bash reads <span class="red">6]</span> as a <b>single</b> token ...</li>
+        <li>which it does not understand</li>
+        <li>Putting a space between <span class="red">6</span> and <span class="red">]</span> makes it two tokens</li>
+        <li>I find myself making this mistake all the time</li>
+        <li>The first thing to do when you get an error in a script using <span class="char">[ ]</span> ...</li>
+        <li>is make sure you have spaces surrounding all your square brackets</li>
+        <li><code>test</code> <b>does not return a value to standard output</b></li>
+        <li><code>test</code> returns true or false ...</li>
+        <li>through the exit status</li>
+        <li>If <code>test</code> returns an exit status of 0 ...</li>
+        <li>it means the condition was true</li>
+        <li>If <code>test</code> returns an exit status of 1 ...</li>
+        <li>it means the condition was false
+            <pre>
+    $ <span class="red">[</span> 5 -eq 4 <span class="red">]</span>; echo $?
+    1
+    $ <span class="red">[</span> 5 -ne 4 <span class="red">]</span>; echo $?
+    0</pre>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="checking_arguments_to_script">Checking the Arguments to a Script</h4>
+    <ul class="flat">
+        <li>If a script <b>must</b> have a certain number of arguments ...</li>
+        <li>it should check to see that it has been given them ...</li>
+        <li>on the command linse</li>
+        <li>If it doesn't get the right number of arguments ..</li>
+        <li>a script should print a usage message and exit</li>
+        <li>A usage message has a standard form
+            <pre>
+    <span class="format">Usage:  PROGRAM_NAME  ARG1  ARG2  ...</span></pre>
+        </li>
+        <li>In a usage message, the strings that follow the program name ...</li>
+        <li>should be a word or words that indicates what kind information was required</li>
+        <li>So if you had a script <span class="path">test_dr.sh</span> ...</li>
+        <li>that needed the name of a directory as an argument ...</li>
+        <li>it's usage message would be
+            <pre>
+    Usage:  test_dr.sh  <span class="red">DIR_NAME</span></pre>   
+        </li>
+        <li>Let's look at an example
+        <pre>
+    $ cat examples_it244/usage_1.sh
+    #! /bin/bash
+    # this program demonstrates checking for arguments 
+    # and printing a usage message when
+    # the expected arguments are not supplied
+
+    <span class="red">if test $# -eq 0</span>
+    then
+        <span class="red">echo Usage:  $0  STRING</span>
+        exit 1
+    fi
+    echo Received argument $1
+    
+    $ examples_it244/usage_1.sh 
+    <span class="red">Usage: examples_it244/usage_1.sh  STRING</span>
+    
+    $ examples_it244/usage_1.sh foo
+    Received argument foo</pre>
+        </li>
+        <li>The script first looks at the number of arguments it gets ...</li>
+        <li>which is contained in <span class="iden">#</span></li>
+        <li>If it receives zero arguments ...</li>
+        <li>the script prints a usage message ...</li>
+        <li> and then quits with an exit status of 1</li>
+        <li>Otherwise it prints the argument it was given</li>
+        <li>The usage message uses the <span class="iden">0</span> positional parameter ...</li>
+        <li>which contains the pathname that ran the script</li>
+        <li>The pathname that appears in this usage message is correct ...</li>
+        <li>but it is also confusing</li>
+        <li>What we really want in a usage message ...</li>
+        <li>is the filename part of the pathname</li>
+        <li>We can strip out everything from the pathname ...</li>
+        <li>except the name of the file ..</li>
+        <li>if we use Unix utility called <code>basename</code></li>
+        <li><code>basename</code> takes a pathname as an argument ...</li>
+        <li>and strips out everything ...</li>
+        <li>except for the filename
+            <pre>
+    $ <span class="red">basename</span> examples_it244/usage_1.sh
+    usage_1.sh</pre>
+        </li>
+        <li>So a better version of this script would be
+            <pre>
+    $ cat examples_it244/usage_2.sh
+    #! /bin/bash
+    # this program demonstrates checking for arguments 
+    # and printing a usage message using basename
+
+    if test $# -eq 0
+    then
+    echo Usage: <span class="red">$(basename $0)</span> STRING
+        exit 1
+    fi
+    echo Received argument $1
+    
+    $ examples_it244/usage_2.sh
+    <span class="red">Usage: usage_2.sh   STRING</span>
+    
+    $ examples_it244/usage_2.sh foo
+    Received argument foo</pre>
+        </li>
+        <li>Here I used <code>basename</code> and command substitution ...</li>
+        <li>to get the name of the file ...</li>
+        <li>without the path</li>
+        <li>You don't need a usage message ...</li>
+        <li>if the script does not <b>require</b> arguments</li>
+    </ul>
+    
+    <h4 class="topic" id="if_then_else">The <code>if ... then ... else ...</code> Construct</h4>
+    <ul class="flat">
+        <li>The another Unix conditional is the <code>if ... then ... else ...</code> statement</li>
+        <li>which has the following format
+                <pre>
+    <span class="format">if COMMAND
+    then
+        COMMAND_1
+        COMMAND_2
+        ....
+    else
+        COMMAND_A
+        COMMAND_B
+        ...
+    fi</span></pre>
+        </li>
+        <li>If COMMAND returns an exit status of 0</li>
+        <li>COMMAND_1, COMMAND_2, ... will be executed</li>
+        <li>Otherwise COMMAND_A, COMMAND_B, ..., will be run</li>
+        <li>Let's look at an example
+            <pre>
+    $ cat cat_file.sh 
+    #! /bin/bash
+    #
+    # demonstrates the use of the if ... then ... else ... construct
+
+    if [ $# -eq 0 ]
+    then
+        echo Usage: $(basename $0) filename 
+        exit 1
+    fi
+    
+    if [ <span class="red">-f</span> $1 ]
+<span class="red">    then
+        cat $1
+    else
+        echo $1 is not a file
+    fi  </span>
+    
+    $ ./cat_file.sh
+    <span class="red">Usage: cat_file.sh filename</span>
+    
+    $ ./cat_file.sh lines.txt 
+    line 1
+    line 2
+    line 3
+    line 4
+    line 5
+    
+    $ ./cat_file.sh foo
+    <span class="red">foo is not a file</span></pre>
+        </li>
+        <li>The second <code>if</code> statement ...</li>
+        <li>does one thing if the first argument is a file ...</li>
+        <li>and another thing if it is not</li>
+        <li>The test command
+           <pre>
+    [ <span class="red">-f</span> $1 ]</pre>
+        </li>
+        <li>returns a status code of 0 ...</li>
+        <li>if the first argument is the name of a file</li>
+        <li>Otherwise it returns 1</li>
+    </ul>
+    
+    <h4 class="topic" id="if_then_elif">The <code>if ... then ... elif ...</code> Construct</h4>
+    <ul class="flat">
+        <li>The <code>if ... then ... elif ...</code> construct ...</li>
+        <li>lets you create nested conditionals
+    <pre>
+    <span class="format">if COMMAND
+    then
+        COMMAND_1
+        COMMAND_2
+        ...
+    elif OTHER_COMMAND
+    then
+        COMMAND_A
+        COMMAND_B
+        ...
+    ...
+    else
+        COMMAND_N1
+        COMMAND_N2
+        ...
+    fi</span></pre></li>
+        <li><code>elif</code> stands for "else if"</li>
+        <li>Notice that <code>elif</code> must be followed by <code>then</code></li>
+        <li>The <code>then</code> must either be on the next line ...</li>
+        <li>or the same line separated by a semi-colon, <span class="char">;</span></li>
+        <li>While each <code>else</code> statement must be ended by a <code>fi</code> ...</li>
+        <li><code>elif</code> only requires a single <code>fi</code> at the end</li>
+        <li>Let's look at an example
+    <pre>
+    $ cat if_4.sh 
+    #! /bin/bash
+    #
+    # demonstrates the <code>if ... then ... elif ... </code> construction
+
+    echo -n "word 1: "
+    read word1
+    echo -n "word 2: "
+    read word2
+    echo -n "word 3: "
+    read word3
+    if [ $word1 = $word2 -a $word2 = $word3 ]
+    then
+        echo "Match: words 1, 2 &amp; 3"
+    <span class="red">elif</span> [ $word1 = $word2 ]
+    <span class="red">then</span>
+        echo "Match: words 1 &amp; 2"
+    <span class="red">elif</span> [ $word1 = $word3 ]
+    <span class="red">then</span>
+        echo  "Match: words 1 &amp; 3"
+    <span class="red">elif</span> [ $word2 = $word3 ]
+    <span class="red">then</span>
+        echo  "Match: words 2 &amp; 3"
+    else
+        echo No match
+    <span class="red">fi</span>
+    
+    $ ./if_4.sh 
+    word 1: foo
+    word 2: bar
+    word 3: bletch
+    No match
+    
+    $ ./if_4.sh 
+    word 1: foo
+    word 2: foo
+    word 3: boo
+    Match: words 1 &amp; 2</pre></li>
+    </ul>
+    
+    <h4 class="topic" id="debugging_scripts">Debugging Scripts</h4>
+    <ul class="flat">
+        <li>It is easy to make a mistake when writing a script</li>
+        <li>So it is a good idea to practice 
+            <a class="def" href="../definitions.html#incremental_development">incremental development</a> ...
+        </li>
+        <li>when writing a script</li>
+        <li>This means writing a few lines of the script ...</li>
+        <li>testing it and correcting errors ...</li>
+        <li>and then writing a few more lines</li>
+        <li>To help you find bugs in your Bash script ...</li>
+        <li>you can run <code>bash</code>  with the -x option</li>
+        <li>The -x option causes <code>bash</code> to print each command ...</li>
+        <li>before it executes the commands on that line
+            <pre>
+    $ cat match_three.sh 
+    #! /bin/bash
+    #
+    # takes three stings as input and compares them
+
+    if [ $# -lt 3 ]
+    then
+        echo Usage: $(basename $0)  STRING1  STRING2  STRING3
+        exit 1
+    fi
+
+    if [ $1 = $2 -a $2 = $3 ]
+    then
+        echo All arguments match
+    elif [ $1 = $2 ]
+    then
+        echo Arguments 1 and 2 match
+    elif [ $1 = $3 ]
+    then
+        echo  Arguments 1 and 3 match
+    elif [ $2 = $3 ]
+    then
+        echo  Arguments 2 and 3 match
+    else
+        echo No arguments match
+    fi
+    
+    $ <span class="red">bash -x</span> match_three.sh foo bar foo
+    <span class="red">+ '[' 3 -lt 3 ']'
+    + '[' foo = bar -a bar = foo ']'
+    + '[' foo = bar ']'
+    + '[' foo = foo ']'
+    + echo Arguments 1 and 3 match</span>
+    Arguments 1 and 3 match</pre>
+        </li>
+        <li>Before <code>bash</code> prints a line from the script ...</li>
+        <li>it prints a plus sign, <span class="char">+</span> ...</li>
+        <li>to let you know that the line is not output from the script</li>
+        <li>Notice that the script keeps running <code>test</code> commands ...</li>
+        <li>represented by <span class="char">[ ]</span> ...</li>
+        <li>until it finds one condition that evaluates to true</li>
+        <li>Using <code>bash</code> with the -x option ...</li>
+        <li>you can trace the path <code>bash</code> takes through your script</li>
+        <li>This can help you find errors</li>
+    </ul>
+    
+    <h4 class="topic" id="indenting_when_writing_scripts">Indenting When Writing Scripts</h4>
+    <ul class="flat">       
+        <li>Control structures work by marking off certain parts of the script ...</li>
+        <li>that are executed differently from the rest of the script</li>
+        <li>Most commands in a script are executed only once ...</li>
+        <li>in the order they appear in the script</li>
+        <li>In <code>if</code> constructions certain blocks of commands ...</li>
+        <li>are only executed under certain conditions</li>
+        <li>In loop constructs a block of commands ...</li>
+        <li>is run more than once</li>
+        <li>Special Unix keywords set off these blocks of commands</li>
+        <li>Keywords like <code>then</code>, <code>else</code>, <code>elif</code> and <code>fi</code></li>
+        <li>When writing scripts with control structures it is a good idea ...</li>
+        <li>to indent all lines in a block of commands ...</li>
+        <li>so it is clear that they are treated differently ...</li>
+        <li>from the rest of the script</li>
+        <li>Let's look at the <span class="path">arg_test.sh</span> script ...</li>
+        <li>you wrote for Class Exercise 22
+        	<pre>
+    #! /bin/bash
+    #
+    # responds with the number of the arguments given
+    # to this script
+
+    if test $# -eq 0 
+    then
+        echo "You entered no arguments"
+    fi
+    if test $# -eq 1 
+    then
+        echo "You entered 1 argument"
+    fi
+    if test $# -eq 2 
+    then
+        echo "You entered 2 arguments"
+    fi
+    if test $# -gt 2
+    then
+        echo "You entered more than 2 arguments"
+    fi</pre>
+        </li>
+        <li>Each block of commands contained in each <code>if ... then</code> statement ...</li>
+        <li>is clearly set off by the indent</li>
+        <li>If we did not indent, we would get this
+        <pre>
+    #! /bin/bash
+    #
+    # responds with the number of the arguments given
+    # to this script
+
+    if test $# -eq 0 
+    then
+    echo "You entered no arguments"
+    fi
+    if test $# -eq 1 
+    then
+    echo "You entered 1 argument"
+    fi
+    if test $# -eq 2 
+    then
+    echo "You entered 2 arguments"
+    fi
+    if test $# -gt 2
+    then
+    echo "You entered more than 2 arguments"
+    fi</pre>
+        </li>
+        <li>This is much harder to read than the indented version</li>
+        <li>Indenting blocks of commands in a control structure ...</li>
+        <li> is a good habit to get into</li>
+    </ul>
+        
+    <h3 class="section">Attendance</h3>
+    
+    <h3 class="section">Class Quiz</h3>
+    
+	<footer>
+		<a href="class_notes_it244.html" class="spacer">Class Notes</a>
+		<a href="class_notes_index_it244.html" class="spacer">Class Notes Index</a>
+	</footer>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/23_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:43 GMT -->
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/23_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:45 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title> IT 244: Introduction to Linux/Unix - Class 23 Exercise</title>
+</head>
+<body>
+	<header>
+		<h2>
+			IT 244: Introduction to Linux/Unix <br>
+		    Class 23 Exercise, Tuesday
+		</h2>	
+	</header>
+
+
+	<h3>Log in to <span class="host">users3.cs.umb.edu</span></h3>
+    <ul>
+    	<li><span class="under">Run the ssh client</span><br><br>
+        	Connect to <span class="host">users3.cs.umb.edu</span>.
+        </li>
+    </ul>
+	
+	<h3>Directory for this Exercise</h3>
+    <ul>
+        <li><span class="under">Go to your <span class="path">ex</span> directory</span>
+            <pre>
+    cd  ~/it244/ex</pre>
+        </li>
+        <li><span class="under">Create an <span class="path">ex23</span> directory</span><br>
+            <pre>
+    mkdir  ex23</pre>
+        </li>       
+        <li><span class="under">Go to your <span class="path">ex23</span> directory</span><br>
+            <pre>
+    cd  ex23</pre>
+        </li>
+    </ul>
+	
+    <h3>Using <code>test</code>, as <span class="char">[ ]</span>, with Numbers</h3>
+	<ul>
+		<li><span class="under">Use <code>test</code> with the <span class="char">-eq</span> (equality for numbers) operator</span><br>
+			<pre>
+    [ 4 -eq 5 ] ; echo $?</pre>
+			Since anything other than 0 as an exit status signals failure, 
+			this means that the equality test has failed.
+			<br><br>
+			Be sure to use a space before and after each <span class="char">[</span> and <span class="char">]</span> character.
+		</li>
+		<li><span class="under">Use the <span class="char">-eq</span> operator with the same number on both sides</span><br>
+			<pre>
+    [ 4 -eq 4 ] ; echo $?</pre>
+			Since 0 means success, this means that the expression evaluated to true.
+		</li>
+		<li><span class="under">Use <code>test</code> with the <span class="char">-ne</span> (not equal for numbers) operator</span><br>
+			<pre>
+    [ 4 -ne 5 ] ; echo $?</pre>
+			0 means true.
+		</li>
+		<li><span class="under">Use <span class="char">-ne</span> again</span><br>
+			<pre>
+    [ 4 -ne 4 ]; echo $?</pre>
+			1 means false.
+		</li>
+		<li><span class="under">Use <code>test</code> with the <span class="char">-gt</span> (greater than) operator</span><br>
+			<pre>
+    [ 4 -gt 5 ] ; echo $?
+    [ 5 -gt 4 ] ; echo $?</pre>
+		</li>
+		<li><span class="under">Use the <span class="char">-ge</span> (greater than or equal to) operator</span><br>
+			<pre>
+    [ 5 -ge 4 ] ; echo $?
+    [ 5 -ge 5 ] ; echo $?
+    [ 4 -ge 5 ] ; echo $?</pre>
+		</li>
+		<li><span class="under">Use the <span class="char">-lt</span> (less than operator)</span><br>
+			<pre>
+    [ 4 -lt 5 ] ; echo $?
+    [ 5 -lt 4 ] ; echo $?</pre>
+		</li>
+		<li><span class="under">Use the <span class="char">-le</span> (less than or equal to) operator</span><br>
+			<pre>
+    [ 4 -le 5 ] ; echo $?
+    [ 4 -le 4 ] ; echo $?
+    [ 5 -le 4 ] ; echo $?</pre>
+		</li>
+	</ul>
+	
+	<h3>Using <code>test</code> with String Comparison Operators</h3>
+	<ul>
+		<li><span class="under">Use <code>test</code> with the <span class="char">=</span> (string equality) comparison operator</span><br>
+			<pre>
+    [ "foo" = "foo" ] ; echo $?
+    [ "foo" = "bar" ] ; echo $?</pre>
+		</li>
+		<li><span class="under">Use <code>test</code> with the <span class="char">!=</span> (string not equal) comparison operator</span><br>
+			<pre>
+    [ "foo" != "bar" ] ; echo $?
+    [ "foo" != "foo" ] ; echo $?</pre>
+		</li>
+	</ul>
+	
+	<h3>Using <code>test</code> with Single String Operators</h3>
+	<ul>
+		<li><span class="under">Use <code>test</code> with the <span class="char">-n</span> (length greater than 0) string operator</span><br>
+			<pre>
+    [ -n "foo" ] ; echo $?
+    [ -n "" ] ; echo $?</pre>
+		</li>
+		<li><span class="under">Use <code>test</code> with the <span class="char">-z</span> (length is 0) string operator</span><br>
+			<pre>
+    [ -z "" ] ; echo $?
+    [ -z "foo" ] ; echo $?</pre>
+		</li>
+	</ul>
+	
+		<h3>Using <code>test</code> logical operators</h3>
+	<ul>
+		<li><span class="under">Use <code>test</code> with the <span class="char">-a</span> (logical AND) operator</span>
+              <pre>
+    [ 5 -lt 6 -a "foo" != "bar" ]; echo $?
+    [ 5 -lt 6 -a "foo" != "foo" ]; echo $?</pre>
+		</li>
+		<li><span class="under">Use <code>test</code> with the <span class="char">-o</span> (logical OR) operator</span>
+               <pre>
+    [ 5 -lt 6 -o "foo" != "foo" ]; echo $?
+    [ 5 -lt 5 -o "foo" != "foo" ]; echo $?</pre>
+		</li>
+		<li><span class="under">Use <code>test</code> with the <span class="char">!</span> (logical NOT) operator</span>
+               <pre>
+    [ ! 5 -lt 5 -o "foo" != "foo" ]; echo $?
+    [ ! 5 -lt 6 -o "foo" != "foo" ]; echo $?</pre>
+       </li>
+	</ul>
+	
+	
+	<h3>Using <code>test</code> with File and Directory Operators</h3>
+	<ul>
+		<li><span class="under">Create the empty file <span class="path">empty.txt</span></span>
+              <pre>
+    touch empty.txt</pre>
+		</li>
+		<li><span class="under">Make <span class="path">empty.txt</span> read only</span>
+               <pre>
+    chmod 444 empty.txt</pre>
+       </li>	
+		<li><span class="under">Create the file <span class="path">foo.txt</span></span>
+               <pre>
+    cat &gt; foo.txt [Enter]
+    foo [Enter]
+    Control d</pre>
+       </li>
+       <li><span class="under">Make sure this file is not empty</span>
+               <pre>
+    cat foo.txt</pre>
+       </li>
+		<li><span class="under">Give yourself full privileges to this file</span>
+               <pre>
+    chmod 700 foo.txt</pre>
+       </li>
+    <li><span class="under">Create the directory <span class="path">dir1</span></span>
+               <pre>
+    mkdir dir1</pre>
+       </li>
+		<li><span class="under">Use <code>test</code> with the <span class="char">-d</span> (is it a directory) operator</span>
+               <pre>
+    [ -d dir1 ]; echo $?
+    [ -d foo.txt ]; echo $?</pre>
+       </li>
+		<li><span class="under">Use <code>test</code> with the <span class="char">-e</span> (it exists) operator</span>
+               <pre>
+    [ -e foo.txt ]; echo $?
+    [ -e bar.txt ]; echo $?</pre>
+       </li>
+		<li><span class="under">Use <code>test</code> with the <span class="char">-f</span> (is an ordinary file) operator</span>
+               <pre>
+    [ -f foo.txt ]; echo $?
+    [ -f dir1 ]; echo $?</pre>
+       </li>
+		<li><span class="under">Use <code>test</code> with the <span class="char">-r</span> (exists and is readable) operator</span>
+               <pre> 
+    [ -r empty.txt ]; echo $?
+    [ -r xxxx.txt ]; echo $?</pre>
+       </li>
+		<li><span class="under">Use <code>test</code> with the <span class="char">-s</span> (exists and has a size greater than 0) operator</span>
+               <pre>
+    [ -s foo.txt ]; echo $?
+    [ -s empty.txt ]; echo $?</pre>
+       </li>
+		<li><span class="under">Use <code>test</code> with the <span class="char">-w</span> (exists and is writeable) operator</span>
+               <pre>
+    [ -w foo.txt ]; echo $?
+    [ -w empty.txt ]; echo $?</pre>
+       </li>
+       <li><span class="under">Use <code>test</code> with the <span class="char">-x</span> (exists and is executable) operator</span>
+               <pre>
+    [ -x foo.txt ]; echo $?
+    [ -x empty.txt ]; echo $?</pre>
+       </li>
+	</ul>	
+
+	<h3><code>if ... then ... else ...</code></h3>
+    <ul>
+        <li><span class="under">Make sure you are in your <span class="path">ex23</span> directory</span><br>
+            <pre>
+    cd ~/it244/ex/ex23</pre>
+        </li>
+        <li><span class="under">Using your favorite editor create the script <span class="path">arg_count.sh</span></span></li>
+    </ul>
+    <img src="exercise_images_it244/23_exercise_arg_count_it244.html" height="50%"/>
+    <ul class='flat'>        
+        <li><span class="under">Test the script several times using <code>bash</code> with the <span class="char">-x</span> option</span><br>
+            <pre>
+    bash -x arg_count.sh
+    bash -x arg_count.sh foo
+    bash -x arg_count.sh foo bar
+    bash -x arg_count.sh foo bar bletch</pre>
+        </li>
+	</ul>
+
+	<h3><code>if ... then ... elif ...</code></h3>
+    <ul>
+        <li><span class="under">Make sure you are in your <span class="path">ex23</span> directory</span><br>
+            <pre>
+    cd ~/it244/ex/ex23</pre>
+        </li>
+        <li><span class="under">Using your favorite editor create the script <span class="path">arg_count_2.sh</span></span></li>
+    </ul>
+    <img src="exercise_images_it244/23_exercise_arg_count_2_it244.html" height="50%"/>
+    <ul class='flat'>        
+        <li><span class="under">Change the permissions on arg_test.sh to make it executable</span><br>
+            <pre>
+    chmod 755 arg_count_2.sh</pre>
+        </li>
+        <li><span class="under">Test the script several times using <code>bash</code> with the <span class="char">-x</span> option</span><br>
+            <pre>
+    bash -x arg_count_2.sh
+    bash -x arg_count_2.sh foo
+    bash -x arg_count_2.sh foo bar
+    bash -x arg_count_2.sh foo bar bletch</pre>
+        </li>
+        <li><span class="under">Test you script</span><br>
+			<pre>
+    ~tsoro/it244_test/ex23.sh</pre>
+		When the script asks if you are ready for more, hit Return or Enter.
+		</li>
+        <li><span class="under">Let me check your script</span><br></li>
+	</ul>
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/23_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:47 GMT -->
+</html>

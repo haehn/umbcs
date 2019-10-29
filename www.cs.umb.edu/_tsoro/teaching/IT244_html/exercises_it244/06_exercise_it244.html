@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/06_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title> IT 244: Introduction to Linux/Unix - Class 6 Exercise</title>
+</head>
+<body>
+	<header>
+		<h2>
+		    IT 244: Introduction to Linux/Unix <br>
+		    Class 6 Exercise
+		</h2>	
+	</header>
+
+	<h3>Log in to <span class="host">users3.cs.umb.edu</span></h3>
+	<ul>
+		<li><span class="under">Run the ssh client</span><br><br>
+			Connect to <span class="host">users3.cs.umb.edu</span>.
+		</li>
+	</ul>
+	
+	<h3>Directory for this Exercise</h3>
+    <ul>
+        <li><span class="under">Make sure you are in your home directory</span><br>
+            <pre>
+    cd</pre>
+        </li>
+        <li><span class="under">Go to your <span class="path">it244</span> directory</span>
+            <pre>
+    cd  it244</pre>
+        </li>
+        <li><span class="under">Go to your <span class="path">ex</span> directory</span><br>
+            <pre>
+    cd  ex</pre>
+        </li>
+        <li><span class="under">Create an <span class="path">ex6</span> directory</span><br>
+            <pre>
+    mkdir  ex6</pre>
+        </li>       
+        <li><span class="under">Go to your <span class="path">ex6</span> directory</span><br>
+            <pre>
+    cd  ex6</pre>
+        </li>
+    </ul>
+    
+    <h3><code>diff</code></h3>
+	<ul>
+		<li><span class="under">Go to the files directory for this course</span><br>
+			<pre>
+	cd  /home/tsoro/course_files/it244_files</pre>
+		</li>
+		<li><span class="under">Examine the contents of <span class="path">numbers1.txt</span> and <span class="path">numbers2.txt</span></span>
+			<pre>
+    cat  numbers1.txt
+    cat  numbers2.txt</pre>
+		</li>
+		<li><span class="under">Use <code>diff</code> to compare <span class="path">numbers1.txt</span> and <span class="path">numbers2.txt</span></span>
+			<pre>
+    diff  numbers1.txt  numbers2.txt</pre>
+			The output is hard to read, because it contains instructions
+			for the Unix <code>patch</code> utility to convert the first file given at the command
+			line to the second.
+			<br><br><br><br>
+		</li>
+		<li><span class="under">Use the -y option to diff to create readable output</span>
+			<pre>
+    diff  -y  numbers1.txt  numbers2.txt</pre>
+			This output is much easier to read.
+		</li>
+	</ul>
+	
+	<h3><code>file</code></h3>
+    <ul>
+    		<li><span class="under">Run <code>file</code> on on a shell script</span><br>
+			<pre>
+    file  break.sh</pre>
+		</li>
+		<li><span class="under">Run <code>file</code> on a Python scrips</span><br>
+			<pre>
+    file  make_upper.py</pre>
+		</li>
+        <li><span class="under">Return to your home directory</span>
+            <pre>
+    cd</pre>
+        </li>
+        <li><span class="under">Run <code>file</code> on the contents of your home directory</span>
+            <pre>
+    file * </pre>
+        </li>
+        <li><span class="under">Look at the files in my home directory</span>
+            <pre>
+    file /home/tsoro/*</pre>
+        </li>
+    </ul>
+    
+    <h3>Pipes</h3>
+    <ul>
+        <li><span class="under">Make sure you are in your home directory</span><br>
+            <pre>
+    cd</pre>
+        </li>
+        <li><span class="under">Go to your <span class="path">ex6</span> directory</span><br>
+            <pre>
+    cd it244/ex/ex6</pre>
+        </li>
+        <li><span class="under">Make sure you are in your <span class="path">ex6</span> directory</span><br>
+            <pre>
+    pwd</pre>
+        </li>
+        <li><span class="under">Copy <span class="path">red_sox.txt</span> to your <span class="path">ex6</span> directory</span><br>
+            <pre>
+    cp  /home/tsoro/course_files/it244_files/red_sox.txt  <b>.</b></pre>
+            Make sure you include the dot, <span class="char">.</span>, or you will
+            get an error message.
+            <br><br>
+        </li>
+        <li><span class="under">Make sure the copy operation worked</span><br>
+            <pre>
+    ls</pre>
+        </li>
+        <li><span class="under">Print the <span class="path">red_sox.txt</span></span><br>
+			<pre>
+    cat  red_sox.txt</pre><br><br>
+		</li>
+        <li><span class="under">Find all Red Sox wins</span><br>
+            <pre>
+    grep Win red_sox.txt </pre>
+        </li>
+        <li><span class="under">Find all Red Sox wins at home</span><br>
+            <pre>
+    grep Win red_sox.txt | grep vs</pre>
+            Here, the first instance of grep is the source, and the
+            second is a filter.
+            <br><br>
+        </li>
+        <li><span class="under">Find all Red Sox wins at home, sorted in reverse order by date</span><br>
+            <pre>
+    grep Win red_sox.txt | grep vs | sort -nr</pre>
+            This is a pipeline, with three separate processes, one for each command.
+        </li>
+    </ul>
+    
+    <h3><code>date</code></h3>
+    <ul>
+        <li><span class="under">Show today's date</span><br>
+            <pre>
+    date</pre>
+        </li>
+        <li>Use the formatting options of <code>date</code> to show today's date using the format YYYY-MM_DD<span class="under"></span><br>
+            <pre>
+    date +"%Y-%m-%d"</pre>
+        </li>
+    </ul>
+    
+    
+    <h3><code>which</code></h3>
+    <ul>
+        <li><span class="under">Find the executable file for the Python interpreter</span>
+            <pre>
+    which python</pre>
+        </li>
+        <li><span class="under">Find the executable file for <code>tar</code></span>
+            <pre>
+    which tar</pre>
+        </li>
+    </ul>
+    
+    <h3><code>whereis</code></h3>
+    <ul>
+    <li><span class="under">Find files associated with <code>python</code></span>
+            <pre>
+    whereis python</pre>
+            Note that <code>whereis</code> reveals many more files.
+            <br><br>
+        </li>
+        <li><span class="under">Find files associated with <code>tar</code></span>
+            <pre>
+    whereis tar</pre><br><br><br>
+        </li>
+    </ul>
+    
+    <h3><code>locate</code></h3>
+    <ul>
+        <li><span class="under">Find all files with "foot" in their name</span>
+            <pre>
+    locate foot</pre>
+        </li>
+    </ul>
+    
+    <h3><code>who</code></h3>
+    <ul>
+        <li><span class="under">Find out who else is logged in to <span class="path">users3.cs.umb.edu</span></span>
+            <pre>
+    who</pre>
+        </li>
+        <li><span class="under">Look at the details of your current session</span>
+            <pre>
+    who am i</pre>
+        </li>
+    </ul>
+    
+    <h3><code>finger</code></h3>
+    <ul>
+        <li><span class="under">Use <code>finger</code> to see who else is connected to your current host</span>
+            <pre>
+    finger</pre>
+        </li>
+        <li><span class="under">Use <code>finger</code> on <b>your</b> own Unix username</span>
+            <pre>
+    finger YOUR_UNIX_USERNAME</pre>
+        In place of YOUR_UNIX_USERNAME, you must put your Unix username.
+        <br><br>
+        </li>
+        <li><span class="under">Run <code>finger</code> on the first name "Glenn"</span>
+            <pre>
+    finger Glenn</pre>
+        </li>
+    </ul>
+    
+    <h3>Bash Script for this Exercise</h3>
+    <ul>
+        <li><span class="under">Go to your <span class="path">ex6</span> directory</span><br>
+            <pre>
+    cd ~/it244/ex/ex6</pre>
+        </li>
+        <li><span class="under">Make sure you are in your <span class="path">ex6</span> directory</span><br>
+            <pre>
+    pwd</pre>
+        If not, see me.
+        <br><br>
+        </li>
+        <li><span class="under">Create the script <span class="path">ex6.sh</span></span><br>
+            <pre>
+    nano ex6.sh</pre>
+        </li>
+        <li><span class="under">Write into this file all the commands from the sections above</span><br><br>
+            Copy all the commands from the sections <span class="under"><code>diff</code></span> up to and including
+            <span class="under"><code>finger</code></span>.
+            <br><br>
+            <b>Do not call <code>nano</code> inside your script.</b>
+            <br><br>
+        </li>
+        <li><span class="under">Save this file</span><br><br>
+            Save and quit.
+            <br><br>
+        </li>
+        <li><span class="under">Run this script looking for error messages</span><br>
+            <pre>
+    bash  ex6.sh &gt; /dev/null</pre>
+            Running <span class="path">ex6.sh</span> this way
+            will only print error messages. <br><br>
+            If you see <b>nothing</b> your script has no Unix errors. <br><br>
+    			If you find any errors, fix them.
+    			<br><br>
+        </li>
+        <li><span class="under">Test you script</span><br>
+			<pre>
+    ~tsoro/it244_test/ex06.sh</pre>
+		When the script asks if you are ready for more, hit Return or Enter.
+		<br><br>
+		</li>
+        <li><span class="under">Let me check your script</span><br>
+		</li>
+    </ul>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/06_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+</html>

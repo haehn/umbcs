@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/16_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title>IT 244: Introduction to Linux/Unix - Class 15 Exercise</title>
+</head>
+<body>
+	<header>
+		<h2>
+		    IT 244: Introduction to Linux/Unix<br>
+		    Class 15 Exercise
+		</h2>	
+	</header>
+
+	<h3>Log in to <span class="host">users3.cs.umb.edu</span></h3>
+    <ul>
+    	<li><span class="under">Run the ssh client</span><br><br>
+        	Connect to <span class="host">users3.cs.umb.edu</span>.
+        </li>
+    </ul>
+    
+    <h3>Directory for this Exercise</h3>
+    <ul>
+        <li><span class="under">Go to your <span class="path">ex</span> directory</span>
+            <pre>
+    cd  ~/it244/ex</pre>
+        </li>
+        <li><span class="under">Create an <span class="path">ex15</span> directory</span><br>
+            <pre>
+    mkdir  ex15</pre>
+        </li>       
+    </ul>
+
+<h3><code>bash</code> Startup Files</h3>
+	<ul>
+		<li><span class="under">Go to your home directory</span><br>
+			<pre>
+    cd</pre>
+		</li>
+		<li><span class="under">Make sure you are in your home directory</span><br>
+            <pre>
+    pwd</pre>
+        </li>
+		<li><span class="under">Look for any bash startup files</span><br>
+			<pre>
+    ls .bash*</pre>
+			Unless you have created <span class="path">.bashrc</span> 
+			or <span class="path">.bash_profile</span>, you should see only 
+			<span class="path">.bash_history</span>.
+			<br><br>
+		</li>
+		<li><span class="under">Create a <span class="path">.bash_profile</span> startup file</span><br>
+			<pre>
+    nano .bash_profile</pre>
+		</li>
+		<li><span class="under">Enter the following line:</span><br>
+			<pre>
+    ex=~/it244/ex</pre>
+	        There <b>must not be any spaces</b> on either side of the <span class="char">=</span>.
+	        <br><br>
+			You have just created the variable <span class="path">ex</span> with the value of <span class="path">~/it244/ex</span>.
+			<br><br>
+		</li>
+		<li><span class="under">Save your changes and quit <code>nano</code></span>
+			<br><br>
+		</li>
+		<li><span class="under">Try to use this new variable</span><br>
+			<pre>
+    echo $ex</pre>
+			<code>echo</code> prints a blank line, because <span class="path">.bash_profile</span> ran when you first logged in.
+			<br><br>
+			When <span class="path">.bash_profile</span> ran, <span class="path">ex</span> was not defined in <span class="path">.bash_profile</span>.
+			<br><br>
+			It has not been run again since you made the changes. 
+			<br><br> 
+		</li>
+		<li><span class="under">Run <span class="path">.bash_profile</span> in your current shell</span><br>
+			<pre>
+    source .bash_profile</pre>
+		</li>
+		<li><span class="under">Now try to use the new variable</span><br>
+			<pre>
+    echo $ex</pre>
+		</li>
+		<li><span class="under">Use this new variable to go to your <span class="path">ex</span> directory inside your 
+		      <span class="path">it244</span> directory</span><br>
+			<pre>
+    cd $ex</pre>
+		</li>
+		<li><span class="under">Verify your current location</span><br>
+			<pre>
+    pwd</pre>
+		</li>
+	</ul>
+	
+	<h3>Create an Interactive Non-login Shell</h3>
+    <ul>
+        <li><span class="under">Go back to your home directory</span><br>
+            <pre>
+    cd</pre>
+        </li>
+        <li><span class="under">Create a <span class="path">.bashrc</span> file</span><br>
+            <pre>
+    nano .bashrc</pre>
+            Notice that this is a <b>different</b> file than <span class="path">.bash_profile</span>.
+            <br><br>
+        </li>
+        <li><span class="under">Enter the following line in the file</span><br>
+            <pre>
+    PS1='--&gt; '</pre>
+            Again, there must be <b>no spaces</b> on either side of the <span class="char">=</span>.
+            <br><br>
+        </li>
+        <li><span class="under">Save your changes and quit <code>nano</code></span>
+            <br><br>
+        </li>        
+        <li><span class="under">Create a subshell</span><br>
+            <pre>
+    bash</pre>
+        Notice that your prompt has changed.
+        <br><br>
+        That is because you changed the prompt variable <span class="iden">PS1</span> in your <span class="path">.bashrc</span> file.
+        <br><br>
+        When you created this interactive non-login shell, all the commands in <span class="path">.bashrc</span> were executed.
+        <br><br>
+        <span class="path">.bashrc</span> changed the value of <span class="iden">PS1</span>, giving you a new prompt.
+        <br><br>
+        </li>
+        <li><span class="under">Look at your running processes</span><br>
+            <pre>
+    ps</pre>
+            The first <code>bash</code> process is your login shell.
+            <br><br>
+            The second is your current shell.
+            <br><br>
+        </li>
+        <li><span class="under">Leave the subshell</span><br>
+            <pre>
+    exit</pre>
+            Notice that your prompt now has returned to normal.
+            <br><br>
+        </li>
+        <li><span class="under">Run <code>ps</code> again</span><br>
+            <pre>
+    ps</pre>
+            You have only one <code>bash</code> process running.
+            <br><br>
+            This means you are back in you login shell.
+            <br><br>
+        </li>
+    </ul>
+
+	<h3>Built-in Commands</h3>
+	<ul>
+		<li><span class="under">Find the file that will be run when you use <code>ls</code></span><br>
+			<pre>
+    which ls</pre>
+            You get an absolute pathname, so <code>ls</code> is <b>not</b> a built-in.
+            <br><br>
+		</li>
+		<li><span class="under">Find the file that will be run when you use <code>cat</code></span><br>
+			<pre>
+    which cat</pre>
+            <code>cat</code> is also <b>not</b> a built-in.
+            <br><br>
+		</li>
+		<li><span class="under">Find the file that will be run when you use <code>bg</code></span><br>
+			<pre>
+    which bg</pre>
+			<code>which</code> returns nothing because <code>bg</code> is a built-in command.
+			<br><br>
+			This means the code for this command is contained within the shell itself.
+			<br><br>
+		</li>
+		<li><span class="under">Find the file that will be run when you use <code>fg</code></span><br>
+			<pre>
+    which fg</pre>
+			<code>fg</code> is also a built-in command.
+		</li>
+	</ul>	
+	
+	<h3>The <span class="char">*</span> Metacharacter</h3>
+    <ul>
+    		<li><span class="under">Go to your home directory</span><br>
+			<pre>
+    cd </pre>
+		</li>
+    		<li><span class="under">Go to your <span class="path">ex15</span> directory</span><br>
+			<pre>
+    cd it244/ex/ex15</pre>
+		</li>
+		<li><span class="under">Make sure you are in the right directory</span><br>
+			<pre>
+    pwd</pre>
+		</li>
+		<li><span class="under">Run the script <span class="path">make_foo.sh</span></span><br>
+			<pre>
+    ~tsoro/course_files/it244_files/make_foo.sh</pre>
+			This script will create some files that you will use in the
+			remainder of this exercise.
+			<br><br>
+		</li>
+		<li><span class="under">Look at the files created by running the script</span><br>
+			<pre>
+    ls -l</pre>
+		</li>
+		<li><span class="under">Run a long listing on using a single character and <span class="char">*</span></span><br>
+            <pre>
+    ls  -l  f*</pre>
+            You only have to enter as many characters as are needed to
+            distinguish the files you want from the files you don't want.
+            <br><br>
+        </li>
+        <li><span class="under">Run a long listing using the <span class="char">*</span> metacharacter</span><br>
+            <pre>
+    ls  -l  foo1*.txt</pre>
+        </li>
+        <li><span class="under">Run a long listing using more than one <span class="char">*</span></span><br>
+            <pre>
+    ls  -l  f*2*</pre>
+            You can use multiple instances of metacharacters.
+        </li>
+    </ul> 	
+    
+    <h3>The <span class="char">?</span> Metacharacter</h3>
+    <ul>
+        <li><span class="under">Run a long listing using the <span class="char">?</span> metacharacter</span><br>
+            <pre>
+    ls  -l  foo?.txt</pre>
+            Notice that <span class="path">foo.txt</span> and 
+            the files
+            <span class="path">foo10.txt </span> through <span class="path">foo29.txt</span>
+            <b>do not</b> appear in the listing.
+            <br><br>
+        </li>
+        <li><span class="under">Run another long listing the <span class="char">?</span> metacharacter</span><br>
+			<pre>
+    ls -l foo2?.txt</pre>
+    			Notice that you only print the files <span class="path">foo20.txt</span>
+    			to <span class="path">foo29.txt</span>
+    			<br><br>
+		</li>
+		<li><span class="under">Run a long listing using two <span class="char">?</span> metacharacters</span><br>
+			<pre>
+    ls -l foo??.txt</pre>
+    			Notice that you now you see the files <span class="path">foo10.txt</span>
+    			to <span class="path">foo29.txt</span>
+    			<br><br>
+		</li>
+		<!-- foo?? -->
+    </ul>
+    
+    <h3>The <span class="char">[</span> and <span class="char">]</span> Metacharacters</h3>
+    <ul>
+        <li><span class="under">Use the bracket metacharacters to select foo files 1 through 3</span><br>
+            <pre>
+    ls  -l  foo[123].txt</pre>
+        </li>
+        <li><span class="under">Use a range to list foo files 1 through 5</span><br>
+            <pre>
+    ls  -l  foo[1-5].txt</pre>
+        </li>
+        <li><span class="under">List all numbered foo files except 5 and 10</span><br>
+            <pre>
+    ls  -l  foo[1-46-9].txt</pre>
+        </li>
+        <li><span class="under">List the same files as above using a shorter search string</span><br>
+            <pre>
+    ls  -l  foo[!05].txt</pre>
+        </li>
+        <li><span class="under">Use the bracket metacharacters to select foo files 14 through 16</span><br>
+            <pre>
+    ls  -l  foo1[456].txt</pre>
+        </li>
+        <li><span class="under">Use a range to list foo files 16 through 19</span><br>
+            <pre>
+    ls  -l  foo1[6-9].txt</pre>
+        </li>
+        <li><span class="under">List all numbered foo2 files except 20 and 25</span><br>
+            <pre>
+    ls  -l  foo2[1-46-9].txt</pre>
+        </li>
+        <li><span class="under">List the same files as above using a shorter search string</span><br>
+            <pre>
+    ls  -l  foo2[!50].txt</pre>
+        </li>
+    </ul>
+    
+    <h3>Using More Than One Meta-character</h3>
+	<ul class="flat">
+		<li><span class="under">Use <span class="char">*</span>
+			and <span class="char">[ ]</span> together
+		</span><br>
+			<pre>
+    ls  -l  foo[123].*</pre>
+		</li>
+		<li><span class="under">Use <span class="char">?</span>
+		and <span class="char">[ ]</span> together
+		</span><br>
+			<pre>
+    ls  -l  f??[123].txt</pre><br><br>
+		</li>
+		<li><span class="under">Use all three metacharacters together</span><br>
+			<pre>
+    ls  -l  f??[123].*</pre>
+		</li>
+	</ul>
+    
+    <h3>Bash Script for this Exercise</h3>
+    <ul>
+        <li><span class="under">Make sure you are in your <span class="path">ex15</span> directory</span><br>
+            <pre>
+    cd ~/it244/ex/ex15</pre>
+        </li>
+        <li><span class="under">Create the script <span class="path">ex15.sh</span></span><br>
+            <pre>
+    nano  ex15.sh</pre>
+        </li>
+        <li><span class="under">Write into this file the commands from certain sections above</span><br><br>
+            Copy the commands from the section titled 
+            <b>Built-in Commands</b>
+            up to and including the section
+            <b>Using More Than One Meta-character</b>
+            <br><br>
+        </li>
+        <li><span class="under">Save this file</span><br><br>
+            Save and quit.
+            <br><br>
+        </li>
+        <li><span class="under">Make this file executable</span><br>
+            <pre>
+    chmod 755 ex15.sh</pre>
+        </li>
+        <li><span class="under">Run this script looking for error messages</span><br>
+            <pre>
+    ./ex15.sh &gt; /dev/null</pre>
+    			Running <span class="path">ex15.sh</span> this way
+            will only print error messages. <br><br>
+            If you see <b>nothing</b> your script has no Unix errors. <br><br>
+                If you find any errors, fix them.
+        </li>
+        <li><span class="under">Test you script</span><br>
+			<pre>
+    ~tsoro/it244_test/ex15.sh</pre>
+		When the script asks if you are ready for more, hit Return or Enter.
+			<br><br>
+		</li>
+        <li><span class="under">Let me check your script</span><br></li>
+    </ul>
+	
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/16_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+</html>

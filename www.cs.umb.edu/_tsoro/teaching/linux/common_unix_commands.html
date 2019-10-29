@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/linux/common_unix_commands.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:52:10 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../IT244_html/class_notes.css">
+    <title>Common Unix Commands</title>
+</head>
+<body>
+    <header>
+        <h2>Common Unix Commands</h2>
+    </header>
+
+    <h3 class="section">Commands</h3>
+    <ul class='flat'>       
+        <li class="flat"><a href="#apropos"><code>apropos</code></a></li>
+        <li class="flat"><a href="#bash"><code>bash</code></a></li>
+        <li class="flat"><a href="#bg"><code>bg</code></a></li>
+        <li class="flat"><a href="#cat"><code>cat</code></a></li>
+        <li class="flat"><a href="#cd"><code>cd</code></a></li>
+        <li class="flat"><a href="#chmod"><code>chmod</code></a></li>
+        <li class="flat"><a href="#cp"><code>cp</code></a></li>
+        <li class="flat"><a href="#date"><code>date</code></a></li>
+        <li class="flat"><a href="#diff"><code>diff</code></a></li>
+        <li class="flat"><a href="#echo"><code>echo</code></a></li>
+        <li class="flat"><a href="#env"><code>env</code></a></li>
+        <li class="flat"><a href="#fg"><code>fg</code></a></li>
+        <li class="flat"><a href="#finger"><code>finger</code></a></li>
+        <li class="flat"><a href="#grep"><code>grep</code></a></li>
+        <li class="flat"><a href="#head"><code>head</code></a></li>
+        <li class="flat"><a href="#hostname"><code>hostname</code></a></li>
+        <li class="flat"><a href="#jobs"><code>jobs</code></a></li>
+        <li class="flat"><a href="#kill"><code>kill</code></a></li>
+        <li class="flat"><a href="#less"><code>less</code></a></li>
+        <li class="flat"><a href="#locate"><code>locate</code></a></li>
+        <li class="flat"><a href="#ls"><code>ls</code></a></li>
+        <li class="flat"><a href="#ln"><code>ln</code></a></li>
+        <li class="flat"><a href="#man"><code>man</code></a></li>
+        <li class="flat"><a href="#mkdir"><code>mkdir</code></a></li>
+        <li class="flat"><a href="#more"><code>more</code></a></li>
+        <li class="flat"><a href="#mv"><code>mv</code></a></li>
+        <li class="flat"><a href="#pwd"><code>pwd</code></a></li>
+        <li class="flat"><a href="#rm"><code>rm</code></a></li>
+        <li class="flat"><a href="#rmdir"><code>rmdir</code></a></li>
+        <li class="flat"><a href="#script"><code>script</code></a></li>
+        <li class="flat"><a href="#sort"><code>sort</code></a></li>
+        <li class="flat"><a href="#ssh"><code>ssh</code></a></li>
+        <li class="flat"><a href="#tail"><code>tail</code></a></li>
+        <li class="flat"><a href="#tee"><code>tee</code></a></li>
+        <li class="flat"><a href="#uname"><code>uname</code></a></li>
+        <li class="flat"><a href="#uniq"><code>uniq</code></a></li>
+        <li class="flat"><a href="#which"><span class="iden">which</span></a></li>
+        <li class="flat"><a href="#who"><code>who</code></a></li>
+    </ul>
+    
+	<p>When an argument appears in brackets, it is optional or
+	   only required in certain circumstances.
+	   <br><br>
+	   A vertical bar separating two arguments is a logical OR.
+	   <br><br>
+	   Words in ALL_CAPITALS are placeholders.
+	</p>
+	
+	<h4 class="topic" id="apropos"><code>apropos</code></h4>
+	<p class="flat">Takes the word you give it as an argument and searches the short
+            description line at the top of all man pages for a match.
+	</p>
+	<pre>
+<span class="format">apropos KEYWORD</span></pre>
+
+    <h4 class="topic" id="bash"><code>bash</code></h4>
+    <p class="flat">Starts a bash shell as a subprocess of your current shell.</p>
+    <pre>
+<span class="format">bash</span></pre>
+
+    <h4 class="topic" id="bg"><code>bg</code></h4>
+    <p class="flat">Sends a suspended job into the background, where it resumes running.</p>
+    <p>If there is more than one suspended job, the job number
+       <b>must</b> be given as an argument.
+    </p>
+    <pre>
+<span class="format">bg [JOB_NUMBER]</span></pre>
+
+    <h4 class="topic" id="cat"><code>cat</code></h4>
+    <p class="flat">Prints the contents of the file given as its argument to the screen.</p>
+    <table>
+        <tr>
+            <th>Options</th>
+        </tr>
+        <tr>
+            <td>-n</td> <td>Prints the line number at the beginning of each line</td>
+        </tr>
+    </table>
+    <pre>
+<span class="format">cat FILENAME</span></pre>
+    
+    <h4 class="topic" id="cd"><code>cd</code></h4>
+    <p class="flat">Changes your current directory.</p>
+    <p>When no directory name is specified, your home directory is assumed.</p>
+    <p>To go up one level to the parent directory, 
+       use <span class="char">..</span> instead of a directory name.
+    </p>
+    <pre>
+<span class="format">cd [DIRECTORY_PATHNAME]</span></pre>
+
+    <h4 class="topic" id="chmod"><code>chmod</code></h4>
+    <p class="flat">Changes permission on a file or directory.</p>
+    <p>The permissions may be specified, relative to their current state, 
+       by a symbolic argument, or absolutely by a numeric argument.
+    </p>
+    <pre>
+<span class="format">chmod PERMISSIONS FILENAME|DIRECTORY_NAME</span></pre>
+
+    <h4 class="topic" id="cp"><code>cp</code></h4>
+    <p class="flat">Creates a copy of a file or directory.</p>
+    <table>
+        <tr>
+            <th>Options</th>
+        </tr>
+        <tr>
+            <td>-r</td> <td>Copies a directory and all its contents</td>
+        </tr>
+    </table>
+    <pre>
+<span class="format">cp FILE_1|FILE_2</span></pre>
+
+    <h4 class="topic" id="date"><code>date</code></h4>
+    <p class="flat">Prints the current date and time.</p>
+    <pre>
+<span class="format">date</span></pre>
+
+    <h4 class="topic" id="diff"><code>diff</code></h4>
+    <p class="flat">Prints the difference between two files.</p>
+    <table>
+        <tr>
+            <th>Options</th>
+        </tr>
+        <tr>
+            <td>-y</td> <td>Prints the output in human-readable form.</td>
+        </tr>
+    </table>
+    <pre>
+<span class="format">diff FILE_1 FILE_2</span></pre>
+
+    <h4 class="topic" id="echo"><code>echo</code></h4>
+    <p class="flat">Prints the string given as an argument to Standard Output.</p>
+    <table>
+        <tr>
+            <th>Options</th>
+        </tr>
+        <tr>
+            <td>-n</td> <td>Does not advance to the next line after printing the string</td>
+        </tr>
+    </table>
+    <pre>
+<span class="format">echo STRING</span></pre>
+
+    <h4 class="topic" id="env"><code>env</code></h4>
+    <p class="flat">When used without an argument, returns the values of all global variables.</p>
+    <pre>
+<span class="format">env</span></pre>
+    
+    <h4 class="topic" id="fg"><code>fg</code></h4>
+    <p class="flat">Brings the background job specified into the foreground. </p>
+    <p>Can be used without an argument if there is only one background job running.</p>
+    <pre>
+<span class="format">fg [JOB_NUMBER]</span></pre>
+	
+	<h4 class="topic" id="finger"><code>finger</code></h4>
+	<p class="flat">When run with no argument, displays information on all current users connected to the host.</p>
+	<p>When run with an argument searches its store of user information to display what
+       it knows about all possible matches to the string supplied.
+	</p>
+	<pre>
+<span class="format">finger [STRING]</span></pre>
+
+    <h4 class="topic" id="grep"><code>grep</code></h4>
+    <p class="flat">Prints every line in a file where a string occurs.</p>
+    <table>
+        <tr>
+            <th>Options</th>
+        </tr>
+        <tr>
+            <td>-i</td> <td>Ignores capitalization when determining a match</td>
+        </tr>
+        <tr>
+            <td>-v</td> <td>Returns all lines that <b>do not</b> contain the string</td>
+        </tr>
+        <tr>
+            <td>-r</td> <td>Searches recursively through all directories beneath the directory supplied as an argument</td>
+        </tr>
+    </table>
+    <pre>
+<span class="format">grep SEARCH_STRING FILENAME</span></pre>
+
+    <h4 class="topic" id="head"><code>head</code></h4>
+    <p class="flat">Prints the first 10 lines in a file.</p>
+	<table>
+	   <tr>
+	       <th>Options</th>
+	   </tr>
+	   <tr>
+	       <td>-<span class="red">NUMBER</span></td> <td>Returns the first <span class="red">NUMBER</span> lines</td>
+	   </tr>
+	</table>
+	<pre>
+<span class="format">head FILENAME</span></pre>
+
+    <h4 class="topic" id="hostname"><code>hostname</code></h4>
+    <p class="flat">Returns the name of the host machine.</p>
+    <table>
+        <tr>
+            <th>Options</th>
+        </tr>
+        <tr>
+            <td>-i</td> <td>Returns the TCP/IP address of the host machine</td>
+        </tr>
+    </table>
+    <pre>
+<span class="format">hostname</span></pre>
+
+    <h4 class="topic" id="jobs"><code>jobs</code></h4>
+    <p class="flat">Returns information on all currently running jobs.</p>
+    <pre>
+<span class="format">jobs</span></pre>
+
+    <h4 class="topic" id="kill"><code>kill</code></h4>
+    <p class="flat">Stops a background job.</p>
+    <pre>
+<span class="format">kill PROCESS_ID</span>
+<span class="format">kill % JOB_NUMBER</span></pre>
+
+    <h4 class="topic" id="less"><code>less</code></h4>
+    <p class="flat">Prints the contents of a file one screenful at a time.</p>
+    <pre>
+<span class="format">less FILENAME</span></pre>
+
+    <h4 class="topic" id="locate"><code>locate</code></h4>
+    <p class="flat">Returns the pathname of every file and directory that contains the search string.</p>
+    <pre>
+<span class="format">locate SEARCH_STRING</span></pre>
+
+    <h4 class="topic" id="ls"><code>ls</code></h4>
+    <p class="flat">Prints the contents of the directory specified or the current
+        directory if run without an argument
+    </p>
+    <table>
+        <tr>
+            <th>Options</th>
+        </tr>
+        <tr>
+            <td>-a</td> 
+            <td>Prints all contents of the directory, including the"invisible" files whose simple names start with a <span class="char">.</span></td>
+        </tr>
+        <tr>
+            <td>-l</td> 
+            <td>Prints a long listing of the directory contents showing the owner, group and permissions of each entry</td>
+        </tr>
+        <tr>
+            <td>-d</td>
+            <td>Prints a directory rather than its contents</td>
+        </tr>
+        <tr>
+            <td>-t</td>
+            <td>Sorts the list by modification date rather than alphabetically</td>
+        </tr>
+        <tr>
+            <td>-r</td>
+            <td>Reverses the sort order of the list</td>
+        </tr>
+    </table>
+    <pre>
+<span class="format">ls [DIRECTORY]</span></pre>
+
+    <h4 class="topic" id="ln"><code>ln</code></h4>
+    <p class="flat">Creates a link to a file or directory.</p>
+    <p>Usually run with the -s option to create a symbolic, rather than a hard link.</p>
+    <p>Soft links are more flexible than hard links.</p>
+    <p>If no second argument is used, the name of the link will be the 
+       same as the file or directory pointed to by the link.
+    </p>
+    <pre>
+<span class="format">ln -s PATHNAME [LINK_NAME]</span></pre>
+
+    <h4 class="topic" id="man"><code>man</code></h4>
+    <p class="flat">Prints information on the command given as its argument.</p>
+    <pre>
+<span class="format">man COMMAND_NAME</span></pre>
+
+    <h4 class="topic" id="mkdir"><code>mkdir</code></h4>
+    <p class="flat">Creates a directory with the name specified.</p>
+    <pre>
+<span class="format">mkdir DIRECTORY_NAME</span></pre>
+
+    <h4 class="topic" id="more"><code>more</code></h4>
+    <p class="flat">Prints the contents of  a file, one screenfull at a time</p>
+    <pre>
+<span class="format">more FILENAME</span></pre>
+
+    <h4 class="topic" id="mv"><code>mv</code></h4>
+    <p class="flat">Moves a file from one place to another, when the second
+        argument is a directory.
+    </p>
+    <p>Also used to rename a file.</p>
+    <pre>
+<span class="format">mv FILENAME DIRECTORY_NAME</span>
+<span class="format">mv OLD_FILENAME NEW_FILENAME</span></pre>
+
+    <h4 class="topic" id="pwd"><code>pwd</code></h4>
+    <p class="flat">Prints the absolute pathname of your current directory.</p>
+    <table>
+        <tr>
+            <th>Options</th>
+        </tr>
+        <tr>
+            <td>-P</td>
+            <td>Prints the "true" absolute pathname of the current
+                    directory, that is, it does not use a link in the
+                    pathname it returns, even if you used that link
+                    to get to the current directory
+            </td>
+        </tr>
+    </table>
+    <pre>
+<span class="format">pwd</span></pre>
+
+    <h4 class="topic" id="rm"><code>rm</code></h4>
+    <p class="flat">Deletes a file.</p>
+    <p>Cannot be undone.</p>
+    <p><code>rm *</code> removes everything in the current directory.</p>
+    <p>Will not remove a directory unless used with -r option.</p>
+    <table>
+        <tr>
+            <th>Options</th>
+        </tr>
+        <tr>
+            <td>-r</td>
+            <td>Remove directories and their contents recursively</td>
+        </tr>
+        <tr>
+            <td>-i</td>
+            <td>Prints a prompt before removing a file or directory</td>
+        </tr>
+        <tr>
+            <td>-f</td>
+            <td>Force - ignores warnings</td>
+        </tr>
+    </table>
+    <pre>
+<span class="format">rm FILENAME</span></pre>
+
+    <h4 class="topic" id="rmdir"><code>rmdir</code></h4>
+    <p class="flat">Removes a directory.</p>
+    <p>Command will not work if the directory is not empty.</p>
+    <pre>
+<span class="format">rmdir DIRECTORY_NAME</span></pre>
+
+    <h4 class="topic" id="script"><code>script</code></h4>
+    <p class="flat">Creates a record of your Unix session.</p>
+    <p>Once you run <code>script</code> everything you type and all
+       output from the screen is recorded in a file, whose name
+       by default is <span class="path">typescript</span>.</p>
+       <table>
+            <tr>
+                <th>Options</th>
+            </tr>
+            <tr>
+                <td>-a</td>
+                <td>Appends output to a previously created typescript file</td>
+            </tr>
+       </table>
+       <pre>
+<span class="format">script</span></pre>
+    
+    <h4 class="topic" id="sort"><code>sort</code></h4>
+    <p class="flat">Prints a file with each line sorted alphabetically.</p>
+    <table>
+        <tr>
+            <th>Options</th>
+        </tr>
+        <tr>
+            <td>-r</td>
+            <td>Reverses the normal sort order</td>
+        </tr>
+        <tr>
+            <td>-n</td>
+            <td>Sort in numeric, rather than alphabetical, order</td>
+        </tr>
+    </table>
+    <pre>
+<span class="format">sort FILENAME</span></pre>
+    
+    <h4 class="topic" id="ssh"><code>ssh</code></h4>
+    <p class="flat">Allows you to login to another Unix machine from your current Unix machine.</p>
+    <pre>    
+<span class="format">ssh UNIX_ACCOUNT_NAME@HOST_NAME</span></pre>
+
+    <h4 class="topic" id="tail"><code>tail</code></h4>
+    <p class="flat">Prints the last 10 lines in a file.</p>
+    <table>
+       <tr>
+           <th>Options</th>
+       </tr>
+       <tr>
+           <td>-<span class="red">NUMBER</span></td> <td>Returns the last <span class="red">NUMBER</span> lines</td>
+       </tr>
+    </table>
+    <pre>
+<span class="format">tail FILENAME</span></pre>
+    
+    <h4 class="topic" id="tee"><code>tee</code></h4>
+    <p class="flat">When placed in a pipeline, sends its output to 
+        a file before passing it to Standard Output.
+    </p>
+    <pre>
+<span class="format">tee FILENAME</span></pre>
+
+    <h4 class="topic" id="uname"><code>uname</code></h4>
+    <p class="flat">Prints some system information.</p>
+    <table>
+        <tr>
+            <th>Options</th>
+        </tr>
+        <tr>
+            <td>-a</td>
+            <td>Prints more complete information on the current system</td>
+        </tr>
+    </table>
+    <pre>
+<span class="format">uname</span></pre>
+
+    <h4 class="topic" id="uniq"><code>uniq</code></h4>
+    <p class="flat">Prints a file with adjacent identical lines removed.</p>
+    <pre>
+<span class="format">uniq FILENAME</span></pre>
+
+    <h4 class="topic" id="which"><span class="iden">which</span></h4>
+    <p class="flat">Prints the absolute address of the executable file for a given Unix command.</p>
+    <pre>
+<span class="format">which COMMAND_NAME</span></pre>
+
+    <h4 class="topic" id="who"><code>who</code></h4>
+    <p class="flat">Shows all currently logged in users.</p>
+    <pre>
+<span class="format">who</span></pre>
+<h5> Copyright : Glenn Hoffman, Director of the IT program, Umass-Boston</h5>
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/linux/common_unix_commands.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:52:10 GMT -->
+</html>

@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/25_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title> IT 244: Introduction to Linux/Unix - Class 25</title>
+</head>
+<body>
+	<header>
+		<h2>
+		    IT 244: Introduction to Linux/Unix <br>
+		    Class 25
+		</h2>	
+	</header>
+
+	<!-- read a b c   gives each variable a token -->
+	<!-- INCLUDE CODE FROM END OF PAGE -->
+	<!-- NEED HERE EXAMPLE USING INSTRUCTIONS FOR SCRIPT -->
+	<!-- FIX THE REAL WORLD EXAMPLE TO DELETE * EXTENSION AND REPLACE IT441 WITH IT 116 & IT 117 -->
+    <h3 class="section">Today's Topics</h3>
+
+	<h4 class="flat_under">Review</h4>
+    <ul class="flat_top">
+        <li class="flat"><a href="#for_in_loops"><code>for ... in ...</code> Loops</a></li>
+        <li class="flat"><a href="#for_loops"><code>for</code> Loops</a></li>
+        <li class="flat"><a href="#three_statement_for_loops">Three Statement <code>for</code> Loops</a></li>
+        <li class="flat"><a href="#while_loops"><code>while</code> Loops</a></li>
+        <li class="flat"><a href="#until_loops"><code>until</code> Loops</a></li>
+        <li class="flat"><a href="#continue"><code>continue</code></a></li>
+        <li class="flat"><a href="#break"><code>break</code></a></li>
+    </ul>
+
+    <h4 class="flat_under">New Material</h4>
+    <ul class="flat_top">
+        <li class="flat"><a href="#case"><code>case</code> Statement</a></li>
+        <li class="flat"><a href="#select"><code>select</code> Statement</a></li>
+        <li class="flat"><a href="#read"><code>read</code> Command</a></li>
+        <li class="flat"><a href="#interesting_use_for_read">An Interesting Use for the <code>read</code> Command</a></li>
+        <li class="flat"><a href="#here">Here Documents</a></li>
+        <li class="flat"><a href="#using_case_real_world_script">Using <code>case</code> and <code>for</code> in a Real World Script</a></li>
+    </ul>
+    
+    <h3 class="section">Homework 11</h3>
+    <p class="flat">I have posted homework 11 <a href="../hw_it244/11_hw_it244.html">here</a>.</p>
+    <p>It is due this coming Sunday at 11:59 PM.</p>
+    <p>This is the last homework assignment.</p>
+    
+    <h3 class="section">Final Exam</h3>
+    <p class="flat">The final exam will be given on Tuesday, December 19th from 3:00 - 6:00.</p>
+    <p>The exam will be given in McCormack 3-430.</p>
+    <p>There will be 50 questions, which will be similar to the questions on the mid-term and
+       the quizzes.
+    </p>
+    <p>As with the Mid-term, 60% of the questions will come from the ungraded Class Quizzes.</p>
+    <p>The questions will cover <b>all</b> of the material for this course.</p>
+    <p>The last class, Tuesday, December 12th, will be a review session.</p>
+    <p>You will only be responsible for the material contained in the Class Notes for
+       that class, and the Class Notes for the review session for the Mid-term,
+       which you will find <a href="14_class_notes_it244.html">here</a>.
+    </p> 
+    <p>Although the time alloted for the exam is 3 hours, I would
+       expect that most of you would not need that much time.
+    </p>
+    <p>You will not be able to leave the room until you turn in your exam paper
+       so you should visit the restroom before you take the test.
+    </p>
+    <p>The final is a closed book exam.</p> 
+
+    <h3 class="section">Review</h3>
+    
+    <h4 class="topic" id="for_in_loops"><code>for ... in ...</code> Loops</h4>
+    <ul class="flat">
+        <li>After the conditional statement ...</li>
+        <li>the most common programming construct is the loop</li>
+        <li>Bash provides many kinds of loops, </li>
+        <li>but we'll start with the <code>for ... in </code>loop
+    <pre>
+    <span class="format">for LOOP_VARIABLE in LIST_OF_VALUES
+    do
+        COMMAND_1
+        COMMAND_2
+        ...
+    done</span></pre></li>
+    <li>The <code>do</code>  <a class="def" href="../definitions.html#keyword">keyword</a>
+        must be on a different line from the <code>for</code> keyword ...
+    </li>
+    <li>unless you place a semicolon, <span class="char">;</span>, before the <code>do</code></li>
+    <li>The block of loop commands start after the <code>do</code> keyword ...</li>
+    <li>and end just before the <code>done</code> keyword</li>
+    <li>The <code>do</code> keyword is like the <code>then</code> keyword in an <code>if</code> statement</li>
+    <li>With a <code>for ... in</code> loop, Bash
+        <ul class="flat">
+            <li class="flat">Assigns the first value in the LIST_OF_VALUES ...<br>
+                  to the variable specified by LOOP_VARIABLE
+            </li>
+            <li class="flat">Executes the block of commands between <code>do</code> and <code>done</code></li>
+            <li class="flat">Assigns the next value in the LIST_OF_VALUES  <br>
+                to the LOOP_VARIABLE
+            </li>
+            <li class="flat">Executes the commands between <code>do</code> and the <code>done</code> again</li>
+            <li class="flat">And so on until each value in LIST_OF_VALUES has been used</li>
+        </ul>
+    </li>
+    <li>Here is an example
+        <pre>
+    $ cat fruit.sh
+    #! /bin/bash
+    #
+    # demonstrates the for in loop
+
+    <span class="red">for fruit in apples oranges pears bananas
+    do
+        echo $fruit
+    done</span>
+    echo Task complete.
+    
+    $ ./fruit.sh 
+    apples
+    oranges
+    pears
+    bananas
+    Task complete.</pre>
+        </li>
+        <li>Notice that the variable <span class="iden">fruit</span> ...</li>
+        <li>which appears after the <code>for</code> keyword, ...</li>
+        <li>does not have a dollar sign, <span class="char">$</span> , in front of it</li>
+        <li>That's because we are dealing with the variable ...</li>
+        <li>not its value</li>
+    </ul>
+        
+    <h4 class="topic" id="for_loops"><code>for</code> Loops</h4>
+    <ul class="flat">       
+        <li>The <code>for</code> loop has a simpler structure than the <code>for ... in ...</code> loop
+            <pre>
+    <span class="format">for LOOP_VARIABLE
+    do
+        COMMAND_1
+        COMMAND_2
+        ...
+    done</span></pre>
+        </li>
+        <li>The difference between the two <code>for</code> loops ...</li>
+        <li>is where they get the <b>values</b> for the loop variable</li>
+        <li>The <code>for ... in ...</code> loop gets its values ...</li>
+        <li>from the list that appears right after the <code>in</code> keyword</li>
+        <li>These values are "<a class="def" href="../definitions.html#hard_coded">hard coded</a>" into the script</li>
+        <li>They never change</li>
+        <li>The simple <code>for</code> loop gets its values from the command line</li>
+        <li>This <code>for</code> loop can have different values each time it is run</li>
+        <li>Here is an example
+            <pre>
+    $ cat for_test.sh 
+    #! /bin/bash
+    #
+    # demonstrates the simple for loop
+
+    <span class="red">for arg
+    do
+        echo $arg
+    done</span>
+    
+    $ ./for_test.sh <span class="red">foo bar bletch</span>
+    foo
+    bar
+    bletch
+    
+    $ ./for_test.sh <span class="red">bing bang boom</span>
+    bing
+    bang
+    boom</pre>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="three_statement_for_loops">Three Statement <code>for</code> Loops</h4><ul class="flat">       
+        <li>The first two <code>for</code> loops are totally different ...</li>
+        <li>from the for loops in programming languages</li>
+        <li>In  programming languages, the <code>for</code> statement
+            <ul class="flat">
+                <li class="flat">Initializes a loop variable</li>
+                <li class="flat">Tests the current value of the loop variable ... <br>
+                    to determine whether the loop should continue
+                </li>
+                <li class="flat">Changes the loop variable at the end of the loop code</li>
+            </ul>
+        </li>
+        <li>The <code>for</code> statements in programming languages ...</li>
+        <li><b>create</b> the values used in the loop</li>
+        <li>The two <code>for</code> loops we just have studied ...</li>
+        <li><b>must be given</b> the values used in the loop</li>
+        <li>But there is a third form of <code>for</code> loop in Bash</li>
+        <li>This form creates loop values the same way ...</li>
+        <li>as the for loop in programming languages</li>
+        <li>It has the following form
+            <pre>
+    <span class="format">for (( STMT_1; STMT_2; STMT_3 ))
+    do
+        COMMAND_1
+        COMMAND_2
+        ...
+    done</span></pre>
+        </li>
+        <li>Notice that the three statements after the <code>for</code> keyword ...</li>
+        <li>are inside double parentheses</li>
+        <li>That means that anything inside them will be treated as numbers</li>
+        <li>The first statement sets the initial value of the loop variable</li>
+        <li>The second is a logical statement</li>
+        <li>As long as it is true, the loop will continue</li>
+        <li>The third statement changes the value of the loop variable ...</li>
+        <li>after each pass through the loop</li>
+    </ul>
+    
+    <h4 class="topic" id="while_loops"><code>while</code> Loops</h4>
+    <ul class="flat">
+        <li>The first two <code>for</code> loops keep running ...</li>
+        <li>until all values supplied to them ...</li>
+        <li>have been used in the loop</li>
+        <li>A <code>while</code> loop continues running ...</li>
+        <li>as long as the command following the keyword <code>while</code> ...</li>
+        <li>returns a status code of 0</li>
+        <li><code>while</code> loops have the form
+            <pre>
+    <span class="format">while COMMAND
+    do
+        COMMAND_1
+        COMMAND_2
+        ...
+    done</span></pre>
+        </li>
+        <li>As long as COMMAND returns an exit status of 0 ...</li>
+        <li>the code block between <code>do</code> and <code>done</code> will be executed</li>
+    </ul>   
+    
+    <h4 class="topic" id="until_loops"><code>until</code> Loops</h4>
+    <ul class="flat">       
+        <li>The <code>until</code> loop is similar the <code>while</code> loop</li>
+        <li>Except that the <code>until</code> loop continues running ...</li>
+        <li>as long as the the command following the keyword <code>while</code> ...</li>
+        <li>returns a status code that in <b>not</b> 0</li>
+        <li>So the condition that determines whether <code>until</code> runs ...</li>
+        <li>is the opposite of that for a <code>while</code> loop</li>
+        <li>The <code>until</code> loop has the form
+            <pre>
+    <span class="format">until COMMAND
+    do
+        COMMAND_1
+        COMMAND_2
+        ...
+    done</span></pre>
+        </li>
+        <li>In practice, the <code>while</code> loop is used much more often than the <code>until</code> loop</li>
+    </ul>
+
+    <h4 class="topic" id="continue"><code>continue</code></h4>
+    <ul class="flat">       
+        <li>Normally, a loop will execute all the commands ...</li>
+        <li>between <code>do</code> and <code>done</code> ...</li>
+        <li>in each pass through the loop</li>
+        <li>But sometimes, you want to skip all or part ...</li>
+        <li>of the commands in the loop block ...</li>
+        <li>under specific conditions</li>
+        <li><code>continue</code> causes the shell to stop running the rest of the code ...</li>
+        <li>between the <code>do</code> and <code>done</code> keywords</li>
+        <li>The script then returns to the top of the loop ...</li>
+        <li>and begins the next iteration</li>
+        <li><code>continue</code> does not cause the script to break out of the loop</li>
+        <li>It merely stops the execution of the loop code ...</li>
+        <li>for one iteration</li>
+    </ul>
+    
+    <h4 class="topic" id="break"><code>break</code></h4>
+    <ul class="flat">
+       <li>When you start a loop, you specify the conditions ...</li>
+        <li>which will cause the loop to end</li>
+        <li>With <code>for ... in</code> and simple <code>for</code> loops, the code leaves the loop ...</li>
+        <li>when every value in the argument list has been used</li>
+        <li>In the <code>while</code>, <code>until</code> and three statement <code>for</code> loops ...</li>
+        <li>the code exits the loop when a logical condition is met</li>
+        <li>But what if you encountered some unusual condition ...</li>
+        <li>and wanted to break out of the loop entirely?</li>
+        <li>To do this, you would have to use <code>break</code></li>
+        <li>When bash comes across the <code>break</code> keyword ...</li>
+        <li>it jumps completely out of the loop</li>    
+    </ul>
+	
+	<h3 class="section">New Material</h3>
+	
+	<h4 class="topic" id="case"><code>case</code> Statement</h4>
+	<ul class="flat">       
+	    <li>Sometimes a script needs to take a specific path ...</li>
+        <li>depending on the value of a <b>single</b> variable</li>
+        <li>You could do this with an <code>if ... then ... elif ...</code> statement</li>
+        <li>But there is a simpler alternative for such situations ...</li>
+        <li>the <code>case</code> statement, which has the following format
+            <pre>
+    <span class="format">case TEST_VARIABLE in
+        PATTERN_1)
+            COMMAND_1A
+            COMMAND_1B
+            COMMAND_1C
+            ...
+            ;;
+        PATTERN_2)
+            COMMAND_2A
+            COMMAND_2B
+            COMMAND_2C
+            ...
+            ;;
+        PATTERN_3)
+            COMMAND_3A
+            COMMAND_3B
+            COMMAND_3C
+            ...
+            ;;
+        ...
+    esac</span></pre>
+        </li>
+        <li>When Bash encounters a <code>case</code> statement it
+            <ul class="flat">       
+                <li class="flat">Finds the first pattern that matches the test variable</li>
+                <li class="flat">Runs the statements for that pattern</li>
+                <li class="flat">Leaves the <code>case</code> statement</li>
+            </ul>
+        </li>
+        <li>Notice
+            <ul>
+                <li class="flat">There is a right parenthesis, <span class="char">)</span>,  after each pattern</li>
+                <li class="flat">The statements for each pattern end with two semicolons, <span class="char">;;</span></li>
+                <li class="flat"><code>esac</code> marks the end of the <code>case</code> statement</li>
+            </ul>
+        </li>
+        <li><code>esac</code> is <code>case</code> spelled backwards</li>
+        <li>Let's look at an example
+            <pre>
+    $ cat case_1.sh
+    #! /bin/bash
+    #
+    # demonstrates how the case statement works
+    
+    echo -n "Enter A, B, or C: "
+    read letter
+    <span class="red">case $letter in
+        A)
+            echo You entered A
+            ;;
+        B)
+            echo You entered B
+            ;;
+        C)
+            echo You entered C
+            ;;
+        *)
+            echo You did not enter A, B, or C
+            ;;
+    esac</span>
+    echo Exiting program
+    
+    $ ./case_1.sh
+    Enter A, B, or C: A
+    You entered A
+    Exiting program
+    
+    $ ./case_1.sh
+    Enter A, B, or C: B
+    You entered B
+    Exiting program
+    
+    $ ./case_1.sh
+    Enter A, B, or C: d
+    You did not enter A, B, or C
+    Exiting program</pre>
+        </li>
+        <li>Notice the last pattern, <span class="char">*</span></li>
+        <li>This pattern is a catchall ...</li>
+        <li>that will match any input</li>
+        <li>You should use this as the final pattern in a <code>case</code> statement</li>
+        <li>This pattern will match anything ...</li>
+        <li>that has not matched a previous pattern</li>
+        <li>The code for this pattern should print an error message ...</li>
+        <li>because the value of the variable was not expected</li>
+        <li>You must put the <span class="char">*</span> at the end of the pattern list ...</li>
+        <li>because Bash will never see any patterns that follow it ...</li>
+        <li>since <span class="char">*</span> matches everything</li>
+        <li>If you don't use the asterisk, and a matching pattern is not found ...</li>
+        <li>Bash will simply execute the code following <code>esac</code>
+        </li>
+        <li>When creating patterns you can use the meta-characters and the logical OR
+		    <blockquote>
+		        <table>
+		            <tr>
+		                <th align="center"><span class="char">*</span></th><td>Matches any string of characters</td>
+		            </tr>
+		            <tr>
+		                <th align="center"><span class="char">?</span></th><td>Matches any single character</td>
+		            </tr>
+		            <tr>
+		                <th align="center" width="50"><span class="char">[ &nbsp; ]</span></th><td>Every character within the brackets can match a single character in the test string</td>
+		            </tr>
+		            <tr>
+		                <th align="center"><span class="char">|</span></th><td>Logical OR separates alternative patterns</td>
+		            </tr>
+		        </table>
+		    </blockquote>
+        </li>
+        <li>The last symbol, a vertical line, <span class="char">|</span> , which is the symbol for a logical OR</li>
+        <li>This symbol allows us to put many possible matches ...</li>
+        <li>on the same line</li>
+        <li>We can use <span class="char">|</span> to accept letters of either case
+    <pre>
+    $ cat case_2.sh 
+    #! /bin/bash
+    #
+    # demonstrates the use of the | (logical or)
+    # operator in patterns within a case statement
+    
+    echo -n "Enter A, B, or C: "
+    read letter
+    case $letter in
+        <span class="red">a|A</span>)
+            echo You entered A
+            ;;
+        <span class="red">b|B</span>)
+            echo You entered B
+            ;;
+        <span class="red">c|C</span>)
+            echo You entered C
+            ;;
+        *)
+            echo You did not enter A, B, or C
+        ;;
+    esac
+    echo Exiting program
+    
+    $ ./case_2.sh 
+    Enter A, B, or C: A
+    You entered A
+    Exiting program
+    
+    $ ./case_2.sh 
+    Enter A, B, or C: a
+    You entered A
+    Exiting program</pre>
+        </li>
+    </ul>
+
+    <h4 class="topic" id="select"><code>select</code> Statement</h4>
+    <ul class="flat">       
+        <li>The <code>select</code> statement is a special kind of loop ...</li>
+        <li>that is used to create menus ...</li>
+        <li>inside a shell script</li>
+        <li>It needs a list of values ...</li>
+        <li>which it turns into numbered menu choices</li>
+        <li>When the user enters a number ...</li>
+        <li>the variable with that number is assigned to a loop variable</li>
+        <li>A <code>select</code> statement has following form
+    <pre>
+    <span class="format">select LOOP_VARIABLE [in LIST_OF_VALUES]
+    do
+        COMMAND_1
+        COMMAND_2
+        COMMAND_3
+        ...
+    done    </span></pre>
+        </li>
+        <li>Notice that
+            <pre>
+    <span class="format">in LIST_OF_VALUES</span></pre>
+            is optional
+        </li>
+        <li>The <code>select</code> statement needs a list of values</li>
+        <li>These values can be hard coded into the script ...</li>
+        <li>following the <code>in</code> keyword ...</li>
+        <li>or they can be supplied as arguments at the command line</li>
+        <li>In other words, the select variable can get its values ...</li>
+        <li>the same way a <code>for</code> loop can</li>
+        <li>When Bash comes upon a <code>select</code> statement it
+            <ul class="flat">      
+                <li class="flat">Prints a menu on the screen</li>
+                <li class="flat">Creates menu items for each of the values ... <br> 
+                    assigning each value a number
+                </li>
+                <li class="flat">Prints a prompt asking the user for input </li>
+                <li class="flat">Reads a number from user input</li>
+                <li class="flat">Assigns the value for that number to the select variable</li>
+                <li class="flat">Runs the statements between <code>do</code> and <code>done</code> with that value</li>
+                <li class="flat">Prints another prompt</li>
+            </ul>        
+        </li>
+        <li>The <code>select</code> statement is a loop construct that will run forever ...</li>
+        <li>unless you do something to stop it</li>
+        <li>Let's look at an example
+            <pre>
+    $ cat select_1.sh
+    #! /bin/bash
+    #
+    # demonstrates how the select statement works
+    
+    PS3="Choose your fruit: "
+    <span class="red">select fruit in apple banana blueberry orange
+    do
+        echo You chose $fruit
+        echo That is choice number $REPLY
+    done</span>
+    
+    $ ./select_1.sh
+    1) apple
+    2) banana
+    3) blueberry
+    4) orange
+    Choose your fruit: 1
+    You chose apple
+    That is choice number 1
+    Choose your fruit: 2
+    You chose banana
+    That is choice number 2
+    Choose your fruit: 3
+    You chose blueberry
+    That is choice number 3
+    Choose your fruit: 4
+    You chose orange
+    That is choice number 4
+    Choose your fruit: ^C</pre>
+        </li>
+        <li>Here we have hard coded the values into the script itself</li>
+        <li>We can also supply the values from the command line
+            <pre>
+    $ cat select_2.sh
+    #! /bin/bash
+    #
+    # demonstrates how the select structure works 
+    # taking argument from the command line
+    
+    PS3="Choose your fruit: "
+    <span class="red">select fruit 
+    do
+        echo You chose $fruit
+        echo That is choice number $REPLY
+    done</span>
+    
+    $ ./select_2.sh <span class="red">peaches pears watermelons</span>
+    1) peaches
+    2) pears
+    3) watermelons
+    Choose your fruit: 1
+    You chose peaches
+    That is choice number 1
+    Choose your fruit: 2
+    You chose pears
+    That is choice number 2
+    Choose your fruit: 3
+    You chose watermelons
+    That is choice number 3
+    Choose your fruit: ^C</pre>
+        </li>
+        <li>The only difference between these two scripts ...</li>
+        <li>is that the first has hard coded values ...</li>
+        <li>while the second takes the values from the command line</li>
+        <li>In both scripts, Bash assigned a value to the select variable <span class="iden">fruit</span>  ...</li>
+        <li>based on the number chosen by the user</li>
+        <li>The <code>select</code> statement uses a number of 
+            <a class="def" href="../definitions.html#keyword_shell_variable">keyword shell variables</a>
+        </li>
+        <li>Perhaps the most important of these is <span class="iden">PS3</span></li>
+        <li>Notice that this variable is set on the first line of the script</li>
+        <li>The value of <span class="iden">PS3</span> is used as a prompt ...</li>
+        <li>to ask the user to chose a menu item</li>
+        <li>If we had not done this, <span class="iden">PS3</span> would be set to its default value ...</li>
+        <li>which is <span class="char">#?</span>
+            <pre>
+    $ cat select_3.sh
+    #! /bin/bash
+    #
+    # demonstrates the select statement where
+    # PS3 has the default value
+    
+    select fruit in apple banana blueberry orange
+    do
+        echo You chose $fruit
+        echo That is choice number <span class="blue">$REPLY</span>
+    done
+    
+    $ ./select_3.sh
+    1) apple
+    2) banana
+    3) blueberry
+    4) orange
+    <span class="red">#?</span> 3
+    You chose blueberry
+    That is choice number 3
+    <span class="red">#?</span> 4
+    You chose orange
+    That is choice number 4
+    <span class="red">#?</span> ^C</pre>
+        </li>
+        <li>Another keyword shell variable used by <code>select</code> is <span class="iden">REPLY</span></li>
+        <li>When the user enters a number at the keyboard ...</li>
+        <li>the the value associated with that number is assigned to the loop variable ...</li>
+        <li>but the <b>number</b> entered is assigned to <span class="iden">REPLY</span></li>
+        <li>But the script above has one fatal flaw ...</li>
+        <li>it will loop forever</li>
+        <li>Unless you include a menu choice to jump out of the loop ...</li>
+        <li>the loop will go on forever</li>
+        <li>That's because the <code>select</code> statement will not stop on its own</li>
+        <li>You need to write code to make it stop</li>
+        <li>The usual way of doing this is to have a special menu item ...</li>
+        <li>like "STOP"</li>
+        <li>The loop code can then check for this value ...</li>
+        <li>and break out of the loop when the user selects it</li>
+        <li>Something like this
+            <pre>
+    $ cat select_4.sh
+    #! /bin/bash
+    #
+    # demonstrates a select menu with a stop value
+    
+    PS3="Choose your fruit: "
+    select fruit in apple banana blueberry orange <span class="red">STOP</span>
+    do
+        <span class="red">if [ $fruit = STOP ]
+        then
+            echo About to leave
+            break
+        fi</span>
+        echo You chose $fruit
+        echo That is choice number $REPLY
+    done
+    echo Exiting program
+    
+    $ ./select_4.sh
+    1) apple
+    2) banana
+    3) blueberry
+    4) orange
+    5) STOP
+    Choose your fruit: 2
+    You chose banana
+    That is choice number 2
+    Choose your fruit: 5
+    About to leave
+    Exiting program</pre>
+        </li>
+        <li>Notice that we had to use <code>break</code> to jump out of the loop</li>
+    </ul>
+
+   <h4 class="topic" id="read"><code>read</code> Command</h4>
+   <ul class="flat">
+        <li>In order to get input from the user ...</li>
+        <li>without using command line arguments ...</li>
+        <li>we need to use the <code>read</code> command</li>
+        <li>When Bash comes across a <code>read</code> command it
+            <ul class="flat">       
+                <li class="flat">Waits for the user to enter some text</li>
+                <li class="flat">Assigns the text entered by the user to the variable ...<br>
+                    whose name follows the <code>read</code> command
+                </li>
+            </ul>
+        </li>
+        <li>Let's look at an example
+            <pre>
+    $ cat read_1.sh 
+    #! /bin/bash
+    #
+    # demonstrate use of the read command
+
+    echo -n "Please enter a word: "
+    <span class="red">read reply</span>
+    echo You entered: $reply
+    
+    $ ./read_1.sh 
+    Please enter a word: foo
+    You entered: foo</pre>
+        </li>
+        <li>When <code>read</code> takes in a value from the terminal ...</li>
+        <li>it grabs everything the user types ...</li>
+        <li>until they hit Enter
+            <pre>
+    $ ./read_1.sh 
+    Please enter a word: <span class="red">foo bar bletch</span>
+    You entered: <span class="red">foo bar bletch</span></pre>
+        </li>
+        <li>In the script above, I used <code>echo</code> to print a prompt for the user ...</li>
+        <li>but I also can <code>read</code> with the -p option ...</li>
+        <li>to have <code>read</code> print the prompt
+            <pre>
+    $ cat read_2.sh
+    #! /bin/bash
+    #
+    # demonstrate use of the read command using the prompt option
+
+    <span class="red">read -p "Please enter a word: " reply</span>
+    echo You entered: $reply
+    
+    $ ./read_2.sh
+    Please enter a word: foo
+    You entered: foo</pre>
+        </li>
+        <li>By default, the <code>read</code> command <b>will not</b> allow you to change the text ...</li>
+        <li>once you have typed it at the command line</li>
+        <li><code>read</code> does not use the Readline Library ...</li>
+        <li>unless you give it a special option</li>
+        <li>This means your can't use backspace or the arrow keys...</li>
+        <li>to change what you have already typed
+            <pre>
+    $ ./read_2.sh
+    Please enter a word: foooo^?^?^?
+    You entered: foooo</pre>
+        </li>
+        <li>Here I have hit the backspace key three times</li>
+        <li>But the <code>read</code> command ignores this</li>
+        <li>The read command can be forced to allow 
+            <a class="def" href="../definitions.html#command_line_editing">command line editing</a>
+        </li>
+        <li>if you use the -e option to  <code>read</code></li>
+    </ul>
+    
+    <h4 class="topic" id="interesting_use_for_read">An Interesting Use for the <code>read</code> Command</h4>
+    <ul class="flat">       
+        <li>When I create scripts to test your Class Exercises ...</li>
+        <li>I often need to pause the script ...</li>
+        <li>so it doesn't scroll off the top of the page</li>
+        <li>I used the <code>read</code> command with the -p option ...</li>
+        <li>to halt the script so I can see the resu</li>
+        <li>I insert the following line in the code
+        	<pre>
+read -p Next?</pre>
+        </li>
+        <li>When Bash gets to this line it stops ...</li>
+        <li>prints "Next?" on the command line ...</li>
+        <li>and waits for me to enter type something</li>
+        <li>When I hit Enter it resumes running the script</li>
+        <li>I can use this trick with a <code>for</code> loop ...</li>
+        <li>and my <span class="iden">lncl</span> variable that holds usernames ...</li>
+        <li>to run a test script for every memeber of the class
+        	<pre>
+$ for id in $lncl
+&gt; do
+&gt; ./ex02.sh $id
+&gt; finger $id | head -1
+&gt; read -p "Next? "
+&gt; done</pre>
+        </li>
+    </ul>
+
+    <h4 class="topic" id="here">Here Documents</h4>
+    <ul class="flat">       
+        <li>Scripts can read data from a file like any Unix command</li>
+        <li>But sometimes, you want the data to be contained ...</li>
+        <li>inside the script itself</li>
+        <li>You might want to do that to make a script easier to deploy ...</li>
+        <li>since you would not have to distribute a second, data, file ...</li>
+        <li>along with the script</li>
+        <li>This can be accomplished with a <a class="def" href="../definitions.html#here_document">here document</a></li>
+        <li>A here document is a feature of Bash ...</li>
+        <li>that allows a file to be included in a script ...</li>
+        <li>which the script can read for its input</li>
+        <li>Here is an example
+    <pre>
+    $ cat here.sh 
+    #! /bin/bash
+    #
+    # demonstrates how here documents work
+
+    read -p "Please enter a city: " city    
+    grep $city <span class="red">&lt;&lt;EOF
+    Boston Red Sox 
+    New York Yankees
+    Toronto Blue Jays
+    Baltimore Orioles
+    Tampa Bay Rays
+    EOF</span>
+    
+    $ ./here.sh 
+    Please enter a city: Boston
+    Boston Red Sox</pre>
+        </li>
+        <li>The script contains a list of all American League Eastern Division baseball teams ...</li>
+        <li>along with the cities in which they play</li>
+        <li>The here document begins with the two less than symbols, <span class="char">&lt;&lt;</span> ...</li>
+        <li>followed <b>immediately</b> by a string</li>
+        <li>In the script above I have chosen "EOF"</li>
+        <li>This string will serve to mark the beginning ...</li>
+        <li>and end of the here document</li>
+        <li>This string can be anything can be anything you like ...</li>
+        <li>as long as it contains no whitespace</li>
+        <li>Bash will look for another occurence of the same string ...</li>
+        <li>on a line by itself ...</li>
+        <li>and read that as the end of the here document</li>
+        <li><b>Nothing</b> must appear on the line after the first string ...</li>
+        <li>and the second appearance of the sting <b>must be on a line by itself</b></li>
+    </ul>
+
+    <h4 class="topic" id="using_case_real_world_script">Using <code>case</code> and <code>for</code> in a Real World Script</h4><ul class="flat">       
+        <li>To see how the <code>case</code> and <code>for</code> statement can be useful ...</li>
+        <li>let's look at the script I used to use to collect homework
+            <pre>
+     $ cat -n hw_collect.sh 
+     1  #! /bin/bash
+     2  #
+     3  # creates a new homework a directory for
+     4  # each student and copies the relevant files
+     5  # created by that student for the current
+     6  # homework assignment into it. 
+     7  
+     8  if [ $# -lt 3 ]
+     9  then
+    10      echo Usage: $(basename $0) "  COURSE_ID   HOMEWORK_DIRECTORY   EXTENSION"
+    11      exit
+    12  fi
+    13  
+    14  course_id=$1
+    15  hw_dir=$2
+    16  ext=$3
+    17  
+    18  case $course_id in
+    19      it244)
+    20          course_dir=$lncd
+    21          student_ids=$lncl
+    22          ;;
+    23      it441)
+    24          course_dir=$nacd
+    25          student_ids=$nacl
+    26          ;;
+    27      *)
+    28          echo $course_id is not a valid course ID
+    29          exit
+    30  esac
+    31  
+    32  case $ext in
+    33      txt|sh|py|'*')
+    34          ;;
+    35      *)
+    36          echo $ext is not a valid extension
+    37          exit
+    38  esac
+    39  
+    40  hw_no=$($bin/python/two_digits_from_string.py  $hw_dir)
+    41  if [ $? != 0 ]
+    42  then
+    43      echo $hw_dir is not a valid homework directory
+    44      exit
+    45  fi
+    46  
+    47  error_file=${hw_no}_hw_submissions_missing.txt
+    48  
+    49  
+    50  echo $course_id
+    51  
+    52  echo
+    53  
+    54  if [ -e $error_file ]
+    55  then
+    56      rm $error_file
+    57  fi
+    58  
+    59  for unix_id in $student_ids
+    60  do
+    61      echo $unix_id
+    62      if [ ! -d $unix_id  ]
+    63      then
+    64          mkdir $unix_id 
+    65      fi
+    66      cd $unix_id
+    67      cp  $course_dir/$unix_id/hw/$hw_dir/*.$ext . 2&gt;&gt; ../$error_file
+    68      cd ..
+    69  done</pre>
+        </li>
+        <li>On lines 8 through 12 I check for the right number of command line arguments ...</li>
+        <li>and print a usage message if they are not there</li>
+        <li>On lines 14 through 16 I take the values of the command line arguments ...</li>
+        <li>and assign them to variables with meaningful names</li>
+        <li>I do not have to do this ...</li>
+        <li>but it's much easier to remember $<span class="iden">course_id</span> than $<span class="iden">1</span></li>
+    </ul>
+
+<!--
+to demonstrate case vs if/elif
+read color  
+if [ $color = 'red']; then
+   ....
+elif [ $color = 'green']; then
+   ....
+   
+$ cat command_menu.sh 
+#!/bin/bash
+# menu interface to simple commands
+
+echo -e "\n      COMMAND MENU\n"
+echo "  a.  Current date and time"
+echo "  b.  Users currently logged in"
+echo "  c.  Name of the working directory"
+echo -e "  d.  Contents of the working directory\n"
+read -p "Enter a, b, c, or d: " answer
+echo
+#
+case "$answer" in
+    a)
+       date
+       ;;
+    b)
+       who
+       ;;
+    c)
+       pwd
+       ;;
+    d)
+       ls
+       ;;
+    *)
+       echo "There is no selection: $answer"
+       ;;
+esac
+
+$ cat command_menu_select.sh
+#!/bin/bash
+# menu interface to simple commands
+
+PS3="Select a command '
+select command in date who pwd ls STOP
+do
+    if [ $command = 'STOP' ]
+    then
+	echo So long
+	exit
+    fi
+    echo running $command
+    $command
+done
+   
+-->    
+    <h3 class="section">Attendance</h3>
+    
+    <h3 class="section">Class Quiz</h3>
+
+	<footer>
+		<a href="class_notes_it244.html" class="spacer">Class Notes</a>
+		<a href="class_notes_index_it244.html" class="spacer">Class Notes Index</a>
+	</footer>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/25_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+</html>

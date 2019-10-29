@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/07_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:23 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title> IT 244: Introduction to Linux/Unix - Class 7</title>
+</head>
+<body>
+	<header>
+		<h2> 
+		    IT 244: Introduction to Linux/Unix <br>
+		    Class 7
+		</h2>	
+	</header>
+
+
+    <h3 class="section">Today's Topics</h3>
+    <h4 class="flat_under">Tips and Examples</h4>
+    <ul class="flat">       
+    		<li class="flat"><a href="#checking_class_exercises">Checking Class Exercises</a></li>
+        <li class="flat"><a href="#easy_way_to_create_homework_scripts">An Easy Way to Create Homework Scripts</a></li>
+        <li class="flat"><a href="#read_the_specification">Read the Specification</a></li>
+        <li class="flat"><a href="#always_check_your_work">Always Check Your Work</a></li>
+        <li class="flat"><a href="#common_mistakes_with_pipes">Common Mistakes with Pipes</a></li>        
+    </ul>
+    <br>
+    <h4 class="flat_under">Review</h4>
+    <ul class="flat_top">
+    		<li class="flat"><a href="#uniq"><code>uniq</code> - Eliminate Duplicate Lines</a></li>
+        <li class="flat"><a href="#diff"><code>diff</code> - Differences between Files</a></li>
+        <li class="flat"><a href="#shell_prompt">The Shell Prompt</a></li>
+        <li class="flat"><a href="#file"><code>file</code> - See the File Type</a></li>
+        <li class="flat"><a href="#pipes">Pipes - Stringing Programs Together</a></li>
+        <li class="flat"><a href="#date"><code>date</code> - Get the Date and Time</a></li>
+        <li class="flat"><a href="#which"><code>which</code> - Finding a Program File</a></li>
+        <li class="flat"><a href="#whereis"><code>whereis</code> - Finding Files Used by a Program</a></li>
+        <li class="flat"><a href="#locate"><code>locate</code> - Search for Any File</a></li>
+        <li class="flat"><a href="#who"><code>who</code> - See Users Logged On</a></li>
+        <li class="flat"><a href="#finger"><code>finger</code> - Get information on Users</a></li>
+    </ul>
+    <br>
+    <h4 class="flat_under">New Material</h4>
+    <ul class="flat_top">
+        <li class="flat"><a href="#hierarchical_file_system">The Hierarchical Filesystem</a></li>
+        <li class="flat"><a href="#files_directories">Unix Files and Directories</a></li>
+        <li class="flat"><a href="#filenames">Filenames</a></li>
+        <li class="flat"><a href="#case_sensitivity">Case Sensitivity</a></li>
+        <li class="flat"><a href="#filename_extensions">Filename Extensions</a></li>
+        <li class="flat"><a href="#current_directory">Current Directory</a></li>
+        <li class="flat"><a href="#home_directory">Your Home Directory</a></li>
+        <li class="flat"><a href="#navigation">Navigating the Hierarchical File Systems</a></li>
+    </ul>
+    
+    <h3 class="section">Homework 4</h3>
+    <p class="flat">I have posted Homework 4 <a href="../hw_it244/04_hw_it244.html"> here</a>.</p>
+    <p>As usual, it will be due next Sunday at 11:59 PM.</p>
+    <p>The is the first homework assignment that will require you to write a script.</p>
+    <p>Your script <b>must</b> meet certain requirements that I mentioned in the last class.</p>
+    <p>Let's review the 
+       <a href="../shell_scripts_homework.html">requirements for homework scripts</a>.
+    </p>
+    
+    <h3 class="section">Quiz 1</h3>
+    <p class="flat">I have posted the answers to Quiz 1 <a href="../weekly_quiz_answers_it244/01_quiz_answers_it244.html">here</a>.</p>
+
+    <h3 class="section">Tips and Examples</h3>
+    
+    <h4 class="topic" id="checking_class_exercises">Checking Class Exercises</h4>
+    <ul class="flat">       
+        <li>If you run my testing scripts on your Class Exercise and you get no error messages ...</li>
+        <li>then your script is OK</li>
+        <li>If you cannot finish the exercise in class ...</li>
+        <li>you may do so at home</li>
+        <li>If I have not checked your exercise in class ...</li>
+        <li>I will do so later by running a script</li>
+        <li>If you did not create a script for the exercise ...</li>
+        <li>or there is a problem with your script ..</li>
+        <li>you will receive an email from me</li>
+        <li>If you receive no email ...</li>
+        <li>you received full credit for the exercise ...</li>
+        <li>minus any late penalty</li>
+    </ul>
+    
+    <h4 class="topic" id="easy_way_to_create_homework_scripts">An Easy Way to Create Homework Scripts</h4>
+    <ul class="flat">       
+        <li>You may create your homework scripts anyway you like ...</li>
+        <li>as long as they meet the homework specification</li>
+        <li>But I would suggest the following approach</li>
+        <li>You can have more than one <code>ssh</code> window open ...</li>
+        <li>at any one time</li>
+        <li>Most ssh client packages allow you to copy and paste ...</li>
+        <li>between different windows</li>
+        <li>You can use this feature in creating homework scripts</li>
+        <li>First, open two ssh windows connected to <span class="host">.cs.umb.edu</span></li>
+        <li>In both windows go to the homework directory for the assignment</li>
+        <li>In one window run <code>nano</code> or a Unix text editor ...</li>
+        <li>to create the homework script file ...</li>
+        <li>with the name specified for the assignment</li>
+        <li>In this script file write the <code>echo</code> statement
+            <pre>
+echo Step 1</pre>
+        </li>
+        <li>Now create two empty lines</li>
+        <li>Repeat this procedure for every step in the assignment</li>
+        <li>No go to the other window</li>
+        <li>Enter the Unix commands that will perform a step</li>
+        <li>When you get the commands working ...</li>
+        <li>copy and paste them into the script file ...</li>
+        <li>under the appropriate step number</li>
+    </ul>
+    
+	<h4 class="topic" id="read_the_specification">Read the Specification</h4>
+	<ul class="flat">       
+        <li>It's important to read the homework assignments carefully</li>
+        <li>If you leave out a step ...</li>
+        <li>or a part of step ...</li>
+        <li>you will lose points</li>
+        <li>I try to be careful to say exactly what I want ...</li>
+        <li>in a quiz, text or homework assignment</li>
+        <li>If you do not do everything I have asked ...</li>
+        <li>you will not get full credit</li>
+        <li>I do not do this to be obnoxious</li>
+        <li>I do this to prepare you for professional work</li>
+        <li>In technology, <b>details are important</b></li>
+        <li>If you misspell a command in Linux/Unix you will get an error</li>
+        <li>If you skip a step in an installation procedure ...</li>
+        <li>the install will not work properly</li>
+        <li>In a well-run organization every project will have a specification</li>
+        <li>If you miss a step in this specification ...</li>
+        <li>you have not completed the project</li>
+        <li>Treat the homework assignments like a specification ...</li>
+        <li>and read them carefully</li>
+        <li>It is a good idea to read a specification more than once</li>
+        <li>When I was in school, I read each assignment immediately after class</li>
+        <li>That way I could look for anything that might cause me trouble</li>
+        <li>I could ask questions if I did not understand some point</li>
+        <li>Read over your homework assignment after you have done the work ...</li>
+        <li>to make sure that you have not skipped something</li>
+        <li>One of the purposes of a college education ...</li>
+        <li>is to teach you habits that will help you later in life</li>
+        <li>Reading the specification carefully ...</li>
+        <li>is a habit you should learn <b>now</b></li>
+    </ul>
+    
+    <h4 class="topic" id="always_check_your_work">Always Check Your Work</h4>
+    <ul class="flat">       
+	    	<li>Always run your scripts to see that they work ...</li>
+	    	<li>before the assignment is due</li>
+	    	<li>If you script does not run ...</li>
+	    	<li>or runs will errors ...</li>
+	    	<li>you will lose points</li>
+        <li>You should never assume that a script that you have written will work</li>
+        <li>You may read a script and think it looks fine ...</li>
+        <li>but spelling or other errors are easy to overlook</li>
+        <li>Whenever you make a change to a script ...</li>
+        <li>you should run it again</li>
+        <li><b>Always check your work</b></li>
+    </ul>
+    
+    <h4 class="topic" id="common_mistakes_with_pipes">Common Mistakes with Pipes</h4>
+    <ul class="flat">       
+        <li>There are some mistakes that student seem to make each semester</li>
+        <li>Two of these mistakes involve <a class="def" href="../definitions.html#pipe">pipes</a></li>
+        <li>The first mistake is to use <code>cat</code> at the beginning of a 
+            <a class="def" href="../definitions.html#pipeline">pipeline</a> ...
+        </li>
+        <li>when it is <b>not</b> needed</li>
+        <li>Students will sometimes use <code>cat</code> to create input ...</li>
+        <li>that is then piped into <code>grep</code>, <code>sort</code>, <code>head</code> or <code>tail</code></li>
+        <li>You don't need <code>cat</code> in a pipe with these commands ...</li>
+        <li>because these utilities can read a file directly ...</li>
+        <li>without using <code>cat</code></li>
+        <li>So instead of using
+    <pre>
+cat names.txt | grep Glenn
+cat names.txt | sort
+cat names.txt | head
+cat names.txt | tail</pre>
+        </li>
+        <li>you should simply use
+    <pre>
+grep Glenn names.txt
+sort names.txt
+head names.txt
+tail names.txt</pre>
+        </li>
+        <li>This mistake is harmless ...</li>
+        <li>because it does not affect the result</li>
+        <li>But the second mistake will cause an error</li>
+        <li>The mistake is to use the filename ...</li>
+        <li>given to the first command in a pipeline ...</li>
+        <li>to the following commands</li>
+        <li>If I wanted to find all Red Sox games where the Sox won at home ...</li>
+        <li>I would write
+            <pre>
+grep Win red_sox.txt | grep vs</pre>
+        </li>
+        <li>I would <b>not</b> write
+            <pre>
+grep Win red_sox.txt | grep vs <span class="red">red_sox.txt</span>  # WRONG</pre>
+        </li>
+        <li>If you do this, the output of the first <code>grep</code> ...</li>
+        <li>will be thrown away ...</li>
+        <li>and you will only get the output of the second <code>grep</code></li>
+    </ul>
+    
+    <h3 class="section">Review</h3>
+    
+    <h4 class="topic" id="uniq"><code>uniq</code> - Eliminate Duplicate Lines</h4>
+	<ul class="flat">
+        <li><code>uniq</code> prints the lines of a file to the screen ...</li>
+        <li>leaving out any <b>adjacent</b> lines that are <b>identical</b></li>
+        <li>Notice that the lines must be adjacent</li>
+        <li>To make identical lines adjacent, <code>uniq</code> is often used with <code>sort</code></li>
+        <li>The <code>-i</code> option makes <code>uniq</code> ignore case when looking for duplicate lines</li>
+    </ul>
+	
+	<h4 class="topic" id="diff"><code>diff</code> - Differences between Files</h4>
+	<ul class="flat">       
+        <li><code>diff</code> compares two files and notes their differences</li>
+        <li><code>diff</code> was created for use with the <code>patch</code> utility</li>
+        <li>Run <code>diff</code> with the -y option to get output that is easier to read</li>
+    </ul>
+
+    <h4 class="topic" id="shell_prompt">The Shell Prompt</h4>
+    <ul class="flat">
+        <li>By default, the shell prompt tells you three things
+            <ul class="flat">       
+                <li class="flat">Your Unix username</li>
+                <li class="flat">The machine to which you are connected</li>
+                <li class="flat">The location of your current directory</li>
+            </ul>
+        </li>
+        <li>But before I changed it, my shell prompt looked like this
+            <pre>
+tsoro<span class="red">@</span>vm74<span class="red">:</span>~/it244/work<span class="red">$</span></pre>   
+        </li>
+        <li>The characters before the <span class="char">@</span> show my Unix username ...</li>
+        <li>the characters between <span class="char">@</span> and <span class="char">:</span>
+            are the <a class="def" href="../definitions.html#hostname">hostname</a> 
+        </li>
+        <li>of the machine I am using ...</li>
+        <li>and the characters from <span class="char">:</span> to <span class="char">$</span> show my current directory</li>
+        <li>The <span class="char">~</span> indicates your home directory</li>
+        <li>We'll talk more about this in a future class</li>
+    </ul>
+    
+	<h4 class="topic" id="file"><code>file</code> - See the File Type</h4>
+	<ul class="flat">       
+        <li>The <code>file</code> utility can be used the determine the type of a file
+            <pre>
+$ file *
+class_notes.css:           ASCII text
+common_unix_commands.html: HTML document text
+cs285L:                    directory
+emacs_cheat_sheet.html:    HTML document text
+index.html:                HTML document text
+it244:                     directory
+tips.html:                 HTML document text
+unix_cheat_sheet.html:     HTML document text
+work.txt:                  ASCII text</pre></li>
+    </ul>
+
+	<h4 class="topic" id="pipes">Pipes - Stringing Programs Together</h4>
+	<ul class="flat">       
+        <li>A pipe takes the output of one command ...</li>
+        <li>and feeds it into the input of another command</li>
+        <li>Pipes allow you to chain together several Unix commands ..</li>
+        <li>into a single command</li>
+        <li>Commands joined in this way are sometimes called pipelines</li>
+        <li>Pipes are essential to the Unix philosophy of simple tools</li> 
+        <li>Using pipes, you can string together many commands ...</li>
+        <li>to achieve exactly what you want</li>
+        <li>You form a pipe by placing the vertical line character, <span class="char">|</span> ...</li>
+        <li>between two commands
+        <pre>
+$ head -5 red_sox.txt
+2011-07-31  Red Sox @  White Sox    Win 5-3
+2011-07-02  Red Sox @  Astros       Win 7-5
+2011-07-03  Red Sox @  Astros       Win 2-1
+2011-07-04  Red Sox vs Blue Jays    Loss 7-9
+2011-07-05  Red Sox vs Blue Jays    Win 3-2
+
+$ head -5 red_sox.txt <span class="red">|</span> sort
+2011-07-02  Red Sox @  Astros       Win 7-5
+2011-07-03  Red Sox @  Astros       Win 2-1
+2011-07-04  Red Sox vs Blue Jays    Loss 7-9
+2011-07-05  Red Sox vs Blue Jays    Win 3-2
+2011-07-31  Red Sox @  White Sox    Win 5-</pre>
+		</li>
+	   <li>Notice, in the command line above, that <code>sort</code> does not have an argument</li>
+	   <li>Normally <code>sort</code> requires an argument that specifies the file to sort</li>
+	   <li>But in a pipe, each command after the first ...</li>
+	   <li>takes its input from the output of the preceding commands</li>
+	   <li>You <b>never</b> need to specify the input when using a command in a pipeline ...</li>
+	   <li>except the first command</li>
+    </ul>
+
+	<h4 class="topic" id="date"><code>date</code> - Get the Date and Time</h4>
+	<ul class="flat">       
+        <li>The Unix <code>date</code> command will give the time and the date
+            <pre>
+$ date
+Tue Aug 21 10:20:05 EDT 2012</pre>
+    	</li>
+	   <li>If we follow the command with a <span class="char">+</span> and a string we can change the format
+	       <pre>
+$ date <span class="red">+"%Y-%m-%d"</span>
+2012-08-21</pre>
+    	</li>
+	   <li>Use <code>info</code> or <code>man</code> to see the various formatting options <code>date</code> provides</li>
+    </ul>
+    
+    <h4 class="topic" id="which"><code>which</code> - Finding a Program File</h4>
+    <ul class="flat">       
+        <li>Unix commands are programs ...</li>
+        <li>that are located somewhere in the filesystem</li>
+        <li>The Unix utility <code>which</code> gives the location of an executable file</li>
+        <li>To find where the executable file for <code>less</code> is located ...</li>
+        <li>we can run <code>which</code> like this
+            <pre>
+$ which less
+/usr/bin/less</pre>
+    	</li>
+        <li><code>which</code> uses the <span class="iden">PATH</span> system variable to find the executable file</li>
+        <li>We'll discuss <span class="iden">PATH</span> in a future class</li>
+    </ul>
+
+	<h4 class="topic" id="whereis"><code>whereis</code> - Finding Files Used by a Program</h4>
+	<ul class="flat">       
+        <li><code>whereis</code> is another program that can be used to locate program files</li>
+        <li><code>whereis</code> takes a different approach than <code>which</code></li>
+        <li>Every Unix or Linux system has certain standard places ...</li>
+        <li>where it stores programs and the files they use</li>
+        <li><code>whereis</code> searches these locations</li>
+        <li>It returns a list of all files associated with a program</li>
+        <li>When we run <code>whereis</code> on the <code>tar</code> utility ...</li>
+        <li>we get more information than
+            <code>which</code> returned
+            <pre>
+$ whereis tar
+tar: /bin/tar /usr/include/tar.h /usr/share/man/man1/tar.1.gz</pre>
+    	</li>
+        <li>The first entry is the executable file</li>
+        <li>The second is a header file</li>
+        <li>The third is the file that <code>man</code> used to provide information about <code>tar</code></li>
+    </ul>
+    
+    <h4 class="topic" id="locate"><code>locate</code> - Search for Any File</h4>
+    <ul class="flat">       
+        <li><code>which</code> and <code>whereis</code> only work on programs</li>
+        <li><code>locate</code> can be used to find any file</li>
+        <li>You don't need to know the full name of a file to use <code>locate</code></li>
+        <li><code>locate</code> will search on a partial file name
+        <pre>
+$ locate foot
+/etc/update-motd.d/99-footer
+/usr/share/doc/java-common/debian-java-faq/footnotes.html
+/usr/share/emacs/23.3/lisp/mail/footnote.elc
+/usr/share/emacs/23.3/lisp/org/org-footnote.elc
+/usr/share/libparse-debianchangelog-perl/footer.tmpl
+/usr/share/xml-core/catalog.footer
+/usr/src/linux-headers-3.0.0-12/arch/arm/mach-footbridge
+/usr/src/linux-headers-3.0.0-12/arch/arm/mach-footbridge/Kconfig
+/usr/src/linux-headers-3.0.0-12/arch/arm/mach-footbridge/Makefile
+/usr/src/linux-headers-3.0.0-12/arch/arm/mach-footbridge/Makefile.boot
+/usr/src/linux-headers-3.0.0-12/arch/arm/mach-footbridge/include
+/usr/src/linux-headers-3.0.0-12/arch/arm/mach-footbridge/include/mach
+/usr/src/linux-headers-3.0.0-12/arch/arm/mach-footbridge/include/mach/debug-macro.S
+...</pre>
+    	</li>
+        <li><code>locate</code> does not actually search the file system itself</li>
+        <li>That would take too long</li>
+        <li>Instead it uses a database of all files on the system</li>
+        <li>This database is created by another program <code>updatedb</code></li>
+        <li><code>updatedb</code> is usually run automatically in the background to update the database</li>
+    </ul>    
+     
+    <h4 class="topic" id="who"><code>who</code> - See Users Logged On</h4>
+    <ul class="flat">       
+        <li><code>who</code> prints a list of all users currently on the machine
+            <pre>
+$ who
+rickm    pts/0        2017-12-07 03:05 (192.168.105.41)
+apera    pts/1        2018-01-13 04:54 (73.16.254.131)
+tsoro    pts/2        2018-01-14 15:23 (24.62.10.159)
+apera    pts/5        2018-01-11 20:04 (192.168.107.83)
+jkamby   pts/8        2018-01-11 15:21 (66.30.11.52)
+onic     pts/9        2018-01-11 13:15 (158.121.18.145)</pre></li>
+       <li><code>who</code> also provides information about each user's login session</li>
+       <li><code>who am i</code> will show the user who is logged into a terminal
+           <pre>
+$ who am i
+tsoro    pts/2        2018-01-14 15:23 (24.62.10.159)</pre></li>
+    </ul>    
+        
+    <h4 class="topic" id="finger"><code>finger</code> - Get information on Users</h4>
+    <ul class="flat">       
+        <li><code>finger</code> provides information about a user account
+            <pre>
+Login: tsoro                            Name: Torna O. Soro
+Directory: /home/tsoro                  Shell: /bin/bash
+On since Sun Jan 14 15:23 (EST) on pts/2 from 24.62.10.159
+   7 seconds idle
+Mail forwarded to tsoros@gmail.com
+No mail.
+No Plan.
+<br>
+			
+$ finger ghoffman
+Login: ghoffman       			Name: Glenn Hoffman
+Directory: /home/ghoffman           	Shell: /bin/bash
+On since Thu Sep 24 11:43 (EDT) on pts/5 from 158.121.249.7
+   5 seconds idle
+Mail forwarded to glennhoffman@mac.com
+New mail received Fri Sep 18 14:00 2015 (EDT)
+     Unread since Fri Sep 18 07:43 2015 (EDT)
+Plan:
+Office:        Science 3-92A (Pterosaur poster on door)           
+Office Hours:  Tuesday &amp; Thursday, 12:30 - 1:30 PM and 5:30 - 6:30 PM 
+On Campus:     Wednesday 1 - 6PM Appointment needed on Wednesday
+Classes:       IT 244-01   Introduction to Linux/Unix             TuTh 2:00 - 3:15 PM  Science S3-143 (IT Lab)
+               IT 244-02   Introduction to Linux/Unix             TuTh 4:00 - 5:15 PM  Science S3-028 (Web Lab)  
+               IT 341_02   Introduction to System Administration  TuTh 7:00 - 8:15 PM  Science S3-143 (IT Lab)
+Home Address:  40 Central Street     617-821-3936 (home; 9am - 9pm only)
+               Somerville, MA 02143</pre></li>
+        <li><code>finger</code>, like <code>mv</code>, has two functions</li>
+        <li>When used without an argument, <code>finger</code> shows ever user currently logged in
+            <pre>
+$ finger
+Login     Name            Tty      Idle  Login Time   Office     Office Phone
+eb        Ethan Bolker    pts/4    3:35  Sep 22 19:19 (pool-108-26-203-122.bstnma.fios.verizon.net)
+ghoffman  Glenn Hoffman   pts/5          Sep 24 11:43 (158.121.249.7)
+root      root           *tty1      52d  Mar 11  2015</pre>
+    	</li>
+        <li>You can also use a last or first name with <code>finger</code>
+        <pre>
+$ finger hoffman
+Login: ghoffman       			Name: Glenn Hoffman
+Directory: /home/ghoffman           	Shell: /bin/bash
+On since Thu Sep 24 11:43 (EDT) on pts/5 from 158.121.249.7
+   2 seconds idle
+Mail forwarded to glennhoffman@mac.com
+New mail received Fri Sep 18 14:00 2015 (EDT)
+     Unread since Fri Sep 18 07:43 2015 (EDT)
+Plan:
+Office:        Science 3-92A (Pterosaur poster on door)           
+Office Hours:  Tuesday &amp; Thursday, 12:30 - 1:30 PM and 5:30 - 6:30 PM 
+On Campus:     Wednesday 1 - 6PM Appointment needed on Wednesday
+Classes:       IT 244-01   Introduction to Linux/Unix             TuTh 2:00 - 3:15 PM  Science S3-143 (IT Lab)
+               IT 244-02   Introduction to Linux/Unix             TuTh 4:00 - 5:15 PM  Science S3-028 (Web Lab)  
+               IT 341_02   Introduction to System Administration  TuTh 7:00 - 8:15 PM  Science S3-143 (IT Lab)
+Home Address:  40 Central Street     617-821-3936 (home; 9am - 9pm only)
+               Somerville, MA 02143
+               
+
+Login: ghoffmn        			Name: Glenn Legacy Hoffman
+Directory: /home/ghoffmn            	Shell: /bin/bash
+Last login Mon Jul 13 13:14 (EDT) on pts/5 from dsl092-066-161.bos1.dsl.speakeasy.net
+Mail forwarded to glennhoffman@mac.com
+Mail last read Thu May 28 18:30 2015 (EDT)
+Plan:
+Office:         McCormack M-3-607                 Fall 2014
+Office Hours:   Tuesday &amp; Thursday, 10:00 - 12:00 PM and by appointment
+Classes:        
+	IT 341-2  Introduction to System Administration  TuTh  12:30-1:45  S3-148  (IT Lab)
+	IT 244-1  Introduction to Linux/Unix             TuTh   2:00-3:15  S3-028  (Web Lab)
+	IT 244-3  Introduction to Linux/Unix             TuTh   4:00-5:15  S3-148  (IT Lab)
+	IT 244-2  Introduction to Linux/Unix             TuTh   5:30-6:45  S3-028  (Web Lab)
+Home Address:   40 Central Street     617-821-3936 (home; 9am - 9pm only)
+                Somerville, MA 02143
+
+
+Login: it244gh        			Name: Glenn Hoffman Dummy
+Directory: /home/it244gh            	Shell: /users/nologin
+Never logged in.
+Mail forwarded to glennhoffman@mac.com
+No mail.
+Plan:
+This account is a test account for Glenn Hoffman teaching it244</pre>
+		</li>
+    </ul>    
+    
+    <h3 class="section">New Material</h3>
+
+    <h4 class="topic" id="hierarchical_file_system">The Hierarchical Filesystem</h4>
+    <ul class="flat">       
+        <li>A <a class="def" href="../definitions.html#filesystem">filesystem</a> 
+            is an arrangement of data on a storage device ...
+        </li>
+        <li>and the software needed to store and retrieve that data</li>
+        <li>All files are contained in directories</li>
+        <li>On Windows and the Mac these directories are called folders</li>
+        <li>A directory can contain other directories</li>
+        <li>A <a class="def" href="../definitions.html#hierarchical_filesystem">hierarchical filesystem</a> 
+            starts with a special directory at the top
+        </li>
+        <li>This directory is called the <a class="def" href="../definitions.html#root_directory">root directory</a></li>
+        <li>In Unix, we represent this directory with a single slash character, <span class="char">/</span>
+            <pre>
+$ ls /
+bin     initrd.img  proc tmp
+boot    lib         root        tools
+courses lib32       run         users
+data    lib64       sbin        usr
+dev     lost+found  selinux     var
+etc     media       sources     vmlinuz
+groups  mnt         spool
+home    nobackup    srv
+home.ORIG  opt      sys</pre>
+    	</li>
+        <li><b>All</b> other directories are contained within the root directory ...</li>
+        <li>or one of its many subdirectories</li>
+        <li>This structure is called a tree because it looks like a tree turned upside down</li>
+        <li>Unlike in nature, this tree grows down from the root</li>
+        <li>A hierarchical filesystem is endlessly extensible</li>
+        <li>We can have as many files and directories as we want ...</li>
+        <li>as long as there is enough disk space to hold them</li>
+        <li>A hierarchical filesystem resembles a family tree</li>
+        <li>We often use family terms when talking about directories</li>
+        <li>The directory one level up is called the 
+            <a class="def" href="../definitions.html#parent_directory">parent directory</a>
+        </li>
+        <li>Any directory above another directory can be called an 
+            <a class="def" href="../definitions.html#ancestor">ancestor</a>
+        </li>
+        <li>Directories inside the a directory are its
+            <a class="def" href="../definitions.html#child_directory">child directories</a>
+        </li>
+        <li>Any file or directory below the current directory is a 
+            <a class="def" href="../definitions.html#descendant">descendant</a>
+        </li>
+        <li>Directories and files within the same directory are called 
+            <a class="def" href="../definitions.html#sibling">siblings</a>
+        </li>
+    </ul>
+    <img src="image1_note8.png" height="50%"/>
+
+    <h4 class="topic" id="files_directories">Unix Files and Directories</h4>
+    <ul class="flat">       
+        <li><a class="def" href="../definitions.html#file">Files</a> are linear arrangements of data ...</li>
+        <li>on some storage device</li>
+        <li>Some files are programs</li>
+        <li>Program files contain binary instructions that the machine understands</li>
+        <li>Some files contain data in various formats ...</li>
+        <li>such as text</li>
+        <li>Some Unix text files contain configuration information</li>
+        <li>These configuration files modify your Unix environment</li>
+        <li>They perform the same function as the Windows Registry</li>
+        <li>Since these files are text ...</li>
+        <li>you can read and edit them easily</li>
+        <li>You only need a text editor to read or change them ...</li>
+        <li>not some special utility ...</li>
+        <li>like the Windows Registry Editor</li>
+        <li>Unix treats directories as files ...</li>
+        <li>although they are a special kind of file</li>
+        <li>Unix also treats devices as special kind of file</li>
+        <li>But this is invisible to the ordinary user</li>
+        <li>You can't run <code>cat</code> or <code>less</code> on a directory or a printer</li>
+        <li>Treating directories and devices as files ...</li>
+        <li>allows Unix to be simpler than it might be ...</li>
+        <li>and in engineering simpler is always better ...</li>
+        <li>than complicated</li>
+        <li>Directories and devices are just special kinds of files</li>
+    </ul>
+
+    <h4 class="topic" id="filenames">Filenames</h4>
+    <ul class="flat">
+        <li>When you ask Unix for a file ...</li>      
+        <li>you must give it two pieces of information
+            <ul class="flat">       
+                <li class="flat">The name of the file</li>
+                <li class="flat">The location of the file in the hierarchical file system</li>
+            </ul>
+        </li> 
+        <li>Every file has a name - the filename</li>
+        <li>Different Unix flavors allow filenames to be of different length</li>
+        <li>Most Unix systems allow filenames to be no more than 255 characters</li>
+        <li>It's best to keep filenames short</li>
+        <li>This makes them easier to type</li>
+        <li>You're less likely run into trouble ...</li>
+        <li>if you move the file to another system ...</li>
+        <li>where the maximum filename length may be shorter</li>
+        <li>To learn the maximum length of a filename on any machine use <code>stat</code>
+            <pre>
+$ stat -f /home | grep Namelen
+ID: 0        Namelen: 255     Type: autofs</pre>
+    	</li>
+	   <li>Notice that I used a pipe to get just the information I wanted</li>
+	   <li>You can use a space in filenames if you enclose them in quotes</li>
+	   <li>This is a <b>VERY BAD IDEA</b></li>
+	   <li>When you run <code>ls</code> on a directory that has a filename with a space in it ..</li>
+	   <li>it looks like you have more than one file
+	       <pre>
+$ touch 'foo bar'
+$ ls
+foo bar</pre></li>
+        <li>It looks like you have two files, <span class="iden">foo</span> and <span class="iden">bar</span></li>
+        <li>In reality, you only have one file, <span class="iden">foo bar</span></li>
+        <li>If you encounter such a file ...</li>
+        <li>you have to escape the space character to work with the file
+	       <pre>
+$ ls -l foo\ bar 
+-rw-r--r-- 1 it244gh it244-2G 0 2011-09-24 14:34 foo bar</pre>
+        </li>
+        <li>Instead of a space in a filename ...</li>
+	    <li>use an underscore, <span class="char">_</span>
+            <pre>
+$ touch foo_bar
+$ ls
+foo_bar</pre>
+        </li>
+        <li>To avoid problems, only use the following characters in file names
+            <ul class="flat">       
+				<li class="flat">Uppercase letters (A-Z)</li>
+				<li class="flat">Lowercase letters (a-z)</li>
+				<li class="flat">Digits (0-9)</li>
+				<li class="flat">Underscore <span class="char">_</span></li>
+				<li class="flat">Dash <span class="char">-</span></li>
+				<li class="flat">Period <span class="char">.</span></li>
+            </ul>
+        </li>
+        <li>You cannot have two files with the same name ...</li>
+        <li>in the same directory</li>  
+    </ul>
+    
+    <h4 class="topic" id="case_sensitivity">Case Sensitivity</h4>
+    <ul class="flat">       
+        <li>Unix is <b>case sensitive</b></li>
+        <li>This means that <span class="iden">Foo</span>, <span class="iden">foo</span> and 
+            <span class="iden">FOO</span> ...</li>
+        <li>are three different files ...</li>
+        <li>as far as Unix is concerned
+            <pre>
+$ ls
+
+$ touch Foo foo FOO
+
+$ ls
+foo  Foo  FOO</pre></li>
+	   <li>Unix commands are always lower case</li>
+	   <li>This is just a convention</li>
+	   <li>But it is a helpful convention</li>
+	   <li>Otherwise you would have to remember capitalization ...</li>
+	   <li>as well as the name of the command</li>
+	   <li>Some operating systems are <b>not</b> case sensitive ...</li>
+	   <li>like DOS and Windows</li>
+	   <li>Stick to the convention of always using lowercase filenames ...</li>
+	   <li>this will make it easier to move between different operating systems</li>
+    </ul>
+            
+    <h4 class="topic" id="filename_extensions">Filename Extensions</h4>
+    <ul class="flat">       
+        <li>Extensions are strings of characters ...</li>
+        <li>that appear at the end of the filename ...</li>
+        <li>after a period</li>
+        <li>Unix ignores extensions</li>
+        <li>As far as Unix is concerned, extensions are just part of the filename</li>
+        <li>Some Unix programs, <b>do</b> require certain extensions</li>
+        <li>The C compiler, <code>gcc</code>, expects the filenames of source code files ...</li>
+        <li>to end in <span class="char">.c</span></li>
+        <li>The Java compiler, <code>javac</code>, expects Java source files ...</li>
+        <li>to have <span class="char">.java</span> extension</li>
+        <li>These programs enforce this rule</li>
+        <li>Unix couldn't care less</li>
+        <li>As far a Unix is concerned an extension ...</li>
+        <li>is just part of the filename ...</li>
+        <li>with no special significance</li>
+    </ul>    
+    
+    <h4 class="topic" id="current_directory">Current Directory</h4>
+    <ul class="flat">       
+        <li>The way a  command works depends ...</li>
+        <li>on your Unix environment</li>
+        <li>One of the most important parts of your environment ...</li>
+        <li>is your current directory</li>
+        <li>Your <a class="def" href="../definitions.html#current_directory">current directory</a> 
+            as your current location ...
+        </li>
+        <li>in the filesystem</li>
+        <li>The <code>pwd</code> (<b>p</b>rint <b>w</b>orking <b>d</b>irectory) command</li>
+        <li> will always tell you your current directory</li>
+        <li>If run <code>ls</code> without an argument ...</li>
+        <li>it will list your current directory</li>
+    </ul>
+	
+	<h4 class="topic" id="home_directory">Your Home Directory</h4>
+	<ul class="flat">       
+        <li>Whenever you log in to a Unix machine ...</li>
+        <li>you will always find yourself inside your 
+            <a class="def" href="../definitions.html#home_directory">home directory</a>
+        </li>
+        <li>This directory belongs to your Unix account <b>only</b></li>
+        <li>You can do anything you want in your home directory ...</li>
+        <li>including blowing it all away</li>
+        <li>You can create files or directories in your home directory</li>
+        <li>You can let other users have access ...</li>
+        <li>to the contents of your home directory</li>
+        <li>You can always get back to your home directory ...</li>
+        <li>by running <code>cd</code> (<b>c</b>hange <b>d</b>irectory) with no argument
+    <pre>
+$ cd
+
+$ pwd
+/home/tsoro</pre>
+    </li>
+    <li>Your home directory contains a number of "hidden" files ...</li>
+    <li>which customize your environment</li>
+    <li>These files begin with a period, <span class="char">.</span> ...</li>
+    <li>and do not ordinarily appear in an <code>ls</code> listing ...</li>
+    <li>unless you run <code>ls</code> with the <code>-a</code> option</li>
+    <li>On most Unix systems, your home directory ...</li>
+    <li>will be in the <span class="path">/home</span> directory</li>
+    <li>On a Mac it will appear in the <span class="path">/Users</span> directory</li>
+    </ul>
+	
+	<h4 class="topic" id="navigation">Navigating the Hierarchical File Systems</h4>
+	<ul class="flat">       
+        <li>Any file or directory in the hierarchical filesystem ...</li>
+        <li>will be one of four positions ...</li>
+        <li><b>relative</b> to your current directory
+            <ul class="flat">       
+                <li class="flat">Inside your current directory</li>
+                <li class="flat">Below your current directory</li>
+                <li class="flat">Above your current directory</li>
+                <li class="flat">Off to the side of your current directory</li>
+            </ul>
+        </li>
+        <li>In this last case, you must go up before you can go down ...</li>
+        <li>to reach the file or directory</li>
+    </ul>
+    <img src="image1_note7.png" height="50%" />
+    
+    <h3 class="section">Attendance</h3>
+    
+    <h3 class="section">Class Quiz</h3>
+    
+	<footer>
+		<a href="class_notes_it244.html" class="spacer">Class Notes</a>
+		<a href="class_notes_index_it244.html" class="spacer">Class Notes Index</a>
+	</footer>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/07_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:25 GMT -->
+</html>

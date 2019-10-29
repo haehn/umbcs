@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/20_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:41 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">    
+    <title> IT 244: Introduction to Linux/Unix - Class 20</title>
+</head>
+<body>
+	<header>
+		<h2> 
+		    IT 244: Introduction to Linux/Unix <br>
+		    Class 20
+		</h2>	
+	</header>
+
+
+    <!-- ALIAS AND FUNCTIONS MUST BE LOCAL SINCE THEY ONLY EXIST IN THE PROCESS MEMORY OF THE CURRENT SHELL -->
+    <!-- FOR ALIASES TALK ABOUT MACROS LIKE TEXT EXPANDER --> 
+    <!-- FUNCTIONS ARE SCRIPTS YOU WRITE IN RAM, NOT TO A FILE -->
+	<!-- NEED TO REWRITE -->
+    <h3 class="section">Today's Topics</h3>
+    
+    <h4 class="flat_under">Tips and Examples</h4>
+    <ul class="flat">       
+        <li class="flat"><a href="#seeing_all_running_processes">Seeing All Running Processes</a></li>
+    </ul>
+    <br>
+    <h4 class="flat_under">Review</h4>
+    <ul class="flat_top">
+        <li class="flat"><a href="#positional_and_special_parameters">Positional and Special Parameters</a></li>
+        <li class="flat"><a href="#quoting_variable_values">Quoting and the Evaluation of Variables</a></li> 
+        <li class="flat"><a href="#removing_variable_value">Removing a Variable's Value</a></li>
+        <li class="flat"><a href="#processes">Processes</a></li>
+        <li class="flat"><a href="#process_structure">Process Structure</a></li>
+        <li class="flat"><a href="#process_identification">Process Identification</a></li>
+        <li class="flat"><a href="#executing_command">Executing a Command</a></li>
+    </ul>
+    <br>
+    <h4 class="flat_under">New Material</h4>
+    <ul class="flat_top">
+        <li class="flat"><a href="#history">History</a></li>
+        <li class="flat"><a href="#history_variables">Variables that Control the History Mechanism</a></li>
+        <li class="flat"><a href="#using_hstory">Using the History Mechanism</a></li>
+        <li class="flat"><a href="#fc">Using <code>fc</code> to Edit and Run an Old Command</a></li>
+        <li class="flat"><a href="#readline_library">The Readline Library</a></li>
+        <li class="flat"><a href="#readline_completion">Readline Completion</a></li>
+        <li class="flat"><a href="#pathname_completion">Pathname Completion</a></li>
+        <li class="flat"><a href="#command_completion">Command Completion</a></li>
+        <li class="flat"><a href="#variable_completion">Variable Completion</a></li>
+        <li class="flat"><a href="#aliases">Aliases</a></li>
+        <li class="flat"><a href="#single_quotes_double_quotes_aliases">Single Quotes Versus Double Quotes in Aliases</a></li>
+        <li class="flat"><a href="#alias_examples">Examples of Aliases</a></li>
+        <li class="flat"><a href="#functions">Functions</a></li>
+        <li class="flat"><a href="#where_to_define">Where to Define Variables, Aliases and Functions</a></li>
+    </ul>
+    
+    <h3 class="section">Homework 9</h3>
+    <p class="flat">I have posted Homework 9 <a href="../hw_it244/09_hw_it244.html">here</a>.</p>
+    <p>As usual, it will be due next Sunday at 11:59 PM.</p>    
+
+    <h3 class="section">Tips and Examples</h3>
+    
+    <h4 class="topic" id="seeing_all_running_processes">Seeing All Running Processes</h4>
+    <ul class="flat">   
+        <li>By default <code>ps</code> only shows you your processes ...</li>
+        <li>running in your current login</li>
+        <li>If you have another login going simultaneously ...</li>
+        <li><code>ps</code> will not show you them ...</li>
+        <li>unless you use the <code>-U</code> option ...</li>
+        <li>followed by a Unix username</li> 
+        <li>So if you wanted to see all processes run by root ...</li>
+        <li>you would type
+            <pre>
+ps -U root</pre>
+        </li>   
+        	<li>You can see <b>all</b> the processes running on a machine ...</li>
+        <li>if you run <code>ps</code> with the -aux options</li>
+        <li>The <code>-U</code> option allows you to see all processes running o</li>
+    </ul>
+    
+    <h3 class="section">Review</h3>
+
+	<h4 class="topic" id="positional_and_special_parameters">Positional and Special Parameters</h4>
+	<ul class="flat">       
+        <li>Positional and special parameters are variables set by Unix ...</li>
+        <li>that change each time you enter a command</li>
+        <li>We have already encountered the special parameter <span class="iden">?</span></li>
+        <li>It contains the status code returned by the last command</li>
+        <li><a class="def" href="../definitions.html#positional_parameter">Positional parameters</a> 
+            are used by shell scripts
+        </li>
+        <li>Positional parameters allow a shell script ...</li>
+        <li>to get arguments from the command line</li>
+        <li>Whenever you enter a command ...</li>
+        <li>each word on the command line ...</li>
+        <li>is assigned to a positional parameter</li>
+        <li>The first token on the  is assigned to positional parameter <span class="iden">0</span></li>
+        <li>This parameter contains the 
+            <a class="def" href="../definitions.html#pathname">pathname</a> 
+            of the script
+        </li>
+        <li>Each succeeding token on the command line </li>
+        <li>is assigned to the next positional parameter
+    <pre>
+$ cat print_positionals.sh
+#!/bin/bash
+#
+# Prints the value of the first four positional arguments
+
+echo
+echo 0: $0
+echo 1: $1
+echo 2: $2
+echo 3: $3
+
+$ ./print_positionals.sh foo bar bletch
+0: <span class="red">/print_positionals.sh<span class="red"></span></span>
+1: <span class="red">foo</span>
+2: <span class="red">bar</span>
+3: <span class="red">bletch</span></pre>
+        </li>
+        <li>Positional parameters are the usual way input is given to a script</li>
+        <li>Another special parameter is <span class="iden">#</span></li>
+        <li><span class="iden">#</span> contains the number of arguments ...</li>
+        <li>passed to a program from the command line
+    <pre>
+$ cat print_arg_numbers.sh 
+#!/bin/bash
+#
+# Prints the number of arguments sent to this script
+
+echo
+echo This script received $# arguments
+
+$ ./print_arg_numbers.sh <span class="red">foo bar bletch</span>
+This script received <span class="red">3</span> arguments</pre>        
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="quoting_variable_values">Quoting and the Evaluation of Variables</h4>
+    <ul class="flat">       
+        <li>Whenever the value of a variable contains spaces or tabs ...</li>
+        <li>you must quote the string or escape the whitespace character</li>
+        <li>There are three ways this
+            <ul class="flat">       
+                <li class="flat">Single quotes (<span class="char">' '</span>)</li>
+                <li class="flat">Double quotes (<span class="char">" "</span>)</li>
+                <li class="flat">Backslash (<span class="char">\</span>)</li>
+            </ul>
+        </li>
+        <li>Single quotes are the most restrictive</li>
+        <li>Everything surrounded by single quotes ...</li>
+        <li>appears in the variable exactly as you entered it</li>
+        <li>This means that special characters like <span class="char">$</span> </li>
+        <li>do not have their special meaning inside single quotes
+    <pre>
+$ team="Red Sox'
+
+echo $team
+Red Sox
+
+$ cheer=<span class="red">'</span>Go $team<span class="red">'</span>
+
+$ echo $cheer
+Go <span class="red">$team</span></pre>      
+        </li>
+        <li>Double quotes also preserve spaces and tabs ...</li>
+        <li>in the strings they contain</li>
+        <li>But you can use a <span class="char">$</span> in front of a variable name ...</li>
+        <li>to get the value of a variable ...</li>
+        <li>inside double quotes
+    <pre>       
+$ cheer=<span class="red">"</span>Go $team<span class="red">"</span>
+
+$ echo $cheer
+Go <span class="red">Red Sox</span>  </pre>        
+        </li>
+        <li>Quotes affect everything they enclose</li>
+        <li>The backslash, <span class="char">\</span> , only effects the character immediately following it</li>
+    </ul>
+    
+    <h4 class="topic" id="removing_variable_value">Removing a Variable's Value</h4>
+    <ul class="flat">       
+        <li>There are two ways of removing the value of a variable</li>
+        <li>You can use the <code>unset</code> command
+            <pre>
+$ echo $foo
+FOO
+
+$ <span class="red">unset</span> foo
+
+$ echo $foo
+
+$</pre>
+        </li>
+        <li>Notice that the variable name was not preceded by a <span class="char">$</span></li>
+        <li>That's because we are dealing with the variable itself ...</li>
+        <li>not its value</li>
+        <li>Or you can set the value of the variable to the empty string
+    <pre>
+$ echo $foo
+FOO
+
+$ <span class="red">foo=</span>
+
+$ echo $foo
+
+$</pre>
+        </li>
+    </ul>
+
+    <h4 class="topic" id="processes">Processes</h4>
+    <ul class="flat">       
+        <li>A <a class="def" href="../definitions.html#process">process</a> is a running program</li>
+        <li>Unix is a multitasking operating system</li>
+        <li>Many processes can run at the same time</li>
+        <li>The shell runs in a process like any other program</li>
+        <li>Every time you run a program ...</li>
+        <li>a process is created ...</li>
+        <li>except when you run a 
+            <a class="def" href="../definitions.html#built-in_command">built-in</a>
+        </li>
+        <li>Running a built-in command does not create a process ...</li>
+        <li>because it runs in the same process as your current shell</li>
+        <li>When you run a shell script ...</li>
+        <li>your current shell creates a sub-shell to run the script</li>
+        <li>This sub-shell runs in a new process</li>
+        <li>When each command in the script is run ...</li>
+        <li>a process is created for that command</li>
+    </ul>
+
+    <h4 class="topic" id="process_structure">Process Structure</h4>
+    <ul class="flat">       
+        <li>Processes are created in a hierarchical fashion</li>
+        <li>When the machine is started, there is only one process</li>
+        <li>This process is either <code>init</code> or <code>systemd</code> ...</li>
+        <li>depending on what flavor of Linux you are using</li>
+        <li>This process then creates all the other processes ...</li>
+        <li>needed to provide the services required of the machine</li>
+        <li>These new processes are child process of first process</li>
+        <li>These child processes can create other processes</li>
+        <li><code>init</code> or <code>systemd</code> has PID (Process ID) of 1 ...</li>
+        <li>and is the ancestor of every other processes ...</li>
+        <li>that ever runs on the machine</li>
+    </ul>
+
+    <h4 class="topic" id="process_identification">Process Identification</h4>
+    <ul class="flat">       
+        <li>Each process has a unique Process ID (PID) number</li>
+        <li><code>ps -f</code> displays a full listing of information about each process running for the current user
+            <pre>
+$ ps -f
+UID        PID  PPID  C STIME TTY          TIME CMD
+it244gh  26374 26373  0 13:41 pts/5    00:00:00 -bash
+it244gh  27891 26374  0 13:57 pts/5    00:00:00 ps -f</pre>
+        </li>
+        <li>The UID column shows the user's Unix username</li>
+        <li>The PID column is the process ID of the process</li>
+        <li>The PPID column is the process ID of the parent process ...</li>
+        <li>the process that created this process</li>
+        <li>The CMD column gives the command line that started the process</li>
+    </ul>
+    
+    <h4 class="topic" id="executing_command">Executing a Command</h4>
+    <ul class="flat">       
+        <li>When you run a command from the shell ...</li>
+        <li>the shell asks the operating system to create a process ...</li>
+        <li>to run the command</li>
+        <li>Then it sleeps ...</li>
+        <li>waiting for the child process to finish</li>
+        <li>When the child process finishes ...</li>
+        <li>it notifies its parent process of its success or failure ...</li>
+        <li>by returning an <a class="def" href="../definitions.html#exit_status">exit status</a> ...</li>
+        <li>and then it dies</li>
+        <li>When the parent process receives the exit status code ...</li>
+        <li>it wakes up and runs again</li>
+        <li>When you run a command in the background ...</li>
+        <li>the shell creates a child process for the job ...</li>
+        <li>but does not go to sleep</li>
+        <li><a class="def" href="../definitions.html#bash_global_variable">Global variables</a> 
+            are inherited by all child processes
+        </li>
+    </ul>
+
+	<h3 class="section">New Material</h3>
+	
+    <h4 class="topic" id="history">History</h4>
+    <ul class="flat">       
+        <li>If you hit <span class="char">&uarr;</span> at the command line ...</li>
+        <li>the shell will bring back your last command</li>
+        <li>When you do this, you are using the history mechanism</li>
+        <li>The history mechanism maintains a list of the commands you have run</li>
+        <li>These command line entries are called 
+            <a class="def" href="../definitions.html#bash_event">events</a>
+        </li>
+        <li>Each time you hit the up arrow ...</li>
+        <li>the history mechanism shows you a previous command line</li>
+        <li>By repeatedly hitting <span class="char">&uarr;</span> ...</li>
+        <li>you can go back in time to see previous commands</li>
+        <li>If you go too far, hit the down arrow key, <span class="char">&darr;</span> ...</li>
+        <li>to go forward in time</li>
+        <li>The history list also serves as a record of what you have done</li>
+        <li>If a command does not work ...</li>
+        <li>you can use this history to see what you did wrong</li>
+        <li>To view the history list, use the <code>history</code> command
+            <pre>
+$ history
+    2  exit
+    3  cd
+    4  cd it244/work
+    5  pwd
+    6  rm -rf *
+    7  cd ~/it244/work
+    8  pwd
+    9  cp ~ghoffman/examples_it244/bother.sh .
+   10  ls /home/ghoffman/examples_it244
+   11  cp ~ghoffman/examples_it244/bother.sh .
+   12  ./bother.sh
+   13  ./bother.sh &amp;
+   14  jobs
+   ...</pre>
+        </li>
+        <li>If you run <code>history</code> without an argument ...</li>
+        <li>it will display all the events in this history list</li>
+        <li>By default, this list contains 500 values ...</li>
+        <li>which is probably more than you want to see</li>
+        <li>To show a smaller number of events ...</li>
+        <li>run <code>history</code> followed by a number
+            <pre>
+$ history 10
+  498  ps
+  499  exit
+  500  exit
+  501  history
+  502  cd
+  503  cd it244
+  504  cd work
+  505  ls
+  506  history
+  507  history 10</pre>
+        </li>
+        <li>Notice that there is no <span class="char">-</span> in front of the number ...</li>
+        <li>as there <b>must</b> be when using <code>head</code> or <code>tail</code></li>
+    </ul>  
+
+    <h4 class="topic" id="history_variables">Variables that Control the History Mechanism</h4>
+    <ul class="flat">       
+        <li>There are three variables that Bash uses to manage the history mechanism
+	        <table>
+	            <tr>
+	                <th>File</th><th>Contents</th>
+	            </tr>
+	            <tr>
+	                <th align="left" valign="top"><span class="iden">HISTFILE</span></th>
+	                <td>The location of the file that records the command history. <br>
+	                    The default is <span class="path">~/.bash_history</span>
+	                </td>
+	            </tr>
+	            <tr>
+	                <th align="left" valign="top"><span class="iden">HISTSIZE</span></th>
+	                <td>The maximum number of command lines saved <br>
+	                    in a list <b>in RAM</b> during a given session
+	                </td>
+	            </tr>
+	            <tr>
+	                <th align="left" valign="top"><span class="iden">HISTFILESIZE</span></th>
+	                <td>The maximum number of command lines saved <br>
+	                    in the file specified by <span class="iden">HISTFILE</span>
+	                    after you quit
+	                </td>
+	            </tr>
+	        </table>
+        </li>
+        <li>All these variables are 
+            <a class="def" href="../definitions.html#keyword_shell_variable">keyword variables</a>
+        </li>
+        <li>Notice that they are all capitalized</li>
+        <li>When Unix is set up, these variables are assigned values
+            <pre>
+$ echo HISTFILE: $HISTFILE; echo HISTSIZE: $HISTSIZE; echo HISTFILESIZE: $HISTFILESIZE
+<span class="red">HISTFILE: /home/it244gh/.bash_history
+HISTSIZE: 500
+HISTFILESIZE: 500</span></pre>
+        </li>
+        <li>You can change the values of these variables in your <span class="path">.bash_profile</span> file</li>
+        <li>Your history list is kept in <span class="path">.bash_history</span> in you home directory ...</li>
+        <li>unless you change <span class="iden">HISTFILE</span></li>
+        <li>So the history mechanism uses <b>two</b> lists <br><br>
+            <table>
+                <tr>
+                    <th align="left">List</th>           
+                    <th align="left">Location</th>                                           
+                    <th align="left">Size</th>
+                </tr>
+                <tr>
+                    <td>File list</td>      
+                    <td><span class="path">~/.bash_history</span></td>    
+                    <td>$<span class="iden">HISTFILESIZE</span></td>
+                </tr>
+                <tr>
+                    <td>Memory list</td>    
+                    <td>RAM</td>                                                
+                    <td>$<span class="iden">HISTSIZE</span></td>
+                </tr>
+            </table>
+        </li>
+        <li><span class="path">~/.bash_history</span> contains commands ...</li>
+        <li>from your last terminal session</li>
+        <li>Commands from your current terminal session ...</li>
+        <li>are stored in a separate list</li>
+        <li>When you first log in  the two lists are identical ...</li>
+        <li>because the initial value of the list in memory ...</li>
+        <li>is taken from the contents of <span class="path">~/.bash_history</span></li>
+        <li>As you enter new commands at the terminal ...</li>
+        <li>these commands are added to the end of the list in RAM ...</li>
+        <li>and older commands are removed ...</li>
+        <li>to keep the size of the RAM list limited to the value of <span class="iden">$HISTSIZE</span></li>
+        <li>When you quit your terminal session the contents of RAM list ...</li>
+        <li>are added to <span class="path">~/.bash_history</span></li>
+        <li>If <span class="path">.bash_history</span> already has the maximum number of lines ...</li>
+        <li>events from the top of the list are deleted ...</li>
+        <li>to make room for the new entries</li>
+    </ul>
+
+    <h4 class="topic" id="using_hstory">Using the History Mechanism</h4>
+    <ul class="flat">       
+        <li>The <span class="char">&uarr;</span> and <span class="char">&darr;</span> keys ...</li>
+        <li>are not the only way to use the history list</li>
+        <li>If you only had the arrow keys to get back an old command ...</li>
+        <li>it would be very annoying retreiving a very old event</li>
+        <li>But the history mechanism provides an easier way</li>
+        <li>If you know the event number ...</li>
+        <li>which you can get by running <code>history</code>
+            <pre>
+$ history <span class="red">5</span>
+  515  cd ~ghoffman/examples_it244/
+  516  pwd
+  517  echo $PATH
+  518  cd
+  519  history 5</pre>      
+        </li>
+        <li>you can run the command again ...</li>
+        <li>by using an exclamation mark, <span class="char">!</span> ...</li>
+        <li>followed by the event number 
+            <pre>
+$ <span class="red">!517</span>
+echo $PATH
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</pre>
+        </li>
+        <li>Notice, that the history mechanism prints out the old command line ...</li>
+        <li>before running it</li>
+        <li>There must be <b>no space between the ! and the number</b> ...</li>
+        <li>or you will get an error message
+            <pre>
+$ <span class="red">! 517</span>
+517: command not found</pre>
+        </li>
+        <li>If you follow the <span class="char">!</span> with a letter ...</li>
+        <li>the last command line that began with that letter</li>
+        <li> will be run
+            <pre>
+$ <span class="red">!e</span>
+echo $PATH
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</pre>
+        </li>
+    </ul>
+
+    <h4 class="topic" id="fc">Using <code>fc</code> to Edit and Run an Old Command</h4>
+    <ul class="flat">       
+        <li>The utility <code>fc</code> (<b>f</b>ix <b>c</b>ommand) allows you to edit a previous command line ...</li>
+        <li>and then re-execute it</li>
+        <li><code>fc</code> is a built-in ...</li>
+        <li>so it executes quickly</li>
+        <li>When run with no arguments <code>fc</code> will bring up an editor window ...</li>
+        <li>holding the last command line</li>
+        <li>You can then
+            <ul class="flat">       
+                <li class="flat">Modify the command in the editor window</li>
+                <li class="flat">Save your changes</li>
+                <li class="flat">Execute the modified command</li>
+            </ul>
+        </li>
+        <li>Running <code>fc</code> with an event number ...</li>
+        <li>will put that command in the editor window</li>
+        <li>If you change your mind while in <code>fc</code> editor ...</li>
+        <li>you must delete all text from the window</li>
+        <li>If you don't <code>fc</code> will try to execute whatever you have left in the window</li>
+        <li><code>fc</code> can also be used to view the history list</li>
+        <li>When run with the -l option, <code>fc</code> will list the last 16 command lines
+            <pre>
+$ fc <span class="red">-l</span>
+511  ls
+512  cd
+513  ls
+514  history 5
+515  cd ~ghoffman/examples_it244/
+516  pwd
+517  echo $PATH
+518  cd
+519  history 5
+520  echo $PATH
+521  ! 517
+522  echo $PATH
+523  traceroute -a standford.edu
+524  echo $PATH
+525  echo $PATH
+526  echo $PATH</pre>
+        </li>
+        <li>You can also tell <code>fc</code> to list all command lines ...</li>
+        <li>starting with a certain event number</li>
+        <li>You do this by running <code>fc -l</code> ...</li>
+        <li>followed by a space and a number
+            <pre>
+$ fc <span class="red">-l 522</span>
+522  echo $PATH
+523  traceroute -a standford.edu
+524  echo $PATH
+525  echo $PATH
+526  echo $PATH
+527  fc -l</pre>
+        </li>
+        <li>You can also have <code>fc -l</code> list a range of events</li>
+        <li>To do this, follow <code>fc -l</code> with two numbers
+            <pre>
+$ fc <span class="red">-l 522 525</span>
+522  echo $PATH
+523  traceroute -a standford.edu
+524  echo $PATH
+525  echo $PATH</pre>
+        </li>
+        <li>If you run <code>fc -l</code> with two strings ...</li>
+        <li>it will list a range of command lines</li>
+        <li>The list will start with the last command line that matches the first string ...</li>
+        <li>and end with the last command that matches the last string
+            <pre>
+$ history 10
+  521  ! 517
+  522  echo $PATH
+  523  <span class="red">traceroute</span> -a standford.edu
+  524  echo $PATH
+  525  echo $PATH
+  526  echo $PATH
+  527  fc -l
+  528  fc -l 521
+  529  <span class="red">fc</span> -l 522 525
+  530  history 10
+  
+$ fc <span class="red">-l t f</span>
+523  traceroute -a standford.edu
+524  echo $PATH
+525  echo $PATH
+526  echo $PATH
+527  fc -l
+528  fc -l 521
+529  fc -l 522 525</pre>
+        </li>
+    </ul>
+
+    <h4 class="topic" id="readline_library">The Readline Library</h4>
+    <ul class="flat">       
+        <li>The Readline library is a collection of procedures ...</li>
+        <li>written in the C programming language ...</li>
+        <li>which let you edit the command line</li>
+        <li>The Readline library was created by the GNU project</li>
+        <li>When you use Control key combinations on the command line ...</li>
+        <li>you are using the Readline library</li>
+        <li>Any program running under Bash and written in C ...</li>
+        <li>can use the Readline library</li>
+        <li>I use it when running MySQL commands ...</li>
+        <li>at the MySQL command line</li>
+        <li>There are two modes available in the Readline library
+            <ul>
+                <li class="flat"><code>emacs</code> mode</li>
+                <li class="flat"><code>vim</code> mode</li>
+            </ul>
+        </li>
+        <li><span class="host">users3</span> is configured to use emacs mode by default</li>
+        <li>That is the mode we have been using</li>
+        <li>Here are some of the more useful commands for the emacs version of the Readline library
+	        <table>
+	            <tr>
+	                <th align="left">Command</th> <th align="left">Meaning</th>
+	            </tr>
+	            <tr>
+	                <th><span class="red">Control A</span></th><td>Move to the beginning of the line</td>
+	            </tr>
+	            <tr>
+	                <th><span class="red">Control E</span></th><td>Move to the end of the line</td>
+	            </tr>
+	            <tr>
+	                <th><span class="red">Control U</span></th><td>Remove everything from the text entry point to the beginning of the line</td>
+	            </tr>
+	            <tr>
+	                <th><span class="red">Control K</span></th><td>Remove everything from the text entry point to the end of the line</td>
+	            </tr>
+	            <tr>
+	                <th><span class="red">←</span></th><td>Move the text entry point one character to the left</td>
+	            </tr>
+	            <tr>
+	                <th><span class="red">→</span></th><td>Move the text entry point one character to the right</td>
+	            </tr>
+	            <tr>
+	                <th><span class="red">↑</span></th><td>Recall the previous command line entry in the history list</td>
+	            </tr>
+	            <tr>
+	                <th><span class="red">↓</span></th><td>Recall the following command line entry in the history list</td>
+	            </tr>
+	        </table>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="readline_completion">Readline Completion</h4>
+    <ul class="flat">       
+        <li>The Readline library provides a completion mechanism</li>
+        <li>Type a few letters and hit Tab ...</li>
+        <li>and Readline completion will try to supply the rest</li>
+        <li>There are three forms of completion provided by the Readline library
+		    <ul>
+		        <li class="flat"><a class="def" href="../definitions.html#pathname_completion">Pathname completion</a></li>
+                <li class="flat"><a class="def" href="../definitions.html#command_completion">Command completion</a></li>
+		        <li class="flat"><a class="def" href="../definitions.html#variable_completion">Variable completion</a></li>
+		    </ul>
+        </li>
+        <li>They all use <b>Tab</b> to complete something ...</li>
+        <li>but they differ in <b>what</b> they complete</li>
+    </ul>
+
+    <h4 class="topic" id="pathname_completion">Pathname Completion</h4>
+    <ul class="flat">       
+        <li>Pathname completion is where to start to type a pathname ...</li>
+        <li>and then hit Tab ...</li>
+        <li>to have the Readline fill in the rest</li>
+        <li>If you type the first few characters of a pathname ...
+        </li>
+        <li>and then hit Tab ...</li>
+        <li>the Readline library will try to supply the rest</li>
+        <li>If there is only one pathname that matches ...</li>
+        <li>the Readline library will provide the the rest of the pathname</li>
+        <li>If there is more than one possible completion ...</li>
+        <li>you will hear a beep</li>
+        <li>You can then enter more characters before hitting Tab again ...</li>
+        <li>or you can hit Tab right after the first beep ...</li>
+        <li>and the Readline library will give you a list of possible completions
+            <pre>
+$ ls <span class="red">hw[Tab][Tab]</span>
+hw2/ hw4/ hw5/ hw6/</pre>
+        </li>
+        <li>If the second Tab still gives you a beep ...</li>
+        <li>there are no possible completions</li>
+    </ul>
+
+    <h4 class="topic" id="command_completion">Command Completion</h4>
+    <ul class="flat">       
+        <li>The Readline library will complete the name of a command for you</li>
+        <li>Begin typing a command ...</li>
+        <li>then hit Tab</li>
+        <li>If there is more than one possible completion ...</li>
+        <li>you will hear a beep</li>
+        <li>If you hit Tab a second time ...</li>
+        <li>you will see a list of possible completions
+            <pre>
+$ <span class="red">e[Tab][Tab]</span>
+e2freefrag           elfedit              esac
+e2fsck               elif                 etags
+e2image              else                 etags.emacs23
+e2label              emacs                ethtool
+e2undo               emacs23              eval
+e4defrag             emacs23-x            ex
+ebrowse              emacsclient          exec
+ebrowse.emacs23      emacsclient.emacs23  exit
+echo                 enable               expand
+ed                   enc2xs               expiry
+edit                 env                  export
+editor               envsubst             expr
+editres              eqn                  extcheck
+egrep                erb                  
+eject                erb1.8</pre>
+        </li>
+    </ul>
+
+    <h4 class="topic" id="variable_completion">Variable Completion</h4>
+    <ul class="flat">       
+        <li>When you type a dollar sign, <span class="char">$</span> ...</li>
+        <li>followed immediately by some text ...</li>
+        <li>you are entering a variable name</li>
+        <li>The Readline library knows this </li>
+        <li>and will attempt to complete the name of the variable
+            <pre>
+$ bar=BLETCH
+
+$ echo $b<span class="red">[Tab]</span>ar 
+BLETCH</pre></li>
+    <li>If there is more than one possibility, you will hear a beep</li>
+    <li>If you then hit Tab another time </li>
+    <li>you will see a list of possible completions
+    <pre>
+$ foo1=FOO; foo2=BAR
+
+$ echo $foo<span class="red">[Tab][Tab]</span>
+$foo1  $foo2</pre>
+        </li>
+        <li>If no list appears after the second Tab ...</li>
+        <li>there are no possible variable name completions</li>
+    </ul>
+     
+    <h4 class="topic" id="aliases">Aliases</h4>
+    <ul class="flat">
+        <li>An <a class="def" href="../definitions.html#alias">alias</a> is a string ...</li>
+        <li>that the shell replaces with some other string ...</li>
+        <li>when you use it on the command line</li>
+        <li>Usually, the value assigned to the alias is a command ...</li>
+        <li>or a part of a command</li>
+        <li>I often want to get a long listing for a directory ...</li>
+        <li>and typing <code>ls -l</code> is quite a few characters</li>
+        <li>So I have defined an alias, ll
+            <pre>
+alias ll="ls -l'</pre>
+        </li>
+        <li>If I want a long listing I can simply type ll ...</li>
+        <li>instead of <code>ls -l</code>
+            <pre>
+$ ll
+total 45
+-rwxr-xr-x 1 ghoffman grad     38 Oct 11 20:05 border.sh
+-rwxr-xr-x 1 ghoffman grad    135 Oct 16 08:35 bother.sh
+-rwxr-xr-x 1 ghoffman grad     13 Oct 29 14:23 cheer.sh
+-rwxr-xr-x 1 ghoffman grad    103 Oct  9 08:53 command_name.sh
+-rwxr-xr-x 1 ghoffman grad     99 Oct 29 16:15 comment_test.sh
+...</pre>
+        </li>
+        <li>To define an alias, you use the <code>alias</code> command</li>
+        <li><code>alias</code> uses the following format in Bash
+            <pre>
+<span class="format">alias  ALIAS_NAME=ALIAS_VALUE</span></pre>
+        </li>
+        <li>there must be <b>no</b> spaces on either side of the equal sign, <span class="char">=</span>, ...</li>
+        <li>when defining an alias in Bash</li>
+        <li>If the string assigned to the alias has spaces ...</li>
+        <li>it must be quoted
+    <pre>
+alias  la=<span class="red">'</span>ls -a<span class="red">'</span></pre>
+        </li>
+        <li>If you run <code>alias</code> with no arguments </li>
+        <li>it will list all aliases currently defined
+        <pre>
+$ alias
+alias bin="pu $bin'
+alias binl="ls $bin'
+alias ck755="ls -l *.sh | tr '\''-'\'' '\'' '\'' | grep '\''rwxr xr x'\'''
+alias ckhb="head -1 *.sh | grep  /bin/bash'
+alias cl="pu $cl'
+alias clhws="pu $clhws'
+alias clhwsl="ls $clhws'
+alias cll="ls $cl'
+alias clr="clear'
+...</pre>        
+        </li>
+        <li>If you follow <code>alias</code> with the name of an alias ...</li>
+        <li>it will display the definition
+        		<pre>
+$ alias ll
+alias ll="ls -l'</pre>
+        </li>
+        <li>In Bash, an alias cannot accept an argument ...</li>
+        <li>but it can in the TC shell</li>
+        <li>Although a alias cannot accept an argument in Bash ...</li>
+        <li>an argument can follow it</li>
+        <li>This is a subtle point</li>
+        <li>I can use my ll alias ...</li>
+        <li>and follow it with the name of a directory</li>
+        <li>So if I were to type the following at the command line
+            <pre>
+ll /home/ghoffman</pre>
+        </li>
+        <li>the shell would substitute "ls -l" for ll ...</li>
+        <li>and the shell would theb execute the changed commmand line
+            <pre>
+ls -l /home/ghoffman</pre>
+    		</li>
+        <li>But what if I wanted to create an alias for a pipe using two commands ...</li>
+        <li>and I needed to pass an argument to the first command?</li>
+        <li>For example if I wanted to create an alias for something like this
+            <pre>
+ls -l <span class="red">DIRECTORY_NAME</span> | head</pre>
+        </li>
+        <li>In Bash, I <b>cannot</b> create an alias like this
+            <pre>
+alias llh="ls -l $1 | grep txt'</pre>
+        </li>
+        <li>because an alias will not accept an argument</li>
+        <li>When Bash comes across an alias ...</li>
+        <li>it substitutes the <b>value</b> of the alias ...</li>
+        <li>for the <b>name</b> of the alias</li>
+        <li>So you can't give an argument to an alias in Bash ...</li>
+        <li>unless the argument comes <b>after</b> the alias</li>
+        <li>Instead of allowing aliases to accept arguments ..</li>
+        <li>Bash has functions</li>
+        <li>Functions in <code>bash</code> can consist of many commands ...</li>
+        <li>and you can use arguments with each of these commands</li>
+        <li>We'll discuss functions a little later in this class</li>
+        <li>The TC shell has no functions</li>
+        <li>You can't use the name of an alias ...</li>
+        <li>inside the value of an alias</li>
+        <li>In other words, an alias cannot call itself</li>
+        <li>If you defined an alias ...</li>
+        <li>and then used the name of the alias in the value of the alias ...</li>
+        <li>how would Bash know when to stop?</li>
+        <li>In other words if you tried to do something like this
+            <pre>
+alias foo="foo foo foo'</pre>
+        </li>
+        <li>The alias would try to call itself ...</li>
+        <li>and that call to the alias would try to call itself ...</li>
+        <li>and you would have an infinite recursive loop</li>
+        <li>To keep this from happening ...</li>
+        <li>an alias will not work if it calls itself
+            <pre>
+$ alias foo="echo foo'
+
+$ foo
+foo
+
+$ alias foo="<span class="red">foo  foo  foo</span>'
+
+$ foo
+<span class="red">foo: command not found</span></pre>
+        </li>
+        <li>Aliases are <b>not</b> global</li>
+        <li>They only work in the shell in which they are defined
+    <pre>
+$alias ll="ls -l'
+
+$ bash
+
+$ ll
+<span class="red">ll: command not found</span></pre>
+        </li>
+        <li>The <code>alias</code> command is a built-in
+            <pre>
+$ type alias
+alias is a shell builtin</pre>
+        </li>
+        <li>This makes sense since an alias only works in the shell ...</li>
+        <li>in which it is defined</li>
+        <li>If <code>alias</code> were not a built-in ...</li>
+        <li>it would be defined in the subshell that ran the <code>alias</code> command ....</li>
+        <li>not your current shell</li>
+    </ul>
+    
+    <h4 class="topic" id="single_quotes_double_quotes_aliases">Single Quotes Versus Double Quotes in Aliases</h4>
+    <ul class="flat">       
+        <li>There are two types of quotes in <code>bash</code>
+            <ul class="flat">       
+                <li class="flat">Single quotes - <span class="char">' '</span></li>
+                <li class="flat">Double quotes - <span class="char">" "</span></li>
+            </ul>
+        </li>
+        <li>Both single and double quotes ...</li>
+        <li>allow you to assign a variable a value that contains whitespace
+            <pre>
+$ name="Glenn Hoffman'
+
+$ echo $name 
+Glenn Hoffman</pre>
+        </li>
+        <li>The whitespace characters are
+            <ul>
+                <li class="flat">Spaces</li>
+                <li class="flat">Tabs</li>
+                <li class="flat">Newlines (carriage returns)</li>
+            </ul>     
+        </li>
+        <li>Single quotes turn off all special meanings of characters
+            <pre>
+$ echo 'My name is $name'
+My name is $name</pre>
+        </li>
+        <li>Variables are <b>not evaluated</b> ...</li>
+        <li>when they are enclosed in single quotes</li>
+        <li>But double quote allow you to use the <span class="char">$</span> in front of a variable</li>
+        <li>to get the value of the variable
+            <pre>
+$ echo "My name is $name"
+My name is Glenn Hoffman</pre>
+        </li>
+        <li>Usually, when defining aliases ...</li>
+        <li>you want to use single quotes</li>
+        <li>If you use single quotes when defining an alias ...</li>
+        <li>any variables in the alias value will be evaluated ...</li>
+        <li>when you use the alias ...</li>
+        <li>which is usually what you want</li>
+        <li>If you use double quotes when defining an alias ...</li>
+        <li>any variable in the alias will be evaluated ...</li>
+        <li>when it is <b>defined</b> ...</li>
+        <li>not when it is used</li>
+        <li>Consider the following </li>
+        <li>The <span class="iden">PWD</span> 
+            <a class="def" href="../definitions.html#keyword_variable">keyword variable</a> is used by the shell ...
+        </li>
+        <li>to keep track of your current directory
+    <pre>
+$ pwd
+/home/it244gh
+
+$ echo $PWD
+/home/it244gh</pre>
+        </li>
+        <li>This means that the value of <span class="iden">PWD</span> changes ...</li>
+        <li>as you move about the filesystem</li>
+        <li>Let's see what happens if we define an alias using <span class="iden">PWD</span> ...</li>
+        <li>inside double quotes
+            <pre>
+$ alias where=<span class="red">"</span>echo My current location is <span class="red">$PWD "</span>
+
+$ where
+My current location is /home/it244gh 
+
+$ cd /
+
+$ pwd
+/
+
+$ where
+My current location is /home/it244gh</pre>
+        </li>
+        <li>The value of <span class="iden">PWD</span> was evaluated ...</li>
+        <li>when the alias was defined</li>
+        <li>If I now move to another directory ...</li>
+        <li>the value of <span class="iden">PWD</span> will be changed ...</li>
+        <li>but that will not affect the alias ...</li>
+        <li>since it got the value of <span class="iden">PWD</span> when it was defined ...</li>
+        <li>and it ignores the current value of the variable</li>
+        <li>To define this alias correctly ...</li>
+        <li>we must use single quotes
+            <pre>
+$ alias where=<span class="red">'</span>echo My current location is <span class="red">$PWD '</span></pre>
+        </li>
+        <li>Now <span class="iden">PWD</span> will be evaluated when the alias is used
+            <pre>
+$ pwd
+/home/it244gh
+
+$ alias where=<span class="char">'</span>echo My current location is $PWD<span class="red">'</span>
+
+$ where
+My current location is /home/it244gh
+
+$ cd /
+
+$ pwd
+/
+
+$ where
+My current location is /</pre>
+        </li>
+        <li>Here we get the  value of <span class="iden">PWD</span> ...</li>
+        <li>when the alias is run</li>
+        <li>When the shell comes across an alias ...</li>
+        <li>it simply substitutes the value of the alias ...</li>
+        <li>for the name of the alias</li>
+    </ul>
+    
+    <h4 class="topic" id="alias_examples">Examples of Aliases</h4>
+    <ul class="flat">       
+        <li>I have defined a number of aliases ...</li>
+        <li>to make my work easier</li>
+        <li>One alias makes it easier for me to list the "invisible files" in a directory
+            <pre>
+$ alias la="ls -a'
+
+$ la
+.   .addressbook   .bash_profile  .cshrc  .login   .pinerc
+..  .bash_history  .cache     it244   .msgsrc  .ssh</pre>
+        </li>
+        <li>Another alias makes it easier to see the most recently created files and directories
+            <pre>
+$ alias ltr
+alias ltr="ls -ltr'
+
+$ ltr ~/bin/shell
+total 4
+-rwxr-xr-x 1 ghoffman grad 107 Oct 13 09:42 border.sh
+-rwxr-xr-x 1 ghoffman grad 339 Oct 13 09:42 hw_setup.sh
+-rwxr-xr-x 1 ghoffman grad 306 Oct 14 00:18 hw_copy.sh
+-rwxr-xr-x 1 ghoffman grad 156 Nov  5 17:09 step.sh</pre>
+        </li>
+        <li>This alias sorts the directory listing ...</li>
+        <li>with the most recent entries at the bottom</li>
+        <li>This make is easier to see the most recently modified files</li>
+        <li>I often create aliases using a variable ...</li>
+        <li>to go to directories I visit often
+            <pre>
+$ lnwb=/home/ghoffman/public_html/it244
+
+$ alias lnwb="cd $lnwb'
+
+$ pwd
+/home/ghoffman/bin
+
+$ lnwb
+
+$ pwd
+/home/ghoffman/public_html/it244</pre>
+        </li>
+        <li>I follow a standard procedure when defining such aliases</li>
+        <li>First I create a variable ...</li>
+        <li>holding the absolute address of the directory</li>
+        <li>then I create an alias to go to that directory ...</li>
+        <li>and the name of the alias is the same as the variable</li>
+        <li>There is no possibility of confusion ...</li>
+        <li>since you must put a <span class="char">$</span> ...</li>
+        <li>in front of a variable to get its value ...</li>
+        <li>but you don't do this with an alias</li>
+    </ul>
+    
+    <h4 class="topic" id="functions">Functions</h4>
+    <!-- All function examples should use positional parameters -->
+    <ul class="flat">       
+        <li>A <a class="def" href="../definitions.html#function">function</a> 
+            is a collection of shell commands that is given a name
+        </li>
+        <li>Functions can accept arguments from the command line ...</li>
+        <li>using positional parameters</li>
+        <li>A function can be run anywhere in the filesystem ...</li>
+        <li>since it has no pathname</li>
+        <li>You simply type the name of the function to run it</li>
+        <li>Functions differ from shell scripts in a number of ways
+            <ul>
+                <li class="flat">They are stored in memory (RAM), rather than in a file on disk</li>
+                <li class="flat">The shell preprocesses the function so it can execute more quickly</li>
+                <li class="flat">The shell executes the function in it's own process</li>
+            </ul>
+        </li>
+        <li>For these reasons, functions run much faster than shell scripts</li>
+        <li>Functions should be used sparingly</li>
+        <li>Functions take up memory</li>
+        <li>All the functions you define ...</li>
+        <li>are loaded into the memory of your shell process</li>
+        <li>If you define too many functions ...</li>
+        <li>it will hurt the performance of the shell</li>
+        <li>Functions are local to the shell in which they are defined ...</li>
+        <li>so they do not work in sub-shells</li>
+        <li>Functions definitions have the following form
+    <pre>
+<span class="format">FUNCTION_NAME ()
+{
+    COMMAND
+    COMMAND
+    ...
+}</span></pre>
+        </li>
+        <li>Where COMMAND  is anything you can enter at the command line
+        <!-- Need an example using postitional parameters -->
+            <pre>
+$ whoson ()
+&gt; {
+&gt;   date
+&gt;   finger | grep 'pts/'$1
+&gt; }
+
+$ whoson 14
+Sun Nov 10 20:18:33 EST 2013
+thamerfa  Thamer AlTuwaiyan   pts/14      2  Nov 10 18:44 (c-174-63-86-44.hsd1.ma.comcast.net)</pre>
+        </li>
+        <li>Once you type the final <span class="char">}</span> the definition is complete ...</li>
+        <li>and you get a command prompt back</li>
+        <li>You can define a function on a single command line
+            <pre>
+$ echo3 () { echo $1; echo $1; echo $1;} 
+
+$ echo3 foo
+foo
+foo
+foo</pre>
+        </li>
+        <li>But you <b>must</b> use a semicolon after each command</li>
+        <li>Including the last command</li>
+        <li>For clarity, you can precede the function name </li>
+        <li>with the <a class="def" href="../definitions.html#keyword">keyword</a> <code>function</code>
+    <pre>
+$ <span class="red">function</span> cheer ()
+&gt; {
+&gt;   echo Go $1'!'
+&gt; }
+
+$ cheer 'Red Sox'
+Go Red Sox!</pre>
+        </li>
+        <li><code>function</code> is not a command
+            <pre>
+$ type function
+function is a shell keyword</pre>
+        </li>
+        <li>So it is <b>optional</b> when definition a function</li>
+        <li>You pass command line arguments to a function ...</li>
+        <li>using the positional parameters
+            <pre>
+$ print_args ()
+&gt; {
+&gt;   echo "arg1: $1"
+&gt;   echo "arg2: $2"
+&gt; }
+
+$ print_args foo bar
+arg1: foo
+arg2: bar</pre>
+        </li>
+        <li>To see the definition of a function, you can use the <code>type</code> command</li>
+        <li>I declare the function pu everywhere I work</li>
+        <li>I use this in place of <code>cd</code>
+    <pre>
+$ type pu
+pu is a function
+pu () 
+{ 
+    echo;
+    pushd $1 &gt; /dev/null;
+    ls --color=auto
+}
+
+$ pwd
+/home/it244gh
+
+$ <span class="red">pu</span> ~ghoffman   
+
+assignments_submitted  it114  mail    public_html  vp
+bin                    it244  Mail    scans
+course_files           it341  News    test
+html                   it441  nsmail  test_taken
+
+$ pwd
+/home/ghoffman</pre>
+        </li>
+        <li>This function first prints a blank line ...</li>
+        <li>which makes things easier to read</li>
+        <li>Then it calls <code>pushd</code></li>
+        <li>But <code>pushd</code> prints the directory stack ...</li>
+        <li>which I find distracting ...</li>
+        <li>so I send this output to <span class="path">/dev/null</span></li>
+        <li>Next I run <code>ls</code> ...</li>
+        <li>so I can see the contents of my new directory</li>
+        <li>I chose pu as the function name ...</li>
+        <li>because it is shorter than "push"</li>
+        <li>Whenever I use pu ...</li>
+        <li>the directory stack keep a record of my last directory</li>
+        <li>To return to this directory I use po ...</li>
+        <li>which is short for "pop"</li>
+        <li>But po does not require an argument ...</li>
+        <li>since it uses the directory stack to return to a previous directory ...</li>
+        <li>so po is an alias
+            <pre>
+$ alias po
+alias po="popd <span class="red">&gt;</span> /dev/null; echo; ls'</pre>
+        </li>
+        <li>This alias uses <code>popd</code> to return to the previous directory ...</li>
+        <li>redirecting the printing of the directory stack to <span class="path">/dev/null</span></li>
+        <li>Then it prints a blank line ...</li>
+        <li>and prints the contents of the directory</li>
+        <li>To remove a function use the <code>unset</code> command
+    <pre>
+$ cheer 'Red Sox'
+Go Red Sox!
+
+$ <span class="red">unset</span> cheer
+
+$ cheer
+<span class="red">cheer: command not found</span></pre>
+        </li>
+        <li>Functions, like aliases, only work ...</li>
+        <li>in the shell in which they are defined</li>
+    </ul>
+    
+    <h4 class="topic" id="where_to_define">Where to Define Variables, Aliases and Functions</h4>
+    <ul class="flat">       
+        <li>Global variables are visible in all sub-shells</li>
+        <li>Global variables should be defined in <span class="path">.bash_profile</span> ...</li>
+        <li>in your home directory</li>
+        <li>That will make them available when you login </li>
+        <li>since the commands in <span class="path">.bash_profile</span> ...</li>
+        <li>are run after your password is accepted</li>
+        <li>Aliases and functions cannot be made global ...</li>
+        <li>which means that if you define them in <span class="path">.bash_profile</span> ...</li>
+        <li>they will not be available in interactive sub-shells</li>
+        <li>But since few people use interactive sub-shells ...</li>
+        <li>they should probably be put in <span class="path">.bash_profile</span> ...</li>
+        <li>to keep things simple</li>
+        <li>If you need your aliases and functions in interactive sub-shells ...</li>
+        <li>you should define them instead in <span class="path">.bashrc</span> ...</li>
+        <li>and then add the following in your <span class="path">.bash_profile</span>
+            <pre>
+source .bashrc</pre>            
+        </li>
+        <li>or they won't be defined in your login shell</li>
+    </ul>
+    
+    <h3 class="section">Attendance</h3>
+    
+    <h3 class="section">Class Quiz</h3>
+    
+	<footer>
+		<a href="class_notes_it244.html" class="spacer">Class Notes</a>
+		<a href="class_notes_index_it244.html" class="spacer">Class Notes Index</a>
+	</footer>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/20_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:41 GMT -->
+</html>

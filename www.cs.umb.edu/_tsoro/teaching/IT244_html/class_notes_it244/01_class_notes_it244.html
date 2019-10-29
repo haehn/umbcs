@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/01_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:23 GMT -->
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="../class_notes.css">
+	<title> IT 244: Introduction to Linux/Unix - Class 1</title>
+</head>
+<body>
+	<header>
+		<h2> 
+		    IT 244: Introduction to Linux/Unix <br>
+		    Class 1 
+		</h2>	
+	</header>
+
+	<h3 class="section">Today's Topics</h3>
+	<h4 class="flat_under">Introduction</h4>
+	<ul class="flat_top">
+		<li class="flat"><a href="#course_description">Course Description</a></li>
+		<li class="flat"><a href="#textbook">Textbook</a></li>
+		<li class="flat"><a href="#what_happens_in_class">What Happens in Class</a></li>
+		<li class="flat"><a href="#course_work">Course Work</a></li>
+		<li class="flat"><a href="#making_class_interesting">Making the Class Interesting</a></li>
+		<li class="flat"><a href="#taking_notes">Taking Notes</a></li>
+		<li class="flat"><a href="#laptops">Laptops</a></li>
+		<li class="flat"><a href="#attendance">Attendance</a></li>
+		<li class="flat"><a href="#who_am_i">Who Am I</a></li>
+		<li class="flat"><a href="#enough_time">Do You Have Enough Time to Do the Work for This Course?</a></li>
+		<li class="flat"><a href="#read_carefully">Learn to Read Carefully</a></li>
+		<li class="flat"><a href="#course_documents">Course Documents</a></li>
+		<li class="flat"><a href="#grading_policy">Grading Policy</a></li>
+		<li class="flat"><a href="#late_work">Late Work</a></li>
+		<li class="flat"><a href="#email_notification">Email Notification</a></li>
+		<li class="flat"><a href="#disabilities">Accommodations for Disabilities</a></li>
+		<li class="flat"><a href="#classroom_behavior">Classroom Behavior</a></li>
+		<li class="flat"><a href="#cheating">Cheating</a></li>
+		<li class="flat"><a href="#class_discussion_area">Class Discussion Area</a></li>
+		<li class="flat"><a href="#office_hours">Office Hours</a></li>
+		<li class="flat"><a href="#contacting_me">Contacting Me</a></li>
+	    	<li class="flat"><a href="#first_exercise">First Class Exercise</a></li>
+		<li class="flat"><a href="#first_homework">First Homework Assignment</a></li>
+		<li class="flat"><a href="#first_reading_assignment">First Reading Assignment</a></li>
+    </ul>
+    
+    <h4 class="topic" id="course_description">Course Description</h4>
+    <p class="flat">This course will introduce you to the Linux/Unix operating system
+        and the Bash shell.
+    </p>
+    <p>All work in this course will be done at the command line on a Linux
+       machine on the Computer Science Department network.
+    </p>
+	<p>The command line is harder to use than the graphical user interfaces
+       you are used to.
+    </p>
+    <p>But the command line is more powerful and gives you full access to all
+       the features of the operating system.
+    </p>
+    
+    <h4 class="topic" id="textbook">Textbook</h4>
+    <p class="flat">The text for this course is 
+       <span class="under">A Practical Guide to Linux Commands, Editors, and Shell Programming</span>
+       by Mark G. Sobell and Matthew Helmke, Fourth Edition, Prentice Hall <br>
+       ISBN-10:  0134774604 | ISBN-13: 978-0134774602
+    </p>
+    <p>You can buy this book from 
+	  <a href="https://www.amazon.com/Practical-Guide-Commands-Editors-Programming/dp/0134774604/ref=sr_1_fkmr0_2?s=books&amp;ie=UTF8&amp;qid=1515222106&amp;sr=1-2-fkmr0&amp;keywords=A+Practical+Guide+to+Linux+Commands%2C+Editors%2C+and+Shell+Programming">
+	  Amazon
+	  </a>
+
+    <h4 class="topic" id="what_happens_in_class">What Happens in Class</h4>
+    <p class="flat">This is a combined lecture and lab course.</p>
+    <p>I will speak for a while at the beginning of the class.</p>
+    <p>After my prepared material, there will be an ungraded quiz.</p>
+    <p>The purpose of the ungraded quiz is to help you remember the new material we have covered.</p>
+    <p>After you have completed the quiz I will hand out a Class Exercise.</p>
+    <p>You will work on the exercise for the remainder of the class.</p>
+    <p>There will also be weekly graded quizzes.</p>
+    
+    <h4 class="topic" id="course_work">Course Work</h4>
+    <p class="flat">In each class you will receive a Class Exercise, 
+            which consists of code that you must copy and run on our Unix systems.
+        </p>
+    <p>You must work on each exercise in class so I can help you if you run into trouble.</p>
+    <p>If you cannot complete the exercise in class, you may finish it later.</p>
+    <p>Class Exercises for the week must be submitted by Sunday at 11:59 PM.</p>
+    <p>Each Class Exercise will be graded on completion.</p>
+    <p>If the code does everything it should do and does not show any errors, 
+           you will receive the full 100 points for that exercise.
+        </p>
+    <p class="flat">There will be two types of quizzes</p>
+    <ul class="flat">       
+        <li class="flat">Class Quizzes</li>
+        <li class="flat">Weekly Quizzes</li>
+    </ul>
+    <p>The Class Quizzes are administered at the end of each class and are <b>not</b> graded.</p>
+    <p>The purpose of the Class Quizzes is to help you learn the material.</p>
+    <p>Studies have shown that taking a quiz immediately after hearing new material helps you learn.</p>
+    <p>The Weekly Quizzes are graded.</p>
+    <p>Their purpose is to encourage you to study the material as we go along, 
+       and not postpone this until just before the exams.
+    </p>
+    <p>All questions on the Weekly Quizzes come from the ungraded Class Quizzes.</p>
+    <p>They will usually cover the material from the previous week.</p>
+    <p>The weekly graded quizzes will be given in the first class of the week, starting 
+           on the third week of class.
+    </p>
+    <p>If you miss this class your only other opportunity to take the quiz, 
+       will be the following class.
+    </p>
+    <p>There will usually be a weekly reading assignment from the textbook.</p>
+    <p>There will be weekly homework assignments.</p>
+    <p class="flat">There will be two exams</p>
+    <ul class="flat">       
+        <li class="flat">A mid-term</li>
+        <li class="flat">A final</li>
+    </ul>
+    
+    <h4 class="topic" id="making_class_interesting">Making the Class Interesting</h4>
+    <!--
+	<p class="flat">The first universities appeared in Europe over 1,000 year ago.</p>
+    <p>Since then, the what happens in classrooms has not changed much.</p>
+    <p>The teacher stands at the front of the class and lectures to the students.</p>
+    <p>The word "lecture" comes from the Latin word for read.</p>
+    <p>The first universities arose before the printing press.</p>
+    <p>There were no textbooks.</p>
+    <p>Books had to be copied by hand so they were very expensive and rare.</p>
+    <p>The instructor read from one of these books and the students took notes.</p>
+    <p>Students had to study from their notes, because there were no textbooks.</p>
+    <p>Much has changed since then, but most teachers in universities still lecture.</p>
+    <p>Recent research has shown that this is not an effective way to learn.</p>
+	-->
+    <p>Students learn by doing and by interacting with the instructor.</p>
+    <p>The more students participate in class, the more they learn.</p>
+    <p>I want you to interact with me.</p>
+    <p>I want you to ask questions.</p>
+    <p>I want you to make comments.</p>
+    <p>The more you interact with me, the more you learn.</p>
+    <p>This will make the class more interesting for you and for me.</p>
+	<!--
+    <p>I will take note of the students who speak up.</p>
+    <p>Such student may get a point or two added to their score when I calculate grades.</p>
+    -->
+    <!--
+    <h4 class="topic" id="taking_notes">Taking Notes</h4>
+    <p class="flat">When I first taught at UMB I printed the Class Notes 
+        and handed them out to students.
+    </p>
+    <p>I don't do this anymore because I want you to take notes.</p>
+    <p>Studies have shown that students learn more when they take notes.</p>
+    <p>This is true <b>even if the students never look at their notes again</b>.</p>
+    <p>The more senses you engage when studying, the more you learn.</p>
+    <p>The act of writing engages different parts of the brain then when you just listen.</p>
+    <p>This increases what you remember.</p>
+    <p>Other studies have show that writing notes by hand, is better than typing.</p>
+    <p>Some people type so fast, that they don't process what they type.</p>
+    <p>All of you should take notes.</p>
+    <p>Another effective study technique is to rewrite my class notes in your own words.</p>
+    -->
+    <h4 class="topic" id="laptops">Laptops</h4>
+    <p class="flat">If you have a laptop, you should bring it to class.</p>
+    <p>There will be a Class Exercise for each class.</p>
+    <p>Class Exercises require you to copy commands from the handout
+       to the Unix command line.
+    </p>
+    <p>You do not have to finish these exercises in class, but you should
+       start working on them while you are here.
+    </p>
+    <p>This will allow me to help you if you run into trouble.</p>
+    <p>I will check all class exercises.</p>
+	<!--
+    <p><b>You should only use your laptops while working on the Class Exercises</b></p>
+    <p>Studies have shown that students who use laptops in class do less well 
+       than students who don't.
+    </p>
+    <p>You can read a summary of these results 
+        <a href="https://www.scientificamerican.com/article/students-are-better-off-without-a-laptop-in-the-classroom/">here</a>.
+    </p>
+    <p>The studies show that most students who use laptops in class spend most of their time viewing 
+        material that has no relation to the subject discussed in class.
+    </p>
+    <p>For this reason <b>you should not use your laptops except when working on the Class Exercises</b></p>
+    <p>Some of you may claim that you need to use your laptops to take notes.</p>
+    <p>As I mentioned above, studies have shown that students learn more when they take notes 
+       by hand instead of using a laptop.
+    </p>
+    <p>You can find one such study 
+        <a href="https://sites.udel.edu/victorp/files/2010/11/Psychological-Science-2014-Mueller-0956797614524581-1u0h0yu.pdf">
+            here
+        </a>.
+    </p>
+    <p>If you insist on using your laptop while I am speaking you <b>must</b> fill out
+       a form that I will give you.
+    </p>
+    <p>On this form you will enter your name, Student ID and date.</p>
+    <p>You must fill out this form for <b>each class where you take notes</b>.</p>
+    <p>Then you must email me a copy of the notes you took in class by Sunday at 11:59 PM.</p>
+    <p>If you do not, you will lose 5 points on the Weekly Quiz for each class 
+       where you did not email your notes.
+    </p>
+    -->
+    <h4 class="topic" id="attendance">Attendance</h4>
+    <p class="flat">I will take attendance at the end of each class.</p>
+    <p>I do this to learn your names.</p>
+    <p>Your attendance will not directly affect your grade.</p>
+    <p>But I am more likely to give you the benefit of the doubt when grading if
+       you have been regularly  attending class.
+    </p>
+    
+    <h4 class="topic" id="who_am_i">Who Am I</h4>
+    <p class="flat">My name is T. Omar Soro.</p>
+    <p>My official title at Umass Boston is Lecturer.</p>
+    <p>I am also an associate professor of Economics at Bunker Hill community college.
+    </p>
+    <p>You can addresses by my first name, Omar.</p>
+	<p>I have a Master in Computer Science from Umass Boston.</p>
+    <p>I also have a PhD in Economics from the University of Southern California (USC).</p>
+    
+    <h4 class="topic" id="enough_time">Do You Have Enough Time to Do the Work for This Course?</h4> 
+    <p class="flat">Many of you work, either part or full time.</p>
+    <p>This cuts down on the time you have for study.</p>
+    <p>Technical courses are filled with details where accuracy is very important.</p>
+    <p>They also introduce concepts which may take some time to fully understand.</p>
+    <p>For this reason, they require a significant amount of study time in order to do well.</p>
+    <p>This studying should not be done on one day, but spread out over the days of the week.</p>
+    <p>You should not be taking this course if you are not able to devote several hours
+       a week to it.
+    </p>
+    <p>Too many people rush to finish a degree without doing the work to really learn the material.</p>
+    <p>These people are setting themselves up for professional failure.</p>
+    <p>If you try to do too much ...</p>
+    <p>you will end up doing too little.</p>
+    
+    <h4 class="topic" id="read_carefully">Learn to Read Carefully</h4>
+    <p class="flat">Most of us spend a large part of each day reading.</p>
+    <p>Most of this reading is done quickly because the material is familiar 
+    	   and the details are not that important.
+    </p>
+    <p>For example, if you get an email from a friend, you don't linger over each word.</p>
+    <p>Most of us do this quickly because we know what to expect.</p>
+	<p>You have some idea of what he or she is going to say, so you can read it quickly.</p>
+    <p>The same thing happens when you read an account of the last game of your favorite team.</p>
+    <p>The details aren't important, just the overall picture.</p>
+    <p>The reading you will do for this course is different.</p>
+    <p>Technical work is detailed work.</p>
+    <p>If you read technical material too quickly, you will miss important details.</p>
+    <p>You must learn to read technical material slowly and carefully.</p>
+    <p>You must learn to reread something you have already read until you fully understand it.</p>
+    <p>Learning this skill may be the most important thing you take away from this class.</p>
+
+	<h4 class="topic" id="course_documents">Course Documents</h4>
+	<p class="flat">Everything I create for this class is available on on the web 
+		and all of it can be accessed from the class web page,
+		<a  href="../class_page_it244.html">
+            http://www.cs.umb.edu/~tsoro/teaching/it244_html/class_page_it244</a>
+	</p>
+	<p>On this page you will find links to the following</p>
+	<ul class="flat">       
+        <li>The Syllabus - <a href="../syllabus_it244.html">
+            http://www.cs.umb.edu/~tsoro/teaching/it244_html/syllabus_it244.html</a>
+        </li>
+        <li>Links for all Class Notes - 
+            <a href="class_notes_it244.html">
+            http://www.cs.umb.edu/~tsoro/teaching/it244_html/class_notes_it244/class_notes_it244.html</a>
+        </li>
+        <li>An Index Page with links to all topics in the Class Notes -  
+            <a href="class_notes_index_it244.html">
+            http://www.cs.umb.edu/~tsoro/teaching/it244_html/class_notes_it244/class_notes_index_it244.html</a>
+        </li>
+        <li>Class Exercises - 
+            <a href="../exercises_it244/exercises_it244.html">
+            http://www.cs.umb.edu/~tsoro/teaching/it244_html/exercises_it244/exercises_it244.html</a>
+        </li>
+        <li>Homework assignments - 
+            <a  href="../hw_it244/homework_it244.html">
+            http://www.cs.umb.edu/~tsoro/teaching/it244_html/hw_it244/homework_it244.html</a>
+        </li>
+        <li>Class Quizzes -
+        	<a  href="../class_quizzes_it244/class_quizzes_it244.html">
+            http://www.cs.umb.edu/~tsoro/teaching/it244_html/class_quizzes_it244/class_quizzes_it244.html</a> ...
+        </li>
+        <li>Answers to Class Quizzes
+            <a  href="../class_quiz_answers_it244/class_quiz_answers_it244.html">
+            http://www.cs.umb.edu/~tsoro/teaching/it244_html/class_quiz_answers_it244/class_quiz_answers_it244.html</a>
+        </li>
+        <li>Answers to Weekly Quizzes
+            <a  href="../weekly_quiz_answers_it244/weekly_quiz_answers_it244.html">
+            http://www.cs.umb.edu/~tsoro/teaching/it244_html/weekly_quiz_answers_it244/weekly_quiz_answers_it244.html</a>
+        </li>
+        <li>The reading assignments for each week are listed at 
+            <a href="../readings_it244.html">
+            http://www.cs.umb.edu/~tsoro/teaching/it244_html/readings_it244.html</a>
+        </li>
+        <li>Resources -
+	        <a href="../resources_it244.html">
+	        http://www.cs.umb.edu/~tsoro/teaching/it244_html/resources_it244.html</a>
+        </li>
+        <li>Definitions - <a href="../definitions.html">
+            http://www.cs.umb.edu/~tsoro/teaching/it244_html/definitions.html</a>
+        </li>
+    </ul>
+    <p>Whenever you see some term in the Class Notes that looks like 
+       <a class="def" href="../definitions.html">this</a>,
+       it is a link to a definition on the Definitions page.
+    </p>
+
+    <h4 class="topic" id="grading_policy">Grading Policy</h4>
+    <p class="flat">All homework and exams are subject to the University's
+        <a href="https://www.umb.edu/life_on_campus/policies/community/code">Code of Conduct</a>.
+    </p>
+    <p>Plagiarism is not tolerated in any form.</p>
+    <p class="flat">Grades will be computed as follows</p>
+        <table class="indented">
+            <tr>
+                <td>Homework</td><td>15%</td>
+            </tr>
+            <tr>
+                <td>Class Exercises</td><td>15%</td>
+            </tr>
+            <tr>
+                <td>Weekly Quizzes</td><td>20%</td>
+            </tr>
+            <tr>
+                <td>Mid-term Exam</td><td>20%</td>
+            </tr>
+            <tr>
+                <td>Final Exam</td><td>30%</td>
+            </tr>
+        </table>
+    <p class="flat">Final grades will be assigned based on the following standard scale</p>     
+        <table class="indented">
+            <tr>
+                <td>A</td><td>&gt; 100 - 93 (the Registrar does not accept an A+ grade)</td>
+            </tr>
+            <tr>
+                <td>A -</td><td>92 - 90</td>
+            </tr>
+            <tr>
+                <td>B +</td><td>89 - 86</td>
+            </tr>
+            <tr>
+                <td>B</td><td>85 - 83</td>
+            </tr>
+            <tr>
+                <td>B -</td><td>82 - 80</td>
+            </tr>
+            <tr>
+                <td>C +</td><td>79 - 76</td>
+            </tr>
+            <tr>
+                <td>C</td><td>75 - 73</td>
+            </tr>
+            <tr>
+                <td>C -</td><td>72 - 70</td>
+            </tr>
+            <tr>
+                <td>D +</td><td>69 - 66</td>
+            </tr>
+            <tr>
+                <td>D</td><td>65 - 63</td>
+            </tr>
+            <tr>
+                <td>D -</td><td>62 - 60</td>
+            </tr>
+            <tr>
+                <td>F</td><td>&lt; 60</td>
+            </tr>
+        </table>
+        
+    <h4 class="topic" id="late_work">Late Work</h4>
+	<p class="flat">Scoring assignments takes a great deal of time.</p>
+	<!--<p>In order to do this as efficiently as possible, I score each assignment once and only once.</p>-->
+	<p>All assignments are due on Sunday at 11:59 PM, but I do not score them until the following weekend.</p>
+	<!--<p>I run a collection script many times during the week after an assignment is due, 
+	   usually on Monday, Wednesday and Friday.
+	</p>
+	<p>If my scripts cannot find your assignment, you will get an email message to that effect.</p>-->
+	<p>You will lose 2 points for each day an assignment is late, and will get a 0 for the assignment 
+	   if is not in the proper directory when I run the collection script for the last time.
+	</p>
+	<p>If you have a personal emergency, contact me I will give
+	   you an appropriate extension.
+	</p>
+	
+	<h4 class="topic" id="email_notification">Email Notification</h4>
+    <p class="flat">You will receive a grading sheet for all quizzes, tests, and graded quizzes.</p> 
+    <p>You will also receive emails when a due date has passed for an assignment.</p>
+    <p>If a class needs to be cancelled due to a storm I will send an email to all students.</p>
+    <p>These will be sent to your UMB email address.</p>
+    <p>For this reason, it is important that you forward your UMB email to an account
+       you check regularly.
+    </p>
+    <p>Forwarding you UMB email is part of your first homework assignment.</p>
+	
+    <h4 class="topic" id="disabilities">Accommodations for Disabilities</h4>
+    <p class="flat">Section 504 of the Americans with Disabilities Act of 1990 
+        offers guidelines for curriculum modifications 
+        and adaptations for students with documented disabilities.
+    </p>
+    <p>Students may obtain adaptation recommendations from the Ross Center for Disability Services.</p>
+    <p>Their web site is 
+       <a href="https://www.umb.edu/academics/vpass/disability">https://www.umb.edu/academics/vpass/disability</a>.
+    </p>
+    <p>A student must present these recommendations and discuss them with me within a reasonable period, 
+       preferably by the end of Add/Drop period.
+    </p>
+    
+    <h4 class="topic" id="classroom_behavior">Classroom Behavior</h4>
+    <p class="flat">I put a lot of work into my classes.</p>
+    <p>If I see you looking furtively at your cell phone while I'm talking, 
+       I wonder why I am doing this.
+    </p>
+    <p>If I hear you having an extensive conversation with your neighbor, 
+       it makes me feel that I am wasting my time here.
+    </p>
+    <p>I could make more money doing other things, but I find this work important.</p>
+    <p>I am working hard to teach you important material.</p>
+    <p>Please respect that effort while you are in this room.</p>
+    
+    <h4 class="topic" id="cheating">Cheating</h4>
+    <p>One of the fundamental principles of academics is honesty.</p>
+    <p>Would you take a course from an instructor who lied or distorted the truth?</p>
+    <p>Just as this University expects honesty from its teachers, it expects the
+       the same from its students.
+    </p>
+    <p>All work you turn in for this course must be original or credited to the source from which it came.</p>
+    <p>It is <b>not</b> acceptable to copy a file from another student.</p>
+    <p>Every file you submit must be created by you.</p>
+    <p>Answers on quizzes and tests must come from your understanding of the material.</p>
+    <p>I will run software to check for students copying the work of other students.</p>
+    <p>If you cheat on any quiz, exam or assignment you will receive a score of 0 
+       and the incident will be reported to the Computer Science Department,
+       with consequences that could affect your status as a student.
+    </p>
+    <p>I know that sometimes students cheat when the instructor has failed as a teacher.</p>    
+    <p>From the reactions of my previous students, I don't think that you will find me a poor instructor.</p>
+    <p>I put a great deal of work into my courses.</p>
+    <p>I am asking you to respect that work.</p>
+    <p>I am asking you not to cheat.</p>
+
+    <h4 class="topic" id="class_discussion_area">Class Discussion Area</h4>
+    <p class="flat">If you have questions about the material or the assignments, 
+        you should post them to the
+        class discussion area.
+    </p>
+    <p>This discussion area is provided by Piazza, 
+       which is a platform to help students share information.
+    </p>
+    <p>You need to register for the discussion area, which you can do at
+       <!--<a href="https://piazza.com/umb/fall2017/it244">https://piazza.com/umb/fall2017/it244</a>-->
+	   <a href="https://piazza.com/umb/spring2018/it244-03">https://piazza.com/umb/spring2018/it244-03</a>
+    </p>
+    <p>The URL for the discussion area is 
+       <a href="https://piazza.com/umb/spring2018/it24403/home">https://piazza.com/umb/spring2018/it24403/home</a>.
+    </p>
+    <p>If you find yourself stuck on anything, post it here.</p>
+    <p>I will check Piazza frequently and answer question as they appear.</p>
+    <p>If you see a question and know the answer, you can respond to it on Piazza.</p>
+    <p>I will check these replies and approve or modify them as appropriate.</p>
+    <p>You can post questions anonymously on Piazza, if you prefer.</p>
+    
+    <h4 class="topic" id="office_hours">Office Hours</h4>
+    <p> My office is Science TBA.</p>
+    <!--<p>It has a pterosaur poster on the door, so it is hard to miss.</p>-->
+    <p>My office hours are Monday &amp; Wednesday  5:30 - 6:30 PM.</p>
+    <p>You <b>do not</b> need an appointment to see me during office hours.</p>
+    <p>If you need to see me but cannot make it to office hours, send
+       me an email and we will make arrangements.
+    </p>
+    
+    <h4 class="topic" id="contacting_me">Contacting Me</h4>
+    <p class="flat">If you have questions about your status in the class, email me at 
+        <a href="mailto:tsoro@cs.umb.edu">tsoro@cs.umb.edu</a>.
+    </p>
+    <p>If you have question about any of the material we cover in class 
+       or an assignment, post in on Piazza.
+    </p>
+    
+    <h4 class="topic" id="first_exercise">First Class Exercise</h4>
+    <p class="flat">All work for this class will be done on Unix machine run by the CS Department.</p>
+    <p>In order to use this machine you will need to complete the apply process.</p>
+    <p>This process will create a Unix account for you, if you do not have one, 
+       and will create a class directory for you for this course.
+    </p>
+    <p>All you work for this course <b>must</b> be done in your class directory.</p>
+    <p>Even if you already have a Unix account you <b>must</b> complete the apply process 
+       in order to get a class directory.
+    </p>
+    <p>You can find out more about the apply process 
+       <a href="../../linux/apply_process.html">here</a>.
+    </p>
+    
+    <h4 class="topic" id="first_homework">First Homework Assignment</h4>
+    <p class="flat">Your first homework assignment is a simple one, with three parts.</p>
+    <p>The first part is to register for the class discussion area.</p>
+    <p>The second part consist of making a post to this discussion area answering some questions
+       about yourself.
+    </p>
+    <p>Even if you have taken a course with me before, you <b>must</b> send me an
+       email with answers to the questions in the assignment.
+    </p>
+    <p>The third part involves forwarding your UMB email to an email account you 
+       check frequently.
+    </p>
+    <p>You will find the homework assignment <a href="../hw_it244/01_hw_it244.html">here</a>.</p>
+    <p>Let's take a look at it.</p>
+    
+    <h4 class="topic" id="first_reading_assignment">First Reading Assignment</h4>
+    <p class="flat">Reading assignment for this week is chapter 1 of Sobell,
+       <i>Welcome to Linux and Mac OS X</i>
+    </p>
+    <p>You need to read this before next week's class.</p>
+    <p>All reading assignments are posted at 
+       <a href="../readings_it244.html">
+       http://www.cs.umb.edu/~tsoro/teaching/it244_html/readings_it244.html</a>
+    </p>
+    
+        
+    <h3 class="section">Attendance</h3>
+    
+
+	<footer>
+		<a href="class_notes_it244.html" class="spacer">Class Notes</a>
+		<a href="class_notes_index_it244.html" class="spacer">Class Notes Index</a>
+	</footer>
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/01_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:23 GMT -->
+</html>

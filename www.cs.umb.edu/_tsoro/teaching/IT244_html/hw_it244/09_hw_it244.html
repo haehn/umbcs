@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/hw_it244/09_hw_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:57 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title>IT 244: Introduction to Linux/Unix - Homework 9</title>
+</head>
+<body>
+<h2>
+    IT 244: Introduction to Linux/Unix <br>
+    Homework 9
+</h2>
+<hr>
+
+    <!-- IN STEP 7 GO TO ROOT NOT HOME DIRECTROY -->
+    <!-- STEp 10 VARIABEL MUST BE INSIDE STRING -->
+
+	<h3 class="section">Due Sunday, April 08th 11:59 PM</h3>
+	All this work should be done on <span class="host">users3.cs.umb.edu</span>
+	
+	<h3 class="section">Deliverables</h3>
+	<ol>			
+		<li>
+	        Modifications to <span class="path">.bash_profile</span> in your home directory.<br>
+	        30 points
+	        <br><br>
+		</li>
+		<li>A file named <span class="path">hw9.sh</span> that contains the commands you would type
+	        at the command line to achieve each of the steps listed below. 
+	        <br>
+	        This file should be in an <span class="path">hw9</span> directory inside your 
+	        <span class="path">hw</span> directory inside your <span class="path">it244</span> directory. <br>
+	        You <b>must</b> make your script executable.
+	        70 points
+	     </li>
+     </ol>
+
+	<h3 class="section">Requirements</h3>
+	<ul class="flat">
+		<li>Create an <span class="path">hw9</span> directory in your <span class="path">hw</span> directory 
+    		inside your <span class="path">it244</span> directory
+    	</li>
+    	<li>Go to the <span class="path">hw9</span> directory and run Unix commands that will execute the steps below</li>
+    	<li>When you have a command line that does what the step asks you to do, paste it into 
+			<span class="path">hw9.sh</span> using <code>nano</code> or any other text editor
+		</li>
+		<li>When you have completed all the steps, create an <code>echo</code> statement before the commands 
+    		for each step, that will print the step number to the terminal
+    	</li>
+    </ul>
+    
+	<h3 class="section">Testing</h3>
+	<ul class="flat">       
+         <li>The script <span class="path">hw9.sh</span> <b>must</b> have the format specified in
+        	this <a href="../shell_scripts_homework.html">document</a>
+        </li>
+        <li>Scripts that do not follow the rules specified in the document mentioned above will 
+        	will have points deducted from their score
+        </li>
+        <li>Be sure to test your script and correct any errors you find</li>
+        <li>You will lose 5 points for each error that occurs when running your script</li>
+        <li>To run your script and see only the error messages run the following command
+        	<pre>
+./hw9.sh  &gt;  /dev/null</pre>
+        </li>
+    </ul>
+
+    <h3 class="section">Details</h3>
+    
+	<h4>Modifications to your startup files</h4>
+	<ol start="1">
+	    <li><!-- Step 1 -->
+	        Go to your home directory and edit <span class="path">.bash_profile</span> to define the global variable <span class="iden">omar</span> 
+	        whose value is the <b>absolute pathname</b> of my home directory.
+	    </li>
+	    
+	    <li> <!-- Step 2 -->
+	        Again in <span class="path">.bash_profile</span> define an alias <span class="iden">ts</span> which will take you to my home directory using the variable defined above.
+	    </li>
+	    
+	    <li> <!-- Step 3 -->
+	        Also in <span class="path">.bash_profile</span> define a function <span class="iden">go_show</span>, that will
+	        <ul class="flat">       
+	            <li class="flat">Go to a specific directory</li>
+	            <li class="flat">Print your current location</li>
+	            <li class="flat">Print the contents of your current directory</li>
+	        </ul>
+	        <br>
+	        The directory this function takes you to will be specified as an argument to the function on the command line. 
+	        You will need to use a positional parameter to do this.
+	    </li>
+	</ol>
+    
+    <h4>Steps for Script</h4>
+	<ol start="4">    
+	    <li> <!-- Step 4 -->
+	        Print to the terminal the value of the variable <span class="iden">omar</span>.
+	    </li>
+		<li> <!-- Step 5 -->
+	        Using a pipeline, <code>grep</code> and a command that will show all your global variables, print to the
+	        screen the full  definition of the variable <span class="iden">omar</span>. <b>Do not use <code>echo</code></b>
+	        to do this. The command to show all global variables was mentioned in the first class were global variables
+	        were discussed.
+		</li>
+		<li> <!-- Step 6 -->
+	        Aliases and functions are not global, so they cannot normally be run inside a shell script. 
+	        <ul class="flat">       
+	            <li class="flat">Go to your home directory</li>
+	            <li class="flat">Run a command that will run the startup file where you defined the alias <span class="iden">ts</span>
+	                and the function <span class="iden">go_show</span> inside your current shell
+	            </li>
+	            <li class="flat">Run a command that will show the definition of the function <span class="iden">go_show</span></li>
+	        </ul>
+	    </li>
+		<li> <!-- Step 7 -->
+		    Go to <b>your</b> home directory.<br>
+	        Use the function <span class="iden">go_show</span> to move to <b>my</b> home directory using the global 
+	        variable <span class="iden">omar</span>.
+		</li>
+		<li> <!-- Step 8 -->
+	        Run a command that will show all the aliases you have currently defined.
+		</li>
+		<li> <!-- Step 9 -->
+		   Run a command that will show the last 20 commands in your history list.
+		</li>
+		<li> <!-- Step 10 -->
+			Create the variable <span class="iden">omar_home</span> whose value is the following
+			<pre>
+The home directory of my instructor is /home/tsoro</pre>
+	    		When you define this variable, it <b>must</b> use the value of the variable <span class="iden">omar</span>.
+	    		<br>
+	    		Now print the value of <span class="iden">omar_home</span> to the terminal.
+		</li>
+	</ol>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/hw_it244/09_hw_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:57 GMT -->
+</html>

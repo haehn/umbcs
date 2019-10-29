@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/10_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:36 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../../class_notes.html">
+	<title> IT 244: Introduction to Linux/Unix - Class 10</title>
+</head>
+<body>
+	<header>
+		<h2> 
+		    IT 244: Introduction to Linux/Unix <br>
+		    Class 10
+		</h2>	
+	</header>
+
+	<!-- NEEDS MORE CONTENT -->
+	<!-- SET GID ON DIRECTORIES -->
+    	<!-- NEED TO CREATE A SCRIPT THAT NEEDS SETUID -->
+	<!-- NEED TO SAY THAT THESE PERMISSIONS ARE STRANGE BECAUSE THE FILE 
+		 ON WHICH THEY ARE SET ARE NOT THE ONES AFFECTED 
+	-->
+	  <!-- NEED A DIAGRAM THAT SHOWS WHERE YOU ARE AS OPPOSED TO WHERE YOU THINK YOU ARE WHEN USING A LINK -->
+      <!-- SHOW SETUID ON LINODE -->
+    <h3 class="section">Today's Topics</h3>
+    
+    <h4 class="flat_under">Tips and Examples</h4>
+    <ul class="flat">
+    		<li class="flat"><a href="#using_pathnames">Using Pathnames</a></li>
+        <li class="flat"><a href="#practice_with_access_permissions">Practice with Access Permissions</a></li>
+    </ul>
+    <br>
+    <h4 class="flat_under">Review</h4>
+    <ul class="flat_top">
+        <li class="flat"><a href="#access_permissions">Access Permissions</a></li>
+        <li class="flat"><a href="#viewing_access_permissions">Viewing Access Permissions</a></li>
+        <li class="flat"><a href="#chmod"><code>chmod</code></a></li>
+        <li class="flat"><a href="#chmod_numeric">Using <code>chmod</code> with Numeric Arguments</a></li>        
+    </ul>
+    <br><p class="flat"></p>
+    <h4 class="flat_under">New Material</h4>
+    <ul class="flat_top">
+        <li class="flat"><a href="#root_account">The root Account</a></li>
+        <li class="flat"><a href="#setuid">Setuid and Setgid Permissions</a></li>
+        <li class="flat"><a href="#setting_setuid_setgid_with_chmod">Setting Setuid and Setgid with <code>chmod</code></a></li>
+        <li class="flat"><a href="#dir_access_permissions">Directory Access Permissions</a></li>
+        <li class="flat"><a href="#lnx">Links</a></li>
+        <li class="flat"><a href="#lnk_types">The Two Types of Links</a></li>
+        <li class="flat"><a href="#ln"><code>ln</code></a></li>
+        <li class="flat"><a href="#removing_lnk">Removing a Link</a></li>
+    </ul>
+
+    <h3 class="section">Reading Assignment</h3>
+    <p class="flat">The reading assignment for this week is chapter 4 of Sobell, 
+            <i>The Filesystem</i>.
+    </p>
+
+    <h3 class="section">Homework 5</h3>
+    <p class="flat">I have posted homework 5 <a href="../hw_it244/05_hw_it244.html">here</a>.</p>
+    <p>It is due this coming Sunday at 11:59 PM.</p>
+    
+    <h3 class="section">Mid-term</h3>
+    <p class="flat">The mid-term exam for this course will be held on Tuesday, October  24th.</p>
+    <p>It will consist of 25 questions like those on the quizzes.</p>
+    <p>You will have the entire class period to work on the exam.</p>
+    <p>60% of the questions will come from the Ungraded Class Quizzes.</p>
+    <p>The last class before the exam, Thursday, October  19th, will be a review session.</p>
+    <p>You will only be responsible for the material in the Class Notes for that class
+       on the exam.
+    </p>
+    <p>The Mid-term is a closed book exam.</p>
+    
+    <h3 class="section">Tips and Examples</h3>
+    
+    <h4 class="topic" id="using_pathnames">Using Pathnames</h4>
+    <ul class="flat">       
+        <li>If you want to work with a file ...</li>
+        <li>you usually go to the directory that contains the file</li>
+        <li>When you do this you can use just the name of the file ...</li>
+        <li>when you need to run a command on it</li>
+        <li>I have some web pages that offer help with Linux</li>
+        <li>They are contained in the directory <span class="path">/home/ghoffman/public_html/linux</span></li>
+        <li>One of these files is <span class="path">common_unix_commands.html</span></li>
+        <li>If I wanted to know whether I had mentioned the <code>finger</code> command on this page ...</li>
+        <li>and I were in the directory that held the file ...</li>
+        <li>I would simply type
+        	<pre>
+$ grep finger common_unix_commands.html</pre>
+        </li>
+        <li>If I were in my home directory and didn't want to leave it ...</li>
+        <li>I could use a <a class="def" href="../definitions.html#relative_pathname">relative pathname</a>
+        	<pre>
+grep finger public_html/linux/common_unix_commands.html</pre>
+        </li>
+        <li>The file I want to access is below my current directory ...</li>
+        <li>so I have to list all the directories between my current directory ...</li>
+        <li>and the directory that contains the file</li>
+        <li>What if I wanted you to make a copy of this file to practise with?</li>
+        <li>Each of you would be in a different directory when you copied the file ...</li>
+        <li>so I would give each of you an 
+        	<a class="def" href="../definitions.html#absolute_pathname">absoluted pathname</a> ...
+        </li>
+        <li>and you would type
+        	<pre>
+cp  /home/ghoffman/public_html/linux/common_unix_commands.html   .</pre>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="practice_with_access_permissions">Practice with Access Permissions</h4>
+    <ul class="flat">       
+        <li>You will need to know how to use <code>chmod</code> to change  access permissions ...</li>
+        <li>on the mid-term and final exams</li>
+        <li>You will get some additional practice with <code>chmod</code> ...</li>
+        <li>in the Class Exercise for this class</li>
+        <li>I have also created a web page to give you extra practice with <code>chmod</code></li>
+        <li>You will find this page <a href="../permissions_practice_it244.html">here</a></li>
+        <li>The page also has a link to the answers</li>
+        <li>There is a link to the <code>chmod</code> practice page ...</li>
+        <li>on the class web page</li>
+    </ul>
+    
+    <h3 class="section">Review</h3>   
+    
+    <h4 class="topic" id="access_permissions">Access Permissions</h4>
+    <ul class="flat">       
+        <li>All Unix files and directories have 
+            <a class="def" href="../definitions.html#access_permissions">access permissions</a>
+        </li>
+        <li>The access permissions allow the owner of a file or directory ...</li>
+        <li>to decide who gets to do what with the file or directory</li>
+        <li>By default, the owner of a file or directory ...</li>
+        <li>is the user account that created it</li>
+        <li>Every file, directory or device on a Unix filesystem has three types of permissions
+            <ul class="flat">       
+                <li class="flat">Read</li>
+                <li class="flat">Write</li>
+                <li class="flat">Execute</li>
+            </ul>
+        </li>
+        <li>Each access permission can either be on or off</li>
+        <li>If you have <a class="def" href="../definitions.html#read_permission">read permission</a> 
+            on a file you can look at the data in the file
+        </li>
+        <li>If you only have read permission, you cannot change a file</li>
+        <li>To change a file you need <a class="def" href="../definitions.html#write_permission">write permission</a></li>
+        <li>You cannot run a program or script file ...</li>
+        <li>unless you have <a class="def" href="../definitions.html#execute_permission">execute permission</a> on that file</li>
+        <li>Each of the three permissions is set either <b>on</b> or <b>off</b> ...</li>
+        <li>to three classes of users
+            <ul class="flat">       
+                <li class="flat">The owner</li>
+                <li class="flat">The group</li>
+                <li class="flat">Every other account</li>
+            </ul>
+        </li>
+        <li>Every file or directory has an owner</li>
+        <li>The account that created the file is usually the <a class="def" href="../definitions.html#owner">owner</a></li>
+        <li>A <a class="def" href="../definitions.html#group">group</a> is a collection of Unix accounts</li>
+        <li>A group can only be set up by a system administrator</li>
+        <li>Every file or directory is assigned to a group</li>
+        <li>The last class of users is everyone else ...</li>
+        <li>any account that is not the owner or a member of the group</li>
+        <!-- need some statement here that you don't need to run bash to run a script if it is executable -->
+    </ul>
+
+    <h4 class="topic" id="viewing_access_permissions">Viewing Access Permissions</h4>
+    <ul class="flat">       
+        <li>To view the access permissions of a file or directory use <code>ls -l</code>
+            <pre>
+$ ls -l
+total 5
+-rw------- 1 it244gh libuuid 316 2011-09-20 21:32 dead.letter
+lrwxrwxrwx 1 it244gh libuuid  34 2011-09-06 13:21 it244 -&gt; /courses/it244/s12/ghoffman/it244gh
+drwx------ 2 it244gh libuuid 512 2011-09-07 15:03 mail
+drwxr-xr-x 2 it244gh libuuid 512 2011-09-25 15:48 test
+-rw-r--r-- 1 it244gh libuuid  15 2011-09-20 16:18 test.txt</pre>
+        </li>
+        <li>The character in the first column indicates the type of file</li>
+        <li>A dash, <span class="char">-</span>, means an ordinary file</li>
+        <li>The letter <span class="char">d</span> indicates a directory</li>
+        <li>The letter <span class="char">l</span> (el) indicates a link</li>
+        <li>The next three characters indicate the permission of the owner</li>
+        <li><span class="char">r</span> means the owner has read permission</li>
+        <li><span class="char">w</span> means the owner has write (change) permission</li>
+        <li><span class="char">x</span> means the owner has execute (run) permission</li>
+        <li><span class="char">-</span>means the owner does not have the permission that would normally appear in this column</li>
+        <li>The next three characters give the permissions of the group</li>
+        <li>The last three characters are the permission of all other accounts</li>
+        <li>The next column is a number that indicates the number of links to the file or directory</li>
+        <li>The following column is the owner of the file or directory</li>
+        <li>Next, you will find the group assigned to the file or directory</li>
+    </ul>
+
+    <h4 class="topic" id="chmod"><code>chmod</code></h4>
+    <ul class="flat">       
+        <li>When a file is created, is has certain default permissions
+            <pre>
+$ touch test.txt
+$ ls -l test.txt 
+-rw-r--r-- 1 it244gh libuuid 0 2012-09-17 14:40 test.txt</pre>
+    	</li>
+        <li>To change these permission, you need to use the <code>chmod</code> command</li>
+        <li>Only the owner of a file can do this</li>
+        <li><code>chmod</code> requires two arguments
+            <ul class="flat">       
+                <li class="flat">The permissions you want to grant</li>
+                <li class="flat">The name of the file(s) or directory(s) to which the change will be applied</li>
+            </ul>
+        </li>
+        <li>The format for a call to <code>chmod</code> is
+            <pre>
+<span class="format">chmod  PERMISSIONS  FILES_OR_DIRECTORIES</span></pre>
+        </li>
+        <li>The permission can be specified in two ways
+            <ul class="flat">       
+                <li class="flat">Symbolically</li>
+                <li class="flat">Numerically</li>
+            </ul>
+        </li>
+        <li>Symbolic permissions use letters and the plus and minus signs</li>
+        <li>The numeric form uses three digits running from 0 to 7</li>
+        <li>I will teach the numeric format for expressing permissions</li>
+        <li>You are free to read about the symbolic format in the textbook</li>
+        <li>I will not deduct points for using symbolic format ...</li>
+        <li>as long as you use it correctly</li>
+    </ul>
+
+    <h4 class="topic" id="chmod_numeric">Using <code>chmod</code> with Numeric Arguments</h4>
+    <ul class="flat">       
+        <li>The numeric permissions format uses three digits</li>
+        <li>Each digit is a number from 0 to 7</li>
+        <li>The first digit gives the permission of the owner</li>
+        <li>The second digit gives the permissions assigned to the group</li>
+        <li>The third digit gives the permissions for every other account</li>
+        <li>How do you get three pieces of information out of one number?</li>
+        <li>By adding powers of two</li>
+        <li>Each digit is the sum of three other numbers</li>
+        <li>When constructing the number you add
+            <ul class="flat">       
+                <li class="flat">4 if you want to give read permission</li>
+                <li class="flat">2 if you want to give write permission</li>
+                <li class="flat">1 if you want to give execute permission</li>
+            </ul>
+        </li>
+        <li>Notice that all the number are powers of two</li>
+        <li>If we write these values in binary notation
+            <ul class="flat">       
+                <li class="flat">100 represents 4</li>
+                <li class="flat">010 represents 2</li>
+                <li class="flat">001 represents 1</li>
+            </ul>
+        </li>
+        <li>A single decimal digit from 0 to 7 is represented by 3 binary digits</li>
+        <li>This is how we get three pieces of information out of one digit</li>
+        <li>For example, to give full permissions I would add
+            <ul class="flat">       
+                <li class="flat">4 for read permission</li>
+                <li class="flat">2 for write permission</li>
+                <li class="flat">1 for execute permission</li>
+            </ul>
+        </li>
+        <li>So the total, 7, represents all three permissions</li>
+        <li>Try to remember this chant
+            <pre>
+<span class="red">read    write   execute
+4       2       1
+owner group    everyone</span></pre>
+        </li>
+        <li>Remember that you need three of these digits ...</li>
+        <li>to specify the full permissions for a file or directory</li>
+    </ul>
+	
+	<h3 class="section">New Material</h3>
+	
+	<h4 class="topic" id="root_account">The root Account</h4>
+    <ul class="flat">       
+        <li>On every Unix or Linux system there is a special account named 
+            <a class="def" href="../definitions.html#root_account">root</a>
+        </li>
+        <li>This account is sometimes referred to as the 
+            <a class="def" href="../definitions.html#superuser">superuser</a>
+        </li>
+        <li>root can access any file or run any program</li>
+        <li>root is an administrator account</li>
+        <li>It is used for system configuration and maintenance</li>
+        <li>Even a system administrator should not log in as root</li>
+        <li>Instead he or she should use a regular Unix account ...</li>
+        <li>and should switch to the root account only when they need its power</li>
+        <li>This can be done with the <code>su</code> (<b>s</b>witch <b>u</b>ser) command</li>
+        <li>To become the root user you would enter the following on the command line
+        <pre>
+su -</pre>
+        </li>
+        <li>This will only work if you know the root password</li>
+        <li>A better way of doing this is to use the <code>sudo</code> command</li>
+        <li><code>sudo</code> stands for <b>s</b>uper<b>u</b>ser <b>do</b> </li>
+        <li>You type <code>sudo</code> and then the command ...</li>
+        <li>that only the root user can run</li>
+        <li>You use it like this
+            <pre>
+<span class="format">sudo COMMAND_ONLY_ROOT_CAN_RUN</span></pre>
+        </li>
+        <li>You will then be prompted for <b>your</b> password ...</li>
+        <li>not the root password</li>
+        <li>This will only work if the system administer ...</li>
+        <li>has added you to the sudoers list</li>
+        <li><code>sudo</code> is safer than using <code>su -</code> ...</li>
+        <li>because the person using it does not have to know the root password</li>
+        <li>If all administrators knew the root password ...</li>
+        <li>you would have to change it every time one of them left</li>
+        <li>If they all use <code>sudo</code> ...</li>
+        <li>all you would have to do when they left ...</li>
+        <li>would be to delete their entry in the sudoers list</li>
+    </ul>
+	
+	<h4 class="topic" id="setuid">Setuid and Setgid Permissions</h4>
+    <ul class="flat">       
+        <li>Sometimes a program needs to read or modify a file ...</li>
+        <li>to do the work it was designed to do</li>
+        <li>For example the <code>passwd</code> command ...</li>
+        <li>which is used to change the password for an account ...</li>
+        <li>has to make changes to the file <span class="path">/etc/shadow</span></li>
+        <li>When you need to change your password you run <code>passwd</code></li>
+        <li>But <span class="path">/etc/shadow</span> is owned by the root account ...</li>
+        <li>and no other account can change it</li>
+        <li>To deal with situations like this, two special permissions were created 
+            <ul class="flat">       
+                <li class="flat">setuid</li>
+                <li class="flat">setgid</li>
+            </ul>
+        </li>
+        <li>If a program file has 
+            <a class="def" href="../definitions.html#setuid_permission">setuid permission</a> ...
+        </li>
+        <li>any account that runs the program ...</li>
+        <li>has all the permissions of the owner of that program file ...</li>
+        <li>but only while the program is running</li>
+        <li>This permission means a user can modify files ...</li>
+        <li>that the program needs to do its job ...</li>
+        <li>that ordinary users cannot change</li>
+        <li>If a prgram has <a class="def" href="../definitions.html#setgid_permission">setgid permission</a> set ...</li>
+        <li>anyone who runs the program ...</li>
+        <li>has the permissions of the group assigned to that program...</li>
+        <li>while the program is running</li>
+        <li>setuid and setgid permissions only apply to <b>executable</b> files ...</li>
+        <li>that is, programs and scripts</li>
+        <li>A file with setuid permission ...</li>
+        <li>will have <span class="char">s</span> 
+            in place of <span class="char">x</span> ...
+        </li>
+        <li>in the column for the owner's execute permission</li>
+        <li>A file with setgid permission ...</li>
+        <li>will have <span class="char">s</span> 
+            in place of <span class="char">x</span> ...</li>
+            <li>for the group execute permission</li>
+        <li>Since setuid and setgid permission ...</li>
+        <li>apply only to executable files ...</li>
+        <li>there is no ambiguity in replacing <span class="char">x</span> 
+            with <span class="char">s</span>
+        </li>
+        <li>For example, consider the <code>passwd</code> command</li>
+        <li>The executable file for this utility is <span class="path">/usr/bin/passwd</span></li>
+        <li>Running <code>ls -l</code> on this file we get
+            <pre>
+ls -l /usr/bin/passwd
+-rw<span class="red">s</span>r-xr-x 1 root root 42824 2011-02-20 19:18 /usr/bin/passwd</pre>
+         </li>
+         <li>Notice the <span class="char">s</span> in the place ...</li>
+         <li>where the owner's execute permission should be</li>
+         <li>The <code>passwd</code> command needs to modify <span class="path">/etc/shadow</span></li>
+         <li>which is a file that stores the encypted passwords</li>
+         <li>Only root can change this file
+            <pre>
+ls -l /etc/shadow
+-rw-r--r-- 1 <span class="red">root</span> shadow 926 Jul 16  2013 /etc/shadow</pre>
+         </li>
+         <li>But you need to change this file ...</li>
+         <li>for your entry only ...</li>
+         <li>when you change your password</li>
+         <li>The setuit permission allows you to run <code>passwd</code> and modify <span class="path">/etc/shadow</span> ...</li>
+         <li>but <code>passwd</code> knows who you really are ...</li>
+         <li>and it will only let you modify your own entry ...</li>
+         <li>not the entry for any other account</li>
+    </ul>
+    
+    <h4 class="topic" id="setting_setuid_setgid_with_chmod">Setting Setuid and Setgid with <code>chmod</code></h4>
+    <ul class="flat">       
+        <li>How do you assign setuid or setgid permissions to a file?</li>
+        <li>You do it with <code>chmod</code> ...</li>
+        <li>and an extra digit</li>
+        <li>If I wanted to assign 755 permission to a script ...</li>
+        <li>along with setuid permission ...</li>
+        <li>I would use the 4755</li>
+        <li>When 4 is the first digit in a series of four digits used with <code>chmod</code> ...</li>
+        <li>setuid permission is assigned to the file
+        <pre>
+$ chmod <span class="red">4</span>755 work.sh 
+
+$ ls -l work.sh 
+-rw<span class="red">s</span>r-xr-x 1 ghoffman grad 0 Mar  3 12:30 work.sh</pre>
+        </li>
+        <li>To assign the setgid permission ...</li>
+        <li>I would use 2 instead
+        <pre>
+$ chmod <span class="red">2</span>755 work.sh 
+
+$ ls -l work.sh 
+-rwxr-<span class="red">s</span>r-x 1 ghoffman grad 0 Mar  3 12:30 work.sh</pre>
+    	</li>
+        <li>Setuid and setgid will <b>not</b> be on any test or quiz</li>
+    </ul>
+    
+    <h4 class="topic" id="dir_access_permissions">Directory Access Permissions</h4>
+    <ul class="flat">       
+        <li>Unix permissions work a little differently for directories</li>
+        <li>Read and write permissions for a directory ...</li>
+        <li>are similar to those for a file</li>
+        <li>Read permission  on a directory ...</li>
+        <li>allows you to list the <b>contents</b> using <code>ls</code></li>
+        <li>So read permission on a directory ...</li>
+        <li><b>only allows you to run <code>ls</code></b> on it</li>
+        <li>To read the <b>files</b> in the directory ...</li>
+        <li>you need read permission for each file</li>
+        <li>So read permission on a directory ...</li>
+        <li><b>does not allow you to read the files in that directory</b></li>
+        <li>You need read permission on the <b>file</b> to do that</li>
+        <li>Write permission on a directory ...</li>
+        <li>allows you to create or delete anything in that directory  ...</li>
+        <li>and to change the name of  anything inside that directory</li>
+        <li>But you cannot change the files themselves ...</li>
+        <li>unless you have write permission on those files</li>
+        <li>Note that write permission on a directory ...</li>
+        <li>only apllies to the <b>contents</b> of a directory ...</li>
+        <li><b>not</b> to the dirctory itself</li>
+        <li>You cannot change the name of a directory ...</li>
+        <li>or delete it</li>
+        <li>unless you have write permission on its <b>parent</b> directory</li>
+        <li>Execute permission on a directory is very different ...</li>
+        <li>from execute permission on a file</li>
+        <li>You can't run a directory from the command line ...</li>
+        <li>like a program or script</li>
+        <li>Execute permission on a directory allows you to do two things
+            <ul class="flat">       
+                <li class="flat">Enter the directory using <code>cd</code></li>
+                <li class="flat">Run <code>ls</code> on a file in the directory <br>
+                		if you know its name
+                </li>
+            </ul>
+        </li>
+        <li>So if you know the name of a file in some directory ...</li>
+        <li>and you <b>do not</b> have read access to the directory ...</li>
+        <li>but you have execute access ...</li>
+        <li>and you know the name of a file ...</li>
+        <li>you can run <code>ls</code> or <code>ls -l</code> on that file</li>
+    </ul>
+  
+    <h4 class="topic" id="lnx">Links</h4>
+    <ul class="flat">       
+        <li>Sometimes, it is convenient to have more than one way ...</li>
+        <li>of getting to a file or directory</li>
+        <li>Windows, for example has shortcuts</li>
+        <li>You can create a shortcut anywhere ...</li>
+        <li>and clicking on it will take you to the real file ...</li>
+        <li>somewhere else on disk</li>
+        <li>This allows the user another way of getting to the file</li>
+        <li>Instead of going to the directory that holds the file </li>
+        <li>you can click a shortcut in some other directory</li>
+        <li>In Unix these pointer files are called <a class="def" href="../definitions.html#link">links</a></li>
+        <li>Links can be very useful when moving to a directory ...</li>
+        <li>that is far away from your current directory</li>
+        <li>If your current directory has a link to another file or directory ...</li>
+        <li>you can use the link to access that file or directory</li>
+        <li>This saves you the bother of using a long absolute ...</li>
+        <li>or relative 
+        	<a class="def" href="../definitions.html#pathname">pathname</a>
+        </li>
+        <li>For example, each of you has an entry in your home directory called it244
+            <pre>
+$ ls -l it244
+<span class="red">l</span>rwxrwxrwx 1 ghoffman faculty 36 Oct  5 11:42 it244 -&gt; <span class="red">/courses/it244/sum17/ghoffman/ghoffman</span></pre>
+        </li>
+        <li>Notice the <span class="char">l</span> (el), the first character in the permissions string</li>
+        <li>This tells you that you have a link named it244, not a directory</li>
+        <li>The real directory is <span class="path">ghoffman</span> in <span class="path">/courses/it244/sum14/ghoffman</span></li>
+        <li>But you can use the link just as if it were a directory</li>
+        <li>In the home directory of my test account it244gh is link ...</li>
+        <li>to a directory for this account in the course directory <span class="path">/courses/it244/f14/ghoffman</span></li>
+    </ul>  
+    <img src="image1_note10.png" height="50%"/>  
+    <ul class="flat">         
+        <li>If you <code>cd</code> to the link, you will go to the real directory</li>
+        <li>If you <code>cd</code> into this location and use <code>pwd</code>
+            <pre>
+$ pwd
+/home/it244gh
+
+$ cd it244
+
+$ pwd
+/home/it244gh/it244</pre>
+        </li>
+        <li>The path that <code>pwd</code> prints ...</li>
+        <li>is the route you took to get to the current directory</li>
+        <li>But it is <b>not</b> the real path to the directory</li>
+        <li>You can only get the true location ...</li>
+        <li>if you use <code>pwd</code> with the -P option
+            <pre>
+$ pwd
+/home/it244gh/it244
+
+$ pwd <span class="red">-P</span>
+    <span class="red">/courses/it244/sum14/ghoffman/it244gh</span></pre>
+        </li>
+        <li>You must use a capital P, <b>not</b> a lowercase p</li>      
+        <li>Unix tries to hide your real location when you use a link ...</li>
+        <li> so as not to confuse you</li>
+        <li>In this case, we used a link named <span class="path">it244</span> ...</li>
+        <li>inside the home directory of my it244gh account ...</li>
+        <li>to get to <span class="path">/courses/it244/sum14/ghoffman/it244gh</span></li>
+        <li>I can get back to where I came from using <span class="char">..</span>&nbsp;
+            <pre>
+$ pwd
+/home/it244gh/it244
+
+$ cd ..
+
+$ pwd
+/home/it244gh</pre>
+        </li>
+        <li>Why does your home directory have a link to your it244 class directory?</li>
+        <li>To make things easier for instructors like me</li>
+        <li>If the directory in which you do your course work were in your home directory ...</li>
+        <li>I would have to go to many places to collect your assignments</li>
+        <li>Instead I only have to go one place ...</li>
+        <li>and if I run <code>ls</code> is see each of your course directories
+            <pre>
+$ ls
+ahmadzaidan  enwolny   jnouider  mohammad  stephani
+almonte2     etsai001  jswesson  natalief  subrina
+ariley2      ghoffman   jwiriadj  newton    sullivan
+bedewy99     GROUP     keller01  nholobo   test
+bghanem      hhxxxooo  khartman  patrick8  thall
+bozheng      htran18   ktgav     piperb1   thill
+bradena      hung721   ktung     pjadik    tjo02124
+bstoker      ifiallo   litav     qleegain  vlimage
+cribeiro     it244gh   maher     rehmank   wwong89
+deng5        jason123  MAIL      rhalhass  ymao
+dhorard      jflores   mfdal     rtamw     zfritz
+diemtr       jnewman   mlebrun7  sayaz     ziliang</pre>
+        </li>
+        <li>The <span class="path">it244</span> link in your home directory ...</li>
+        <li>points to your course directory in <span class="path">/courses/it244/f14/ghoffman</span></li>
+        <li>The name of your course directory is your Unix username</li>
+    </ul>
+    
+    <h4 class="topic" id="lnk_types">The Two Types of Links</h4>
+    <ul class="flat">       
+        <li>There are two types of links
+            <ul class="flat">       
+                <li class="flat">Hard links</li>
+                <li class="flat">Symbolic, or soft, links</li>
+            </ul>
+        </li>
+        <li><a class="def" href="../definitions.html#hard_link">Hard links</a> are older</li>
+        <li>But they are seldom used these days</li>
+        <li>A hard link is like a duplicate file name</li>
+        <li>If you have a hard link to a file ...</li>
+        <li>and the original filename is deleted ...</li>
+        <li>the file will still be there</li>
+        <li>The file will remain until the last hard link is removed</li>
+        <li>Hard links have some disadvantages</li>
+        <li>Hard links can only point to files, <b>not directories</b></li>
+        <li>Our Unix filesystem appears to be a single hierarchy</li>
+        <li>In reality it is a collection of different file systems ...</li>
+        <li>on different hard disc volumes</li>
+        <li>The different file systems are stitched together ...</li>
+        <li>so they look like a single system</li>
+        <li>Unix hides this fact from users</li>
+        <li>But this causes problems for hard links</li>
+        <li>You can only have a hard link to a file in the same volume ...</li>
+        <li>as the link you are creating</li>
+        <li>That means you can't link to a file on a different disk or partition</li>
+        <li><a class="def" href="../definitions.html#symbolic_link">Symbolic links</a> are much more flexible</li>
+        <li>Symbolic links are sometimes called soft links</li>
+        <li>You can use either an absolute or relative pathname </li>
+        <li>when creating a symbolic link</li>
+        <li>A symbolic link can point to a file or directory ...</li>
+        <li>on any disk or partition</li>
+        <li>Deleting a soft link does not delete the file or directory it points to</li>
+        <li>You can delete a file or directory that has a soft link pointing to it ...</li>
+        <li>without deleting the link</li>
+        <li>The symbolic link remains ...</li>
+        <li>but it points to nothing</li>
+    </ul>
+    
+    <h4 class="topic" id="ln"><code>ln</code></h4>
+    <ul class="flat">       
+        <li>Use <code>ln</code> to create a link</li>
+        <li>To create a symbolic or soft link, use <code>ln</code> with the -s option</li>
+        <li>Otherwise you will create a hard link</li>
+        <li>That is not what you want</li>
+        <li><code>ln</code> takes two arguments
+            <pre>
+<span class="format">ln  -s  PATHNAME  LINK_NAME</span></pre>
+        </li>
+        <li>For example
+            <pre>
+$ pwd
+/home/it244gh
+
+$ <span class="red">ln  -s  ~ghoffman/course_files/it244_files  examples</span>
+
+$ ls -l examples
+<span class="red">l</span>rwxrwxrwx 1 it244gh libuuid 28 2012-09-17 17:53 examples -&gt; <span class="red">/home/ghoffman/examples_it244</span></pre>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="removing_lnk">Removing a Link</h4>
+    <ul class="flat">       
+        <li>To delete a link, use <code>rm</code></li>
+        <li>This will work whether the link points to a file or a directory</li>
+        <li>If you delete a symbolic link ...</li>
+        <li>it will not affect the file or directory it points to</li>
+        <li>If you delete a hard link ...</li>
+        <li>you will not delete the file ...</li>
+        <li>unless the link is the last connection to the file</li>
+    </ul>
+    
+    <h3 class="section">Attendance</h3>
+    
+    <h3 class="section">Class Quiz</h3>
+
+
+	<footer>
+		<a href="class_notes_it244.html" class="spacer">Class Notes</a>
+		<a href="class_notes_index_it244.html" class="spacer">Class Notes Index</a>
+	</footer>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/10_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:37 GMT -->
+</html>

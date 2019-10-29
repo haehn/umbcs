@@ -1,0 +1,87 @@
+.red        {   color: red;					}
+
+.green      {   color: green;               	}
+
+.blue       {   color: blue                 	}
+
+.answer     {   color: green;
+                font-weight: bold;          	}
+
+.char       {   color: red;
+                font-weight: bold;          	}
+
+
+.format     {   color: crimson;             	}
+
+.host       {   color: dodgerblue;          	}
+
+.iden       {   color: darkcyan;
+                font-family: monospace;		}
+
+.path       {   color: blueviolet;
+				font-family: monospace;	   	}
+
+.pseudo     {   color: chocolate            	}
+
+.bold_pseudo{   color: brown;
+                font-weight: bold;           }
+
+.under      {   text-decoration: underline; 	}
+
+.flat       {   margin-top: 0px;
+                margin-bottom: 0px;         	}
+
+.flat_top   {   margin-top: 0px;            	}
+
+.flat_under {   text-decoration: underline;
+                margin-top: 0px;
+                margin-bottom: 0px;         	}
+                
+.indented   {   margin-left: 2em;}
+
+.under      {   text-decoration: underline; 	}
+
+body        {   text-align: left;
+				margin-left: 2em;
+				margin-bottom: 0em;
+				padding-bottom: 0em;			}
+				
+header		{	border-bottom-style: solid;
+				border-width: thin;
+				margin-left: -1em;		    }				
+
+h3          {   margin-top: 20px;
+                margin-bottom: 5px;         }
+                
+h4          {   margin-top: 20px;
+                margin-bottom: 0px;         }      
+                
+li          {   margin-bottom: 14px;        }                          
+	
+td, th      {   text-align: left;
+                vertical-align: text-top;   
+                padding: 5px;               }
+                
+dt          {   font-weight: bold;          }
+                
+footer		{	text-align: center;
+				margin-top: 1em;
+				padding-top: 1em;
+				margin-bottom: 1em;
+				border-top-style: solid;
+				border-width: thin;			} 
+
+a.spacer		{	margin-left: 15%	;
+				margin-right: 15%			}				               
+
+table.footer{   width: 90%;                 	}
+    
+h3.section  {   color:darkblue;
+                margin-bottom: 0px;         	}
+   
+h4.topic    {   text-decoration: underline;
+                margin-bottom: 0px;         	}
+
+a.def:link, a.def:visited
+			{	color: green;
+				font-weight: bold;			}

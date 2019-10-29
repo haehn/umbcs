@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/shell_scripts_homework.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:23 GMT -->
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="class_notes.css" media="screen" />
+	<title>IT 244: Introduction to Linux/Unix - Shell Scripts for Homework Assignments</title>
+</head>
+<body>
+	<header>
+		<h2>
+		    IT 244: Introduction to Linux/Unix <br>
+		    Shell Scripts for Homework Assignments
+		</h2>		
+	</header>
+
+	<h3>Topics</h3>
+    <ul class="flat">       
+        <li class="flat"><a href="#what_is_shell_script">What Is a Shell Script?</a></li>
+        <li class="flat"><a href="#format_for_homework_shell_scripts">Format for Homework Shell Scripts</a></li>
+        <li class="flat"><a href="#running_shell_script">Running a Shell Script</a></li>
+        <li class="flat"><a href="#example">Example</a></li>
+        <li class="flat"><a href="#things_not_to_do">Things <b>Not</b> to Do</a></li>
+    </ul>
+    
+    <h4 class="topic" id="what_is_shell_script">What Is a Shell Script?</h4>
+    <ul class="flat">       
+        <li>A shell script is a text file that contains a list of Unix commands ...</li>
+        <li>with one command on each line</li>
+        <li>You can then run a shell script from the command line ...</li>
+        <li>and it will perform each Unix command in the script</li>
+        <li>Shell scripts are used to automate routine Unix administrative tasks</li>
+    </ul>
+    
+    <h4 class="topic" id="format_for_homework_shell_scripts">Format for Homework Shell Scripts</h4>
+    <ul class="flat">       
+        <li>Each shell script you submit for a homework assignment ...</li>
+        <li>must have a certain format</li>
+        <li>You need to create a directory for each homework assignment ...</li>
+        <li>inside your <span class="path">hw</span> directory ...</li>
+        <li>inside your <span class="path">it244</span> directory</li>
+        <li>The homework directory name will begin with "hw" ...</li>
+        <li>and end with the number of the assignment</li>
+        <li>The filename for each homework shell script must
+            <ul class="flat">       
+                <li class="flat">Begin with "hw"</li>
+                <li class="flat">Followed by the homework number</li>
+                <li class="flat">Followed by ".sh"</li>
+            </ul>
+        </li>
+        <li>So the homework shell script for homework 3 ...</li>
+        <li>should be named <span class="path">hw3.sh</span></li>
+        <li>and the script should be inside an <span class="path">hw3</span> directory</li>
+        <li>The .sh extension is <b>not</b> required by Unix ...</li>
+        <li>but I insist on it ...</li>
+        <li>because it makes the purpose of the file clear</li>
+        <li>I also want each step in the homework labeled ...</li>
+        <li>with an <code>echo</code> statement ...</li>
+        <li>giving the step number from the homework assignment</li>
+        <li>So, the line before the Unix commands that perform Step 1 ...</li>
+        <li>should read
+            <pre>
+    echo Step 1</pre>
+        </li>
+        <li>And the line before the Unix commands that perform Step 2 ...</li>
+        <li>should read
+            <pre>
+    echo Step 2 </pre>
+        </li>
+        <li>There should also be a blank line <b>before</b> each <code>echo</code> statement ...</li>
+        <li>to separate it from the Step that comes before</li>
+        <li>I need you to do this so I can score the assignments quickly</li>
+        <li>If you do not, you will lose points</li>
+    </ul>
+    
+    <h4 class="topic" id="running_shell_script">Running a Shell Script</h4>
+    <ul class="flat">       
+        <li>You run a shell script as follows
+        <pre>
+    <span class="format">bash SHELL_SCRIPT</span></pre>
+        </li>
+        <li>So if I wanted to run the script <span class="path">test.sh</span> ...</li>
+        <li>I would type
+            <pre>
+    bash test.sh</pre>
+        </li>
+        <li>Later on in the course I'll show you an easier way</li>
+        <li>If your shell script does not work ...</li>
+        <li><code>bash</code> has a feature that will help</li>
+        <li>Here are the contents of a shell script called <span class="path">test.sh</span>
+            <pre>
+echo I am going to my home directory
+cd
+echo I will show you that I am in my home directory
+pwd
+echo Here are the files in my home directory
+ls</pre>
+        </li>
+        <li>If I run <code>bash</code> with the -x option ...</li>
+        <li>it will print out every line before it executes that line
+            <pre>
+$ bash -x test.sh 
+<span class="red">+ echo "I am going to my home directory"</span>
+I am going to my home directory
+<span class="red">+ cd</span>
+<span class="red">+ echo "I"\""ll show you that I am in my home directory"</span>
+I"ll show you that I am in my home directory
+<span class="red">+ pwd</span>
+/home/tsoro
+<span class="red">+ echo "Here are the files in my home directory"</span>
+Here are the files in my home directory
+<span class="red">+ ls</span>
+assignments_submitted   html   mail      public_html
+bin                     it244  memo.bak  scans
+code                    it341  memo.txt  tests_taken
+course_files            it441  nsmail    tmp</pre>
+        </li>
+        <li>When used with the -x option, <code>bash</code>
+            <ul class="flat">       
+                <li class="flat">Prints each command before it executes that command ...</li>
+                <li class="flat">placing a <b><span class="red">+</span></b> at the beginning of the line</li>
+                <li class="flat">Executes the command on that line</li>
+            </ul>
+        </li>
+    </ul>
+ 
+
+    <h4 class="topic" id="example">Example</h4>
+    <ul class="flat">       
+        <li>Let"s look at an example</li>
+        <li>Let"s say that homework 99 asks you to do the following:
+            <ol class="flat">       
+                <li class="flat">Go to your home directory <br>
+                	Run a command that shows that you are in your home directory
+                </li>
+                <li class="flat">Display the contents of your directory</li>
+                <li class="flat">Display the contents of <span class="path">/home/tsoro/course_files/it244_files</span></li>
+            </ol>
+        </li>
+        <li>For this assignment you would have to create an <span class="path">hw99</span> directory ...</li>
+        <li>inside your <span class="path">hw</span> directory ...</li>
+        <li>inside the <span class="path">hw99</span> directory</li>
+        <li>Inside this directory you would create the script file <span class="path">hw99.sh</span></li>
+        <li>Here is the text of the file
+            <pre>
+echo Step 1
+cd
+pwd
+
+echo Step 2
+ls
+
+echo Step 3
+ls /home/tsoro/course_files/it244_files</pre>
+        </li>
+        <li>Running this script file would give me the following results
+            <pre>
+$ bash hw99.sh 
+Step 1
+/home/tsoro
+Step 2
+assignments_submitted  it114  News
+bin              it244  nsmail
+course_files     it341  public_html
+examples         it441  test
+html             mail   test_taken
+hw99.sh          Mail   vp
+Step 3
+bother.sh        numbers1.txt
+comment_test.sh  numbers2.txt
+foo1.txt         numbers.txt
+foo2.txt         print_arg_numbers.sh
+foo.sh           print_foo.sh
+foo.txt          print_positionals.sh
+for_1.sh         red_sox.txt
+for_2.sh         repeat.py
+for_3.sh         shell_test_1.sh
+fruit.txt        shell_test_2.sh
+hello.sh         test.sh
+hi_bye.sh</pre>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="things_not_to_do">Things <b>Not</b> to Do</h4>
+     <ul class="flat">       
+        <li><b>Never</b> use one of the following commands <b>inside</b> your homework script
+            <ul class="flat">       
+                <li><code>more</code> or <code>less</code></li>
+                <li>Editors like <code>nano</code>, <code>vi</code>, <code>vim</code> or <code>emacs</code></li>
+                <li><code>man</code> or <code>info</code></li>
+            </ul>
+        </li>
+        <li>Calling these programs inside your script introduces Control characters ...</li>
+        <li>which make if <b>very</b> hard to grade</li>
+        <li><b>Do not</b> include the text of the step in the echo command</li>
+        <li>The following is <b>wrong</b>
+            <pre>
+echo Step 5 go to your home directory</pre>
+        </li>
+        <li><b>Do not</b> use a lowercase letter when spelling "Step" in the <code>echo</code> command</li>
+        <li>The following is also <b>wrong</b>
+            <pre>
+echo step 4</pre>
+        </li>
+        <li>Since all Unix command use lowercase letters, capitalizing "Step" makes it stand out</li>
+        <li><b>Do not</b> combine steps</li>
+        <li>I have to score each step individually and if you combine steps ...</li>
+        <li>it will make things harder for me</li>
+        <li>The Step numbers should be the steps from the assignment ...</li>
+        <li>not the number of each of your commands</li>
+        <li>So if Step 4 asked you to 
+            <ul class="flat">       
+                <li class="flat">Go to your home directory</li>
+                <li class="flat">List the contents of your home directory</li>
+            </ul>
+        </li>
+        <li>this would be <b>wrong</b>
+            <pre>
+    echo Step 4
+    cd
+    echo Step 5
+    ls</pre>
+        </li>
+        <li>Instead, you should write
+            <pre>
+    echo Step 4
+    cd
+    ls</pre>            
+        </li>
+        <li>I will deduct 10 points for each type of mistake</li>
+        <li>If you create your shell script by copying and pasting from the command line ..</li>
+        <li>don"t paste the entire line from your shell session into the script file</li>
+        <li>The script file should contain Linux commands only ...</li>
+        <li>not your prompt followed by the command ...</li>
+        <li>or the results of that command</li>
+        <li>The following is <b>wrong</b>
+            <pre>
+    it244gh@vm75:~$ echo Step 1
+    it244gh@vm75:~$ cd ~
+    it244gh@vm75:~$ pwd
+    /home/it244gh</pre>
+        </li>
+        <li>It should look like this
+            <pre>
+    echo Step 1
+    cd ~
+    pwd</pre>
+      
+        </li>
+    </ul>
+    <h5> Copyright : Glenn Hoffman, Director of the IT program, Umass-Boston</h5>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/shell_scripts_homework.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:23 GMT -->
+</html>

@@ -1,0 +1,162 @@
+/* A couple of elements in this CSS was taken from Zen garden - http://www.csszengarden.com/208// */
+/* TORNA OMAR SORO  */
+body {
+margin:0;
+padding:0;
+font:75%/1.4 verdana,Helvetica,sans-serif;
+text-align:center;
+}
+
+a {
+color:#D9189F;
+background-color:#ffffff;
+text-decoration:underline;
+}
+
+a:hover, a:hover {
+color:#FC7AD5;
+background-color:#ffffff;
+}
+
+.page-wrapper {
+width:772px;
+margin:0 auto;
+padding:0 13px;
+position:relative;
+background: #A9E2F3;
+border-left:1px solid #ffffff;
+border-right:1px solid #ffffff;
+color:#454545;
+text-align:left;
+}
+
+header {
+width:772px;
+height:178px;
+/* background:url(picture.png) no-repeat ;  /* I put my image on the background */
+background:url(picture.png) no-repeat ;  /* I put my image on the background */
+/*text-align:center;*/
+background-color:Blue;
+text-shadow:2px 2px #FF0000;
+/*line-height:70%;*/
+
+}
+
+.preamble, .mywebsite, .bullet{
+width:546px;
+background-color:#ffffff;
+background-repeat:repeat-y;
+/*margin:0 0 2px 226px;*/
+margin:0 0 2px 226px;
+color:#454545;
+display:block;
+padding:90;
+/*display:flex;*/
+/*border:2px solid black;
+left:0px;*/
+}
+
+.mywebsite{
+text-align:Center;
+color:#ffffff;
+text-shadow:2px 2px #FF0000;
+background-color:Blue;
+p {text-align:center;}
+}
+
+footer {
+width:539px;
+margin:5px 0 0 226px;
+text-align:right;
+padding:3px 14px 43px 0;
+}
+
+.sidebar {
+position:absolute;
+top:179px;
+left:15px;
+width:130px;
+/*color:blue;*/
+/*color:blue;*/
+border:5px solid black;
+/*text-align:center;*/
+/*border-color: black;
+border-width: 2px;
+border-style: solide; 
+align-content:center; */
+text-align:center;
+}
+
+.preamble p{
+padding:0 85px 10px 17px;
+}
+
+.sidebar li {
+/*align-self:center;*/
+/*text-align:center;*/
+list-style:none;
+padding:6px 0 10px 0;
+/*margin-right:200px;*/
+/*margin-right:2cm;*/
+/*max-width:150px;*/
+/*padding:10px 0 10px 0;*/
+}
+
+/*align-content:center; */
+/*text-align:center;*/
+/*background: white bottom repeat-x; */
+
+}
+
+.sidebar li a {
+/*padding-left:7px;*/
+/*background:white left center no-repeat;*/
+text-decoration:none;
+/*max-min:200px;*/
+/*background-color:yellow;*/
+/*text-align:center;*/
+}
+
+.sidebar li a:hover {
+text-decoration:underline;
+}
+
+.design-selection li a {
+display:block;
+font-weight:bold;
+background-position:0 0.6em;
+}
+
+.design-selection  {
+/*display:inline;*/
+/*color:#666666;*/
+padding:0;
+/*background:none;*/
+/*background-color:#ffffff;*/
+/*background-color:blue;*/
+text-align:center;
+
+}
+
+footer a{
+text-decoration:none;
+color:#888888;
+background-color:#dfdfdf;
+border:1px solid #bdbdbd;
+padding:3px 3px;
+height:100%;
+}
+
+footer a:hover{
+background-color:#ebebeb;
+color:#777777;
+}
+
+.depart{
+color:#ffffff;
+padding-top: 40px;
+padding-left: 150px;
+text-align:center;
+
+}
+

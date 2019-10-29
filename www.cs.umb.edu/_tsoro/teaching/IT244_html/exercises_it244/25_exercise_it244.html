@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/25_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:54 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title> IT 244: Introduction to Linux/Unix - Class 25 Exercise</title>
+</head>
+<body>
+	<header>
+		<h2>
+			IT 244: Introduction to Linux/Unix <br>
+		    Class 25 Exercise
+		</h2>	
+	</header>
+
+	<h3>Log in to <span class="host">users3.cs.umb.edu</span></h3>
+    <ul>
+    	<li><span class="under">Run the ssh client</span><br><br>
+        	Connect to <span class="host">users3.cs.umb.edu</span>.
+        </li>
+    </ul>
+	
+	<h3>Directory for this Exercise</h3>
+    <ul>
+        <li><span class="under">Go to your <span class="path">ex</span> directory</span>
+            <pre>
+cd  ~/it244/ex</pre>
+        </li>
+        <li><span class="under">Create an <span class="path">ex25</span> directory</span><br>
+            <pre>
+mkdir  ex25</pre>
+        </li>       
+        <li><span class="under">Go to your <span class="path">ex25</span> directory</span><br>
+            <pre>
+cd  ex25</pre>
+        </li>
+    </ul>
+	
+    <h3><code>case</code></h3>
+    <ul>
+        <li><span class="under">Using <code>nano</code>, or your favorite editor, create the script 
+        <span class="path">case.sh</span></span></li>
+    </ul>
+    <img src="exercise_images_it244/25_exercise_case_it244.html" height="50%"/>
+    <ul class='flat'>         
+        <li><span class="under">Make this script executable</span><br>
+            <pre>
+chmod 755 case.sh</pre>
+        </li>
+        <li><span class="under">Run the program several times</span><br>
+            <pre>
+./case.sh 
+Enter A, B, or C: A
+You entered A or a
+Exiting program
+./case.sh 
+Enter A, B, or C: B
+You entered B or b
+Exiting program
+./case.sh 
+Enter A, B, or C: C
+You entered C or c
+Exiting program
+./case.sh 
+Enter A, B, or C: D
+You did not enter A, B, or C
+Exiting program</pre>
+        </li>
+    </ul>
+
+    <h3><code>select</code></h3>
+    <ul>
+        <li><span class="under">Using <code>nano</code>, or an editor of your choice, create 
+        <span class="path">select.sh</span></span></li>
+    </ul>
+    <img src="exercise_images_it244/25_exercise_select_it244.html" height="50%"/>
+    <ul class='flat'>         
+        <li><span class="under">Make this script executable</span><br>
+            <pre>
+chmod 755 select.sh</pre>
+        </li>
+        <li><span class="under">Run this program choosing several different fruits</span><br>
+            <pre>
+./select.sh
+1) apple
+2) banana
+3) blueberry
+4) orange
+5) STOP
+Choose your fruit: 1
+You chose apple
+That is choice number 1
+Choose your fruit: 2
+You chose banana
+That is choice number 2
+Choose your fruit: 3
+You chose blueberry
+That is choice number 3
+Choose your fruit: 4
+You chose orange
+That is choice number 4
+Choose your fruit: 5
+About to leave
+Exiting program</pre>
+        </li>
+    </ul>
+    
+    <h3>Here Document</h3>
+    <ul>
+        <li><span class="under">Using nano, or an editor of your choice, create <span class="path">here.sh</span></span></li>
+            </ul>
+    <img src="exercise_images_it244/25_exercise_here_it244.html" height="50%"/>
+    <ul class='flat'> 
+        <li><span class="under">Make this script executable</span><br>
+            <pre>
+chmod 755 here.sh</pre>
+    </li>
+        <li><span class="under">Run this script a couple of times</span><br>
+        <pre>
+./here.sh Boston
+Here is the information you requested: Boston Red Sox 
+./here.sh Rays
+Here is the information you requested: Tampa Bay Rays
+./here.sh Orio
+Here is the information you requested: Baltimore Orioles</pre>
+        </li>
+    </ul>
+    
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/25_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:57 GMT -->
+</html>

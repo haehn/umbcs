@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/hw_it244/07_hw_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:57 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title>IT 244: Introduction to Linux/Unix - Homework 7</title>
+</head>
+<body>
+<h2>
+    IT 244: Introduction to Linux/Unix <br>
+    Homework 7
+</h2>
+
+	<h3 class="section">Due Sunday, March 25th at 11:59 PM</h3>
+	All this work should be done on <span class="host">users3.cs.umb.edu</span>
+	
+    <h3 class="section">Deliverables</h3>
+	<ol>
+		<li>
+			A shell script named <span class="path">hw7.sh</span> that performs the operations listed below. <br>
+        	This file should be in an <span class="path">hw7</span> directory inside your 
+        	<span class="path">hw</span> directory inside your <span class="path">it244</span> directory. <br>
+        	100 points
+  		</li>
+	</ol>
+
+	<h3 class="section">Requirements</h3>
+	<ul class="flat">
+		<li>Create an <span class="path">hw7</span> directory in your <span class="path">hw</span> directory 
+    		inside your <span class="path">it244</span> directory
+    	</li>
+    	<li>Go to the <span class="path">hw7</span> directory and run Unix commands that will execute the steps below</li>
+    	<li>When you have a command line that does what the step asks you to do, paste it into 
+			<span class="path">hw7.sh</span> using <code>nano</code> or any other text editor
+		</li>
+		<li>When you have completed all the steps, create an <code>echo</code> statement before the commands 
+    		for each step, that will print the step number to the terminal
+    	</li>
+    </ul>
+    
+	<h3 class="section">Testing</h3>
+	<ul class="flat">       
+         <li>The script <span class="path">hw7.sh</span> <b>must</b> have the format specified in
+        	this <a href="../shell_scripts_homework.html">document</a>
+        </li>
+        <li>Scripts that do not follow the rules specified in the document mentioned above will 
+        	will have points deducted from their score
+        </li>
+        <li>Be sure you make the script executable by running the following command
+        		<pre>
+chmod  755  hw7.sh</pre>
+        </li>
+        <li>Be sure to test your script and correct any errors you find</li>
+        <li>You will lose 5 points for each error that occurs when running your script</li>
+        <li>To run your script and see only the error messages run the following command
+        	<pre>
+./hw7.sh  &gt;  /dev/null</pre>
+        </li>
+    </ul>
+    
+    <h3 class="section">Steps for Script</h3>
+	<ol>
+		<li> <!-- Step 1 -->
+	        Copy <span class="path">bother10.sh</span> from <span class="path">/home/tsoro/course_files/it244_files</span> 
+	        to your <span class="path">hw7</span> directory. <br>
+	        Run this program <b>in the background</b> redirecting output to /dev/null. <br>
+	        Be sure you copy and run <span class="path">bother10.sh</span>, <b>NOT</b> <span class="path">bother.sh</span>.
+		</li>
+		
+		<li> <!-- Step 2 -->
+	        Run a command that shows the job number of the process running <span class="path">bother10.sh</span>.
+		</li>
+		
+		<li> <!-- Step 3 -->
+	        Run a command that shows the process ID of the process running <span class="path">bother10.sh</span>.
+		</li>
+		
+		<li> <!-- Step 4 -->
+		   Copy the script <span class="path">make_foo.sh</span> from <span class="path">~tsoro/course_files/it244_files</span>
+		   to your current directory. <br>
+		   Run this script. <br>
+	       Perform a long listing of all files whose name starts with the string "foo" using meta-characters.
+		</li>
+		
+		<li> <!-- Step 5 -->
+	        Using meta-characters, perform a long listing of all files whose name starts with the string "foo", 
+	        followed by a single character, followed by .txt .        
+		</li>
+		
+		<li> <!-- Step 6 -->
+	        Using meta-characters, perform a long listing of all files whose name starts with the string "foo",
+	        followed by a single digit, either 1, 3 or 5, followed by .txt .
+		</li>
+		
+		<li> <!-- Step 7 -->
+	        Using meta-characters, perform a long listing of all files whose name starts with the string "foo",
+	         followed by a single digit from 1 through 5 followed by .txt . Do this using the range feature of one of the meta-characters.
+		</li>
+		
+		<li> <!-- Step 8 -->
+	        Using meta-characters, perform a long listing of all files whose name starts with the string "foo" followed by a single digit, not 1, nor 3 nor 5, followed by .txt .
+		</li>
+		
+		<li> <!-- Step 9 -->
+		   Using meta-characters, perform a long listing of all files whose name starts with the string "foo" followed by two digits followed by .txt .
+		</li>
+		
+		<li> <!-- Step 10 -->
+	       Using meta-characters, perform a long listing of the files <span class="path">foo21.txt</span>, <span class="path">foo25.txt</span>
+	       and <span class="path">foo29.txt</span>. This must be done using a <b>single</b> command. 
+	    </li>
+		
+	</ol>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/hw_it244/07_hw_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:57 GMT -->
+</html>

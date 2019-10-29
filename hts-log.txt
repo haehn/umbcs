@@ -1,0 +1,211 @@
+HTTrack3.49-2 launched on Tue, 29 Oct 2019 11:40:52 at https://www.cs.umb.edu/ +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/*
+(webhttrack -q -%i -w https://www.cs.umb.edu/ -O "/home/d/websites/umbcs2" -n -%P -N0 -s2 -p7 -D -a -K0 -c4 -%k -A25000 -F "Mozilla/4.5 (compatible; HTTrack 3.0x; Windows 98)" -%F "<!-- Mirrored from %s%s by HTTrack Website Copier/3.x [XR&CO'2014], %s -->" +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/* -%s -%u )
+
+Information, Warnings and Errors reported for this mirror:
+note:	the hts-log.txt file, and hts-cache folder, may contain sensitive information,
+	such as username/password authentication for websites mirrored in this project
+	do not share these files/folders if you want these information to remain private
+
+11:45:49	Warning: 	Retry after error 500 (Internal Server Error) at link https://www.cs.umb.edu/people/staff/administrative/ (from https://www.cs.umb.edu/)
+11:45:50	Warning: 	Retry after error 500 (Internal Server Error) at link https://www.cs.umb.edu/people/staff/technical_support/ (from https://www.cs.umb.edu/)
+11:46:17	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/sp/about/visitor_information/ (from https://www.cs.umb.edu/sp/resources/other/faqs/)
+11:46:24	Warning: 	Found for www.cs.umb.edu/robots.txt
+11:46:24	Warning: 	File has moved from www.cs.umb.edu/robots.txt to https://www.cs.umb.edu:443/robots.txt
+11:46:24	Warning: 	Found for www.cs.umb.edu/academics/courses/CS285L/
+11:46:24	Warning: 	File has moved from www.cs.umb.edu/academics/courses/CS285L/ to https://www.cs.umb.edu:443/academics/courses/CS285L/
+11:46:26	Warning: 	Found for www.cs.umb.edu/academics/courses/IT110/
+11:46:26	Warning: 	File has moved from www.cs.umb.edu/academics/courses/IT110/ to https://www.cs.umb.edu:443/academics/courses/IT110/
+11:46:26	Warning: 	Found for www.cs.umb.edu/academics/courses/IT111L/
+11:46:26	Warning: 	File has moved from www.cs.umb.edu/academics/courses/IT111L/ to https://www.cs.umb.edu:443/academics/courses/IT111L/
+11:46:26	Warning: 	Found for www.cs.umb.edu/academics/courses/IT114L/
+11:46:26	Warning: 	File has moved from www.cs.umb.edu/academics/courses/IT114L/ to https://www.cs.umb.edu:443/academics/courses/IT114L/
+11:46:26	Warning: 	Found for www.cs.umb.edu/academics/courses/IT115L/
+11:46:26	Warning: 	File has moved from www.cs.umb.edu/academics/courses/IT115L/ to https://www.cs.umb.edu:443/academics/courses/IT115L/
+11:46:26	Warning: 	Found for www.cs.umb.edu/~adusen/cs115/
+11:46:26	Warning: 	File has moved from www.cs.umb.edu/~adusen/cs115/ to https://www.cs.umb.edu:443/~adusen/cs115/
+11:46:26	Warning: 	Found for www.cs.umb.edu/academics/courses/IT230L/
+11:46:26	Warning: 	File has moved from www.cs.umb.edu/academics/courses/IT230L/ to https://www.cs.umb.edu:443/academics/courses/IT230L/
+11:46:26	Warning: 	Found for www.cs.umb.edu/academics/courses/IT240L/
+11:46:26	Warning: 	File has moved from www.cs.umb.edu/academics/courses/IT240L/ to https://www.cs.umb.edu:443/academics/courses/IT240L/
+11:46:26	Warning: 	Found for www.cs.umb.edu/~bobw/CS240/
+11:46:26	Warning: 	File has moved from www.cs.umb.edu/~bobw/CS240/ to https://www.cs.umb.edu:443/~bobw/CS240/
+11:46:26	Warning: 	Found for www.cs.umb.edu/academics/courses/IT244/
+11:46:26	Warning: 	File has moved from www.cs.umb.edu/academics/courses/IT244/ to https://www.cs.umb.edu:443/academics/courses/IT244/
+11:46:26	Warning: 	Found for www.cs.umb.edu/academics/courses/IT246/
+11:46:26	Warning: 	File has moved from www.cs.umb.edu/academics/courses/IT246/ to https://www.cs.umb.edu:443/academics/courses/IT246/
+11:46:26	Warning: 	Found for www.cs.umb.edu/academics/courses/IT285L/
+11:46:26	Warning: 	File has moved from www.cs.umb.edu/academics/courses/IT285L/ to https://www.cs.umb.edu:443/academics/courses/IT285L/
+11:46:26	Warning: 	Found for www.cs.umb.edu/academics/courses/IT341/
+11:46:26	Warning: 	File has moved from www.cs.umb.edu/academics/courses/IT341/ to https://www.cs.umb.edu:443/academics/courses/IT341/
+11:46:26	Warning: 	Found for www.cs.umb.edu/academics/courses/IT442/
+11:46:26	Warning: 	File has moved from www.cs.umb.edu/academics/courses/IT442/ to https://www.cs.umb.edu:443/academics/courses/IT442/
+11:46:26	Warning: 	Found for www.cs.umb.edu/academics/courses/IT443/
+11:46:26	Warning: 	File has moved from www.cs.umb.edu/academics/courses/IT443/ to https://www.cs.umb.edu:443/academics/courses/IT443/
+11:46:26	Warning: 	Found for www.cs.umb.edu/academics/courses/IT444/
+11:46:26	Warning: 	File has moved from www.cs.umb.edu/academics/courses/IT444/ to https://www.cs.umb.edu:443/academics/courses/IT444/
+11:46:26	Warning: 	Found for www.cs.umb.edu/academics/courses/IT360/
+11:46:26	Warning: 	File has moved from www.cs.umb.edu/academics/courses/IT360/ to https://www.cs.umb.edu:443/academics/courses/IT360/
+11:46:26	Warning: 	Found for www.cs.umb.edu/academics/courses/IT428/
+11:46:26	Warning: 	File has moved from www.cs.umb.edu/academics/courses/IT428/ to https://www.cs.umb.edu:443/academics/courses/IT428/
+11:46:26	Warning: 	Found for www.cs.umb.edu/academics/courses/IT460/
+11:46:26	Warning: 	File has moved from www.cs.umb.edu/academics/courses/IT460/ to https://www.cs.umb.edu:443/academics/courses/IT460/
+11:46:26	Warning: 	Found for www.cs.umb.edu/academics/courses/IT461/
+11:46:26	Warning: 	File has moved from www.cs.umb.edu/academics/courses/IT461/ to https://www.cs.umb.edu:443/academics/courses/IT461/
+11:46:26	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/academics/courses/CS115L/ (from https://www.cs.umb.edu/sp/academics/graduate_programs/)
+11:46:26	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/academics/courses/CS210/ (from https://www.cs.umb.edu/sp/academics/graduate_programs/)
+11:46:26	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/academics/courses/CS485/ (from https://www.cs.umb.edu/sp/academics/graduate_programs/)
+11:46:26	Warning: 	Found for www.cs.umb.edu/~gghinita/
+11:46:26	Warning: 	File has moved from www.cs.umb.edu/~gghinita/ to https://www.cs.umb.edu:443/~gghinita/
+11:46:55	Warning: 	Retry after error 500 (Internal Server Error) at link https://www.cs.umb.edu/people/staff/administrative/ (from https://www.cs.umb.edu/)
+11:46:55	Warning: 	Retry after error 500 (Internal Server Error) at link https://www.cs.umb.edu/people/staff/technical_support/ (from https://www.cs.umb.edu/)
+11:46:58	Error: 	"Unauthorized" (401) at link https://www.cs.umb.edu/staffdocs/facdocsindex.html (from https://www.cs.umb.edu/sp/resources/)
+11:46:58	Warning: 	Found for https://www.cs.umb.edu/women_in_science/
+11:46:58	Warning: 	File has moved from https://www.cs.umb.edu/women_in_science/ to http://kdl.cs.umb.edu/w/wins//
+11:46:58	Warning: 	Found for www.cs.umb.edu/~ming/
+11:46:58	Warning: 	File has moved from www.cs.umb.edu/~ming/ to https://www.cs.umb.edu:443/~ming/
+11:46:58	Warning: 	Found for www.cs.umb.edu/~cristian/
+11:46:58	Warning: 	File has moved from www.cs.umb.edu/~cristian/ to https://www.cs.umb.edu:443/~cristian/
+11:46:58	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/www/ (from https://www.cs.umb.edu/sp/about/facilities/policies/)
+11:46:58	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/www/sp/about/ (from https://www.cs.umb.edu/sp/about/facilities/policies/)
+11:46:58	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/www/sp/about/facilities/ (from https://www.cs.umb.edu/sp/about/facilities/policies/)
+11:46:58	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/www/sp/resources/other/faqs/ (from https://www.cs.umb.edu/sp/about/facilities/policies/)
+11:46:58	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/academics/courses/CS320L/ (from https://www.cs.umb.edu/academics/courses/cs420/)
+11:46:58	Warning: 	Found for www.cs.umb.edu/cs450/
+11:46:58	Warning: 	File has moved from www.cs.umb.edu/cs450/ to https://www.cs.umb.edu:443/cs450/
+11:46:58	Warning: 	Found for www.cs.umb.edu/~gghinita/cs634/
+11:46:58	Warning: 	File has moved from www.cs.umb.edu/~gghinita/cs634/ to https://www.cs.umb.edu:443/~gghinita/cs634/
+11:46:58	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/academics/courses/IT425/ (from https://www.cs.umb.edu/academics/courses/it485/)
+11:51:10	Warning: 	Found for www.cs.umb.edu/~haoyu/
+11:51:10	Warning: 	File has moved from www.cs.umb.edu/~haoyu/ to https://www.cs.umb.edu:443/~haoyu/
+11:51:10	Warning: 	Found for www.cs.umb.edu/~offner/
+11:51:10	Warning: 	File has moved from www.cs.umb.edu/~offner/ to https://www.cs.umb.edu:443/~offner/
+11:51:10	Warning: 	Found for www.cs.umb.edu/~pchen/
+11:51:10	Warning: 	File has moved from www.cs.umb.edu/~pchen/ to https://www.cs.umb.edu:443/~pchen/
+11:51:13	Error: 	"Internal Server Error" (500) after 2 retries at link https://www.cs.umb.edu/people/staff/administrative/ (from https://www.cs.umb.edu/)
+11:51:13	Error: 	"Internal Server Error" (500) after 2 retries at link https://www.cs.umb.edu/people/staff/technical_support/ (from https://www.cs.umb.edu/)
+11:51:13	Warning: 	Found for www.cs.umb.edu/~craigyu/
+11:51:13	Warning: 	File has moved from www.cs.umb.edu/~craigyu/ to https://www.cs.umb.edu:443/~craigyu/
+11:51:29	Error: 	"No data (connection closed)" (-4) after 2 retries at link purl.org/robots.txt (from https://www.cs.umb.edu/~hdeblois/696/archUpdate.xhtml)
+11:51:29	Warning: 	FOUND for purl.org/dc/elements/1.1/
+11:51:29	Warning: 	File has moved from purl.org/dc/elements/1.1/ to http://dublincore.org/2012/06/14/dcelements
+11:51:29	Warning: 	FOUND for purl.org/dc/terms/
+11:51:29	Warning: 	File has moved from purl.org/dc/terms/ to http://dublincore.org/2012/06/14/dcterms
+11:51:29	Warning: 	FOUND for purl.org/dc/dcmitype/
+11:51:29	Warning: 	File has moved from purl.org/dc/dcmitype/ to http://dublincore.org/2012/06/14/dctype
+11:51:29	Warning: 	Retry after error -4 (No data (connection closed)) at link purl.org/dc/dcam/ (from https://www.cs.umb.edu/~hdeblois/696/archUpdate.xhtml)
+11:52:10	Warning: 	FOUND for purl.org/dc/dcam/
+11:52:10	Warning: 	File has moved from purl.org/dc/dcam/ to http://dublincore.org/2012/06/14/dcam
+11:52:10	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/faq.html (from https://www.cs.umb.edu/~tsoro/teaching/advising.html)
+11:52:10	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/it_course_list.html (from https://www.cs.umb.edu/~tsoro/teaching/advising.html)
+11:52:10	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/general_education_distribution.html (from https://www.cs.umb.edu/~tsoro/teaching/advising.html)
+11:54:23	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/definitions.html (from https://www.cs.umb.edu/~tsoro/teaching/linux/remote_access_windows.html)
+11:54:44	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/03_class_notes_it244. (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/class_notes_index_it244.html)
+11:54:57	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/file_object (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/definitions.html)
+11:54:57	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/variable (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/definitions.html)
+11:54:57	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/assignment_operator (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/definitions.html)
+11:54:57	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/readline_library (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/definitions.html)
+11:54:57	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/subclass (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/definitions.html)
+11:54:57	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/shell (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/definitions.html)
+11:54:57	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/process (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/definitions.html)
+11:54:57	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/link (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/definitions.html)
+11:54:57	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/tuple (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/definitions.html)
+11:54:57	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/concatenation (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/definitions.html)
+11:54:57	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/local_variable (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/definitions.html)
+11:54:57	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/child_process (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/definitions.html)
+11:54:57	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/loop (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/definitions.html)
+11:54:57	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/command_line_editing (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/definitions.html)
+11:54:57	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/function (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/definitions.html)
+11:54:57	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/sequence (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/definitions.html)
+11:54:57	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/structured_query_language (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/definitions.html)
+11:54:57	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/kernel (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/definitions.html)
+11:54:58	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/weekly_quiz_answers_it244/06_quiz_answers_it244.html (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/19_class_notes_it244.html)
+11:54:58	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/weekly_quiz_answers_it244/07_quiz_answers_it244.html (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/21_class_notes_it244.html)
+11:54:58	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/weekly_quiz_answers_it244/08_quiz_answers_it244.html (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/23_class_notes_it244.html)
+11:55:29	Warning: 	HTML file (24593 bytes) retransferred due to lack of cache: https://www.cs.umb.edu/news_and_events/events_calendar/284/
+11:55:30	Warning: 	HTML file (24197 bytes) retransferred due to lack of cache: https://www.cs.umb.edu/academics/courses/CS105/
+11:55:31	Warning: 	HTML file (812 bytes) retransferred due to lack of cache: www.cs.umb.edu/~gghinita/
+11:55:32	Warning: 	Found for www.cs.umb.edu/~gghinita/
+11:55:32	Warning: 	File has moved from www.cs.umb.edu/~gghinita/ to https://www.cs.umb.edu:443/~gghinita/
+11:55:32	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/media/documents/Nonimmigrant_Visa_Options_after_Practical_Training.pdf (from https://www.cs.umb.edu/sp/resources/)
+11:55:33	Warning: 	HTML file (796 bytes) retransferred due to lack of cache: www.cs.umb.edu/~ming/
+11:55:34	Warning: 	Found for www.cs.umb.edu/~ming/
+11:55:34	Warning: 	File has moved from www.cs.umb.edu/~ming/ to https://www.cs.umb.edu:443/~ming/
+11:55:34	Error: 	"Not Found" (404) at link https://www.cs.umb.edu:443/~fatemeh/Syllabus.pdf (from https://www.cs.umb.edu/~fatemeh/)
+11:55:34	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~fatemeh/CS310_files/kleinberg-tardos.jpg (from https://www.cs.umb.edu/~fatemeh/)
+11:55:34	Error: 	"Not Found" (404) at link https://www.cs.umb.edu:443/~fatemeh/CS310_files/CS310%20summer-hw1.pdf (from https://www.cs.umb.edu/~fatemeh/)
+11:55:34	Error: 	"Not Found" (404) at link https://www.cs.umb.edu:443/~fatemeh/CS310_files/CS310%20summer%202019-s1.pdf (from https://www.cs.umb.edu/~fatemeh/)
+11:55:34	Error: 	"Not Found" (404) at link https://www.cs.umb.edu:443/~fatemeh/CS310_files/CS310%20summer%202019-hw2.pdf (from https://www.cs.umb.edu/~fatemeh/)
+11:55:34	Error: 	"Not Found" (404) at link https://www.cs.umb.edu:443/~fatemeh/CS310_files/Summer2019-hw2-sol.pdf (from https://www.cs.umb.edu/~fatemeh/)
+11:55:34	Error: 	"Not Found" (404) at link https://www.cs.umb.edu:443/~fatemeh/CS310_files/CS310%20summer%202019-hw3.pdf (from https://www.cs.umb.edu/~fatemeh/)
+11:55:34	Error: 	"Not Found" (404) at link https://www.cs.umb.edu:443/~fatemeh/CS310_files/pa01.pdf (from https://www.cs.umb.edu/~fatemeh/)
+11:55:34	Error: 	"Not Found" (404) at link https://www.cs.umb.edu:443/~fatemeh/CS310_files/CS310%20summer%202019-hw3-sol.pdf (from https://www.cs.umb.edu/~fatemeh/)
+11:55:34	Error: 	"Not Found" (404) at link https://www.cs.umb.edu:443/~fatemeh/CS310_files/CS310%20summer%202019-hw4.pdf (from https://www.cs.umb.edu/~fatemeh/)
+11:55:34	Error: 	"Not Found" (404) at link https://www.cs.umb.edu:443/~fatemeh/CS310_files/CS310%20summer%202019-hw4-sol.pdf (from https://www.cs.umb.edu/~fatemeh/)
+11:55:34	Error: 	"Not Found" (404) at link https://www.cs.umb.edu:443/~fatemeh/CS310_files/Midterm%20Bonus%20Questions.pdf (from https://www.cs.umb.edu/~fatemeh/)
+11:55:34	Error: 	"Not Found" (404) at link https://www.cs.umb.edu:443/~fatemeh/CS310_files/CS310%20summer%202019-hw5.pdf (from https://www.cs.umb.edu/~fatemeh/)
+11:55:34	Error: 	"Not Found" (404) at link https://www.cs.umb.edu:443/~fatemeh/CS310_files/intro_new.pdf (from https://www.cs.umb.edu/~fatemeh/)
+11:55:34	Error: 	"Not Found" (404) at link https://www.cs.umb.edu:443/~fatemeh/CS310_files/runtime.pdf (from https://www.cs.umb.edu/~fatemeh/)
+11:55:34	Error: 	"Not Found" (404) at link https://www.cs.umb.edu:443/~fatemeh/CS310_files/APICollections1.pdf (from https://www.cs.umb.edu/~fatemeh/)
+11:55:34	Error: 	"Not Found" (404) at link https://www.cs.umb.edu:443/~fatemeh/CS310_files/Hashing.pdf (from https://www.cs.umb.edu/~fatemeh/)
+11:55:34	Error: 	"Not Found" (404) at link https://www.cs.umb.edu:443/~fatemeh/CS310_files/34HashTables.pdf (from https://www.cs.umb.edu/~fatemeh/)
+11:55:34	Error: 	"Not Found" (404) at link https://www.cs.umb.edu:443/~fatemeh/CS310_files/mid_s2019.pdf (from https://www.cs.umb.edu/~fatemeh/)
+11:55:34	Error: 	"Not Found" (404) at link https://www.cs.umb.edu:443/~fatemeh/CS310_files/mid_s2019_sol.pdf (from https://www.cs.umb.edu/~fatemeh/)
+11:55:34	Error: 	"Not Found" (404) at link https://www.cs.umb.edu:443/~fatemeh/CS310_files/Midterm%20Topics%20and%20Rules.pdf (from https://www.cs.umb.edu/~fatemeh/)
+11:55:34	Error: 	"Not Found" (404) at link https://www.cs.umb.edu:443/~fatemeh/CS310_files/Instructions%20for%20the%20programming%20assignment.pdf (from https://www.cs.umb.edu/~fatemeh/)
+11:55:34	Error: 	"Not Found" (404) at link https://www.cs.umb.edu:443/~fatemeh/CS310_files/Dynamicprogramming.pdf (from https://www.cs.umb.edu/~fatemeh/)
+11:55:34	Error: 	"Not Found" (404) at link https://www.cs.umb.edu:443/~fatemeh/CS310_files/Tries.pdf (from https://www.cs.umb.edu/~fatemeh/)
+11:55:34	Error: 	"Not Found" (404) at link https://www.cs.umb.edu:443/~fatemeh/CS310_files/Compression.pdf (from https://www.cs.umb.edu/~fatemeh/)
+11:55:34	Error: 	"Not Found" (404) at link https://www.cs.umb.edu:443/~fatemeh/CS310_files/flow.pdf (from https://www.cs.umb.edu/~fatemeh/)
+11:55:34	Error: 	"Not Found" (404) at link https://www.cs.umb.edu:443/~fatemeh/CS310_files/NP.pdf (from https://www.cs.umb.edu/~fatemeh/)
+11:55:34	Error: 	"Not Found" (404) at link https://www.cs.umb.edu:443/~fatemeh/CS310_files/practicefinal.pdf (from https://www.cs.umb.edu/~fatemeh/)
+11:55:34	Error: 	"Not Found" (404) at link https://www.cs.umb.edu:443/~fatemeh/CS310_files/Final%20Topics%20and%20Rules.pdf (from https://www.cs.umb.edu/~fatemeh/)
+11:55:35	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/style_lib/courses.css (from https://www.cs.umb.edu/~tsoro/resume.html)
+11:55:35	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/class_notes.css (from https://www.cs.umb.edu/~tsoro/teaching/advising.html)
+11:55:35	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/it_advising.pdf (from https://www.cs.umb.edu/~tsoro/teaching/advising.html)
+11:55:35	Error: 	"" (404) at link https://www.cs.umb.edu/~tsoro/teaching/general_education_distribution.html (from https://www.cs.umb.edu/~tsoro/teaching/advising.html)
+11:55:35	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT341/class_notes.css (from https://www.cs.umb.edu/~tsoro/teaching/IT341/class_page_it341_04_Fall2019.html)
+11:55:35	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT442/class_notes.css (from https://www.cs.umb.edu/~tsoro/teaching/IT442/class_page_it442_1_Fall2019.html)
+11:55:35	Warning: 	HTML file (17084 bytes) retransferred due to lack of cache: https://www.cs.umb.edu/~tsoro/teaching/IT442/Syllabus/syllabus_it442_2_Fall2019.html
+11:55:36	Warning: 	HTML file (17058 bytes) retransferred due to lack of cache: https://www.cs.umb.edu/~tsoro/teaching/IT442/Syllabus/syllabus_it442_1.html
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/images/directory_paths.jpg (from https://www.cs.umb.edu/~tsoro/teaching/linux/unix_cs_students.html)
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/linux/images/absolute_pathname.jpg (from https://www.cs.umb.edu/~tsoro/teaching/linux/unix_cs_students.html)
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/linux/images/relative_path_current_directory.jpg (from https://www.cs.umb.edu/~tsoro/teaching/linux/unix_cs_students.html)
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/linux/images/relative_path_descendent_directory.jpg (from https://www.cs.umb.edu/~tsoro/teaching/linux/unix_cs_students.html)
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/linux/images/relative_pathname_ancestor_directory.jpg (from https://www.cs.umb.edu/~tsoro/teaching/linux/unix_cs_students.html)
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/linux/images/relative_pathname_side_directory.jpg (from https://www.cs.umb.edu/~tsoro/teaching/linux/unix_cs_students.html)
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT442/Syllabus/class_notes.css (from https://www.cs.umb.edu/~tsoro/teaching/IT442/Syllabus/syllabus_it442_1_Fall2019.html)
+11:55:37	Warning: 	Retry after error -5 (Unable to get server's address: Name or service not known) at link media.smashingmagazine.com/wp-content/uploads/2010/05/VI-Help-Sheet-01-large2.jpg (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/resources_it244.html)
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/class_notes.css (from https://www.cs.umb.edu/~tsoro/teaching/linux/fixing_problems_with_accounts.html)
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/image3_note8.png (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/09_class_notes_it244.html)
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/image4_note8.png (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/09_class_notes_it244.html)
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/image5_note8.png (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/09_class_notes_it244.html)
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/image6_note8.png (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/09_class_notes_it244.html)
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/image7_note8.png (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/09_class_notes_it244.html)
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/exercise_images_it244/22_exercise_arg_test_it244.png (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/22_exercise_it244.html)
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/exercise_images_it244/23_exercise_arg_count_it244.png (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/23_exercise_it244.html)
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/exercise_images_it244/23_exercise_arg_count_2_it244.png (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/23_exercise_it244.html)
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/exercise_images_it244/24_exercise_for_1_it244.png (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/24_exercise_it244.html)
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/exercise_images_it244/24_exercise_for_2_it244.png (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/24_exercise_it244.html)
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/exercise_images_it244/24_exercise_for_3_it244.png (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/24_exercise_it244.html)
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/exercise_images_it244/24_exercise_count_to_five_it244.png (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/24_exercise_it244.html)
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/exercise_images_it244/24_exercise_count_until_it244.png (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/24_exercise_it244.html)
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/exercise_images_it244/24_exercise_continue_it244.png (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/24_exercise_it244.html)
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/exercise_images_it244/24_exercise_break_it244.png (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/24_exercise_it244.html)
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/exercise_images_it244/25_exercise_case_it244.png (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/25_exercise_it244.html)
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/exercise_images_it244/25_exercise_select_it244.png (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/25_exercise_it244.html)
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/exercise_images_it244/25_exercise_here_it244.png (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/25_exercise_it244.html)
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/midterm_directory_tree_it244.jpg (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/midterm_answers_f17_it244.html)
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/images_it244/directory_family.jpg (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/14_class_notes_it244.html)
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/images_it244/directory_paths.jpg (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/14_class_notes_it244.html)
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/images_it244/absolute_pathname.jpg (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/14_class_notes_it244.html)
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/images_it244/relative_path_current_directory.jpg (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/14_class_notes_it244.html)
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/images_it244/relative_path_descendant_directory.jpg (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/14_class_notes_it244.html)
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/images_it244/relative_pathname_ancestor_directory.jpg (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/14_class_notes_it244.html)
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/images_it244/relative_pathname_side_directory.jpg (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/14_class_notes_it244.html)
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/img/glyphicons-halflings.png (from https://www.cs.umb.edu/static/bootstrap.min.css)
+11:55:37	Error: 	"Not Found" (404) at link https://www.cs.umb.edu/img/glyphicons-halflings-white.png (from https://www.cs.umb.edu/static/bootstrap.min.css)
+11:55:45	Warning: 	Retry after error -5 (Unable to get server's address: unknown error) at link media.smashingmagazine.com/wp-content/uploads/2010/05/VI-Help-Sheet-01-large2.jpg (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/resources_it244.html)
+11:55:45	Error: 	"Unable to get server's address: unknown error" (-5) after 2 retries at link media.smashingmagazine.com/wp-content/uploads/2010/05/VI-Help-Sheet-01-large2.jpg (from https://www.cs.umb.edu/~tsoro/teaching/IT244_html/resources_it244.html)
+
+HTTrack Website Copier/3.49-2 mirror complete in 14 minutes 53 seconds : 702 links scanned, 551 files written (122947389 bytes overall) [115973202 bytes received at 129869 bytes/sec], 8294304 bytes transferred using HTTP compression in 423 files, ratio 18%, 7.7 requests per connection
+(113 errors, 87 warnings, 0 messages)

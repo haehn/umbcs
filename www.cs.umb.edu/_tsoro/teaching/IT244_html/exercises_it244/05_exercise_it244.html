@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/05_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title>IT 244: Introduction to Linux/Unix - Class 5 Exercise</title>
+</head>
+<body>
+	<header>
+		<h2>
+		    IT 244: Introduction to Linux/Unix <br>
+		    Class 5 Exercise
+		</h2>	
+	</header>
+
+	<h3>Log in to <span class="host">users3.cs.umb.edu</span></h3>
+	<ul>
+		<li><span class="under">Run the ssh client</span><br><br>
+			Connect to <span class="host">users3.cs.umb.edu</span>.
+		</li>
+	</ul>
+	
+    <h3>Directory for this Exercise</h3>
+    <ul>
+        <li><span class="under">Make sure you are in your home directory</span><br>
+            <pre>
+    cd</pre>
+        </li>
+        <li><span class="under">Go to your <span class="path">it244</span> directory</span>
+            <pre>
+    cd  it244</pre>
+        </li>
+        <li><span class="under">Go to your <span class="path">ex</span> directory</span><br>
+            <pre>
+    cd  ex</pre>
+        </li>
+        <li><span class="under">Create an <span class="path">ex5</span> directory</span><br>
+            <pre>
+    mkdir  ex5</pre>
+        </li>       
+        <li><span class="under">Go to your <span class="path">ex5</span> directory</span><br>
+            <pre>
+    cd  ex5</pre>
+        </li>
+    </ul>
+
+    <h3>Working with Pagers</h3>
+    <ul class="flat">
+    <li><span class="under">Use <code>cat</code> on the syllabus page from the class web site</span>
+            <pre>
+    cat  /home/tsoro/public_html/teaching/IT244_html/syllabus_it244.html</pre>
+        Scroll back up in your terminal session to see the beginning of the file.<br><br>
+        </li>
+    <li><span class="under">Use <code>more</code> on the same file</span>
+            <pre>
+    more  /home/tsoro/public_html/teaching/IT244_html/syllabus_it244.html</pre>
+        </li>
+        <li><span class="under">Move down one screen</span>
+            <pre>
+    Space</pre>
+        </li>
+        <li><span class="under">Look at the <code>more</code> help section</span>
+            <pre>
+    h</pre>
+        </li>
+        <li><span class="under">Exit the help section</span><br>
+			<pre>
+Control L</pre>
+		</li>
+        <li><span class="under">Use the Enter key to moves down a few lines</span>
+            <pre>
+    Enter
+    Enter
+    Enter</pre>
+        </li>
+        <li><span class="under">Move to the end of the file</span><br><br>
+            Hit Space as many times as you need to.
+            <br><br>
+            You should reach the end of the file and exit <code>more</code>.<br>
+        </li>
+        <li><span class="under">Use less on the same file</span>
+            <pre>
+    less  /home/tsoro/public_html/teaching/IT244_html/syllabus_it244.html</pre>
+        </li>
+        <li><span class="under">Look at the <code>less</code> help section</span><br>
+			<pre>
+h</pre>
+		</li>
+		<li><span class="under">Exit the help section</span><br>
+			<pre>
+q</pre>
+		</li>
+        <li><span class="under">Move to the end of the file</span><br><br>
+            Hit Space until you reach the end of the file.
+            <br><br>
+            You see (END) but you are still in less.<br>
+        </li>
+        <li><span class="under">Quit less</span>
+            <pre>
+    q</pre>
+        </li>
+    </ul>
+		
+    <h3>Filename Completion</h3>
+    <ul class="flat">
+    <li><span class="under">Create the directory <span class="path">test</span></span>
+            <pre>
+    mkdir  test</pre>
+        </li>
+        <li><span class="under">Move to the <span class="path">test</span> directory</span>
+            <pre>
+    cd  test</pre>
+        </li>
+        <li><span class="under">Create some files</span>
+            <pre>
+    touch  foo  foobar  foobletch  bletch</pre>
+        </li>
+        <li><span class="under">Look at the contents of the directory</span><br>
+			<pre>
+    ls</pre>
+		</li>
+        <li><span class="under">Use filename complete to run <code>ls</code> on bletch</span>
+            <pre>
+    ls  ble[Tab][Enter]</pre>
+    			[Tab] and [Enter] are <b>not</b> words you type on the command line.
+    			<br><br>
+    			[Tab] means hit the Tab key and [Enter] means hit the Enter key.
+    			<br>
+        </li>
+        <li><span class="under">Use filename completion to see all files with "foo" in the name</span>
+            <pre>
+    ls  foo[Tab][Tab]</pre>
+            After the first Tab, you should hear a beep. After the second, all
+            files beginning with "foo" should be displayed.<br>
+        </li>
+        <li><span class="under">Keep typing to run <code>ls</code> on foobletch</span>
+            <pre>
+    ls foobl[Tab][Enter]</pre>
+            As you supply more letters in the filename, the completion mechanism
+            narrows down the possibilities.<br>
+        </li>
+    </ul>
+    
+    <h3>Experimenting with <code>echo</code></h3>
+    <ul class="flat">
+        <li><span class="under">Run <code>echo</code> with a string argument</span>
+            <pre>
+    echo  foo  bar  bletch</pre>
+        </li>
+        <li><span class="under">Use <code>echo</code> to display a system variable</span>
+            <pre>
+    echo  SHELL:  $SHELL</pre>
+        </li>
+        <li><span class="under">You must use a <span class="char">$</span> when displaying the value of a variable</span>
+            <pre>
+    echo SHELL:  SHELL</pre>
+        </li>
+    </ul>
+    
+    <h3><code>hostname</code></h3>
+    <ul class="flat">
+        <li><span class="under">Determine the name of your current host</span>
+            <pre>
+    hostname</pre>
+        </li>
+        <li><span class="under">Determine the IP address of your current host</span>
+            <pre>
+    hostname  -i</pre>
+        </li>
+    </ul>
+    		
+	<h3><code>grep</code></h3>
+	<ul>
+		<li><span class="under">Go to the <span class="path">it244_files</span> directory</span><br>
+			<pre>
+    cd   /home/tsoro/course_files/it244_files</pre>
+		</li>
+		<li><span class="under">Look at the contents of <span class="path">foo.txt</span></span><br>
+			<pre>
+    cat  foo.txt</pre>
+		</li>
+		<li><span class="under">Look for lines with the string "foo" in <span class="path">foo.txt</span></span><br>
+			<pre>
+    grep  foo  foo.txt</pre>
+		</li>
+		<li><span class="under">Experiment with the -i option</span><br><br>
+			First look for "bar" without the -i option
+			<pre>
+    grep  bar  foo.txt</pre>
+				Now try the same search with -i
+				<pre>
+    grep  -i  bar  foo.txt</pre>
+    			Notice that <code>grep</code> now prints a new line with the word "Bar" in it.
+    			<br><br>
+		</li>
+		<li><span class="under">Use <code>grep</code> with the -r option</span><br><br>
+			<code>grep</code>, when used with the -r option, looks in all subdirectories of the directory
+			given to it as its second argument
+			<pre>
+    grep  -r  foo  <span class="char">.</span></pre>
+            The <span class="char">.</span> means the current directory.
+            <br><br>
+			Everything up to the colon, <span class="char">:</span> , is the path to the file in which the string was found. 
+			<br><br>
+			The text after the colon is the line itself.
+			<br><br>
+			The entries in the directory <span class="path">.svn</span> are associated with the versioning software,
+			supathersion, I use in all my work.
+			<br><br>
+		</li>
+		<li><span class="under">Use <code>grep</code> -v to remove unwanted lines</span><br><br>
+			Many of the lines returned in the previous invocation of <code>grep</code> come from
+			files with the string "svn" in their file names. 
+			<br><br>
+			These are files created by subversion. 
+			<br><br>
+			Let's remove these lines <code>grep</code> twice, using a pipe, <span class="char">|</span>,  to feed the output of the first invocation
+			of <code>grep</code> into the input of the second
+			<pre>
+    grep  -r  foo  <span class="char">.</span>  |  grep  -v  svn</pre>
+            Notice that all the entries in the subversion files have been removed.
+            <br><br>
+            We'll discuss pipes in a future class.
+		</li>
+	</ul>
+	
+	<h3><code>head</code></h3>
+	<ul>
+        <li>Display the contents of <span class="path">red_sox.txt</span>
+            <pre>
+    cat  red_sox.txt</pre>
+        </li>
+		<li><span class="under">Display the first 10 lines of <span class="path">red_sox.txt</span></span>
+			<pre>
+    head  red_sox.txt</pre>
+		</li>
+		<li><span class="under">Display the first line of <span class="path">red_sox.txt</span></span>
+			<pre>
+    head  -1  red_sox.txt</pre>
+		</li>
+	</ul>
+	
+	<h3><code>tail</code></h3>
+	<ul>
+		<li><span class="under">Display the last 10 lines of <span class="path">red_sox.txt</span></span>
+			<pre>
+    tail  red_sox.txt</pre>
+		</li>
+		<li><span class="under">Display the last two lines of <span class="path">red_sox.txt</span></span>
+			<pre>
+    tail  -2 red_sox.txt</pre>
+		</li>
+	</ul>
+	
+	<h3><code>sort</code></h3>
+	<ul>
+		<li><span class="under">Look at <span class="path">fruit.txt</span> </span>
+			<pre>
+    cat  fruit.txt</pre>
+		</li>
+		<li><span class="under">Run <code>sort</code> on this file</span>
+			<pre>
+    sort  fruit.txt</pre>
+		</li>
+		<li><span class="under">Sort this file in reverse alphabetical order</span>
+			<pre>
+    sort  -r  fruit.txt</pre>
+		</li>
+		<li><span class="under">Look at <span class="path">numbers.txt</span> </span>
+			<pre>
+    cat  numbers.txt</pre>
+		</li>
+		<li><span class="under">Run <code>sort</code> on this file without any options</span>
+			<pre>
+    sort  numbers.txt</pre>
+		Since the numbers from 10 to 19 begin with a 1 they appear before 2
+		<br><br>
+		</li>
+		<li><span class="under">Sort <span class="path">numbers.txt</span> in numerical order</span>
+			<pre>
+    sort  -n  numbers.txt</pre>
+		</li>
+		<li><span class="under">Sort <span class="path">numbers.txt</span> in reverse numerical order</span>
+			<pre>
+    sort  -nr  numbers.txt</pre>
+			Note that <code>sort</code> allows you to combine options after the dash.<br><br><br><br><br>
+		</li>
+	</ul>
+	
+	
+	
+	<h3>Create a Bash script</h3>
+    <ul> 
+        <li><span class="under">Go to your home directory</span><br>
+            <pre>
+    cd</pre>
+        </li>
+        <li><span class="under">Go to your <span class="path">it244</span> directory</span><br>
+            <pre>
+    cd  it244</pre>
+        </li>
+        <li><span class="under">Go to your <span class="path">ex</span> directory</span><br>
+            <pre>
+    cd  ex</pre>
+        </li>
+        <li><span class="under">Go to your <span class="path">ex5</span> directory</span><br>
+            <pre>
+    cd  ex5</pre>
+        </li>
+        <li><span class="under">Create the script file <span class="path">ex5.sh</span></span><br>
+            <pre>
+    nano  ex5.sh</pre>
+        </li>
+        <li><span class="under">Write into this file commands from certain of the sections above</span><br><br>
+            Go back to the section of this Class Exercise called <span class="under">Experimenting with <code>echo</code></span>. <br><br>
+            Enter all the commands from the <span class="under">Experimenting with <code>echo</code></span> section up to and 
+            including the section called <span class="under"><code>sort</code></span> 
+            into this script file.
+            <br><br>
+	        <b>Do not run the <code>more</code> or <code>less</code> commands inside <span class="path">ex5.sh</span></b>
+	        <br><br>
+	        <b>Do not use Tab completion inside <span class="path">ex5.sh</span></b>
+	        <br><br>
+	        You do not have to write <code>echo</code> Step commands in scripts for the Class Exercise.
+	        <br><br>
+        </li>
+        <li><span class="under">Save and quit</span><br>
+            <br><br>
+        </li>
+        <li><span class="under">Test you script</span><br>
+			<pre>
+	~tsoro/it244_test/ex05.sh</pre>
+		When the script asks if you are ready for more, hit Return or Enter.
+		<br><br>
+		</li>
+        <li><span class="under">Let me check work script</span><br>
+		</li>
+    </ul>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/05_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+</html>

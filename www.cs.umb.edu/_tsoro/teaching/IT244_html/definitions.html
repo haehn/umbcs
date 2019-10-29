@@ -1,0 +1,2143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/definitions.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:02 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="class_notes.css">
+    <title>Definitions</title>
+</head>
+<body>
+	<header>
+		<h2>Definitions</h2>
+	</header>
+	
+    <a href="#A">A</a>&nbsp;
+    <a href="#B">B</a>&nbsp;
+    <a href="#C">C</a>&nbsp;
+    <a href="#D">D</a>&nbsp;
+    <a href="#E">E</a>&nbsp;
+    <a href="#F">F</a>&nbsp;
+    <a href="#G">G</a>&nbsp;
+    <a href="#H">H</a>&nbsp;
+    <a href="#I">I</a>&nbsp;
+    <a href="#J">J</a>&nbsp;
+    <a href="#K">K</a>&nbsp;
+    <a href="#L">L</a>&nbsp;
+    <a href="#M">M</a>&nbsp;
+    <a href="#N">N</a>&nbsp;
+    <a href="#O">O</a>&nbsp;
+    <a href="#P">P</a>&nbsp;
+    <a href="#Q">Q</a>&nbsp;
+    <a href="#R">R</a>&nbsp;
+    <a href="#S">S</a>&nbsp;
+    <a href="#T">T</a>&nbsp;
+    <a href="#U">U</a>&nbsp;
+    <a href="#V">V</a>&nbsp;
+    <a href="#W">V</a>&nbsp;
+    <a href="#W">W</a>&nbsp;
+    <a href="#X">X</a>&nbsp;
+    <a href="#Y">Y</a>&nbsp;
+    <a href="#Z">Z</a>&nbsp;
+
+    <h3 class="section" id="A">A</h3>
+    <dl>
+        <dt id="absolute_path">Absolute Path</dt>
+        <dd>The list of directories, starting with the <a href="#root_directory">root directory</a>, 
+            that leads to the directory holding a specific file.
+            <br><br>
+        </dd>
+       
+        <dt id="absolute_pathname">Absolute Pathname</dt>
+        <dd>The absolute path of a file followed by the filename.
+            <br><br>
+        </dd>
+        
+        <dt id="access_mode">Access Mode</dt>
+        <dd>The a value that determines how a file may be used when a <a href="file_object.html">file object</a> 
+            is created for it. The access mode is used to create the file object with the 
+            <span class="iden">open()</span>built-in function. The most commonly used access modes are 
+            <table>
+                <tr>
+                    <th>Symbol</th> <th>Access Mode</th> <th>Description</th>
+                </tr>
+                <tr>
+                    <td><span class="char">r</span></td> 
+                    <td>Read text</td> 
+                    <td>Opens a file for reading only</td>
+                </tr>
+                <tr>
+                    <td><span class="char">w</span></td> 
+                    <td>Write text</td> 
+                    <td>Opens a file for writing only</td>
+                </tr>
+                <tr>
+                    <td><span class="char">a</span></td> 
+                    <td>Append text</td> 
+                    <td>Opens a file for writing to the end of the file</td>
+                </tr>
+                <tr>
+                    <td><span class="char">r+</span></td> 
+                    <td>Read and Write text</td> 
+                    <td>Opens a file for both reading and writing</td>
+                </tr>
+                <tr>
+                    <td><span class="char">rb</span></td> 
+                    <td>Read binary</td> 
+                    <td>Opens a file for reading binary data</td>
+                </tr>
+                <tr>
+                    <td><span class="char">w</span></td> 
+                    <td>Write binary</td> 
+                    <td>Opens a file for writing binary data</td>
+                </tr>
+             </table>
+             <br>
+        </dd>
+        
+        <dt id="access_permissions">Access Permissions</dt>
+        <dd>Access permissions determine which accounts can access, 
+                use or modify a file or directory.
+                <br><br>
+        </dd>
+        
+        <dt id="accessor">Accessor</dt>
+        <dd>A method that returns the value of a hidden attribute.
+            <br><br>
+        </dd>
+        
+        <dt id="accumulator">Accumulator</dt>
+        <dd>A <a href="#variable">variable</a> that holds a running total.
+            <br><br>
+        </dd>
+        
+        <dt id="algorithm">Algorithm</dt>
+	    <dd>A step-by-step description of how to accomplish a task.
+            <br><br>
+	    </dd>
+	    
+	    <dt id="alias">Alias</dt>
+        <dd>A string assigned a value in the shell. When the user enters a command using the alias,
+            the value assigned to the alias replaces the name of the alias on the command line before
+            the command is executed. In Bash, an alias cannot accept an argument.
+            Aliases are local to the shell in which they are defined.
+            <br><br>
+        </dd>
+        
+        <dt id="ambiguous_file_reference">Ambiguous File Reference</dt>
+        <dd>A pathname which uses <a href="#bash_meta-characters">meta-characters</a> to specify a pattern for
+            used in <a href="#pathname_expansion">pathname expansion</a>.
+            <br><br>
+        </dd>
+        
+        <dt id="ancestor">Ancestor</dt>
+        <dd>A directory above another directory in a 
+                <a href="#hierarchical_filesystem">hierarchical filesystem</a>.
+                <br><br>
+        </dd>
+       
+       <dt id="anchor">Anchor</dt>
+        <dd>A meta-character in regular expressions used to indicate the beginning or end of a string
+            <ul class="flat">       
+                <li class="flat"><span class="char">^</span> stands for the <b>start</b> of a string</li>
+                <li class="flat"><span class="char">$</span> stands for the <b>end</b> of a string</li>
+            </ul>
+            <br>
+        </dd>
+        
+        <dt id="application">Application</dt>
+        <dd>Programs that are used to get work done such as a word processor or an email client.
+            <br><br>
+        </dd>
+        
+        <dt id="appending">Appending</dt>
+        <dd>Adding data to the end of file.
+            <br><br>
+        </dd>
+       
+        <dt id="argument">Argument</dt>
+        <dd>A value provided to a function when the function is called. 
+           	This value is assigned to the corresponding <a href="#parameter">parameter</a> in the function.
+           	<br><br>
+        </dd>
+        <dt id="arithmetic_expansion">Arithmetic Expansion</dt>
+        <dd>A feature of the bash shell where any text inside <span class="char">$(( ))</span>
+            is evaluated as an arithmetic operation, and the result of that operation replaces the
+            the expression and the <span class="char">$(( ))</span> that surrounds in
+            on the command line.
+            <br><br>
+        </dd>
+       
+        <dt id="assignment">Assignment</dt>
+        <dd>Giving a value to a <a href="#variable">variable</a>.
+        		<br><br>
+        </dd>
+        
+        <dt id="assignment_operator">Assignment Operator</dt>
+        <dd>An operator used to gave a value to a <a href="variable.html">variable</a>. The most commonly used
+        		assignment operator is <span class="char">=</span>, but 
+        		<a href="#augmented_assignment_operator">augmented assignment operators</a> are also
+        		assignment operators.
+            <br><br>
+        </dd>
+        
+        <dt id="assignment_statement">Assignment Statement</dt>
+        <dd>A statement that uses an <a href="assignment_operator.html">assignment operator</a>
+        		to give a value to a variable.
+            <br><br>
+        </dd>
+        
+        <dt id="associative_array">Associative Array</dt>
+        <dd>A list of key-value pairs. What Python calls a <a href="#dictionary">dictionary</a>.
+        		<br><br>
+        </dd>
+        
+        <dt id="attribute">Attributes</dt>
+        <dd>The variables holding data inside an object.
+            <br><br>
+        </dd>
+        
+        <dt id="augmented_assignment_operator">Augmented Assignment Operator</dt>
+        <dd>An <a href="#operator">operator</a> that performs some arithmetic operation on
+	       	the value of a variable, and assigns this new value to the variable.
+	       	The Python augmented assignment operators are
+	       	<ul class="flat">       
+	       		<li class="flat"><span class="char">+=</span></li>
+	       		<li class="flat"><span class="char">-=</span></li>
+	       		<li class="flat"><span class="char">*=</span></li>
+	       		<li class="flat"><span class="char">/=</span></li>
+	       		<li class="flat"><span class="char">//=</span></li>
+	       		<li class="flat"><span class="char">%=</span></li>
+	       		<li class="flat"><span class="char">**=</span></li>
+	   		</ul>
+            <br><br>
+        </dd>
+    </dl>
+    
+    <h3 class="section" id="B">B</h3>
+    <dl>
+        <dt id="background">Background</dt>
+        <dd>A <a href="#process">process</a> that is not connected to <a href="#standard_input">standard input</a>,
+            which usually means the keyboard. If you run a program in the background, you get a prompt back immediately,
+            which allows you to run another command.
+            <br><br>
+        </dd>
+        
+    		<dt id="base_case">Base Case</dt>
+        <dd>In a <a href="#recursive_function">recursive function</a>
+        		the circumstances that causes the function to end. 
+        		Every call to a recursive function much approach the
+        		base case.
+            <br><br>
+        </dd>
+    
+    		<dt id="base_class">Base Class</dt>
+        <dd>Another term for <a href="#superclass">superclass</a>.
+            <br><br>
+        </dd>
+    	
+    		<dt id="binary_number">Binary Number</dt>
+        <dd>A number written base 2, powers of 2. Each digit in a binary number
+            can only have the values 0 or 1.
+            <br><br>
+        </dd>
+        
+        <dt id="bit"><b>Bit</b></dt>
+        <dd>A single digit of a <a href="#binary_number">binary number</a>.
+            A bit can only have the values 0 or 1.
+            <br><br>
+        </dd>
+    
+        <dt id="boolean">Boolean</dt>
+        <dd>A value that can only be true or false.
+            	<br><br>
+        </dd>
+        
+        <dt id="boolean_expression">Boolean Expression</dt>
+        <dd>An <a href="#expression">expression</a> whose value can only be true or false.
+        	   <br><br>
+        </dd>
+       
+        <dt id="boolean_function">Boolean Function</dt>
+        <dd>A function that can only return <code>True</code> or <code>False</code>.
+        	   <br><br>
+        </dd>
+        
+        <dt id="boolean_method">Boolean Method</dt>
+        <dd>A method that can only return <code>True</code> or <code>False</code>.
+        	   <br><br>
+        </dd>
+        
+        <dt id="boolean_operator">Boolean Operator</dt>
+        <dd>An <a href="#operator">operator</a> that can only return true or false 
+        		and are used to compare two things. <span class="char">==</span>,
+        		<span class="char">&lt;</span> and 
+        		<span class="char">&gt;</span> are boolean operators.
+        		<br><br>
+        </dd>
+        
+        <dt id="brace_expansion">Brace Expansion</dt>
+        <dd>
+            A feature of the bash shell which creates many strings from a single pattern. The pattern consists of an initial
+            string, followed by braces (<span class="char">{ }</span>) containing many strings, followed
+            by a trailing string. The shell creates one string for each string contained in the braces, preceding that string
+            with the string that came before the open brace and following it with the string that follows the closing brace.
+            The strings inside the braces <b>must</b> be separated by commas.<br><br>
+        </dd>
+        
+        <dt id="buffer">Buffer</dt>
+        <dd>A section of memory that holds information for later processing.
+            <br><br>
+        </dd>
+        
+       <dt id="built-in_command">Built-in Command</dt>
+       <dd>A command that does not exists as an executable file on disk, 
+            but is written into the code of the <a href="#shell">shell</a> itself.
+           <br><br>
+       </dd>
+        
+        <dt id="built-in_function">Built-in Function</dt>
+        <dd>A Python <a href="#function">function</a> which part of the Python 
+            <a href="#interpreter">interpreter</a>.
+	      	These functions are always available and do not have to be imported.
+	      	<br><br>
+        </dd>
+        
+        <dt id="byte"><b>Byte</b></dt>
+        <dd>Eight binary digits. The number stored in each byte can be represented
+        		as an <a href="#octal">octal</a> number.
+            <br><br>
+        </dd>
+    </dl>
+    
+    <h3 class="section" id="C">C</h3>
+    <dl>
+        <dt id="callback_function">Callback Function</dt>
+        <dd>A function or method associated with a <a href="#widget">widget</a>
+            that is called when the widget is activated by the user.
+            <br><br>
+        </dd>  
+              
+    	    <dt id="case_sensitive">Case Sensitive</dt>
+        <dd>A computer language or environment is case sensitive when uppercase letters and lowercase letters
+        		are considered completely different. In a case sensitive environment, "FOO" and "foo" are totally
+        		different words.
+            <br><br>
+        </dd>
+        
+        <dt id="catch_exception">Catch an Exception</dt>
+        <dd>When you use a <code>try</code>/<code>except</code> statement to handle an
+        		<a href="#exception">exception</a>, you are said to catch an exception.
+            <br><br>
+        </dd>
+        
+        <dt id="character_class">Character Class</dt>
+        <dd>A set of characters in a <a href="#regular_expression">regular expression</a>, any one of which can be used to match a character.
+        		<br><br>
+        </dd>
+        
+        <dt id="child_directory">Child Directory</dt>
+        <dd>A directory immediately inside another directory is said to be child directory of that directory.
+            <br><br>
+        </dd>
+        
+        <dt id="child_process"><b>Child Process</b></dt>
+        <dd>A process created by another process. When a child process ends, 
+            it returns an <a href="#exit_status">exit status</a> to the
+            <a href="#parent_process">parent process</a> that created it.
+            <br><br>
+        </dd>
+        
+        <dt id="class">Class</dt>
+        <dd>A group of related <a href="#variable">variables</a> and 
+        		<a href="#function">functions</a> that operate on them.
+            <br><br>
+        </dd>
+    
+        <dt id="code_block">Code Block</dt>
+        <dd>A group of statements that are executed only under certain conditions.
+        		In Python, code blocks are marked off from the rest of the text by being indented one tab stop. 
+        		The function body, the body of a <code>for</code> loop and the clauses of an <code>if</code> statement are code blocks.
+            <br><br>
+        </dd>
+        
+        <dt id="command_completion">Command Completion</dt>
+        <dd>A feature of Bash where the shell provides the rest of the characters in a command when the user hits 
+            the Tab key after first typing part of the command.<br><br>
+        </dd>
+        
+        <dt id="command_line_editing">Command Line Editing</dt>
+        <dd>The basic editing that can be performed at the command line using the <a href="readline_library.html">readline library</a>.
+            Using command line editing, the text entry point can be moved to the beginning or end of the line, and the
+            text on either side of the text entry point can be removed.<br><br>
+        </dd>
+        
+        <dt id="command_substitution">Command Substitution</dt>
+        <dd>A feature of the shell where a command placed between <span class="char">$( )</span>
+            are run in a sub-shell, and the output of that command replaces the command and the 
+            <span class="char">$( )</span> that surrounds it on the command line.<br><br>
+        </dd>
+
+        <dt id="comment">Comment</dt>
+        <dd>Text included in the script that is not read by the 
+            <a href="#interpreter">interpreter</a>, but is used to explain 
+        		the workings of the script to someone reading the code.
+            <br><br>
+        </dd>
+            
+        <dt id="composition">Composition</dt>
+        <dd>Using one function inside another.
+        		<br><br>
+        </dd>           
+            
+        <dt id="concatenation">Concatenation</dt>
+        <dd>Joining two things with many elements to form a new, longer thing with
+            all the elements of both. Concatenating two strings results in a new 
+            string with all the characters in the first  string followed by all the 
+            characters in the second.
+        		<br><br>
+        </dd>
+        
+        <dt id="conditional_statement">Conditional statement</dt>
+        <dd>A <a href="#control_structure">control structure</a> where a group of statements are executed only if a certain 
+            is met. The group of statements are contained in a 
+            <a href="#code_block">code block</a>.
+            <br><br>
+        </dd>
+        
+        <dt id="connection"><b>Connection</b></dt>
+        <dd>An object in <span class="iden">sqlite3</span> that lets a Python
+            program work with a database. 
+            <br><br>
+        </dd>
+        
+        <dt id="constant">Constant</dt>
+        <dd>A value that never changes.
+            <br><br>
+        </dd>
+        
+        <dt id="constructor">Constructor</dt>
+        <dd>A special method inside a class definition, which is used
+        		to create an object of the class.
+            <br><br>
+        </dd>
+            
+        <dt id="control_structure">Control Structure</dt>
+        <dd>A syntactic structure that controls how and when other statements are executed.
+        		<br><br>
+        </dd>
+        
+        <dt id="control_variable">Control Variable</dt>
+        <dd>The variable in a loop that gets a new value with each pass through the loop.
+        		<br><br>
+        </dd>
+        
+        <dt id="csv">CSV</dt>
+        <dd>A data format for text files where the value individual <a href="#field">fields</a>  
+        		in a <a href="#record">record</a> are separated from each other by commas.
+        		CSV stands for <b>C</b>omma <b>S</b>eparated <b>V</b>alues.
+        		This format is often used to export the data in a spreadsheet where each
+        		line in the spreadsheet constitutes a record.
+            <br><br>
+        </dd>
+        
+        <dt id="current_directory">Current Directory</dt>
+        <dd>The directory where you can specify a file simply by its name, without using a path.
+        		<br><br>
+        </dd>
+        
+        <dt id="cursor"><b>Cursor</b></dt>
+        <dd>An object in <span class="iden">sqlite3</span> that allows Python to get the results
+            of a <a href="#sql">SQL</a> <a href="#query">query</a>. To run any SQL command
+            in Python, you must create a cursor object and then use it's <span class="iden">execute</span>
+            method.
+            <br><br>
+        </dd>
+    </dl>
+
+    <h3 class="section" id="D">D</h3>
+    <dl>
+        <dt id="daemon">Daemon</dt>
+        <dd>A <a href="#background">background</a> process that provides services. 
+            Daemons are often started when the system is booted.
+            <br><br>
+        </dd>
+    
+    		<dt id="data_hiding">Data hiding</dt>
+        <dd>Making the <a href="#attribute">attributes</a> and
+        		<a href="#method"> methods</a> of a class, invisible
+        		outside the object.
+            <br><br>
+        </dd>
+    
+        <dt id="data_structure">Data Structure</dt>
+        <dd>An organization of data in a computer program that allows the program 
+            to use the data efficiently for the task at hand.
+            <br><br>
+        </dd>
+        
+        <dt id="data_type">Data Type</dt>
+        <dd>The different types of values that Python can handle, things like <a href="#string">strings</a>,
+        		integers and decimal numbers, are represented differently in the computer"s memory. Each of
+        		these types of values and their representation in memory is called a data type.
+            <br><br>
+        </dd>
+        
+        <dt id="data_validation">Data Validation</dt>
+        <dd>Checking that data meets certain requirements before using it. For example, 
+        		Checking that a value is of the correct <a href="#data_type">data type</a>
+        		or that a number is not zero before using it to divide another number. 
+            <br><br>
+        </dd>
+        
+        <dt id="database"><b>Database</b></dt>
+        <dd>An organized collection of data structured in such a way as to make
+            it easy to search and manipulate.
+            <br><br>
+        </dd>
+        
+        <dt id="dead_code">Dead Code</dt>
+        <dd>Code that can never be reached, such as code following a <code>return</code> statement 
+        		in the same code block.
+        		<br><br>
+        </dd>
+    
+        <dt id="decrement">Decrement</dt>
+        <dd>To subtract a specific value, such as 1, from the value of a variable
+        		<br><br>
+        </dd>
+        
+        <dt id="default_value">Default Value</dt>
+        <dd>A value that will automatically be used if it is not given by the program
+        		or user.
+            <br><br>
+        </dd>
+        
+        <dt id="definite_loop">Definite Loop</dt>
+        <dd>A loop which will execute a predetermined number of times.
+        		<br><br>
+        </dd>
+        
+        <dt id="delimiter">Delimiter</dt>
+        <dd>Characters used to mark the boundaries between strings.
+        		<br><br>
+        </dd>
+        
+        <dt id="derived_class">Derived Class</dt>
+        <dd>Another name for a <a href="subclass.html"></a>.
+            <br><br>
+        </dd>
+        
+        <dt id="descendant">Descendant</dt>
+        <dd>A file or directory below some directory in the 
+            <a href="#hierarchical_filesystem">hierarchical filesystem</a>.
+            <br><br>
+        </dd>
+        
+        <dt id="device_driver">Device Driver</dt>
+        <dd>Software created by the manufacturer of a device connected to
+            a computer, such as a printer or a disk drive, that allows 
+            the <a href="#kernel">kernel</a> to get information from,
+            or send information to, that device.
+            <br><br>
+        </dd>
+        
+        <dt id="dictionary">Dictionary</dt>
+        <dd>A list of key-value pairs. Elements of a dictionary are accessed by their key.
+        		<br><br>
+        </dd>
+        
+        <dt id="set_difference">Difference between Sets</dt>
+        <dd>All the values of set <span class="iden">A</span> which are not
+        		found in set <span class="iden">B</span> are called the difference
+        		between <span class="iden">A</span> and <span class="iden">B</span>
+        		and are written
+            <pre>
+A - B</pre>
+        </dd>
+        
+        <dt id="direct_recursion">Direct Recursion</dt>
+        <dd>Direct recursion is an example of <a href="#recursion">recursion</a>
+        		where the thing being defined, refers to itself directly. A function
+        		that calls itself is an example of direct recursion.
+            <br><br>
+        </dd>
+        
+        <dt id="disjoint">Disjoint</dt>
+        <dd>Two sets which have no elements in common are said to be disjoint.
+            <br><br>
+        </dd>
+        
+        <dt id="dot_notation">Dot Notation</dt>
+        <dd>The format used in a call to a <a href="#module">module</a> function or a method.
+            For module functions, dot notation consists of the module name, 
+            followed by a <span class="char">.</span>,
+            followed by the name of the function.
+            For methods, the what comes before the dot is a variable pointing
+            to the object.<br><br>
+        </dd>
+    </dl>
+    
+    <h3 class="section" id="E">E</h3>
+    <dl>
+        <dt id="element">Element</dt>
+        <dd>A value in a <a href="#list">list</a>.
+        		<br><br>
+        </dd>
+        
+        <dt id="encapsulation">Encapsulation</dt>
+        <dd>Combining data, and the functions that work on them,
+        		into a single object.
+            <br><br>
+        </dd>
+        
+        <dt id="empty_set">Empty Set</dt>
+        <dd>A <a href="#set">set</a> that has nothing in it.
+            <br><br>
+        </dd>
+    
+        <dt id="empty_string">Empty String</dt>
+        <dd>The string with no characters in it: <span class="char">""</span>.
+        		<br><br>
+        </dd>
+        
+        <dt id="escape_character">Escape Character</dt>
+        <dd>A pair of characters, the first of which is the backslash, <span class="char">\</span>
+            which is used to represent characters that could not otherwise be typed into a script or program.
+            <br><br>
+        </dd>
+        
+        <dt id="escape_sequence"><b>Escape Sequence</b></dt>
+        <dd>A pair of characters, the first of which is the backslash, <span class="char">\</span>.
+            <br><br>
+        </dd>
+        
+        <dt id="escaping">Escaping</dt>
+        <dd>On the bash command line, turning off the special meaning of a character 
+            by placing a backslash, <span class="char">\</span>, in front of it.
+            <br><br>
+        </dd>
+            
+        <dt id="evaluate">Evaluate</dt>
+        <dd>To obtain the value of an expression.
+        		<br><br>
+        </dd>
+        
+        <dt id="evaluation">Evaluation</dt>
+        <dd>The process of obtaining the value of an expression.
+            <br><br>
+        </dd>
+        
+        <dt id="execute_permission">Execute Permission</dt>
+        <dd>The <a href="#access_permissions">access permission</a> that allows an account to
+            run a program or script, or to run <code>cd</code> to enter a directory.<br><br>
+        </dd>
+        
+        <dt id="exit_status">Exit Status</dt>
+        <dd>An integer greater than or equal to zero that a running process sends to the <a href="shell.html">shell</a>
+            when it finishes. 0 means the program has run without error.
+            <br><br> 
+        </dd>
+            
+        <dt id="expression">Expression</dt>
+        <dd>An expression is anything that can be turned into a value.
+            There are four different kinds of expressions
+            <ul class="flat">       
+                <li class="flat"><a href="#literal">Literals</a></li>
+                <li class="flat"><a href="#variable">Variables</a></li>
+                <li class="flat">Calculations involving <a href="#operator">operators</a></li>
+                <li class="flat"><a href="#function_call">Function calls</a></li>
+            </ul>
+            <br>
+        </dd>
+        
+        <dt id="event">Event</dt>
+        <dd>Some action on the part of the user or some piece of hardware
+            that a program needs to know about.
+            <br><br>
+        </dd>
+        
+        <dt id="bash_event">Event (Bash)</dt>
+        <dd>A command run from the command line that is stored by the history 
+            feature of the shell.
+            <br><br>
+        </dd>
+        
+        <dt id="event-driven_programming">Event-driven Programming</dt>
+        <dd>A type of programming where a running program responds to
+            <a href="#event">events</a> sent to it by the operating system.
+            <br><br>
+        </dd>
+        
+        <dt id="event_handler">Event Handler</dt>
+        <dd>Another name for a <a href="#callback_function">callback function</a>.
+            <br><br>
+        </dd>
+        
+        <dt id="exception">Exception</dt>
+        <dd>An unusual event that requires special handling by the 
+            Python <a href="#interpreter">interpreter</a>.
+        		<br><br>
+        </dd>
+        
+        <dt id="exception_handler">Exception Handler</dt>
+        <dd>The Python statements inside an <code>except</code> block that is run
+       	 	when an exception caught.
+            <br><br>
+        </dd>
+        
+        <dt id="exception_object"><b>Exception Object</b></dt>
+        <dd>An object created by the Python <a href="#interpreter">interpreter</a> 
+            that contains information about the <a href="#exception">exception</a>.
+            <br><br>
+        </dd>
+        
+        <dt id="exit_status">Exit Status</dt>
+        <dd>An integer greater than or equal to zero that a running process sends to the <a href="shell.html">shell</a>
+            when it finishes. 0 means the program has run without error.<br><br> 
+        </dd>
+    </dl>
+    
+    <h3 class="section" id="F">F</h3>
+    <dl>
+    	    <dt id="field">Field</dt>
+        <dd>An individual piece of information in a <a href="#record">record</a>.
+            <br><br>
+        </dd>
+    	
+        <dt id="file">File</dt>
+        <dd>A linear arrangement of data on a storage device. Every file has a name and a location.
+        		<br><br>
+        </dd>
+        
+        <dt id="file_descriptor">File Descriptor</dt>
+        <dd>A data structure that contains all information the operating system needs to provide access to
+            to a file to a <a href="process.html">process</a>. Each file descriptor is referenced by a positive
+            integer with the first three being
+            <table>
+                <tr>
+                    <th>File <br>Descriptor</th> <th>Stream</th>
+                </tr>
+                <tr>
+                    <td>0</td>  <td><a href="#standard_input">Standard Input</a></td>
+                </tr>
+                <tr>
+                    <td>1</td>  <td><a href="#standard_output">Standard Output</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>  <td><a href="#standard_error">Standard Error</a></td>
+                </tr>
+            </table>
+            <br><br>
+        </dd>
+        
+        <dt id="file_object">File Object</dt>
+        <dd>An <a href="#object">object</a> created in the computer"s memory that provides a way 
+        		for a program to work with a file. A variable is created that refers to the file, 
+        		and this variable is used to carry out any operations that need to be performed on the file.
+            <br><br>
+        </dd>
+
+        <dt id="filesystem">Filesystem</dt>
+        <dd>The arrangement of data on a storage device, along with the software to store and retrieve this data.
+        		<br><br>
+        </dd>
+        
+        <dt id="filter">Filter</dt>
+        <dd>An operation that selects certain elements of a list to create a sublist.
+        		<br><br>
+        </dd>
+            
+        <dt id="flag">Flag</dt>
+        <dd>A <a href="#boolean">boolean</a> variable that signals when some condition exists in the program.
+            <br><br>
+        </dd>
+        <dt id="floating_point">Floating Point</dt>
+        <dd>A data type for decimal numbers.
+        		<br><br>
+        </dd>
+        
+        <dt id="floating_point_literals">Floating Point Literals</dt>
+        <dd>Decimal numbers written inside a program or script. They may be written using normal decimal notation
+            <pre>
+    5.75</pre>
+            or using scientific notation:
+        <pre>
+    7.25e12</pre>
+        </dd>
+        
+        <dt id="foreground">Foreground</dt>
+        <dd>A <a href="#process">process</a> is said to be running in the foreground, when it is connected to the
+            <a href="#standard_input">standard input</a>, which is usually the keyboard. You cannot run another command until
+            the foreground process finishes.<br><br>
+        </dd>
+    
+        <dt id="flow_of_control">Flow of Control</dt>
+        <dd>The order in which the statements of a script or program are executed.
+            <br><br>
+        </dd>
+        
+        <dt id="foreign_key"><b>Foreign Key</b></dt>
+        <dd>A column in a database table whose value is the primary key of the row
+            in another table. The value of in this column is the primary key of the row 
+            in the other table that has data associated with the current row in the
+            table that contains the foreign key.
+            <br><br>
+        </dd>
+        
+        <dt id="function">Function</dt>
+        <dd>A function is a series of prewritten statements that is given and name and performs some task.
+        		<br><br>
+        </dd>
+        
+        <dt id="bash_function">Function (Bash)</dt>
+        <dd>A collection of shell commands that is given a name and can accept arguments through 
+                <a href="#positional_parameter">positional parameters</a>.
+            Functions are local to the shell in which they are defined.<br><br>
+        </dd>
+                
+        <dt id="function_body">Function Body</dt>
+        <dd>The list of statements inside a function definition.
+        		<br><br>
+        </dd> 
+        
+        <dt id="function_definition">Function Definition</dt>
+        <dd>The series of <a href="#statement">statements</a> that define a <a href="#function">function</a>. 
+            A function definition consists of a <a href="#function_header">function header</a> followed by a 
+            <a href="#function_body">function body</a>.
+            <br><br>
+       </dd>
+        
+        <dt id="function_call">Function Call</dt>
+        <dd>A Python <a href="#statement">statement</a> that causes a function to run. 
+        		A function call consists of the function name followed by an argument list 
+        		enclosed in parentheses. If the function returns a value, then the function 
+        		call is also an expression.
+           	<br><br>
+        </dd>
+           
+        <dt id="function_header">Function Header</dt>
+        <dd>The first line of a function definition, consisting of the name of the function, and
+            any arguments the function takes enclosed in parentheses.
+            <br><br>
+        </dd>           
+    </dl>
+    
+    <h3 class="section" id="G">G</h3>
+    <dl>
+    		<dt id="garbage_collection">Garbage Collection</dt>
+        <dd>The Python <a href="#interpreter">interpreter</a> keeps track of all objects that are created.
+        		When an object no longer has a variable pointing to it, it cannot 
+        		be used. The interpreter periodically removes from memory all 
+        		objects that having nothing pointing to them. This process is called
+        		garbage collection.
+            <br><br>
+        </dd>
+        
+        <dt id="getter">Getter</dt>
+        <dd>Another name for an <a href="#accessor">accessor</a>.
+            <br><br>
+        </dd>
+        
+        <dt id="geometry_manager">Geometry Manager</dt>
+        <dd>Another name for a <a href="#layout_manager">layout manager</a>.
+            <br><br>
+        </dd>
+    
+		<dt id="global_variable">Global Variable</dt>
+        <dd>A <a href="#variable">variable</a> defined outside any function whose value
+        		can be used inside any function, without declaring it as a <a href="#parameter">parameter</a>.
+            <br><br>
+        </dd>
+        
+        <dt id="globbing"><b>Globbing</b></dt>
+        <dd>See <a href="#pathname_expansion">pathname expansion</a>.
+            <br><br>
+        </dd>
+        
+        <dt id="bash_global_variable">Global Variable (Bash)</dt>
+        <dd>A <a href="#variable">variable</a> that is defined in a shell and has meaning in that shell
+            and all sub-shells created from that shell.<br><br>
+        </dd>
+        
+        <dt id="graphical_user_interface">Graphical User Interface</dt>
+        <dd>A user interface that allows users to interact with the machine through graphical
+            elements such as windows, icons, and scroll bars, instead of typing commands
+            at a command line.       
+            <br><br>
+        </dd>
+        
+        <dt id="group">Group</dt>
+        <dd>A collection of accounts that can be assigned <a href="#access_permissions">access permission</a>.
+            Only a system administrator can create a group.<br><br>
+        </dd>
+        
+        <dt id="gui">GUI</dt>
+        <dd>The abbreviation for a <a href="#graphical_user_interface">Graphical User Interface</a>.
+            <br><br>
+        </dd>
+    </dl>
+    
+    <h3 class="section" id="H">H</h3>
+    <dl>
+        <dt id="hard_coded">Hard Coded</dt>
+        <dd>A value that is written into the script, not read in from the user or calculates.
+            Hard coded values can never change unless the script itself is changed.<br><br>
+        </dd>
+    
+        <dt id="hard_link">Hard Link</dt>
+        <dd>A <a href="link.html">link</a> to a file which is actually another name for the file.
+            A file cannot be deleted until <b>all</b> its hard links are deleted. A hard link
+            cannot be created for a directory, and cannot be created except for files on
+            the same disc volume as the link.
+            <br><br>
+        </dd>
+    
+        <dt id="hashbang">Hashbang</dt>
+        <dd>Two character sequence <span class="char">#!</span>. These first character is usually 
+            read as "hash" and the second as "bang"<br><br>
+        </dd>
+        
+        <dt id="hashbang_line">Hashbang Line</dt>
+        <dd>The first line in a Unix script which starts with the hashbang and is followed by the 
+            <a href="#absolute_address">absolute address</a> of an <a href="#interpreter">interpreter</a> program. Using the 
+            hashbang line as the first line of a script allows you to run the script by itself, without having to
+            type the name of the interpreter on the command line.<br><br>
+        </dd>                  
+        
+        <dt id="here_document">Here Document</dt>
+        <dd>A feature of Bash that allows a file to written inside a script, where it is used as input.<br><br>
+        </dd>
+        
+        <dt id="hierarchical_filesystem">Hierarchical Filesystem</dt>
+        <dd>A <a href="#filesystem">filesystem</a> with one directory at the top that
+            contains all other files and directories. In Unix topmost directory is called
+            the <a href="#root_directory">root</a>.<br><br>
+        </dd>
+        
+        <dt id="home_directory">Home Directory</dt>
+        <dd>A special directory created for each account. Whenever you log in to a Unix
+            system, you always start in your home directory.<br><br></dd>
+            
+        <dt id="host">Host</dt>
+        <dd>The computer you are currently using.
+            <br><br>
+        </dd>
+        
+        <dt id="hostname">Hostname</dt>
+        <dd>The name by which a computer is known on the network.
+            <br><br>
+        </dd>
+    </dl>
+    
+    <h3 class="section" id="I">I</h3>
+    <dl> 
+    		<dt id="immutable">Immutable</dt>
+        <dd>Cannot be changed or altered in any way.
+            <br><br>
+        </dd>
+    
+        <dt id="import">Import</dt>
+        <dd>The action of converting the code inside a <a href="#module">module</a> file into 
+            a module object inside the Python environment, which allows the modules functions
+            to be used there.
+            <br><br>
+        </dd>
+        
+        <dt id="increment">Increment</dt>
+        <dd>To add a specific value, such as 1, to the value of a variable.
+                <br><br>
+        </dd>
+        
+        <dt id="incremental_development">Incremental Development</dt>
+       	<dd>A technique for writing programs in which small changes are made and immediately tested.
+       		<br><br>
+       	</dd>
+        
+        <dt id="index">Index</dt>
+        <dd>The number used to select an individual element in a list or string
+        		<br><br>
+        </dd>
+        
+        <dt id="indefinite_loop">Indefinite Loop</dt>
+        <dd>A loop in which it is impossible to know how many iterations it will perform
+            before it executes, because that number is determined as the loop executes.
+            <br><br>
+        </dd>
+       
+       <dt id="indirect_recursion">Indirect Recursion</dt>
+        <dd>A type of <a href="#recursion">recursion</a> where the thing being
+        		defined does not refer to itself directly but refers to something
+        		else that ultimately refers to the original thing.
+            <br><br>
+        </dd>
+        
+        <dt id="infinite_loop">Infinite Loop</dt>
+        <dd>A loop that never ends.
+        		<br><br>
+        </dd>
+        
+        <dt id="inheritance">Inheritance</dt>
+        <dd>The ability to form a new <a href="#class">class</a>
+        		using <a href="#attribute">attributes</a> and
+        		<a href="#method">methods</a> of another class.
+            <br><br>
+        </dd>
+        
+        <dt id="initialize">Initialize</dt>
+        <dd>To give a <a href="#variable">variable</a> it"s first value.
+            <br><br>
+        </dd>
+        
+        <dt id="initializer">Initializer</dt>
+        <dd>See <a href="#constructor">constructor</a>.
+            <br><br>
+        </dd>
+
+        <dt id="inner_join"><b>Inner Join</b></dt>
+        <dd>A database <a href="#query">query</a> that returns data from more than
+            one table based on a value they share. Usually that value is 
+            <a href="#foreign_key">foreign key</a> that relates a row in one
+            table to the corresponding row in another.
+            <br><br>
+        </dd>
+        
+        <dt id="instance">Instance</dt>
+        <dd>A particular object of a given class.
+            <br><br>
+        </dd>
+        
+        <dt id="integer">Integer</dt>
+        <dd>A whole number.
+        		<br><br>
+        </dd>
+        
+        <dt id="interactive_mode">Interactive Mode</dt>
+        <dd>Running Python this way puts you in an environment where you can enter 
+        		Python <a href="#statement">statements</a> directly and have them evaluated
+            when you hit Enter.
+            <br><br>
+        </dd>
+        
+        <dt id="interpreter">Interpreter</dt>
+        <dd>A program that understands instruction in 
+        		a scripting language like Python and executes them directly.
+            <br><br>
+        </dd>
+        
+        <dt id="set_intersection">Intersection of Sets</dt>
+        <dd>If <span class="iden">A</span> and <span class="iden">B</span>
+        		are sets, the intersection of <span class="iden">A</span> and <span class="iden">B</span>
+        		is the set composed of all values of <span class="iden">A</span>
+        		which are also in <span class="iden">B</span>, and is written
+        		<pre>
+A &cap; B</pre>
+        </dd>
+        
+        <dt id="item">Item</dt>
+        <dd>A value in a <a href="#list">list</a>
+        		<br><br>
+        </dd>
+        
+        <dt id="iterable">Iterable</dt>
+        <dd>Used to describe an object which can be used in a <code>for</code> loop.
+            <br><br>
+        </dd>
+        
+        <dt id="iterate">Iterate</dt>
+        <dd>To access each value in a sequence using a loop.
+            <br><br>
+        </dd>
+
+    </dl>
+    
+    <h3 class="section" id="J">J</h3>
+    <dl>
+        <dt id="job">Job</dt>
+        <dd>A command entered at the command line. A <a href="#pipeline">pipeline</a> is 
+            a single job.
+            <br><br>
+        </dd>
+        <dt id="join"><b>Join</b></dt>
+        <dd>A database o <a href="#query">that returns data from more than one table.</a>
+            <br><br>
+        </dd>
+    </dl>
+    
+    <h3 class="section" id="K">K</h3>
+    <dl>
+        <dt id="kernel">Kernel</dt>
+        <dd>The part of the <a href="#operating_system">operating system</a> that always remains in memory
+            and control access to all hardware on the computer.
+            Typically, the kernel is responsible for memory management, <a href="#process">process</a> 
+            and task management, and disk management.
+            <br><br>
+        </dd>
+        
+        <dt id="key">Key</dt>
+        <dd>The first part of an entry in a <a href="#dictionary">dictionary</a>. The key is
+        		used to fetch the value associated with each key.
+            <br><br>
+        </dd>
+    
+        <dt id="keyword">Keyword</dt>
+        <dd>A word that has a special meaning in a computer language and cannot be used as the name 
+        		of a variable, function or class.
+        		You will find a list of Python keywords <a href="http://www.programiz.com/python-programming/keyword-list">here</a>.
+        		<br><br>
+        </dd>
+        
+        <dt id="keyword_shell_variable">Keyword Shell Variable</dt>
+        <dd>A shell variable that has special meaning to the shell.
+        		<br><br>
+        </dd>
+        
+        <dt id="keyword_variable">Keyword Variable</dt>
+        <dd>Another name for a <a href="#keyword_shell_variable">keyword shell variable</a>.
+        		<br><br>
+        </dd>
+    </dl>
+    
+    <h3 class="section" id="L">L</h3>   
+    <dl>
+        <dt id="layout_manager">Layout Manager</dt>
+        <dd>Code in Tkinter that arranges widgets inside a window. 
+            <br><br>
+        </dd>
+    
+        <dt id="lazy_evaluation">Lazy Evaluation</dt>
+        <dd>Another term for <a href="#short-circuit_evaluation">short-circuit evaluation</a>.
+        	<br><br>
+        </dd>
+        
+        <dt id="link">Link</dt>
+        <dd>A special file that has no content, but points to another file or directory. A link
+            is like a shortcut on a PC, or an alias on a Mac<br><br>
+        </dd>
+        
+        <dt id="list">List</dt>
+        <dd>A Python object that consists of a <a href="#sequence">sequence</a> of values. Lists can be changed at any time
+            and can hold any Python value. The individual values in a list are called <a href="#element">elements</a>.
+            <br><br>
+        </dd>
+        
+        <dt id="literal">Literal</dt>
+        <dd>A <a href="#literal_value">literal value</a>
+        	<br><br>
+        </dd>
+    
+        <dt id="literal_value">Literal Value</dt>
+        <dd>A value that is explicitly written out, like 4, 5.07, True or "hello". 
+        	<br><br>
+        </dd>
+        
+        <dt id="local_variable">Local Variable</dt>
+        <dd>A local variable is created inside a function and cannot be accessed by 
+            statements that are outside the function. Different functions can have 
+            local variables with the same names because the functions cannot see each 
+            other’s local variables.
+            <br><br>
+        </dd>
+        
+        <dt id="bash_local_variable">Local Variable (Bash)</dt>
+        <dd>A <a href="#shell_variable">shell variable</a> that can only be used 
+        		in the shell in which it is defined.
+        		<br><br>
+        	</dd>
+    
+        <dt id="logic_error">Logic Errors</dt>
+        <dd>Errors caused by code that does not produce the results needed.
+        	For example if I wanted to compute the average number of games won, but wrote
+        		<pre>
+average = games/games</pre><br>
+        </dd>
+        
+        <dt id="logical_operator">Logical Operator</dt>
+        <dd>An <a href="#operator">operator</a> that takes <a href="#boolean">boolean</a> values for its 
+            <a href="#operand">operands</a> and returns a boolean result.
+            The logical operators are
+            <ul class="flat">       
+                <li class="flat"><b>and</b></li>
+                <li class="flat"><b>or</b></li>
+                <li class="flat"><b>not</b></li>
+            </ul>
+        </dd>
+    </dl>
+    
+    <h3 class="section" id="M">M</h3>
+    <dl>
+    		<dt id="magic_method">Magic Method</dt>
+        <dd>Methods which are defined in the specification for the Python language
+        		that have special meaning to Python. All of these methods have names
+        		that begin with two underscores, <span class="char">__</span>
+        		and end with two underscores. Magic methods can be created for a class that
+        		allow you to use the the arithmetic and logical <a href="#operator">operators</a>
+        		with that class. <span class="iden">__init__</span> and
+        		<span class="iden">__str__</span> are magic methods.
+            <br><br>
+        </dd>
+    		
+    		<dt id="bash_meta-characters">Meta-characters (Bash)</dt>
+        <dd>The special characters that are used to create a pattern in
+            <a href="#pathname_expansion">pathname expansion</a>. They are
+            <ul class="flat">       
+                <li class="flat"><span class="char">?</span></li>
+                <li class="flat"><span class="char">*</span></li>
+                <li class="flat"><span class="char">[ ]</span></li>
+            </ul>
+       </dd>
+    
+    		<dt id="method">Method</dt>
+        <dd>A method is a function that belongs to an object and performs some operation using that object.
+            <br><br>
+        </dd>
+        
+        <dt id="set_membership">Membership of a Set</dt>
+        <dd>If a value <span class="iden">x</span> is contained in the set <span class="iden">A</span>
+        		<span class="iden">x</span> is said to be a member of <span class="iden">A</span>. In mathematics
+        		this is written
+        		<pre>
+x x &isin; A</pre>
+        </dd>
+    
+        <dt id="module">Module</dt>
+       	<dd>A file that contains a set of Python statements, usually functions and variables.
+       		The filename of a module must end in .py and the rest of the filename cannot be
+       		a Python <a href="#keyword">keyword</a>.
+       		<br><br>
+       	</dd>
+       	
+       	<dt id="mutable">Mutable</dt>
+        <dd>Anything that can be changed, is said to be mutable. <a href="#list">list</a> are
+        		mutable <a href="#sequence">sequences</a>, while <a href="tuple.html">tuples</a> are
+        		not.
+            <br><br>
+        </dd>
+        
+        <dt id="mutator">Mutator</dt>
+        <dd>A method which changes the value of a hidden attribute.
+            <br><br>
+        </dd>
+    </dl>
+    
+    <h3 class="section" id="N">N</h3>
+    <dl>
+        <dt id="named_argument"><b>Named Argument</b></dt>
+        <dd>A feature of Python that allows you to give a specify a values for an 
+            <a href="#argument">arguments</a> in a different order. This is done
+            by using the name of the argument, followed <b>immediately</b> by 
+            <span class="char">=</span> followed <b>immediately</b>by a value.
+            For example, to change the character automatically added by <code>print</code>
+            to its printed arguments, to a space you would write
+            <pre>
+end=" "</pre>
+        </dd>
+    
+    	   <dt id="nested_if_statement">Nested <code>if</code> Statement</dt>
+        <dd>An <code>if</code> statement, which contains another <code>if</code> statement in one of
+        	its <a href="#code_block">code blocks</a>.
+            <br><br>
+        </dd>
+        
+        <dt id="nested_loop">Nested Loop</dt>
+        <dd>A loop that contains another loop inside its <a href="#code_block">code blocks</a>.
+            <br><br>
+        </dd>
+    
+        	<dt id="newline">Newline</dt>
+        <dd>A special character that does not print, but moves the output down one line.
+            <br><br>
+        </dd>
+    
+        <dt id="none">None</dt>
+        <dd><br>A special value returned by functions that have no return statement or a return statement without an argument.
+            <code>None</code> is a Python <a href="#literal">literal</a>
+            <br><br>
+       </dd>
+       
+       <dt id="null"><b>Null</b></dt>
+        <dd>A special database value that means no information is available for this column.
+            If you search for this value you cannot use the <a href="#sql">SQL</a> equality 
+            <a href="#operator">operator</a><span class="char">=</span>. You must use the special 
+            operator <code>is null</code>.
+            <br><br>
+        </dd>
+    </dl>
+    
+    <h3 class="section" id="O">O</h3>
+    <dl>     
+    		<dt id="object">Object</dt>
+       	<dd>A section of memory that contains of all the data describing some thing, as
+            well as the <a href="#function">functions</a> that act on that data.
+            The functions inside an object are called <a href="#method">methods</a>.
+            <br><br>
+      	</dd>
+      	
+      	<dt id="octal"><b>Octal</b></dt>
+        <dd>A number that is represented as powers of 8 (base 8). Octal digits
+        		run from 0 to 7. An octal number is often used to represent the number
+        		stored in <a href="#byte">byte</a>.
+            <br><br>
+        </dd>
+    
+        <dt id="operand">Operand</dt>
+        <dd>The values that an operator is applied to.<br><br></dd>
+        
+        <dt id="operating_system">Operating System</dt>
+		<dd>The collection of  programs that allow you to use a computer.
+           	These programs give you access to machine resources, 
+           	such as files and memory.
+           	<br><br>
+       	</dd>
+         
+        <dt id="operator">Operator</dt>
+        <dd>Special symbols that represent actions like addition, <span class="char">+</span>,
+            and multiplication, <span class="char">*</span> that take one or more values.
+            The values that the operator works upon are called <a href="#operand">operands</a>.
+            <br><br>
+        </dd>
+        
+        <dt id="operator_precedence">Operator Precedence</dt>
+        <dd>The order in which operators are evaluated when in an expression when there is more than one operator.
+        	<br><br>
+        </dd> 
+            
+        <dt id="operator_overloading">Operator Overloading</dt>
+            <dd>Using the same operator symbol for more than one operation. For example the plus sign, 
+            <span class="char">+</span>, can mean either addition or <a href="concatenation.html"></a>
+            depending upon the context.<br><br>
+        </dd>
+        
+        <dt id="owner">Owner</dt>
+		<dd>The Unix account that can modify the <a href="#access_permissions">access permissions</a> 
+       		of a file or directory.
+       		<br><br>
+       	</dd>
+    </dl>
+    
+    <h3 class="section" id="P">P</h3>
+    <dl>
+    		<dt id="pager">Pager</dt>
+        <dd>Another name for a paging program.<br><br></dd>
+        
+    
+        <dt id="paging_program">Paging Program</dt>
+        <dd>A program that displays the contents of a file one screenful at a time.
+        		<br><br>
+        </dd>
+    
+        <dt id="parameter">Parameter</dt>
+        <dd>A <a href="local_variable.html">local variable</a> inside a function that receives 
+        		its value from the corresponding
+            <a href="#argument">argument</a>
+            from the function call. Parameters are defined inside the parentheses of a  
+            <a href="#function_header">function header</a>.
+            <br><br>
+        </dd>
+     	        
+        <dt id="parent_directory">Parent Directory</dt>
+        <dd>The directory immediately above the current directory. 
+        		This directory contains the current directory.
+        		<br><br>
+        </dd>
+        
+        <dt id="parent_process"><b>Parent Process</b></dt>
+        <dd>A process that creates another process. The new process is called a
+            <a href="child_process.html">child process</a>. When the child process finishes
+            it returns an <a href="#exit_status">exit status</a> to its parent process.
+            <br><br>
+        </dd>
+        
+        <dt id="parsing">Parsing</dt>
+        <dd>The act of breaking up a line of text into <a href="#token">tokens</a>.
+        		<br><br>
+        </dd>
+     
+        <dt id="path">Path</dt>
+        <dd>The location of a file, specified by the list of the directories that you 
+        		must go through to get to the file.
+        		<br><br>
+        </dd>
+        
+        <dt id="pathname">Pathname</dt>
+        <dd>The path to a file followed by the name of the file. 
+        		The pathname uniquely specifies a file.
+        		<br><br>
+        </dd>
+        
+        <dt id="pathname_completion">Pathname Completion</dt>
+        <dd>A feature of Bash where the shell provides the rest of the characters in a pathname when the user hits 
+            the Tab key after first typing part of the pathname.
+            <br><br>
+        </dd>
+        
+        <dt id="pathname_expansion">Pathname Expansion</dt>
+        <dd>A feature of the <a href="#shell">shell</a> that provides a list of pathnames that match a pattern
+            composed of normal text and <a href="#bash_meta-characters">meta-characters</a>.
+            <br><br>
+        </dd>
+        
+        <dt id="pickling">Pickling</dt>
+        <dd>Pickling is the term Python uses for <a href="#serializing">serializing</a>.
+            <br><br>
+        </dd>
+        
+        <dt id="permissions">Permissions</dt>
+        <dd>See <a href="#access_permissions">access permissions</a>.
+        		<br><br>
+        </dd>
+        
+        <dt id="pipe">Pipe</dt>
+        <dd>A Unix feature that sends the output of one Unix command into the input of another. 
+        		The two command must be	separated by the pipe character, 
+        		<span class="char">|</span>.
+        		<br><br>
+        </dd>
+        
+        <dt id="pipeline">Pipeline</dt>
+       	<dd>A series of commands joined by pipes.
+       		<br><br>
+       	</dd>
+       	
+       	<dt id="placeholder"><b>Placeholder</b></dt>
+        <dd>A group of characters within a larger <a href="#string">string</a> that stands in
+            place of a specific value which is added later.
+            <br><br>
+        </dd>
+        
+        <dt id="polymorphism">Polymorphism</dt>
+        <dd>A feature of <a href="#inheritance">inheritance</a> that allows a <a href="#subclass">subclass</a>
+        		to define a method with the same name as a method in the <a href="#superclass">superclass</a>.
+        		When a subclass object is created and a method is called, the Python interpreter will always call 
+        		the subclass version of the method when there is one.
+            <br><br>
+        </dd>
+        
+        <dt id="positional_parameter">Positional Parameter</dt>
+        <dd>A special parameter, set by the shell, that hold the command line arguments used to run a script.
+            <span class="iden">0</span> contains the pathname of the command, 
+            <span class="iden">1</span> hold the first argument, 
+            <span class="iden">2</span> the second, and so on.
+            <br><br>
+        </dd>
+        
+        <dt id="precision">Precision</dt>
+        <dd>The number of digits after the decimal point.
+            <br><br>
+        </dd>
+        
+        <dt id="primary_key"><b>Primary Key</b></dt>
+        <dd>A column in a database table whose value must be unique for
+            every row in the table. These values are used to link information
+            in two or more tables.
+            <br><br>
+        </dd>
+        
+        <dt id="procedural_programming">Procedural Programming</dt>
+        <dd>A style of programming where the code is broken up into individual functions.
+            <br><br>
+        </dd>
+        
+        <dt id="process">Process</dt>
+        <dd>A running program. Processes have resources, like memory and access to files.
+            The memory for a process contains the binary code for the program.
+        		<br><br>
+        </dd>
+        
+        <dt id="process_substitution">Process Substitution</dt>
+        <dd>Process substitution is a feature of the Bash shell. In process substitution, a command is run in a sub-shell and
+            the output of that process is treated as a file, which can be used as input to another Unix command. The format
+            for process substitution is
+            <pre>
+    <span class="format">&lt;(COMMAND)</span></pre>
+        </dd>
+        
+        <dt id="prompt">Prompt</dt>
+        <dd>Text that appears on the screen describing the value needed from the user.
+            <br><br>
+        </dd>
+        
+        <dt id="pseudocode">Pseudocode</dt>
+        <dd>An English description of what a program will do that is laid out in
+        		the format of a program using if statements and <a href="loop.html">loops</a>?
+            <br><br>
+        </dd>
+        
+        <dt id="pseudorandom_number_generator">Pseudorandom Number Generator</dt>
+        <dd>A function that creates a series of <a href="#pseudorandom_numbers">pseudorandom numbers</a>.
+            <br><br>
+        </dd>
+        
+        <dt id="pseudorandom_numbers">Pseudorandom Numbers</dt>
+        <dd>Numbers that appear to be random, but are not. These numbers occur in a
+        	sequence that repeats, but the interval between repetitions is so long
+        	that they are random enough for most computing purposes.
+            <br><br>
+        </dd>
+    </dl>
+    
+    <h3 class="section" id="Q">Q</h3>
+    <dl>
+        <dt id="query"><b>Query</b></dt>
+        <dd>A statement written in a language like <a href="#sql">SQL</a>
+            that returns data from a database. A single query can obtain
+            data from more than one table.
+            <br><br>
+        </dd>
+    </dl>
+    
+    <h3 class="section" id="R">R</h3>
+    <dl>
+    
+    		<dt id="raise_exception">Raise an Exception</dt>
+        <dd>When a situation occurs that would cause a <a href="#runtime_error">runtime error</a>
+        		the Python interpreter creates an <a href="#exception">exception</a>. When this happens,
+        		the interpreter is said to raise an exception.
+        		an 
+            <br><br>
+        </dd>
+        
+        <dt id="raw_string">Raw String</dt>
+        <dd>A feature of Python used in regular expressions. The letter <span class="char">r</span>
+            is placed immediately in front of a quoted string, like this
+            <pre>
+    r"foo"</pre>
+            <br><br>
+        </dd>
+        
+        <dt id="read_permission">Read Permission</dt>
+        <dd>The <a href="#access_permissions">access permission</a> that allows an account to
+            see the contents of a file or list the contents of a directory.<br><br>
+        </dd> 
+        
+        <dt id="readline_library">Readline Library</dt>
+        <dd>A collection of procedures, written in C, that provide <a href="command_line_editing.html">command line editing</a>.
+            These routines can be used by any Unix program written in C.<br><br>
+        </dd>
+    
+    		<dt id="record">Record</dt>
+        <dd>A record is a complete set of data about some event or thing. The individual pieces of information
+        		in a record are called <a href="#field">fields</a>.
+            <br><br>
+        </dd>
+        
+        <dt id="recursion">Recursion</dt>
+        <dd>Recursion describes a situation where the definition of something
+        		refers to itself.
+            <br><br>
+        </dd>
+        
+        <dt id="recursive_function">Recursive Function</dt>
+        <dd>A <a href="function.html">function</a> that calls itself.
+            <br><br>
+        </dd>
+        
+        <dt id="redirection">Redirection</dt>
+        <dd>Taking input from, or sending output to, a file and not the default. 
+        		<a href="#standard_input">Standard input</a>,
+            <a href="#standard_output">standard output</a>, and 
+            <a href="#standard_error">standard error</a> can all be redirected.
+        		<br><br>
+        </dd>
+    	
+		<dt id="refactoring">Refactoring</dt>
+        <dd>Rewriting code so that it does the same thing, but does it better,
+        		making it more readable and efficient.
+            <br><br>
+        </dd>
+    
+        <dt id="reference">Reference</dt>
+        <dd>The association of a variable and an object.<br><br></dd>
+        
+        <dt id="regular_expression">Regular Expression</dt>
+        <dd>A sequence of characters, some of which have special meaning, that forms a 
+            search pattern that can be used to match a string. Each character in a 
+            regular expression is either e a meta-character with its special meaning, 
+            or a regular character that matches itself.<br><br>
+        </dd>
+    
+        <dt id="relational_operator">Relational Operator</dt>
+        <dd>An <a href="#operator">operator</a> that compares two values, returning either true or false.
+            The relational operators are
+            <table>
+                <tr>
+                    <th>Operator</th> <th>Boolean Comparison</th>
+                </tr>
+                <tr>
+                    <td><span class="char">==</span></td> <td>Equal</td>
+                </tr>
+                <tr>
+                    <td><span class="char">!=</span></td> <td>Not equal</td>
+                </tr>
+                <tr>
+                    <td><span class="char">&gt;</span></td> <td>Greater than</td>
+                </tr>
+                <tr>
+                    <td><span class="char">&lt;</span></td> <td>Less than</td>
+                </tr>
+                <tr>
+                    <td><span class="char">&gt;=</span></td> <td>Greater than or equal to</td>
+                </tr>
+                <tr>
+                    <td><span class="char">&lt;=</span></td> <td>Less than or equal to</td>
+                </tr>
+            </table>
+            <br><br>
+        </dd>
+  
+        <dt id="relative_path">Relative Path</dt>
+        <dd>The list of directories, starting with the current directory, that leads to 
+        		the directory holding a specific file.
+        		<br><br>
+        	</dd>
+        
+        <dt id="relative_pathname">Relative Pathname</dt>
+        <dd>A pathname formed using a <a href="#relative_path">relative path</a> 
+        		followed by the filename.
+        		<br><br>
+        </dd>
+        
+        <dt id="return_statement">Return Statement</dt>
+        <dd>A Python statement that uses the <code>return</code> <a href="#keyword">keyword</a> to send a value
+        		back to the Python statement that called it. It has the format
+        		<pre>
+	<span class="format">return EXPRESSION</span></pre>
+        </dd>
+        
+        <dt id="root_account">Root Account</dt>
+        <dd>The first account automatically created when Unix or Linux is installed.
+            This account can do anything on the machine and is used for system 
+            administration and configuration.
+            <br><br>
+        </dd>
+        
+        <dt id="root_directory">Root Directory</dt>
+        <dd>The directory at the top of the Unix 
+        		<a href="#filesystem">filesystem</a>, represented by 
+            <span class="char">/</span>.
+            <br><br>
+        </dd>
+        
+        <dt id="rules_of_precedence">Rules of Precedence</dt>
+        <dd>The order in which operators are evaluated in an expression with more than one operator.
+        		<br><br>
+        </dd>
+        
+        <dt id="running_total">Running Total</dt>
+        <dd>A total that is updated as new numbers are encountered. A bank balance is a running total.
+            <br><br>
+        </dd>
+        
+    
+        <dt id="runtime_error">Runtime Error</dt>
+        <dd>An error that is so severe that the Python interpreter has to stop running your script.
+        		<br><br>
+        </dd>
+    </dl>
+    
+    <h3 class="section" id="S">S</h3>
+    <dl>
+        <dt id="scatter">Scatter</dt>
+        <dd>The operation of treating a parameter as a list of arguments.
+        	<br><br>
+        </dd>
+           
+        <dt id="scope">Scope</dt>
+        <dd>The part of a program in which a particular variable is valid and has a value.
+        		<br><br>
+        </dd>
+        
+        <dt id="bash_scope">Scope (Bash)</dt>
+        <dd>The shells in which a <a href="#variable">variable</a> is defined.
+        		<br><br>
+        </dd>
+        
+        <dt id="scp">SCP</dt>
+        <dd>SCP is a network protocol that allows you to copy a file to or from a local machine
+            to or from a Unix machine in a secure fashion.
+            <br><br>
+        </dd>
+        
+        <dt id="scp_client">SCP Client</dt>
+        <dd>Software that uses the <a href="#scp">SCP</a> protocol to copy a file to or from a local machine
+            to or from a Unix machine in a secure fashion.
+            <br><br>
+        </dd>
+        
+        <dt id="secondary_prompt">Secondary Prompt</dt>
+        <dd>The shell prompt you get when you continue a command onto another line. 
+            By default the secondary prompt is <span class="char">&gt;</span>, but 
+            you can change this using the <a href="#keyword_shell_variable">keyword shell variable</a> 
+            <span class="iden">PS2</span>
+            <br><br>
+        </dd>
+        
+        <dt id="seed">Seed</dt>
+        <dd>An initial value supplied to a 
+            <a href="#pseudorandom_number_generator">pseudorandom number generator</a> 
+            	to get the calculation started. If the same seed is chosen each time a 
+            	program is run, the same sequence of numbers will be generated.
+            <br><br>
+        </dd>
+ 
+        <dt id="sentinel">Sentinel</dt>
+        <dd>A special value that signals the end of a list of values entered as input to a program.
+        		<br><br>
+        </dd>
+        
+        <dt id="serializing">Serializing</dt>
+        <dd>The process of converting an object into a stream of bytes, which can be saved to
+        		a file on disk, for later retrieval.
+            <br><br>
+        </dd>
+        
+        <dt id="setgid_permission">Setgid Permission</dt>
+        <dd>A permission on an executable file that allows any account that can run the file
+            the same access permission on the files used by the program that the 
+            <a href="#group">group</a> assigned to that program has, but only while running 
+            the program.
+            <br><br>
+        </dd>
+        
+        <dt id="setter">Setter</dt>
+        <dd>Another name for <a href="#mutator">mutator</a>.
+            <br><br>
+        </dd>
+        
+        <dt id="setuid_permission">Setuid Permission</dt>
+        <dd>A permission on an executable file that allows any account that can run the file
+            the same access permission on the files used by the program that the 
+            <a href="#owner">owner</a> to that file has, but only while running the program.<br><br>
+        </dd>
+        
+        <dt id="sequence">Sequence</dt>
+        <dd>A Python data type that holds many items of data, stored one right after the other. The
+        	individual values in a sequence are called <a href="#element">elements</a>. The elements
+        	in a sequence have a well defined order.
+            <br><br>
+        </dd>
+        
+        <dt id="sequential_access">Sequential Access</dt>
+        <dd>Accessing data in a file by starting at the beginning and traveling through the
+        	file until you get the data you want. Sequential access only occurs in one direction.
+            <br><br>
+        </dd>
+        
+        <dt id="set">Set</dt>
+        <dd>An object that stores an unordered collection of unique items.
+            <br><br>
+        </dd>
+        
+        <dt id="set_difference">Set Difference</dt>
+        <dd>The difference between two sets, <span class="iden">A</span> and <span class="iden"></span>
+        		consists of all the elements of <span class="iden">A</span> that are not in <span class="iden">B</span>
+        		and is written
+        		<pre>
+A - B</pre>
+        </dd>
+        
+        <dt id="set_membership">Set Membership</dt>
+        <dd>If a value <span class="iden">x</span> is contained in the set <span class="iden">A</span>
+        		<span class="iden">x</span> is said to be a member of <span class="iden">A</span>. In mathematics
+        		this is written
+        		<pre>
+x &isin; A</pre>
+        </dd>
+        
+        <dt id="set_symmetric_difference">Set Symmetric Difference</dt>
+        <dd>The symmetric difference between two sets <span class="iden">A</span> and 
+        		<span class="iden">B</span> consists of all the elements of <span class="iden">A</span>
+        		that are not in <span class="iden">B</span> and all the elements of <span class="iden">B</span>
+        		that are not in A. In mathematics, it is written
+        		<pre>
+A &Delta; B</pre>
+        </dd>
+        
+        <dt id="shebang">Shebang</dt>
+        <dd>See <a href="#hashbang">hashbang</a>.
+        		<br><br>
+        </dd>
+        
+        <dt id="shell">Shell</dt>
+        <dd>A program which which stands between the user and the operating system. 
+            The shell asks the <a href="#kernel">kernel</a> to run the
+            command entered at the command line.<br><br>
+        </dd>
+        
+        <dt id="shell_script">Shell Script</dt>
+        <dd>A <b>text</b> file that contains Linux/Unix commands.
+                When a shell script is run, all the commands in the file are executed.
+            <br><br>
+        </dd>
+        
+        <dt id="shell_variable">Shell Variable</dt>
+        <dd>A variable that is defined inside a shell and can be used by the shell.
+                <br><br>
+        </dd>
+        
+        <dt id="short-circuit_evaluation">Short-Circuit Evaluation</dt>
+        <dd>The property of the logical operators <code>and</code> and <code>or</code> that prevents the second
+            operand from being evaluated if the overall result is obvious from the
+            value of the first operand.
+            <br><br>
+        </dd>
+        
+        <dt id="sibling">Sibling</dt>
+       	<dd>If a file or directory is directly inside the same directory as 
+       		another file or director, they are said to be siblings.
+       		<br><br>
+       	</dd>
+        
+        <dt id="slice">Slice</dt>
+        <dd>A series of ordered elements obtained from any Python 
+        	<a href="sequence.html">sequence</a> object. Usually the elements are consecutive,
+        	but elements of the slice may be separated by a specific number of other elements.
+        	<br><br>
+        </dd>
+        
+        <dt id="soft_link">Soft Link</dt>
+        <dd>See <a href="#symbolic_link">symbolic link</a>
+        		<br><br>
+        </dd>
+        
+        <dt id="sql"><b>SQL</b></dt>
+        <dd>See <a href="structured_query_language.html">Structured Query Language</a>
+            <br><br>
+        </dd>
+        
+        <dt id="ssh">SSH</dt>
+        <dd>A protocol that permits a user on one machine to connect securely 
+        		to another machine. SSH stands for <b>s</b>ecure <b>sh</b>ell.
+        		<br><br>
+        	</dd>
+       
+       	<dt id="ssh_client">SSH Client</dt>
+        <dd>Software that uses the <a href="#ssh">SSH</a> protocol to connect to a Unix
+        		machine from another machine.
+            <br><br>
+        </dd>
+        
+        <dt id="source_code">Source Code</dt>
+        <dd>A text file containing a program written in a computer language. Source code is what you
+        	write when you write a computer program. A source code file cannot be run directly by a computer.
+        	<br><br>
+        </dd>
+        
+        <dt id="standard_error">Standard Error</dt>
+        <dd>Where where the error message are sent, if not otherwise specified.
+        		<br><br>
+        </dd>
+        
+        <dt id="standard_input">Standard Input</dt>
+        <dd>Where input in a program or script comes from, if not otherwise specified.
+        		<br><br>
+        </dd>
+        
+        <dt id="standard_output">Standard Output</dt>
+        <dd>Where output from program or script goes, if not otherwise specified.
+        <br><br>
+        </dd>
+        
+        <dt id="standard_library">Standard Library</dt>
+        <dd>A collection of Python functions and constants in a <a href="#module">module</a> that
+        	is automatically installed with Python and deal with a specific topic.
+            <br><br>
+        </dd>
+        
+        <dt id="startup_file">Startup File</dt>
+        <dd>A file in your <a href="#home_directory">home directory</a> that contains 
+            Unix commands that are run automatically before you get your first prompt. 
+            These commands are used to customize your Unix environment. In Bash, the 
+            startup files are <span class="path">.bash_profile</span>, 
+            <span class="path">.login</span>, <span class="path">.profile</span> and 
+            <span class="path">.bashrc</span>
+            <br><br>
+        </dd>
+        
+        <dt id="statement">Statement</dt>
+        <dd>A individual instruction in a programming language.
+        	<br><br>
+        </dd>
+        
+        <dt id="stepwise_refinement">Stepwise Refinement</dt>
+        <dd>The process of creating a program by steps. First get something working, then
+            improve on this by adding a new feature until you get what you want.
+            <br><br>
+        </dd>
+        
+        <dt id="string">String</dt>
+        <dd>A series of characters, e.g. "Red Sox". In Python, strings must be contained inside single,
+            <span class="char">" "</span>, or double, <span class="char">" "</span>,
+            quotes.
+            <br><br>
+        </dd>
+        
+        <dt id="string_literal">String Literals</dt>
+        <dd>A group of characters written out inside a program.
+        	   <br><br>
+        </dd>
+        
+        <dt id="structured_query_language"><b>Structured Query Language</b></dt>
+        <dd>A language used in modern database products. The language consists of three parts -
+            a data definition language (DDL), a data manipulation language, and a data control language (DCL).
+            <br><br>
+        </dd>
+        
+       	<dt id="subclass">Subclass</dt>
+        <dd>A class which inherits the attributes and methods of another class.
+        		Also called a <a href="#derived_class">derived class</a>.
+            <br><br>
+        </dd>
+        
+        <dt id="subset">Subset</dt>
+        <dd>If you have two <a href="#set">sets</a> <span class="iden">A</span> and <span class="iden">B</span>
+        		and all the values inside <span class="iden">A</span> are also contained in <span class="iden">B</span>
+        		then <span class="iden">A</span> is said to be a subset of <span class="iden">B</span>. In mathematics
+        		this relationship is written
+            <pre>
+A &sub; B</pre>
+        </dd>
+        
+        <dt id="substring">Substring</dt>
+        <dd>A smaller string contained inside a larger string. "Red" and "Sox" are
+            	substrings of "Red Sox".
+            <br><br>
+        </dd>
+        
+        <dt id="sub-shell">Sub-shell</dt>
+        <dd>A shell run inside another shell, usually the login shell. The sub-shell does not have to be the same shell version
+            as the parent shell<br><br>
+        </dd>
+        
+        <dt id="superclass">Superclass</dt>
+        <dd>A class whose attributes and methods are inherited by another class.
+        		A superclass is also called a <a href="#base_class">base class</a>.
+            <br><br>
+        </dd>
+        
+        <dt id="superset">Superset</dt>
+        <dd>If you have two <a href="#set">sets</a> <span class="iden">A</span> and <span class="iden">B</span>
+        		and all the values in <span class="iden">B</span> are also in <span class="iden">A</span>
+        		then <span class="iden">A</span> is said to be a superset of <span class="iden">B</span>. In mathematics
+        		this relationship is written
+            <pre>
+A &sup; B</pre>
+        </dd>
+        
+        <dt id="superuser">Superuser</dt>
+        <dd>Another name for the <a href="#root_account">root account</a>.<br><br></dd>
+        
+        <dt id="symbolic_link">Symbolic Link</dt>
+        <dd>A <a href="#link">link</a> which can point to a file or directory. A soft link does not
+            have to be on the same volume as the file or directory it points to. Deleting a symbolic
+            link has no effect on the file or directory it points to.<br><br>
+        </dd>
+        
+        <dt id="syntax">Syntax</dt>
+        <dd>Syntax refers to the structure of a program and the rules about that structure.
+        	   <br><br>
+        </dd>
+        
+        <dt id="syntax_error">Syntax Errors</dt>
+        <dd>Errors caused by code that is not legal in the Python language.
+        	    <br><br>
+        </dd>
+        
+        <dt id="syntax_highlighting">Syntax Highlighting</dt>
+        <dd>Syntax highlighting is a feature of text editors that are used for programming, 
+        	scripting, or markup languages, such as HTML. 
+        	The feature displays text, especially <a href="#source_code">source code</a>, in different colors and 
+			depending on what they represent.
+            <br><br>
+        </dd>
+        
+        <dt id="system_call">System Call</dt>
+        <dd>The mechanism that allows a program to request a service from the operating system's 
+        	<a href="kernel.html">kernel</a>.
+        	<br><br>
+        </dd>
+        
+    </dl>
+    
+    <h3 class="section" id="T">T</h3>
+    <dl>
+    		<dt id="tarball">Tarball</dt>
+        <dd>A file created by the <code>tar</code> utility that contains 
+        		many files and directories.
+        		<br><br>
+        </dd>
+    
+        <dt id="temporary_variable">Temporary Variable</dt>
+        <dd>A variable used to store an intermediate value in a complex calculation.
+        		<br><br>
+        </dd>
+        
+        <dt id="tilde_expansion">Tilde Expansion</dt>
+        <dd>A feature of the shell which replaces the tilde character, <span class="char">~</span>
+            with something else. There are four ways that <span class="char">~</span> can be expanded.
+            <ul class="flat">       
+                <li class="flat"><span class="char">~</span> by itself is replaced with
+                    the <a href="#absolute_pathname">absolute pathname</a> of the user's <a href="#home_directory">home directory</a>
+                </li>
+                <li class="flat"><span class="char">~</span> followed by a user name is replaced with the
+                    absolute pathname of that user's home directory
+                </li>
+                <li class="flat"><span class="char">~</span> followed by a <span class="char">+</span>
+                    is replaced with the absolute pathname of the <b>current</b> directory
+                </li>
+                <li class="flat"><span class="char">~</span> followed by a <span class="char">-</span>
+                    is replaced with the absolute pathname of the <b>previous</b> directory
+                </li>
+            </ul>
+            <br><br>
+        </dd>
+        
+        <dt id="token">Token</dt>
+        <dd>A string of characters separated from other strings of characters by a separator characters,
+            usually Spaces or Tabs<br><br>
+        </dd>
+        
+        <dt id="traverse">Traverse</dt>
+        <dd>To move along a list of things looking at each element one by one.<br><br></dd>
+        
+        <dt id="tuple">Tuple</dt>
+        <dd>A sequence of values that cannot be changed.<br><br></dd>
+        
+        <dt id="tuple_assignment">Tuple Assignment</dt>
+        <dd>Assigning values to more than one variable at a time by having a series of variables on
+            on the left hand side of the assignment operator, separated by commas, and a tuple
+            on the right.
+            <pre>
+    a, b, c = 5, 10, 15</pre>
+            <br><br>
+        </dd>
+        
+        <dt id="two-dimensional_list">Two-Dimensional List</dt>
+        <dd>A two-dimensional list is a list whose elements are all, themselves, lists.
+            <br><br>
+        </dd>
+    </dl>
+    
+    <h3 class="section" id="U">U</h3>
+    <dl>
+    		<dt id="set_union">Union of Sets</dt>
+        <dd>If you have two <a href="#set">sets</a> <span class="iden">A</span> and 
+            <span class="iden">B</span> you can create a new set consisting of all 
+            the values inside <span class="iden">A</span> and all the values inside 
+            <span class="iden">B</span>. This new set is called the union of 
+        		<span class="iden">A</span> and <span class="iden">B</span> and is written
+        		<pre>
+A &cup; B</pre>
+            <br><br>
+        </dd>
+    		  
+        <dt id="usage_message">Usage Message</dt>
+        <dd>A brief message, printed by programs that accept command line arguments, describing the arguments needed to run the program
+            which appear when the program does not get the correct number of arguments.
+            <br><br>
+        </dd>
+        
+        <dt id="utilities">Utilities</dt>
+       	<dd>Programs which help you use and manage computer resources.
+       		<br><br>
+       	</dd>
+    </dl>
+
+    <h3 class="section" id="V">V</h3>
+    <dl>
+        <dt id="variable">Variable</dt>
+        <dd>A memory location with a name that stores a value. Conceptually, a variable is
+        		a name - value pair.
+        		<br><br>
+        	</dd>
+        	
+        	<dt id="variable_completion">Variable Completion</dt>
+        <dd>A feature of Bash where the shell provides the rest of the characters 
+            in a variable name when the user hits the Tab key after first typing 
+            part variable name.
+            <br><br>
+        </dd>
+        
+        <dt id="variable_shadowing">Variable Shadowing</dt>
+        <dd>If a local variable inside a function has the same name as a global
+        		variable outside the function, the Python interpreter will use the value
+        		of the local variable. The local variable is said to shadow the global
+        		variable.
+            <br><br>
+        </dd>
+        
+        <dt id="view"><b>View</b></dt>
+        <dd>A <a href="#sql">SQL</a> <a href="#query">query</a> which has been stored
+            and can be used like a table. 
+            <br><br>
+        </dd>
+        
+        <dt id="view_object">View Object</dt>
+        <dd>In Python, a view object is connected to some other object, such as a 
+        		<a href="#dictionary">dictionary</a> and serves as a "window"
+        		into that object. When the original object changes, the view
+        		object changes also. You cannot use an index with a view object,
+        		but you can iterate over its entries in a <code>for</code> loop.
+            <br><br>
+        </dd>
+        
+        
+        
+        <dt id="void_function">Void Function</dt>
+       	<dd><br>A <a href="#function">function</a> that does not return a value.
+       		<br><br>
+       	</dd>
+        
+    </dl>
+    
+    <h3 class="section" id="W">W</h3>
+    <dl>
+        <dt id="whitespace">Whitespace</dt>
+        <dd>Spaces, tab characters, and newline characters.
+        		<br><br>
+        </dd>
+        
+        <dt id="widget">Widget</dt>
+        <dd>In a <a href="#graphical_user_interface">Graphical User Interface</a> a widget
+            is a control element such as a button or a scroll bar.       
+            <br><br>
+        </dd>
+        
+        <dt id="wildcards">Wildcards</dt>
+        <dd>Another name for <a href="#bash_meta-characters">meta-characters</a>.
+        		<br><br>
+        </dd>
+        
+        <dt id="write_permission">Write Permission</dt>
+        <dd>The <a href="#access_permissions">access permission</a> that allows an account to
+            change a file or to add, modify or delete an entry in a directory.
+            <br><br>
+        </dd>
+    </dl>
+    
+    <h3 class="section" id="X">X</h3>
+    <dl>
+        
+    </dl>
+    
+    <h3 class="section" id="Y">Y</h3>
+    <dl>
+        
+    </dl>
+    
+    <h3 class="section" id="Z">Z</h3>
+    <dl>
+        <dt id="zero-based_indexing">Zero-Based Indexing</dt>
+        <dd>A numbering scheme, used throughout Python, in which a sequence of values
+            is numbered starting with 0 (element 0, element 1, element 2, and so on).
+            <br><br>
+        </dd>
+    </dl>
+
+	<h5> Copyright : Glenn Hoffman, Director of the IT program, Umass-Boston</h5>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/definitions.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:20 GMT -->
+</html>

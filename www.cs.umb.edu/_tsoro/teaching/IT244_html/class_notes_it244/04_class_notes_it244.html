@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/04_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:23 GMT -->
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="../../class_notes.html">
+	<title> IT 244: Introduction to Linux/Unix - Class 4</title>
+</head>
+<body>
+	<header>
+		<h2> 
+		    IT 244: Introduction to Linux/Unix <br>
+		    Class 4
+		</h2>	
+	</header>
+	<!-- LONG CLASS EXERCISE ALLOW 45 MINUTES -->
+    <h3 class="section">Today's Topics</h3>
+    <h4 class="flat_under">Review</h4>
+    <ul class="flat_top">
+        <li class="flat"><a href="#script">The Unix <code>script</code> Command</a></li>
+        <li class="flat"><a href="#correcting_mistakes">Correcting Mistakes on the Command Line</a></li>
+        <li class="flat"><a href="#retrieving_last_command">Retrieving Your Last Command Line Entry</a></li>
+        <li class="flat"><a href="#aborting_program">Stopping a Running Program</a></li>
+        <li class="flat"><a href="#getting_help">Getting Help with Unix Commands</a></li>
+    </ul>
+    
+    <h4 class="flat_under">New Material</h4>
+    <ul class="flat_top">
+        <li class="flat"><a href="#special_characters">Special Characters</a></li>
+        <li class="flat"><a href="#quoting_and_escaping">Quoting and Escaping</a></li>
+        <li class="flat"><a href="#cd"><code>cd</code> - Change Directory</a></li>
+        <li class="flat"><a href="#pwd"><code>pwd</code> - Show Your Current Directory</a></li>
+        <li class="flat"><a href="#ls"><code>ls</code> - List the Contents of a Directory</a></li>
+        <li class="flat"><a href="#cat"><code>cat</code> - Print the Contents of a File</a></li>
+        <li class="flat"><a href="#rm"><code>rm</code> - Delete a File</a></li>
+        <li class="flat"><a href="#mkdir"><code>mkdir</code> - Create a Directory</a></li>
+        <li class="flat"><a href="#rmdir"><code>rmdir</code> - Delete a Directory</a></li>
+        <li class="flat"><a href="#cp"><code>cp</code> - Copy Files</a></li>
+        <li class="flat"><a href="#mv"><code>mv</code> - Move a File or Directory</a></li>
+    </ul>
+
+    
+    <h3 class="section">Reading Assignment</h3>
+    <p class="flat">The reading assignment for this week is chapter 2 of Sobell, <i>Getting Started</i>.</p>
+    <p>You will find a list of all reading assignments <a href="../readings_it244.html">here</a>.</p>
+    <p>There is a link to this page on the class web page.</p>
+    
+    <h3 class="section">Homework 2</h3>
+    <p class="flat">I have posted <a href="../hw_it244/02_hw_it244.html">homework 2</a>.</p>
+    <p>As usual, it will be due this coming Sunday at 11:59 PM.</p>
+    <p>You will find a list of all homework assignments <a href="../hw_it244/homework_it244.html">here</a>.</p>
+    <p>The class web page has a link to this page.</p>
+      
+    <h3 class="section">First Graded Quiz</h3>
+    <p class="flat">The first <b>graded</b> quiz will be given next week.</p>
+    <p>The questions from the graded quiz are taken from the ungraded quizzes of the previous week.</p>
+    
+    <h3  class="section">Review</h3>
+    
+	<h4 class="topic" id="script">The Unix <code>script</code> Command</h4>
+    <ul class="flat">       
+        <li>The <code>script</code> command creates a transcript of you Unix session</li>
+        <li>By default, <code>script</code> creates a text file named <span class="path">typescript</span> ...</li>
+        <li>in your current directory</li>
+		<li>If you have an existing <span class="path">typescript</span> file ...</li>
+		<li>and run <code>script</code> in the same directory ...</li>
+        <li><code>script</code> will obliterate the contents of the previous <span class="path">typescript</span> file</li>
+        <li>To prevent this run
+            <pre>
+script -a</pre>
+        </li>
+        <li>With the <code>-a</code> option, <code>script</code> will add to the previous <span class="path">typescript</span> file</li>
+        <li>When you have finished with your <code>script</code> session ...</li>
+        <li>you <b>must</b> type "exit" ...</li>
+        <li>otherwise you will lose the entire session</li>
+    </ul>
+	
+	<h4 class="topic" id="correcting_mistakes">Correcting Mistakes on the Command Line</h4>
+    <ul class="flat">       
+        <li>You can correct mistakes on the Unix command line ...</li>
+        <li>using the following Control key combinations
+            <ul class="flat">
+                <li class="flat">Control <span class="char">A</span> - Move the text insertion point to the beginning of the command line</li>
+                <li class="flat">Control <span class="char">E</span> - Move the text insertion point to the end of the command line</li>
+                <li class="flat">Control <span class="char">K</span> - Removes everything from the current text insertion point to the end of the line</li>
+                <li class="flat">Control <span class="char">U</span> - Removes everything from the current text insertion point to the beginning of the line</li>
+                <li class="flat">Control <span class="char">Y</span> - Pastes back on the command line what
+                		was removed with either Control <span class="char">K</span> or Control <span class="char">U</span>
+                </li>
+            </ul>
+        </li>
+        <li>In addition the left and right arrow keys, <span class="char">&larr;</span> and <span class="char">&rarr;</span> ...</li>
+        <li>can be used tho move the text insertion point left or right</li>
+    </ul>
+	
+	<h4 class="topic" id="retrieving_last_command">Retrieving Your Last Command Line Entry</h4>
+	<ul class="flat">       
+        <li>To retrieve the previous command, hit the up arrow key, 
+        		<span class="char">&uarr;</span>
+        </li>
+        <li>You can do this several times ...</li>
+        <li>to go back to any previous command</li>
+        <li>The down arrow key, <span class="char">&darr;</span>
+        		takes you in the opposite direction
+        </li>
+    </ul>
+	
+	<h4 class="topic" id="aborting_program">Stopping a Running Program</h4>
+	<ul class="flat">       
+        <li>You can abort a running program using Control C</li>
+    </ul>
+	
+	<h4 class="topic" id="getting_help">Getting Help with Unix Commands</h4>
+	<ul class="flat">       
+        <li>Many Unix utilities have a help option</li>
+        <li>The help option provides some basic information about the command</li>
+        <li>Some commands use <code>-h</code> as the help option ...</li>
+        <li>others use <code>--help</code></li>
+        <li>For more information, use <code>man</code> or <code>info</code></li>
+        <li>Follow <code>man</code> or <code>info</code> with the name of the command</li>
+    </ul>
+    
+    <h3 class="section">New Material</h3>
+	
+	<h4 class="topic" id="special_characters">Special Characters</h4>
+	<ul class="flat">       
+        <li>There are some characters that have special meaning in Unix</li>
+        <li>They should <b>never</b> be used in file or directory names</li>
+        <li>They are
+            <pre>
+<span class="char">&amp; : | * ? ' " [ ] ( ) $ &lt; &gt; { } # / \ ! ~</span></pre>
+        </li>
+	    <li>Three other characters, called 
+	    		<a class="def" href="../definitions.html#whitespace">whitespace</a>
+	      	are also special
+	    </li>
+	    <li>The whitespace characters are
+            <ul class="flat">       
+                <li class="flat">Space</li>
+                <li class="flat">Tab</li>
+                <li class="flat">Newline</li>
+            </ul>
+	    </li>
+	    <li>Spaces are used to separate entries ...</li>
+	    <li>on the command line</li>
+	    <li>They separate the command from its options ...</li>
+        <li>and its arguments</li>
+	    <li>Tab has a special meaning we will discuss in another class</li>
+	    <li>The <a class="def" href="../definitions.html#newline">newline</a>
+	       character is what you get when you hit Enter on a PC ...
+	    </li>
+	    <li>or Return on a Mac</li>
+	    <li>When you are entering text in a text editor ...</li>
+	    <li>the newline moves you down to the next line</li>
+	    <li>On the command line the newline tells the
+	    		<a class="def" href="../definitions.html#shell">shell</a>
+	        you are done typing a command ...
+	    </li>
+	    <li>and the shell should run the command you just entered</li>
+	    <li>When the shell sees a newline ...</li>
+	    <li>it executes whatever is on the command line</li>
+    </ul>
+	
+	<h4 class="topic" id="quoting_and_escaping">Quoting and Escaping</h4>
+	<ul class="flat">       
+        <li>If you need to use a special character on the command line ...</li>
+        <li>you must do two one of two things
+            <ul class="flat">       
+                <li class="flat">Use quotes</li>
+                <li class="flat">Escape the special character</li>
+            </ul>
+        </li>
+        <li><a class="def" href="../definitions.html#escaping">Escaping</a>
+            means putting a backslash, <span class="char">\</span> ...
+        </li>
+        <li>in front of a special character ...</li>
+        <li>to turn off its special meaning</li>
+        <li>The backslash must come <b>immediately</b> in front of the special character</li>
+        <li>The <code>echo</code> command prints whatever comes after it</li>
+        <li>It is used in scripts to print a message to the user
+        		<pre>
+$ echo Hello World!
+Hello World!</pre>
+        </li>
+        <li>Here's what happens when I try to use <code>echo</code> ...</li>
+        <li>with the special character <span class="char">~</span>
+        <pre>
+$ echo ~
+/home/tsoro</pre>
+        </li>
+        <li>You'll learn what <span class="char">~</span> means in a future class</li>        
+        <li>If I just wanted to print the <span class="char">~</span> character ...</li>
+        <li>all I have to do is put a backslash, <span class="char">\</span> ...</li>
+        <li><b>immediately</b> in front of it
+        		<pre>
+$ echo \~
+~</pre>
+        </li>
+		<li>You can use quotes to do the same thing
+			<pre>
+$ echo '~'
+~
+
+$ echo "~"
+~</pre>
+		</li>
+
+        <li>There are two types of quotes</li>
+        <li>Single quotes - <span class="char">' '</span></li>
+        <li>Double quotes - <span class="char">" "</span></li>
+        <li>They have slightly different meanings ...</li>
+        <li>but you don't need to worry about the difference for now</li>
+    </ul>
+	
+	<h4 class="topic" id="cd"><code>cd</code> - Change Directory</h4>
+	<ul class="flat">       
+        <li><code>cd</code> (<b>c</b>hange <b>d</b>irectory) changes your current directory</li>
+        <li>You use <code>cd</code> to move from one directory to another
+            <pre>
+<span class="format">cd DIRECTORY_NAME</span></pre>
+        </li>
+        <li>If you use <code>cd</code> with the name of a directory ...</li>
+        <li>it moves you to that directory</li>
+        <li>If you use <code>cd</code> without an argument ...</li>
+        <li>it takes you to your 
+        		<a class="def" href="../definitions.html#home_directory">home directory</a>
+        <li>The home directory is the directory you are in ...</li>
+        <li>when you first log in to Unix</li>
+        <li>To go up one directory, use <span class="char">..</span></li>
+        <li>as the argument for <code>cd</code>
+            <pre>
+cd <span class="red">..</span></pre></li>
+		<li>To go up more than one directory ...</li>
+		<li>use multiple instances of <span class="char">..</span> ...</li>
+		<li>each separated by a <span class="char">/</span></li>
+		<li>To go up two directories I would enter
+			<pre>
+cd <span class="red">..</span>/<span class="red">..</span></pre>
+		</li>
+    </ul>
+
+	<h4 class="topic" id="pwd"><code>pwd</code> - Show Your Current Directory</h4>
+    <ul class="flat">       
+        <li><code>pwd</code> (<b>p</b>rint <b>w</b>orking <b>d</b>irectory) displays your current directory
+            <pre>
+<span class="format">pwd</span></pre>
+        </li>
+        <li>In the beginning, use <code>pwd</code> every time you use <code>cd</code></li>
+        <li>This will keep you from getting lost</li>
+    </ul>
+	
+	<h4 class="topic" id="ls"><code>ls</code> - List the Contents of a Directory</h4>
+	<ul class="flat">       
+        <li><code>ls</code> (<b>l</b>i<b>s</b>t) is one of the most basic Unix commands</li>
+        <li>It shows you the files and directories inside a directory</li>
+        <li>The command line is <b>not</b> a GUI</li>
+        <li>It it easy to lose track of where you are</li>
+        <li>When this happens, certain things will not work ...</li>
+        <li>as you would expect</li>
+        <li>When <code>ls</code> is used without an argument ...</li>
+        <li>it lists the contents of your current directory</li>
+        <li>When you use <code>ls</code> followed by the name of a directory ...</li>
+        <li>it lists the contents of that directory
+            <pre>
+<span class="format">ls DIRECTORY</span></pre>
+        </li>
+        <li>When you use <code>ls</code> followed by the name of a file ...</li>
+        <li>it simply displays the file name</li>
+        <li>When used with the <code>-a</code> (for <b>a</b>ll) option ...</li>
+        <li><code>ls</code> will list <b>all</b> files ...</li>
+        <li>including those whose names begin with a <span class="char">.</span> (dot)</li>
+        <li>Any file whose name begins with a <span class="char">.</span> ...</li>
+        <li>will not show up when you use <code>ls</code> ...</li>
+        <li>unless you use the <code>-a</code> option</li>
+        <li>These "invisible" files are configuration files</li>
+        <li>Under normal circumstances ...</li>
+        <li>you pay no attention to them</li>
+        <li>We'll discuss these files later in the course</li>
+        <li>Another useful option to <code>ls</code> is <code>-l</code> ...</li>
+        <li>which displays a "long" listing
+    <pre>
+$ ls -l
+total 20
+-rw-rw-r--   1 ghoffman       103 Sep 11 14:34 basic.css
+-rw-r--r--   1 ghoffman      3560 Aug 29 13:30 emacs_cheat_sheet.html
+-rw-r--r--   1 ghoffman       701 Aug 29 13:30 index.html
+drwxr-xr-x   6 ghoffman       512 Sep 15 14:11 it_244
+-rw-r--r--   1 ghoffman      6831 Aug 29 13:30 tips.html
+-rw-r--r--   1 ghoffman      6052 Aug 29 13:30 unix_cheat_sheet.html</pre>
+        </li>
+	   <li>We'll talk more about this when we discuss access permissions</li>
+    </ul>
+
+	<h4 class="topic" id="cat"><code>cat</code> - Print the Contents of a File</h4>
+    <ul class="flat">       
+        <li><code>cat</code> (con<b>cat</b>enate) displays the contents of a file
+            <pre>
+$ cat foo.txt 
+foo
+bar
+blecth</pre></li>
+	<li>When used with the <code>-n</code> option <code>cat</code> displays line numbers
+	   <pre>
+$ cat -n lines.txt 
+     1  line 1
+     2  line 2
+     3  line 3
+     4  line 4
+     5  line 5
+     6  line 6
+     7  line 7
+     8  line 8
+     9  line 9
+    10  line 10</pre></li>
+	    <li>If you run <code>cat</code> on a long file ...</li>
+	    <li>the contents of the file will pass by too quickly to read</li>
+	    <li>To view long files, you should use a 
+	    		<a class="def" href="../definitions.html#paging_program">paging program</a>
+	    </li>
+	    <li>Paging programs, like <code>more</code> and <code>less</code> ...</li>
+	    <li>show the content of a file one screenful at a time</li>
+	    <li>I'll discuss them more in a future class</li>
+    </ul>
+
+	
+	<h4 class="topic" id="rm"><code>rm</code> - Delete a File</h4>
+	<ul class="flat">       
+        <li><code>rm</code> (<b>r</b>e<b>m</b>ove) deletes a file
+            <pre>
+<span class="format">rm FILENAME</span></pre>
+        </li>
+        <li><code>rm</code> does not ask you if you are sure ...</li>
+        <li>before deleting the file</li>
+        <li><b>There is no undelete feature in Unix</b></li>
+        <li>Deleted files cannot be recovered ...</li>
+        <li>if not backed up</li>
+        <li>Don't delete a file ...</li>
+        <li>unless you are sure you won't need it</li>
+        <li>To remove all the files in a directory use
+            <pre>
+<span class="format">rm *</span></pre>
+		</li>
+        <li>Be careful when using <span class="char">*</span> with <code>rm</code></li>
+        <li>It will delete everything ...</li>
+        <li>and there is no way to get back what was deleted</li>
+        <li>If you run <code>rm</code> with the <code>-i</code> option ...</li>
+        <li>it will ask you before deleting each file
+            <pre>
+rm -i foo.txt 
+rm: remove regular file `foo.txt'? y [Enter]</pre>
+        </li>
+        <li>It's good idea to use this option when running <code>rm *</code></li>
+        <li><code>rm</code> cannot be used on a directory ...</li>
+        <li><b>NEVER USE rm * IN YOUR HOME DIRECTORY</b></li>
+        <li>Every semester at least one student does this ...</li>
+        <li>and seems to lose their <span class="path">it244</span> directory</li>
+        <li>I can fix this ...</li>
+        <li>but it is a pain in the butt</li>
+    </ul>
+	
+	<h4 class="topic" id="mkdir"><code>mkdir</code> - Create a Directory</h4>
+	<ul class="flat">       
+        <li><code>mkdir</code> (<b>m</b>a<b>ke dir</b>ectory) creates a directory
+            <pre>
+<span class="format">mkdir DIRECTORY_NAME</span></pre>
+        </li>
+        <li>The directory will be created in the current directory ...</li>
+        <li>unless you specify another location</li>
+    </ul>
+	
+	<h4 class="topic" id="rmdir"><code>rmdir</code> - Delete a Directory</h4>
+	<ul class="flat">       
+        <li><code>rmdir</code> (<b>r</b>e<b>m</b>ove <b>dir</b>ectory) deletes a directory
+            <pre>
+<span class="format">rmdir IRECTORY_NAME</span></pre>
+        </li>
+        <li><code>rmdir</code> will not work on a directory ...</li>
+        <li>unless the directory is empty</li>
+    </ul>
+	
+	<h4 class="topic" id="cp"><code>cp</code> - Copy Files</h4>
+	<ul class="flat">       
+        <li><code>cp</code> (<b>c</b>o<b>p</b>y) makes a copy of a file ...</li>
+        <li>or a directory</li>
+        <li><code>cp</code> takes two arguments</li>
+        <li>The first argument is the source ...</li>
+        <li>the file or directory to be copied</li>
+        <li>The second argument is either the new filename ...</li>
+        <li>if you are making a copy in the same directory ...</li>
+        <li>or the directory into which the copy will go
+            <pre>
+<span class="format">cp FILENAME NEW_FILENAME_OR_DIRECTORY</span></pre>
+        </li>
+        <li><code>cp</code> can copy an entire directory ...</li>
+        <li>when used with the <code>-r</code> (for <b>r</b>ecursive) option</li>
+    </ul>
+	
+	<h4 class="topic" id="mv"><code>mv</code> - Move a File or Directory</h4>
+	<ul class="flat">       
+        <li><code>mv</code> (<b>m</b>o<b>v</b>e) is a command that does two different things</li>
+        <li>It can change the location of a file or directory
+            <pre>
+<span class="format">mv FILENAME_OR_DIRECTORY_NAME NEW_DIRECTORY</span></pre>
+        </li>
+        <li>It can also change the name of a file or directory
+            <pre>
+<span class="format">mv FILENAME_OR_DIRECTORY_NAME NEW_FILENAME_OR_NEW_DIRECTORY_NAME</span></pre>
+        </li>
+        <li>In either case, <code>mv</code> takes two arguments</li>
+        <li>When used to move something ...</li>
+        <li>the first argument is thing to be moved ...</li>
+        <li>and the second argument is the new location
+            <pre>
+$ ls
+<span class="red">foo.txt</span>  it244  work
+
+$ ls work
+
+$ mv foo.txt work
+
+$ ls
+it244  work
+
+$ ls work
+<span class="red">foo.txt</span></pre>
+		</li>
+		<li>Here I have moved the file <span class="path">foo.txt</span> ...</li>
+		<li>from the current directory ...</li>
+		<li>to the directory <span class="path">work</span></li>
+	    <li>When changing the name of a file or directory ...</li>
+	    <li>the first argument is the old name ...</li>
+        <li>and the second is the new name
+            <pre>
+$ ls
+<span class="red">foo.txt</span> hold  it244  work
+
+$ mv foo.txt bar.txt
+
+$ ls
+<span class="red">bar.txt</span>  hold  it244  work</pre></li>
+    </ul>
+    
+    <h3 class="section">Attendance</h3>
+    
+    <h3 class="section">Class Quiz</h3>
+
+	<footer>
+		<a href="class_notes_it244.html" class="spacer">Class Notes</a>
+		<a href="class_notes_index_it244.html" class="spacer">Class Notes Index</a>
+	</footer>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/04_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:23 GMT -->
+</html>

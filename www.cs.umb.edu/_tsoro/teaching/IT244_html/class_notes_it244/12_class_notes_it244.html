@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/12_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:37 GMT -->
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="../../class_notes.html" >
+<title> IT 244: Introduction to Linux/Unix - Class 12</title>
+</head>
+<body>
+	<header>
+		<h2> 
+		    IT 244: Introduction to Linux/Unix <br>
+		    Class 12
+		</h2>	
+	</header>
+
+
+	<!-- REDIRECT OUTPUT TO ANOTHER TERMINAL -->
+	<!--  
+	$ echo foo > /dev/pts/4
+foo
+	-->
+
+	<!-- NEEDS TO BE CLEARER -->
+	
+    <h3 class="section">Today's Topics</h3>
+    <h4 class="flat_under">Review</h4>
+    <ul class="flat_top">
+        <li class="flat"><a href="#cmd_lin_syntax">Syntax of the Command Line</a></li>
+        <li class="flat"><a href="#cmd_options">Command Options</a></li>
+        <li class="flat"><a href="#tty"><code>tty</code></a></li>
+        <li class="flat"><a href="#parsing_cmds">Parsing the Command Line</a></li>
+        <li class="flat"><a href="#path">The <span class="iden">PATH</span> System Variable</a></li>
+        <li class="flat"><a href="#prog_current_dir">Running a Program in the Current Directory</a></li>
+        <li class="flat"><a href="#running_cmd">Running the Command Entered on the Command Line</a></li>
+    </ul>
+    
+    <h4 class="flat_under">New Material</h4>
+    <ul class="flat_top">
+    		<li class="flat"><a href="#data_streams">Data Streams</a></li>
+    		<li class="flat"><a href="#devices">Devices</a></li>
+    		<li class="flat"><a href="#unix_devices_files">Unix Devices Are Files</a></li>
+    		<li class="flat"><a href="#multi-user_os">Multiuser Operating Systems</a></li>
+    		<li class="flat"><a href="#monitor_keyboard">The Monitor and Keyboard</a></li>
+    		<li class="flat"><a href="#ssh_pseudo-terminals"><code>ssh</code> and Pseudo-terminals</a></li>
+        <li class="flat"><a href="#std_in_out_err">Standard Input, Standard Output and Standard Error</a></li>
+        <li class="flat"><a href="#keybrd_scrn">The Keyboard and Screen as Standard Input and Standard Output</a></li>
+        <li class="flat"><a href="#redirection">Redirection</a></li>
+        <li class="flat"><a href="#redir_std_out">Redirecting Standard Output</a></li>
+        <li class="flat"><a href="#redir_std_in">Redirecting Standard Input</a></li>
+        <li class="flat"><a href="#redir_destroy">Redirecting Standard Output Can Destroy a File</a></li>
+        <li class="flat"><a href="#append">Adding Output to an Existing File</a></li>
+        <li class="flat"><a href="#dev_null"><span class="path">/dev/null</span></a></li>
+    </ul>
+    
+    <h3 class="section">Reading Assignment</h3>
+    <p class="flat">The reading assignment for this week is chapter 5 of Sobell, 
+            <i>The Shell</i>.
+    </p>
+
+    <h3 class="section">Homework 6</h3>
+    <p class="flat">I have posted homework 6 <a href="../hw_it244/06_hw_it244.html">here</a>.</p>
+    <p>It is due this coming Sunday at 11:59 PM.</p>
+    
+	<!--
+    <h3 class="section">Mid-term</h3>
+    <p class="flat">The mid-term exam for this course will be held on Tuesday, October  24th.</p>
+    <p>It will consist of 25 questions like those on the quizzes.</p>
+    <p>You will have the entire class period to work on the exam.</p>
+    <p>60% of the questions will come from the Ungraded Class Quizzes.</p>
+    <p>The last class before the exam, Thursday, October  19th, will be a review session.</p>
+    <p>You will only be responsible for the material in the Class Notes for that class
+       on the exam.
+    </p>
+    <p>The Mid-term is a closed book exam.</p>
+    -->
+    <h3 class="section">Review</h3>
+    
+    <h4 class="topic" id="cmd_lin_syntax">Syntax of the Command Line</h4>
+    <ul class="flat">       
+        <li>A command typed at the command line has the following format
+            <pre>
+<span class="format">COMMAND [OPTIONS] [ARG1] [ARG2] ... [ARGn]</span></pre></li>
+        <li>The brackets indicate that the contents are optional</li>
+        <li>Commands vary in the number of options and arguments they accept</li>
+        <li>Some accept none ...</li>
+        <li>others require a specific number of arguments ...</li>
+        <li>still others accept a variable number of arguments</li>
+        <li>Arguments must be separated by one or more spaces</li>
+    </ul>
+    
+    <h4 class="topic" id="cmd_options">Command Options</h4>
+    <ul class="flat">       
+        <li>Options modify the behavior of the command</li>
+        <li>Options are usually preceded by one or two dashes, <span class="char">-</span></li>
+        <li>GNU programs frequently have options that are preceded by two dashes, <span class="char">--</span></li>
+        <li>The options in GNU programs are usually words</li>
+        <li>The options in other Unix programs are usually a single letter</li>
+        <li>When a command uses a single dash, <span class="char">-</span>, before an option ...</li>
+        <li>you can usually combine options following the dash</li>
+        <li>An example of this is <code>ls -ltr</code></li>
+        <li>Options using two dashes, <span class="char">--</span> , usually cannot be combined</li>
+        <li>In this case, each option must be written separately ...</li>
+        <li>and preceded by two dashes</li>
+        <li>Sometimes the option can have it's own argument</li>
+        <li>Utilities that report the size of files usually do so in bytes</li>
+        <li>Such utilities often have a -h, or --human-readable, option</li>
+        <li>With this option, the file size will be displayed in kilobytes, megabytes or gigabytes, as appropriate</li>
+        <li>Many commands display a help message when run with the --help option</li>
+        <li>Most GNU utilities accept this option</li>
+    </ul>
+    
+    <h4 class="topic" id="tty"><code>tty</code></h4>
+    <ul class="flat">  
+        <li><code>tty</code> is the terminal 
+        		<a class="def" href="../definitions.html#device_driver">device driver</a> 
+            and is part of the kernel
+        </li>     
+        <li>As you type each character at the command line ...</li>
+        <li><code>tty</code> looks at the character and takes appropriate action</li>
+        <li>Most of the time, <code>tty</code> just takes the character you type ...</li>
+        <li>and places it in a buffer</li>
+        <li>It responds differently to the special editing characters
+            <ul class="flat">       
+                <li class="flat">Backspace</li>
+                <li class="flat">The arrow keys</li>
+                <li class="flat">Control A</li>
+                <li class="flat">Control E</li>
+                <li class="flat">Control U</li>
+                <li class="flat">Control K</li>
+            </ul>
+        </li>
+        <li><code>tty</code> is where all 
+            <a class="def" href="../definitions.html#command_line_editing">command line editing</a> 
+            	takes place
+        </li>
+        <li>When <code>tty</code> sees a newline character ...</li>
+        <li>which is what you get by hitting Enter (PC) or Return (Mac) ...</li>
+        <li>it passes the contents of the buffer to the shell</li>
+    </ul>
+    
+    <h4 class="topic" id="parsing_cmds">Parsing the Command Line</h4>
+    <ul class="flat">       
+        <li>The shell takes the command line and breaks it up into 
+            <a class="def" href="../definitions.html#token">tokens</a>
+        </li>
+        <li>Tokens are strings of characters that can be printed ...</li>
+        <li>unlike Control key sequences and
+        	<a class="def" href="../definitions.html#whitespace">whitespace</a> characters ...
+        </li>
+        <li>and are separated from each other by whitespace</li>
+        <li>The act of breaking up text into tokens is called 
+            <a class="def" href="../definitions.html#parsing">parsing</a>
+        </li>
+        <li>Next, the shell looks for the name of the command</li>
+        <li>Usually, the command name is the first string on the command line</li>
+        <li>The command can be specified by a simple filename
+            <pre>
+ls</pre>
+		</li>
+        <li>Or by using a 
+        		<a class="def" href="../definitions.html#pathname">pathname</a>
+            <pre>
+/bin/ls</pre>
+		</li>
+    </ul>
+    
+    <h4 class="topic" id="path">The <span class="iden">PATH</span> System Variable</h4>
+    <ul class="flat">       
+        <li>To run a program, a 
+        		<a class="def" href="../definitions.html#process">process</a> 
+        		must be created
+        </li>
+        <li>The shell cannot create a process ...</li>
+        <li>only the kernel can</li>
+        <li>The shell asks the kernel to start the process ...</li>
+        <li>but in order to do that, it has to give the kernel a pathname ...</li>
+        <li>for the executable file for that program</li>
+        <li>Normally, when you run a program you don't use a pathname ...</li>
+        <li>you simply use the name of the program</li>
+        <li>To turn the name of a program into a pathname for the executable file ...</li>
+        <li>the shell uses the <span class="iden">PATH</span> variable</li>
+        <li><span class="iden">PATH</span>  contains a list of directories to search to find the program file</li>
+        <li>The shell searches each of these directories in turn ...</li>
+        <li>until it finds an executable file with the name of the command</li>
+        <li><span class="iden">PATH</span> always has a default value ...</li>
+        <li>which is set when Unix or Linux is installed</li>
+        <li>The absolute pathname of each directory is separated from the next by a colon, 
+        		<span class="char">:</span>
+            <pre>
+$ echo $PATH
+/usr/local/sbin<span class="red">:</span>/usr/local/bin<span class="red">:</span>/usr/sbin<span class="red">:</span>/usr/bin<span class="red">:</span>/sbin<span class="red">:</span>/bin<span class="red">:</span>/usr/games<span class="red">:</span>/usr/local/games<span class="red">:</span>/snap/bin<span class="red">:</span>/usr/lib/oracle/12.1/client64/bin</pre>
+        </li>
+        <li>If the shell reaches the end of the directory listings in <span class="iden">PATH</span> ...</li>
+        <li> without finding the command ...</li>
+        <li>it will display an error message</li>
+        <li>If the shell finds executable file ...</li>
+        <li>but you do not have execute privileges </li>
+        <li>it will tell you this in an error message</li>
+        <li>You can modify the <span class="iden">PATH</span> variable in your own Unix environment</li>
+    </ul>
+    
+    <h4 class="topic" id="prog_current_dir">Running a Program in the Current Directory</h4>
+    <ul class="flat">       
+        <li>For security reasons, it is never advisable to put the current directory, <span class="red">.</span>&nbsp; ...</li>
+        <li>in the <span class="iden">PATH</span> list</li>
+        <li>Then how do you run a program inside your current directory?</li>
+        <li>You can do this using the following construction
+            <pre>
+<span class="format">./PROGRAM_NAME</span></pre>
+		</li>
+        <li>This will always work ...</li>
+        <li>regardless of the contents of <span class="iden">PATH</span></li>
+    </ul> 
+    
+    <h4 class="topic" id="running_cmd">Running the Command Entered on the Command Line</h4>
+    <ul class="flat">       
+        <li>When the <a class="def" href="../definitions.html#shell">shell</a> 
+            gets the command line from <code>tty</code> ...
+        </li>
+        <li>it uses <span class="iden">PATH</span> to find the executable file to run</li>
+        <li>The shell then asks the kernel to start a process for that program</li>
+        <li>A process is a running program ...</li>
+        <li>and it needs resources to do its job
+            <ul class="flat">       
+                <li class="flat">Memory</li>
+                <li class="flat">Access to files</li>
+                <li class="flat">Time in the machine CPU</li>
+            </ul>
+        </li>
+        <li>Each process has memory allocated to it that it alone can use</li>
+        <li>This prevents one program from interfering with another</li>
+        <li>The shell also gives the program the list of tokens from the command line
+            <ul class="flat">       
+                <li class="flat">The name used to call the program</li>
+                <li class="flat">The options used</li>
+                <li class="flat">The arguments used</li>
+            </ul></li>
+        <li>The shell does not check the options or arguments</li>
+        <li>While the program is running ...</li>
+        <li>the shell goes into an inactive state known as "sleep"</li>
+        <li>When the program finishes it must send an 
+            <a class="def" href="../definitions.html#exit_status">exit status</a> to the shell
+        </li>
+        <li>The exit status is an integer that must be 0 or greater</li>
+        <li>An exit status of 0 indicates that the program was able to do its work without error</li>
+        <li>Any exit status greater than zero indicates an error</li>
+        <li>A program can issue different error status values for different types of errors</li>
+        <li>You can see the exit status of the last program by looking at the value of
+            the system variable <span class="iden">?</span>
+            <pre>
+$ cat foo
+cat: foo: No such file or directory
+
+$ echo <span class="red">$?</span>
+1</pre>
+    	   </li>
+    </ul>
+	
+	<h3 class="section">New Material</h3>
+ 
+	<h4 class="topic" id="data_streams">Data Streams</h4>
+	<ul class="flat">       
+        <li>Computers work with information</li>
+        <li>They take information in ...</li>
+        <li>and they send information out</li>
+        <li>We can think of these flows of information as data streams</li>
+        <li>When we run a command that produces some result ...</li>
+        <li>the characters that we see ... </li>
+        <li>are a flow of information sent to the screen</li>
+        <li>This is an output stream</li>
+        <li>When we save a file ...</li>
+        <li>this a a flow of information from the program</li>
+        <li>to the disks</li>
+        <li>This is also an output stream</li>
+        <li>When we type something into a word processor ...</li>
+        <li>this is a flow of information ...</li>
+        <li>from the keyboard ...</li>
+        <li>into the program</li>
+        <li>This is an input stream</li>
+        <li>When we open a file in a word processor ...</li>
+        <li>this is a flow of information from the disk ...</li>
+        <li>into the program</li>
+        <li>This is also an input stream</li>
+    </ul>
+    
+    <h4 class="topic" id="devices">Devices</h4>
+    <ul class="flat">       
+        <li>Devices are pieces of electronic equipment ...</li>
+        <li>that communicate with the CPU ...</li>
+        <li>through data streams</li>
+        <li>They do this using device drivers ...</li>
+        <li>which are software created by the manufacturer ...</li>
+        <li>that allows the device to talk to the CPU ...</li>
+        <li>through the 
+        		<a class="def" href="../definitions.html#kernel">kernel</a>
+        </li>
+        <li>Most device drivers support two way communication ...</li>
+        <li>allowing both input streams ...</li>
+        <li>and output streams</li>
+        <li>Since the device drivers handle the details ...</li>
+        <li>of data streams coming into or out of a device ...</li>
+        <li>the kernel can treat input and output to any device ...</li>
+        <li>in the same way</li>
+        <li>It does not distinguish between the keyboard and the disk ...</li>
+        <li>as devices that can provide input streams</li>
+        <li>This makes things simple</li>
+    </ul>
+    
+    <h4 class="topic" id="unix_devices_files">Unix Devices Are Files</h4>
+    <ul class="flat">       
+        <li>One of the reasons why Unix is so powerful ...</li>
+        <li>is that decisions were made when it was designed ...</li>
+        <li>to keep it simple and elegant</li>
+        <li>One such decision was how Unix treats devices</li>
+        <li>In Unix devices are files</li>
+        <li>If you think of this it makes sense</li>
+        <li>The hard drive is a device ...</li>
+        <li>that can provide both input ...</li>
+        <li>and output</li>
+        <li>You can read a file as input ...</li>
+        <li>and save information to disk as a file ...</li>
+        <li>for output</li>
+        <li>Instead of creating some new thing ...</li>
+        <li>to represent a device ...</li>
+        <li>Unix just thinks of then as a special kind of file</li>
+        <li>A device file</li>
+        <li>This allows programs that run on Unix ...</li>
+        <li>to send output to a device ...</li>
+        <li>and take input from a device ...</li>
+        <li>in the same way it does for a file</li>
+    </ul>
+    
+    <h4 class="topic" id="multi-user_os">Multiuser Operating Systems</h4>
+    <ul class="flat">       
+        <li>In the 1970's when Unix was created ...</li>
+    		<li>computers were big, expensive machines</li>
+    		<li>In order use these machines efficiently ...</li>
+    		<li>multiuser operating systems were created ...</li>
+    		<li>which let many people use the same machine ...</li>
+    		<li>apparently at the same time</li>
+    		<li>The way this works is the machine does some work for each user ...</li>
+    		<li>giving them a slice of time on the CPU</li>
+    		<li>When their slice of time is up ...</li>
+    		<li>the machine stores the contents of RAM ...</li>
+    		<li>which holds the work that has been done ...</li>
+    		<li>in a special place in memory</li>
+    		<li>It then gives a time slice to the next user</li>
+    		<li>Because the machine is so fast ...</li>
+    		<li>it looks like several people are using the machine ...</li>
+    		<li>at the same time</li>
+    </ul>
+
+	<h4 class="topic" id="monitor_keyboard">The Monitor and Keyboard</h4>
+    <ul class="flat">   
+    		<li>We tend to think of the computer screen ...</li>
+    		<li>and the keyboard ...</li>
+    		<li>as separate devices ...</li>
+    		<li>since we can buy and replace them separately</li>
+    		<li>But this is a recent development</li>
+    		<li>In the 1970 when Unix was created ...</li>
+    		<li>multiuser operating systems allowed several people ...</li>
+    		<li>to be connected to one very expensive computer</li>
+    		<li>This was done by connecting terminals ...</li>
+    		<li>the combination of a keyboard and a screen ...</li>
+    		<li>directly to the machine</li>
+    	</ul>
+    	<img src="image1_note12.png" height="50%"/>
+    	<ul class="flat">       
+    	    <li>The terminal is a device ...</li>
+        <li>so it needs a device driver</li>   
+        <li>tty is the device driver </li>
+        <li>that handles both input and output ...</li>
+        <li>to the terminal</li>
+        <li>So tty is the device driver for both the keyboard ...</li>
+        <li>and the screen</li>
+    		<li>Although we no longer use physical terminals ...</li>
+    		<li>tty remains ...</li>
+    		<li>to talk to the keyboard and screen ...</li>
+    		<li>connected to a Unix machine</li>
+    </ul>
+ 	
+ 	<h4 class="topic" id="ssh_pseudo-terminals"><code>ssh</code> and Pseudo-terminals</h4>
+ 	<ul class="flat">       
+        <li>Terminals live on in another part of Unix</li>
+        <li>Whenever you run an 
+        		<a class="def" href="../definitions.html#ssh_client">ssh client</a>
+        		to talk to a Unix machine
+        </li>
+        <li>your interaction with the machine ...</li>
+        <li>is the same as you would have if you were at a terminal</li>
+        <li>To allow this to happen Unix uses tty to talk to your machine ...</li>
+        <li>through an abstraction called a pseudo-terminal</li>
+        <li>A pseudo-terminal pretends to be a connection ...</li>
+        <li>to a physical terminal</li>
+        <li>All pseudo-terminals appear as files ...</li>
+        <li>in the directory <span class="path">/dev/pts</span></li>
+        <li>The Unix command <code>tty</code> will show you your pseudo-terminal
+        		<pre>
+$ tty
+/dev/pts/31
+
+$ ls -l /dev/pts/31
+crw--w---- 1 ghoffman tty 136, 31 Mar  9 13:09 /dev/pts/31</pre>
+        </li>
+        <li>The <code>tty</code> command is <b>not</b> the same thing ...</li>
+        <li>as the tty device driver</li>
+    </ul>
+
+    <h4 class="topic" id="std_in_out_err">Standard Input, Standard Output and Standard Error</h4>
+    <ul class="flat">       
+        <li>Every Unix process always has access to three different data streams
+            <ul class="flat">       
+                <li class="flat">Standard Input</li>
+                <li class="flat">Standard Output</li>
+                <li class="flat">Standard Error</li>
+            </ul>
+        </li>
+	</ul>
+        <img src="image2_note12.png" height="50%"/>
+    <ul class="flat">       
+        <li>The programmer who creates the program running in the process ...</li>
+    		<li>does not have to use these streams ...</li>
+    		<li>but there are always given to a process</li>
+        <li><a class="def" href="../definitions.html#standard_input">Standard input</a> 
+            is where the program gets input ...
+        </li>
+        <li>unless the programmer decides to use another source</li>
+        <li>By default, standard input is the keyboard</li>
+        <li><a class="def" href="../definitions.html#standard_output">Standard output</a> 
+            is where the program prints the results ...
+        </li>
+        <li>if it is not told specifically where to send it</li>
+        <li>By default, standard output is the screen</li>
+        <li><a class="def" href="../definitions.html#standard_error">Standard error</a> 
+            is where the program sends error messages
+        </li>
+        <li>By default, standard error is the same as standard output ...</li>
+        <li>the screen</li>
+        <li>The end point of each of these data streams ...</li> 
+        <li>can be changed by the user ...</li> 
+        <li>using a Unix feature called 
+            <a class="def" href="../definitions.html#redirection">redirection</a>
+        </li>
+    </ul>
+	
+
+    <h4 class="topic" id="keybrd_scrn">The Keyboard and Screen as Standard Input and Standard Output</h4>
+    <ul class="flat">       
+        <li>By default, standard input is taken from the keyboard</li>
+        <li>By default, standard output goes to the screen</li>
+        <li>By default, standard error also goes to the screen</li>
+        <li>The <code>cat</code> utility expects you to give it the the name of the file ...</li>
+        <li>you want to print to the command line</li>
+        <li>What happens when you don't give it a file name as an argument?</li>
+        <li>In this case, <code>cat</code> will accept input from standard input ...</li>
+        <li>which, by default, is the keyboard</li>
+        <li>If you run <code>cat</code> without specifying a file ...</li>
+        <li>it will simply echo what you type
+            <pre>
+$ cat 
+foo
+foo
+bar
+bar
+bletch
+bletch
+^C</pre>
+        </li>
+        <li>I used to use this trick in a Class Exercise at the start of the semester ...</li>
+        <li>when I had students create a <span class="path">.forward</span> file ...</li>
+        <li>before I had shown them how to use <code>nano</code></li>
+    </ul>
+        
+    <h4 class="topic" id="redirection">Redirection</h4>
+    <ul class="flat">
+        <li><code>cat</code> takes as its argument a file ...</li>
+         <li>which it uses as input</li>
+         <li>If you don't give <code>cat</code> a file to use as input ...</li>
+         <li>it take input from standard input ...</li>
+         <li>which is the keyboard by default</li>
+    		<li>When I had students create a <span class="path">.forward</span> file</li>       
+        <li>I told them to enter the following at the command line
+        <pre>
+cat &gt; .forward [Enter]
+YOUR_EMAILADDRESS [Enter]
+[Control D]</pre>
+         </li>
+         <li>This trick allows you to use <code>cat</code> as a simple text editor</li>
+         <li>But it won't allow you to backspace</li>
+         <li>This is an example of redirection</li>
+         <li>By using the greater than character, <span class="char">&gt;</span> ...</li>
+         <li>we are telling <code>cat</code> to send output to the file <span class="path">.forward</span> ...</li>
+         <li>instead of printing it to the screen</li>
+         <li>Redirection is when you tell Unix to take data from ...</li>
+         <li>or send data to ...</li>
+         <li>some other "file" then it would normally use</li>
+         <li>In the above example we have redirected standard output</li>
+         <li>Instead of sending the output from <code>cat</code> to the terminal ...</li>
+         <li>we are sending it to the file <span class="path">.forward</span></li>
+         <li>Redirection is one of the features that makes Unix flexible</li>
+         <li>It allows you to take input from ...</li>
+         <li>or send output to ...</li>
+         <li>any file or device you wish</li>
+         <li>You can take input from something other than the keyboard ...</li>
+         <li>like a file</li>
+         <li>You send output to something other than the screen ...</li>
+         <li>such as a file ...</li>
+         <li>or a device</li>
+         <li>Redirection is what makes pipes possible</li>
+         <li>When you set up a pipe ...</li>
+         <li>you are sending the standard output of one program ...</li>
+         <li>into the standard input of another</li>
+         <li>You are redirecting the output of the first command ...</li>
+         <li>from the terminal ...</li>
+         <li>to the input of the second command</li>
+    </ul>
+        
+    <h4 class="topic" id="redir_std_out">Redirecting Standard Output</h4>
+   <!-- need to say redirecting input to a file will create it if it does not already exist -->
+    <ul class="flat">
+        <li>To redirect output use the greater than symbol, <span class="char">&gt;</span> </li>
+        <li>followed by a filename</li>
+        <li>This tells Unix to send the output from the command ...</li>
+        <li>to the file or device that appears after the symbol</li>
+        <li>The format for output redirection is
+            <pre>
+<span class="format">COMMAND [ARGUMENTS] &gt; FILENAME</span></pre>
+        </li>
+        <li>For example, to save a list of everyone currently logged on, you could use
+            <pre>
+$ who <span class="red">&gt;</span> current_logins.txt
+
+$ cat current_logins.txt 
+bmt11989 pts/1        2011-10-02 16:43 (c-24-147-18-10.hsd1.ma.comcast.net)
+vtran    pts/0        2012-09-26 17:34 (c-76-119-98-173.hsd1.ma.comcast.net)
+abutawha pts/1        2012-09-26 17:36 (158.121.234.175)
+ghoffman  pts/2        2012-09-26 18:19 (dsl092-066-161.bos1.dsl.speakeasy.net)</pre>
+        </li>
+    </ul>
+        
+    <h4 class="topic" id="redir_std_in">Redirecting Standard Input</h4>
+    <ul class="flat">       
+        <li>When redirecting standard output, we were sending output  ...</li>
+        <li>to something other than the screen</li>
+        <li>When we redirect standard input, we take input ...</li>
+        <li>from something other than the keyboard</li>
+        <li>To do this, we use the less than symbol, <span class="char">&lt;</span> </li>
+        <li>Here is the format
+            <pre>
+<span class="format">COMMAND [ARGUMENTS] &lt; FILENAME</span></pre>
+        </li>
+        <li><span class="path">repeat.sh</span> is a shell script ...</li>
+        <li>that repeats the the text the user enters
+            <pre>
+$ ./repeat.sh 
+Enter line 1: 1
+Enter line 2: 2
+Enter line 3: 3
+Enter line 4: 4
+Enter line 5: 5
+
+You entered
+-----------
+1
+2
+3
+4
+5</pre>
+        </li>
+        <li>But I can also take input from a file ...</li>
+        <li>by redirecting standard input
+        <pre>
+$ cat five_lines.txt 
+Line 1
+Line 2
+Line 3
+Line 4
+Line 5
+
+$ ./repeat.sh &lt; five_lines.txt 
+
+You entered
+-----------
+Line 1
+Line 2
+Line 3
+Line 4
+Line 5</pre>
+        </li>
+    </ul>
+        
+    <h4 class="topic" id="redir_destroy">Redirecting Standard Output Can Destroy a File</h4>
+    <ul class="flat">       
+        <li>If you redirect standard output to a file that already exists ...</li>
+        <li>you will overwrite the contents of that file</li>
+        <li>You will replace the original contents of the file ...</li>
+        <li>with the output of the new command</li>
+        <li>There is a "noclobber" option in Bash to prevent this from happening</li>
+        <li>But it is best to simply be careful about the file ...</li>
+        <li>to which you redirect standard output</li>
+    </ul>
+    
+    <h4 class="topic" id="append">Adding Output to an Existing File</h4>
+    <ul class="flat">       
+        <li>If you redirect standard output to a file that already exists ...</li>
+        <li>you will lose the original contents of that file</li>
+        <li>But Unix allows you to add something to the bottom of a file</li>
+        <li>This is called 
+        		<a class="def" href="../definitions.html#appending">appending</a>
+        	</li>
+        <li>The append symbol is two greater than symbols with no space in between, <span class="char">&gt;&gt;</span></li>
+        <li>The format is
+            <pre>
+<span class="format">COMMAND [ARGUMENTS] &gt;&gt; FILENAME</span></pre>
+        </li>
+        <li>For example
+            <pre>
+$echo foo &gt; test.txt
+
+$ cat test.txt 
+foo
+
+$ echo bar &gt;&gt; test.txt 
+
+$ cat test.txt 
+foo
+bar</pre>
+        </li>
+        <li>Notice that "foo" is still in the file ...</li>
+        <li>and "bar" is on the following line</li>
+    </ul>
+        
+    <h4 class="topic" id="dev_null"><span class="path">/dev/null</span></h4>
+    <ul class="flat">       
+        <li>Sometimes a program will do something useful ...</li>
+        <li>but produce output you don't want</li>
+        <li>For situations like this, Unix provides <span class="path">/dev/null</span></li>
+        <li>Any output you send to <span class="path">/dev/null</span> will disappear</li>
+        <li>It will never appear on the screen</li>
+        <li>If you redirect input to come from <span class="path">/dev/null</span> ...</li>
+        <li>the command will receive an empty string</li>
+        <li><span class="path">/dev/null</span> is most useful when dealing with error messages</li>
+        <li>Since error message normally go to the screen </li>
+        <li>they will be mixed up with the regular output</li>
+        <li>Redirecting standard error to <span class="path">/dev/null</span> ...</li>
+        <li>will prevent this from happening</li>
+        <li>I will show you how to do this in a future class</li>
+        <li>You can use <span class="path">/dev/null</span> to test your scripts ...</li>
+        <li>for errors</li>
+        <li>The following script has a command that will cause an error
+        	<pre>
+$ cat script_with_error.sh 
+# this script has an error
+
+cd XXXXXX # line with error
+
+ls -l /</pre>
+        </li>
+        <li>But if you run it, you probably won't spot the error ...</li>
+        <li>because it scrolls off the top of the screen
+        	<pre>
+$ ./script_with_error.sh 
+<span class="red">./script_with_error.sh: line 3: cd: XXXXXX: No such file or directory</span>
+total 73732
+drwxr-xr-x    2 root root     4096 Oct 15 06:45 bin
+drwxr-xr-x    3 root root     4096 Oct 15 06:45 boot
+-rw-------    1 root root 75390976 Oct  8 00:06 core
+drwxr-xr-x  102 root root        0 Oct  6 07:06 courses
+drwxr-xr-x   46 root root        0 Oct  6 07:06 data
+drwxr-xr-x   15 root root     4160 Oct  6 07:06 dev
+drwxr-xr-x  119 root root    12288 Oct 15 13:32 etc
+drwxr-xr-x    8 root root        0 Oct  6 07:06 groups
+drwxr-xr-x 1943 root root        0 Oct 14 14:42 home
+drwxr-xr-x    3 root root     4096 Aug 25 16:18 home.ORIG
+lrwxrwxrwx    1 root root       33 Sep 29 06:40 initrd.img -&gt; boot/initrd.img-3.16.0-50-generic
+lrwxrwxrwx    1 root root       33 Sep 11 06:49 initrd.img.old -&gt; boot/initrd.img-3.16.0-49-generic
+drwxr-xr-x   21 root root     4096 Aug 26 22:46 lib
+drwxr-xr-x    2 root root     4096 Aug 26 22:46 lib32
+drwxr-xr-x    2 root root     4096 Aug 26 06:50 lib64
+drwxr-xr-x    2 root root     4096 Aug 26 22:46 libx32
+drwx------    2 root root    16384 Aug 25 16:11 lost+found
+drwxr-xr-x    3 root root     4096 Aug 25 16:12 media
+drwxr-xr-x    2 root root     4096 Apr 10  2014 mnt
+drwxr-xr-x   11 root root        0 Oct  6 07:06 nobackup
+drwxr-xr-x    2 root root     4096 Feb 18  2015 opt
+dr-xr-xr-x  522 root root        0 Oct  6 07:06 proc
+drwx------    4 root root     4096 Sep  9 14:22 root
+drwxr-xr-x   19 root root     1020 Oct 15 13:31 run
+drwxr-xr-x    2 root root    12288 Oct 15 06:45 sbin
+drwxr-xr-x  174 root root        0 Oct  6 07:06 sources
+drwxr-xr-x    5 root root        0 Oct  6 07:06 spool
+drwxr-xr-x    2 root root     4096 Feb 18  2015 srv
+dr-xr-xr-x   13 root root        0 Oct  6 22:29 sys
+drwxrwxrwt   40 root root     4096 Oct 15 13:32 tmp
+drwxr-xr-x    2 root root     4096 Sep 21 16:28 TMP
+drwxr-xr-x  269 root root        0 Oct  6 07:06 tools
+drwxr-sr-x    2 root root     4096 Aug 26 23:30 users
+drwxr-xr-x   12 root root     4096 Aug 26 22:46 usr
+drwxr-xr-x   12 root root     4096 Oct 15 05:45 var
+lrwxrwxrwx    1 root root       30 Sep 29 06:40 vmlinuz -&gt; boot/vmlinuz-3.16.0-50-generic
+lrwxrwxrwx    1 root root       30 Sep 11 06:49 vmlinuz.old -&gt; boot/vmlinuz-3.16.0-49-generic</pre>
+        </li>
+        <li>But if you run the script and redirect standard output to <span class="path">/dev/null</span> ...</li>
+        <li>all you will see will be the error messages
+        	<pre>
+$ ./script_with_error.sh &gt; /dev/null
+./script_with_error.sh: line 3: cd: XXXXXX: No such file or directory</pre>
+        </li>
+        <li>I use this trick in my testing scripts ...</li>
+        <li>to check your Class Exercises</li>
+        <li>You should use this trick to test all your scripts</li>
+    </ul>    
+    
+    <h3 class="section">Attendance</h3>
+    
+    <h3 class="section">Class Quiz</h3>
+  
+	<footer>
+		<a href="class_notes_it244.html" class="spacer">Class Notes</a>
+		<a href="class_notes_index_it244.html" class="spacer">Class Notes Index</a>
+	</footer>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/12_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:39 GMT -->
+</html>
+

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/linux/remote_access_windows.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:52:10 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../IT244_html/class_notes.css">
+    <title>Connecting to a Unix machine from Windows</title>
+</head>
+<body>
+    <header>
+        <h2>Connecting to a Unix machine from Windows</h2>
+    </header>
+
+    <h3 class="flat"><font color="darkblue">Topics</font></h3>
+    <ul class="flat">       
+        <li class="flat"><a href="#software_needed">Software Needed</a></li>
+        <li class="flat"><a href="#logging_on_unix">Logging in to a Unix Machine</a></li>
+        <li class="flat"><a href="#copying_to_unix">Copying Files to a Unix Machine</a></li>
+        <li class="flat"><a href="#accesing_unix_machine_using_umb_wireless-network">Accessing a Unix Machine Using the UMB Wireless Network</a></li>
+    </ul>
+
+    <h4 class="topic" id="software_needed">Software Needed</h4>
+    <ul class='flat'>       
+        <li>To login in to a Unix machine on the Computer Science Department network ...</li>
+        <li>you will need an 
+            <a class="def" href="../definitions.html#ssh_client">SSH client</a> for Windows
+        </li>
+        <li><a class="def" href="../definitions.html#ssh">SSH</a> stands for <b>s</b>ecure <b>sh</b>ell</li>
+        <li>it a protocol that allows a user to create a secure connection to a remote Unix machine</li>
+        <li>There are several SSH clients for Windows ...</li>
+        <li>but I recommend <span class="path">putty.exe</span> ...</li>
+        <li>is part of the PuTTY open source project</li>
+        <li>You can downloaded this <span class="path">putty.exe</span>  
+            <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html"> here</a>
+        </li>
+        <li>To copy files to, or get files from, a remote Unix machine ...</li>
+        <li>you need a Windows <a class="def" href="../definitions.html#scp_client">SCP client</a></li>
+        <li><a class="def" href="../definitions.html#scp">SCP</a> 
+            stands for <b>s</b>ecure <b>c</b>o<b>p</b>y
+        </li>
+        <li>A nice scp client for Windows is FileZilla ...</li>
+        <li>which you can download <a href="https://filezilla-project.org/">here</a></li>
+    </ul>
+    
+    <h4 class="topic" id="logging_on_unix">Logging in to a Unix Machine</h4>
+    <ul class='flat'>       
+        <li>Run <span class="path">putty.exe</span> and click the SSH button</li>
+        <li>The Port number should now be 22</li>
+        <li>In the Host name box enter <span class="host">users3.cs.jumb.edu</span></li>
+        <li>Click the Open button</li>
+        <li>If you get a security alert dialog, click the Yes button</li>
+        <li>When prompted, type in your Unix ID</li>
+        <li>When prompted, type in your password</li>
+        <li>Type <kbd>exit</kbd> when you are done</li>
+    </ul>
+       
+    <h4 class="topic" id="copying_to_unix">Copying Files to a Unix Machine</h4>
+    <ul class='flat'>       
+        <li>Run FileZilla</li>
+        <li>In the Host name box, enter <span class="host">users3.cs.umb.edu</span></li>
+        <li>In the User name box, enter your <b>Unix</b> username</li>
+        <li>In the Password box, enter your <b>Unix</b> password</li>
+        <li>In the Port box, enter 22</li>
+        <li>Click the Quickconnect button</li>
+        <li>You will now see a window with two panes</li>
+        <li>The pane on the left shows the files on your PC</li>
+        <li>The pane on the right show the Unix directory structure</li>
+        <li>You can click and drag a file from your PC to the Unix machine</li>
+        <li>But you can only do this in directories where you have write privileges</li>
+    </ul>
+    
+    <h4 class="topic" id="accesing_unix_machine_using_umb_wireless-network">Accessing a Unix Machine Using the UMB Wireless Network</h4>
+    <ul class='flat'>       
+        <li>If you are connected to the UMB Wireless network ...</li>
+        <li>you can use both both of the programs mentioned above the same way you do from home</li>
+    </ul>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/linux/remote_access_windows.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:52:11 GMT -->
+</html>

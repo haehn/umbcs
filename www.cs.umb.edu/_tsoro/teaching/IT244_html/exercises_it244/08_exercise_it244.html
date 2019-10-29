@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/08_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title> IT 244: Introduction to Linux/Unix - Class 8 Exercise</title>
+</head>
+<body>
+	<header>
+		<h2>
+		    IT 244: Introduction to Linux/Unix <br>
+		    Class 8 Exercise
+		</h2>	
+	</header>
+
+    <h3>Log in to <span class="host">users3.cs.umb.edu</span></h3>
+    <ul>
+        <li><span class="under">Run the ssh client</span><br><br>
+            Connect to <span class="host">users3.cs.umb.edu</span>.
+        </li>
+    </ul>
+	
+	<h3>Directory for this Exercise</h3>
+    <ul>
+        <li><span class="under">Make sure you are in your home directory</span><br>
+            <pre>
+    cd</pre>
+        </li>
+        <li><span class="under">Go to your <span class="path">it244</span> directory</span>
+            <pre>
+    cd  it244</pre>
+        </li>
+        <li><span class="under">Go to your <span class="path">ex</span> directory</span><br>
+            <pre>
+    cd  ex</pre>
+        </li>
+        <li><span class="under">Create an <span class="path">ex8</span> directory</span><br>
+            <pre>
+    mkdir  ex8</pre>
+        </li>       
+        <li><span class="under">Go to your <span class="path">ex8</span> directory</span><br>
+            <pre>
+    cd  ex8</pre>
+        </li>
+    </ul>
+	
+
+    <h3>Hidden Files</h3>
+    <ul>
+        <li><span class="under">Return to your home directory</span><br>
+            <pre>
+    cd</pre>
+        </li>
+        <li><span class="under">Confirm that you are in your home directory</span><br>
+            <pre>
+    pwd</pre>
+        </li>
+        <li><span class="under">Look at your hidden files</span><br>
+            <pre>
+    ls  -a</pre>
+            These files configure various settings in your Unix environment.
+            <br><br>
+        </li>
+    </ul>
+    
+    <h3>Startup Files</h3>
+    <ul>
+        <li><span class="under">Go to my home directory</span><br>
+            <pre>
+    cd  /home/tsoro</pre>
+        </li>
+        <li><span class="under">Look at my "invisible" files</span><br>
+            <pre>
+    ls  -a</pre><br>
+        </li>
+        <li><span class="under">Look at the contents of my <span class="path">.bash_profile</span> file</span><br>
+            <pre>
+    cat  .bash_profile</pre>
+        This file runs other files that customize my Unix environment.
+        <br><br>
+        </li>
+        <li><span class="under">Look at the contents of one of these customization files</span><br>
+            <pre>
+    cat  .profile.d/local/local_profile.sh</pre>
+        What you see here will not mean much to you now.
+        <br><br>
+        But it will later in this course.
+        </li>
+    </ul>
+	
+    <h3>Absolute Pathnames</h3>
+    <ul>
+        <li><span class="under">Go to my <span class="path">course_files/it244_files</span> directory using an <b>absolute</b> pathname</span><br>
+            <pre>
+    cd  /home/tsoro/course_files/it244_files</pre>
+            You can use this pathname anywhere in the filesystem and will always
+            refer to the same directory.
+            <br><br>
+        </li>
+        <li><span class="under">Determine your location</span><br>
+            <pre>
+    pwd</pre>
+            Notice that <code>pwd</code> always returns the absolute pathname of your current directory.
+            <br><br>
+        </li>
+        <li><span class="under">Go to my home directory using an absolute pathname</span><br>
+            <pre>
+    cd  /home/tsoro</pre>
+        </li>
+        <li><span class="under">Verify that you are in my home directory</span><br>
+            <pre>
+    pwd</pre>
+        </li>
+    </ul>
+    
+    <h3>Tilde <span class="char">~</span></h3>
+    <ul>
+        <li><span class="under">Return to your home directory using tilde <span class="char">~</span></span><br>
+            <pre>
+    cd  ~</pre>
+        </li>
+        <li><span class="under">Determine your current location</span><br>
+            <pre>
+    pwd</pre>
+        You should be in <span class="path">/home/YOUR_UNIX_ID</span>
+        <br>
+        </li>
+        <li><span class="under">Go to my home directory using tilde <span class="char">~</span></span><br>
+            <pre>
+    cd  ~tsoro</pre>
+        </li>
+        <li><span class="under">Determine your current location</span><br>
+            <pre>
+    pwd</pre>
+        You should be in <span class="path">/home/tsoro</span><br>
+        </li>
+        <li><span class="under">Go to your it244 directory using tilde <span class="char">~</span></span><br>
+            <pre>
+    cd  ~/it244</pre>
+        </li>
+        <li><span class="under">Determine your current location</span><br>
+            <pre>
+    pwd</pre>
+        You should be in <span class="path">/home/YOUR_UNIX_ID/it244</span>.
+        <br><br>
+            Notice that, although short, <span class="path">~/it244 is</span> an absolute pathname and can be used anywhere within this filesystem. 
+        </li>
+    </ul>
+    
+    <h3>The <span class="char">.</span> in a Directory</h3>
+    <ul>
+        <li><span class="under">Go to your <span class="path">ex8</span> directory in your <span class="path">it244/ex</span> directory</span> using tilde <span class="char">~</span>
+            <pre>
+    cd  ~/it244/ex/ex8</pre>
+        </li>
+        <li><span class="under">Look at the entire contents of your <span class="path">ex8</span> directory</span><br>
+            <pre>
+    ls  -a</pre>
+            Notice that you have a <span class="char">.</span> and a <span class="char">..</span>entry.
+            <br><br>
+            The <span class="char">.</span> stands for your current directory.
+            <br><br>
+        </li>
+        <li><span class="under">Create a file named <span class="path">foo.txt</span></span><br>
+            <pre>
+    touch  foo.txt</pre>
+        </li>
+        <li><span class="under">Create a <span class="path">test</span> directory</span><br>
+            <pre>
+    mkdir  test</pre>
+        </li>
+        <li><span class="under">Enter the <span class="path">test</span> directory</span><br>
+            <pre>
+    cd  test</pre>
+        </li>
+        <li><span class="under">Determine your current location</span><br>
+            <pre>
+    pwd</pre>
+        </li>
+        <li><span class="under">Look at the contents of the parent directory</span><br>
+			<pre>
+    ls ..</pre>
+		</li>
+        <li><span class="under">Copy <span class="path">foo.txt</span> from the parent directory into your current directory</span><br>
+            <pre>
+    cp  ../foo.txt  .</pre>
+            You use <span class="char">.</span> to specify the current directory 
+            and <span class="char">..</span> to specify the parent directory.
+            <br><br>
+        </li>
+        <li><span class="under">Check that the copy operation worked</span><br>
+            <pre>
+    ls</pre>
+        </li>
+        <li><span class="under">Make sure you are in your <span class="path">test</span> directory</span><br>
+            <pre>
+    pwd</pre>
+        </li>
+        <li><span class="under">Remove everything from your <span class="path">test</span> directory</span><br>
+            <pre>
+    rm *</pre>
+        </li>
+
+        <li><span class="under">Go back to your <span class="path">ex8</span> diretory</span><br>
+            <pre>
+    cd ..</pre>
+        </li>
+        <li><span class="under">Remove the <span class="path">test</span> directory</span><br>
+            <pre>
+    rmdir  test</pre>
+        </li>
+    </ul>
+
+    <h3>Relative Pathnames in the Current Directory</h3>
+    <ul>
+        <li><span class="under">Go to the <span class="path">course_files/it244_files</span> directory in my home directory</span><br>
+            <pre>
+    cd  ~tsoro/course_files/it244_files</pre>
+        </li>
+        <li><span class="under">Check your location</span><br>
+            <pre>
+    pwd</pre>
+        </li>
+        <li><span class="under">List the contents of this directory</span><br>
+            <pre>
+    ls</pre>
+        </li>
+        <li><span class="under">Display the contents of <span class="path">fruit.txt</span></span><br>
+            <pre>
+    cat  fruit.txt</pre>
+            Since <span class="path">fruit.txt</span> is in your new current directory, its pathname
+            is simply the filename.
+        </li>
+    </ul>
+    
+    <h3>Relative Pathnames in a Subdirectory</h3>
+    <ul>
+        <li><span class="under">List the content of the current directory</span><br>
+            <pre>
+    ls</pre>
+        </li>
+        <li><span class="under">List the contents of the <span class="path">dir1</span> directory using a relative pathname</span><br>
+            <pre>
+    ls  dir1</pre>
+        </li>
+        <li><span class="under">List the contents of the <span class="path">dir2</span> directory using a relative pathname</span><br>
+            <pre>
+    ls  dir1/dir2</pre>
+        </li>
+        <li><span class="under">Display the contents of <span class="path">foo.txt</span> inside 
+        <span class="path">dir2</span> using a relative pathname</span><br>
+            <pre>
+    cat  dir1/dir2/foo.txt</pre>
+        </li>
+    </ul>
+    
+    <h3>Relative Pathnames above the Current Directory</h3>
+    <ul>
+        <li><span class="under">Go to the <span class="path">dir1/dir2</span> directory using a relative pathname</span><br>
+            <pre>
+    cd  dir1/dir2</pre>
+        </li>
+        <li><span class="under">Display your current location</span><br>
+            <pre>
+    pwd</pre>
+        </li>
+        <li><span class="under">Display the contents of the <span class="path">course_files/it244_files</span> 
+        directory using a relative pathname</span><br>
+            <pre>
+    ls  ../../</pre>
+        </li>
+        <li><span class="under">Display the contents of the root directory using a relative pathname</span><br>
+            <pre>
+    ls  ../../../../../..</pre>
+        </li>
+    </ul>
+
+    <h3>Relative Pathnames neither Above nor Below your Current Directory</h3>
+    <ul>
+        <li><span class="under">Look at the contents of my home directory using a relative pathname</span><br>
+            <pre>
+    ls  ../../../..</pre>
+        </li>
+        <li>Look at the contents of my class notes directory for this course<span class="under"></span><br>
+            <pre>
+    ls  ../../../../public_html/it244_html/class_notes_it244</pre>
+        </li>
+        <li><span class="under">Look at the last 10 lines of the Class Notes index page</span><br>
+            <pre>
+    tail  ../../../../public_html/it244_html/class_notes_it244/class_notes_index_it244.html</pre>
+        </li>
+    </ul>
+    
+    <h3>Bash Script for this Exercise</h3>
+    <ul>
+        <li><span class="under">Go to your <span class="path">ex8</span> directory</span><br>
+            <pre>
+    cd ~/it244/ex/ex8</pre>
+        </li>
+        <li><span class="under">Make sure you are in you <span class="path">ex8</span> directory</span><br>
+            <pre>
+    pwd</pre>
+        </li>
+        <li><span class="under">Create the script <span class="path">ex8.sh</span></span><br>
+            <pre>
+    nano  ex8.sh</pre>
+        </li>
+        <li><span class="under">Write into this file  the commands you used above</span><br><br>
+            Include Unix commands from the section 
+            <span class="under">Hidden files</span> to the section up to and including
+            <span class="under">Relative pathnames neither above nor below your current directory</span>.
+            <br>
+        </li>
+        <li><span class="under">Save this file</span><br><br>
+            Save and quit.
+            <br>
+        </li>
+        <li><span class="under">Run this script looking for error messages</span><br>
+            <pre>
+    bash  ex8.sh &gt; /dev/null</pre>
+    			Running <span class="path">ex8.sh</span> this way
+            will only print error messages. <br><br>
+            If you see <b>nothing</b> your script has no Unix errors. <br><br>
+            If you find any errors, fix them.
+            <br>
+        </li>
+        <li><span class="under">Test you script</span><br>
+			<pre>
+    ~tsoro/it244_test/ex08.sh</pre>
+		When the script asks if you are ready for more, hit Return or Enter.
+			<br>
+		</li>
+        <li><span class="under">Let me check your script</span><br></li>
+    </ul>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/08_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+</html>

@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/16_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:39 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title> IT 244: Introduction to Linux/Unix - Class 15</title>
+</head>
+<body>
+	<header>
+		<h2>IT 244: Introduction to Linux/Unix <br>
+		    Class 15
+		</h2>	
+	</header>
+
+        <!-- NEED TO UPDATE dash SECTION -->
+        <!-- RUN ls -l /bin/??sh TO SHOW RELATIVE SIZES OF BASH AND DASH -->
+		<!-- HOW A SHELL IS RUN DETERMINES WHICH STARTUP FILE IS USED -->
+		<!-- SHOW BUILT-INS DO NOT DEPEND ON PATH BY SETTING PATH TO NOTHING AND RUNNING pwd -->
+        <!-- IN KILL ALL PROCESSES EXAMPLE SHOW echo $(jobs -p) AND SAY THE PIDS ARE OF THE INITIAL PROCESS-->
+        <!-- SHOW THEM THE SHELLS AVAILABLE ON MAC OS -->
+        <!-- DIAGRAM OF SHELL RUNNING SCRIPT -->
+    <h3 class="section">Today's Topics</h3>
+    <h4 class="flat_under">Tips and Examples</h4>
+    <ul class="flat_top">       
+        <li class="flat"><a href="#killing_all_running_jobs">Killing All Running Jobs</a></li>
+        <li class="flat"><a href="#seeing_all_running_processes">Seeing All Running Processes</a></li>
+    </ul>
+    <h4 class="flat_under">Review</h4>
+    <ul class="flat_top">
+        <li class="flat"><a href="#background">Running a Command in the Background</a></li>
+        <li class="flat"><a href="#jobs">Jobs</a></li>
+        <li class="flat"><a href="#moving_jobs">Moving a Job from the Foreground into the Background</a></li>
+        <li class="flat"><a href="#aborting_background">Aborting a Background Job</a></li>
+    </ul>
+    <h4 class="flat_under">New Material</h4>
+    <ul class="flat_top">
+    		<li class="flat"><a href="#pathname_expansion">Pathname Expansion</a></li>
+        <li class="flat"><a href="#question_meta_char">The <span class="char">?</span> Meta-character</a></li>
+        <li class="flat"><a href="#*_meta_char">The <span class="char">*</span> Meta-character</a></li>
+        <li class="flat"><a href="#[]_meta_char">The <span class="char">[</span> and <span class="char">]</span> Meta-characters</a></li>
+        <li class="flat"><a href="#built-ins">Built-ins</a></li>
+        <li class="flat"><a href="#help-built-in">Help for Built-ins</a></li>
+        <li class="flat"><a href="#different_shell_versions">Different Shell Versions</a></li>
+        <li class="flat"><a href="#posix">POSIX</a></li>
+        <li class="flat"><a href="#ways_shell_can_be_created">Ways a Shell Can Be Created</a></li>
+        <li class="flat"><a href="#your_login_shell">Your Login Shell</a></li>
+        <li class="flat"><a href="#interactive_non-login_shells">Interactive Non-login Shells</a></li>
+        <li class="flat"><a href="#non-interactive_shells">Non-interactive Shells</a></li>
+        <li class="flat"><a href="#creating_startup_files">Creating Startup Files</a></li>
+    </ul>
+    
+    <h3 class="section">Reading Assignment</h3>
+    <p class="flat">The reading assignment for next week is chapter 8 of Sobell, 
+            <i>The Bourne Again Shell</i>.
+    </p>
+
+    <h3 class="section">Homework 7</h3>
+    <p class="flat">I have posted homework 7 <a href="../hw_it244/07_hw_it244.html">here</a>.</p>
+	
+	<!--
+    <p>It is due this Sunday at 11:59 PM.</p>
+    
+    <h3 class="section">Quiz 5</h3>
+    <p class="flat">Let"s look at the answers to 
+    		<a href="../weekly_quiz_answers_it244/05_quiz_answers_it244.html">Quiz 5</a>.
+    </p>
+    -->
+    
+    <h3 class="section">Announcements</h3>
+    There <b>will</b> be a graded quiz next week.
+    <br><br>
+    It will cover the material we will discuss today, and the material
+    from <a href="13_class_notes_it244.html">Class 13</a>.
+   
+    <h3 class="section">Tips and Examples</h3>
+    <h4 class="topic" id="killing_all_running_jobs">Killing All Running Jobs</h4>
+    <ul class="flat">       
+        <li>In a previous semester, someone asked whether it is possible to kill all currently running jobs</li>
+        <li>I did some googling and the answer is yes</li>
+        <li>You can use command substitution</li>
+        <li>Command substitution has the format
+            <pre>
+    <span class="format">$(COMMAND)</span></pre>
+        </li>
+        <li>The shell creates a process to run the command inside the parentheses</li>
+        <li>Then it replaces the dollar sign and parenthetical expression ...</li>
+        <li>with the output of that command</li>
+        <li>When <code>jobs</code> is run with the -p option ...</li>
+        <li>it returns the process numbers of the currently running jobs
+            <pre>
+    $ jobs -p
+    15521
+    15523
+    15525</pre></li>
+        <li>If you use command substitution with this command</li>
+        <li>you can kill all running jobs
+            <pre>
+    $ jobs
+    [1]   Running                 ./bother.sh &gt; /dev/null &amp;
+    [2]-  Running                 ./bother.sh &gt; /dev/null &amp;
+    [3]+  Running                 ./bother.sh &gt; /dev/null &amp;
+    
+    $ jobs -p
+    15579
+    15582
+    15585
+    
+    $ kill $(jobs -p)
+    
+    $ jobs
+    [1]   Terminated              ./bother.sh &gt; /dev/null
+    [2]-  Terminated              ./bother.sh &gt; /dev/null
+    [3]+  Terminated              ./bother.sh &gt; /dev/null
+    
+    $ jobs
+    
+    $</pre>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="seeing_all_running_processes">Seeing All Running Processes</h4>
+    <ul class="flat">       
+        <li>If you run <code>ps</code> you will see all running processes ...</li>
+        <li>even those running in the backgroud ..
+        <pre>
+    $ jobs
+    [1]+  Running                 ./bother.sh &gt; /dev/null &amp;
+
+    $ ps
+      PID TTY          TIME CMD
+    18389 pts/2    00:00:00 bash
+    19223 pts/2    00:00:00 bother.sh
+    19229 pts/2    00:00:00 sleep
+    19230 pts/2    00:00:00 ps</pre>
+        </li>
+        <li>But what if you had more than one terminal session going?</li>
+        <li>Without additional options, <code>ps</code> will not show you any process ..</li>
+        <li>running in that session ...</li>
+        <li>unless you run it with the -u option
+            <pre>
+    $ ps -u
+    USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+    ghoffman  18389  0.0  0.1  23440  4768 pts/2    Ss   13:53   0:00 -bash
+    ghoffman  19151  0.0  0.1  23312  4528 pts/3    Ss+  14:55   0:00 -bash
+    ghoffman  19223  0.0  0.0  12424  1412 pts/2    S    14:59   0:00 /bin/bash ./bother.sh
+    ghoffman  19306  0.0  0.0  12424  1396 pts/3    S    15:02   0:00 /bin/bash ./bother.sh
+    ghoffman  19309  0.0  0.0   7196   620 pts/3    S    15:02   0:00 sleep 5
+    ghoffman  19310  0.0  0.0   7196   620 pts/2    S    15:02   0:00 sleep 5
+    ghoffman  19311  0.0  0.0  18448  1324 pts/2    R+   15:02   0:00 ps -u</pre>
+        </li>
+        <li>This option will also give you more information</li>
+        <li>When you log out of a terminal session ...</li>
+        <li>any processes that are running in the background will keep going</li>
+        <li><code>ps -u</code> will show you these processes</li>
+        <li>Some of you may have process running <span class="path">bother.sh</span> in the background</li>
+        <li>Check for these zombie processes using <code>ps -u</code> ...</li>
+        <li>and kill them with the <code>kill</code> command</li>
+    </ul>
+    
+    <h3 class="section">Review</h3>
+    
+    <h4 class="topic" id="background">Running a Command in the Background</h4>
+    <ul class="flat">       
+       <li>Normally, when you run a command ...</li>
+       <li>you have to wait for it to finish</li>
+       <li>Such commands are said to be running in the 
+            <a class="def" href="../definitions.html#foreground">foreground</a>
+       </li>
+       <li>Unix gives you a way to get the command prompt back ...</li>
+       <li>after running a command that will take a long time to finish</li>
+       <li>You can run the command in the 
+            <a class="def" href="../definitions.html#background">background</a>
+       </li>
+       <li>The background job loses it's connection to the keyboard ...</li>
+       <li>and the shell will give you a prompt</li>
+       <li>The shell will tell you when the background job has finished</li>
+       <li>Every time a program runs, a <a class="def" href="../definitions.html#process">process</a> is created</li>
+       <li>The process has access to system resources ...</li>
+       <li>like memory (RAM) and a connection to the filesystem</li>
+       <li>Unix, like most OSs, is a multitasking operating system</li>
+       <li>This means you can have more than one process running at a time</li>
+       <li>To run a command in the background ...</li>
+       <li>enter an ampersand, <span class="char"> &amp;</span> , at the end of the command line ...</li>
+       <li>just before hitting Enter:
+           <pre>
+    $ sleep 5 <span class="red">&amp;</span>
+    [1] 17895
+    $</pre>
+       </li>
+    </ul>
+    
+    <h4 class="topic" id="jobs">Jobs</h4>
+    <ul class="flat">     
+        <li>Every time you type something at the command line ...</li>
+        <li>and hit Enter ...</li>
+        <li>you are creating a <a class="def" href="../definitions.html#job">job</a></li>  
+        <li>Every time a program runs ...</li>
+        <li>a process is created for that program</li>
+        <li>A pipeline is a collection of commands joined by pipes</li>
+        <li>Each command will generate its own process ...</li>
+        <li>but the collection of all the separate processes ...</li>
+        <li>is a single job</li>
+        <li>Each process in a pipeline will have its own process ID</li>
+        <li>So as the pipeline progresses, the currently running process will change ...</li>
+        <li>but the job number does not change</li>
+        <li>The job is the collection of all processes created at the command line</li>
+        <li>You can have multiple jobs running at the same time ...</li>
+        <li>but only one job can be in the foreground at any one time</li>
+        <li>Every process has a process ID number ...</li>
+        <li>and every job has a job number</li>
+        <li>When you tell the shell to run a job in the background ...</li>
+        <li>it returns two numbers:
+            <pre>
+    $ sleep 5 <span class="red">&amp;</span>
+    <span class="red">[1] 7431</span>
+    $</pre>
+        </li>
+        <li>The job number is enclosed in brackets and comes first</li>
+        <li>The second, larger, number is the process identification number ...</li>
+        <li>of the first process in the job</li>
+        <li>The process identification number is also known as the PID</li>
+        <li>When the job finishes, the shell prints out a message
+            <pre>
+    [1]+  Done                    sleep 5</pre>
+        </li>
+        <li>The message does <b>not</b> appear the moment the job finishes</li>
+        <li>The shell waits for the next time you hit Enter ...</li>
+        <li>and it prints the message after the output from the command</li>
+    </ul>
+    
+    <h4 class="topic" id="moving_jobs">Moving a Job from the Foreground into the Background</h4>
+    <ul class="flat">       
+        <li>There can only be one foreground job ...</li>
+        <li>though you can have many background jobs</li>
+        <li>Unix will let you move a job from the foreground ...</li>
+        <li>to the background</li>
+        <li>To do this, you must first suspend the foreground job</li>
+        <li>A suspended job is not dead ...</li>
+        <li>it is in a state of suspended animation</li>
+        <li>You can reactivate it later</li>
+        <li>To suspend a foreground job you must use the suspend key sequence</li>
+        <li>On our systems you suspend a job by hitting Control Z</li>
+        <li>After you do this, the shell stops the current process</li>
+        <li>It also disconnects it from the keyboard</li>
+        <li>Once the job is suspended ...</li>
+        <li>you can place it in the background using the <code>bg</code> command</li>
+        <li><code>bg</code> stands for <b>b</b>ack<b>g</b>round</li>
+        <li>Once placed in the background, the job resumes running</li>
+        <li>If more than one job is running ...</li>
+        <li>you must give <code>bg</code> the job number</li>
+    </ul>
+    
+    <h4 class="topic" id="aborting_background">Aborting a Background Job</h4>
+    <ul class="flat">       
+        <li>There are two ways to abort a background job</li>
+        <li>You can bring a job from the background to the foreground ...</li>
+        <li>using the <code>fg</code> (<b>f</b>ore<b>g</b>round) command</li>
+        <li>Once you have the job in the foreground ...</li>
+        <li>you can abort it using Control C</li>
+        <li>When there is more than one job in the background ...</li>
+        <li>you must specify the job number when using <code>fg</code></li>
+        <li>You can also terminate any job using the <code>kill</code> command</li>
+        <li>But to use <code>kill</code> you must tell it what to kill</li>
+        <li>The usual way to do this is to give <code>kill</code> a process ID</li>
+        <li>If you don"t remember the process ID ...</li>
+        <li>run <code>ps</code> (<b>p</b>rocess <b>s</b>tatus) to get the process ID (PID)</li>
+        <li>You can also use the job number with <code>kill</code> ...</li>
+        <li>but you must precede a job number with a percent sign, <span class="char">%</span></li>
+        <li>You can get the job number by using the <code>jobs</code> command</li>
+    </ul>
+    
+    
+	<h3 class="section">New Material</h3>
+	
+	<h4 class="topic" id="pathname_expansion">Pathname Expansion</h4>
+    <ul class="flat">
+        <li>What if you wanted to get a long listing ...</li>
+        <li>on all files in a directory ...</li>
+        <li>whose names started with "example"?</li>
+        <li>If would be painful to type all the names ...</li>
+        <li>one at a time ...</li>
+        <li>as arguments to <code>ls</code></li>
+        <li>Fortunately, Unix provides a better way</li>
+        <li>This is a feature called 
+            <a class="def" href="../definitions.html#pathname_expansion">pathname expansion</a>
+        </li>
+        <li>The it is also sometimes called <a class="def" href="../definitions.html#globbing">globbing</a></li>
+        <li>Pathname expansion uses 
+        		<a class="def" href="../definitions.html#bash_meta-characters">meta-characters</a>
+        	</li>
+        <li>Meta-characters are sometimes called <a class="def" href="../definitions.html#wildcards">wildcards</a></li>
+        <li>They allow you to specify a pattern</li>
+        <li>When the shell sees such a pattern on the command line ...</li>
+        <li>it does something before executing the command</li>
+        <li>The shell replaces the pattern with a sorted list ...</li>
+        <li>of all pathnames that match the pattern ...</li>
+        <li>then it runs this altered command line</li>
+        <li>The pattern is called an 
+            <a class="def" href="../definitions.html#ambiguous_file_reference">ambiguous file reference</a>
+        </li>
+        <li>What happens if the shell finds no matching pathnames?</li>
+        <li>In that case, it passes the ambiguous file reference ...</li>
+        <li>to the program called on the command line</li>
+        <li>The shell lets the program try to make sense of the pattern</li>
+        <li>Pathname expansion is an operation ...</li>
+        <li>performed by the shell ...</li>
+        <li>before the program is called</li>
+        <li>You can use as many meta-characters as you want to form a pattern</li>
+        <li>Pathname expansion lets you specify a set of files ...</li>
+        <li>with a minimum amount of typing</li>
+        <li>It also comes in handy ...</li>
+        <li>when you can"t remember the exact pathname</li>
+        <li>Pathname expansion is different from 
+            <a class="def" href="../definitions.html#pathname_completion">pathname completion</a> ...
+        </li>
+        <li>which you get by hitting Tab</li>
+        <li>Pathname completion only gives you <b>one</b> pathname</li>
+        <li>Pathname expansion can create several pathnames ...</li>
+        <li>with one pattern</li>
+        <li>Pathname completion is an operation handled by <code>tty</code></li>
+        <li>Pathname expansion is performed by the shell</li>
+    </ul>
+    
+    <h4 class="topic" id="question_meta_char">The <span class="char">?</span> Meta-character</h4>
+    <ul class="flat">
+        <li>The question mark, <span class="char">?</span>, meta-character ...</li>
+        <li>stands for <b>any</b> one character</li>
+        <li>For a long listing of everything in my current directory </li>
+        <li>whose names begin with "dir" ...</li>
+        <li>followed by a single additional character ...</li>
+        <li>I could use
+            <pre>
+    $ ls -ld dir<span class="red">?</span>
+    drwxrwxrwx 2 it244gh libuuid 512 2011-09-30 15:26 dir<span class="red">1</span>
+    drwxr--r-- 2 it244gh libuuid 512 2011-09-30 15:26 dir<span class="red">2</span>
+    drwxrw---- 2 it244gh libuuid 512 2011-09-30 15:29 dir<span class="red">3</span>
+    drwxrw---- 2 it244gh libuuid 512 2011-09-30 15:29 dir<span class="red">4</span></pre>    
+        </li>
+        <li>Meta-characters work with any command
+            <pre>
+    $ echo dir<span class="red">?</span>
+    dir<span class="red">1</span> dir<span class="red">2</span> dir<span class="red">3</span> dir<span class="red">4</span></pre>
+        </li>
+        <li>The <span class="char">?</span> meta-character <b>does not</b> match ...</li>
+        <li>a leading period in a filename</li>
+        <li>You must explicitly enter a leading period, <span class="char">.</span> ...</li>
+        <li>when specifying an "invisible" file</li>
+    </ul>
+    
+    <h4 class="topic" id="*_meta_char">The <span class="char">*</span> Meta-character</h4>
+    <ul class="flat">     
+        <li>An asterisk, <span class="char">*</span> , will match any number of characters in a pathname</li>
+        <li>It will even match <b>no</b> characters</li>
+        <li>To find all the directories with names beginning with "dir" ...</li> 
+        <li>we can use the <span class="char">*</span> meta-character
+            <pre>
+    $ ls -ld dir<span class="red">*</span>
+    drwxr-xr-x 2 it244gh libuuid 512 2011-10-04 13:52 dir
+    drwxrwxrwx 2 it244gh libuuid 512 2011-09-30 15:26 dir<span class="red">1</span>
+    drwxr-xr-x 2 it244gh libuuid 512 2011-10-04 13:53 dir<span class="red">10</span>
+    drwxr--r-- 2 it244gh libuuid 512 2011-09-30 15:26 dir<span class="red">2</span>
+    drwxrw---- 2 it244gh libuuid 512 2011-09-30 15:29 dir<span class="red">3</span>
+    drwxr-xr-x 2 it244gh libuuid 512 2011-10-02 17:07 dir<span class="red">4</span></pre>
+        </li>
+        <li>Notice that <span class="char">*</span> returns more names than <span class="char">?</span></li>
+        <li>It returned <span class="path">dir</span>, which has no additional characters after the string "dir"</li>
+        <li>And it returned <span class="path">dir10</span> ...</li>
+        <li>since it will accept any number of characters</li>
+        <li>Note also that <span class="path">dir10</span> appears before <span class="path">dir2</span> ...</li>
+        <li>since the list the shell creates is sorted alphabetically
+        </li>
+        <li><span class="char">*</span> can be used with any command ...</li>
+        <li>even those that don"t normally deal with files
+            <pre>
+    $ echo dir<span class="red">*</span>
+    dir dir1 dir10 dir2 dir3 dir4</pre>
+        </li>
+        <li><span class="char">*</span> <b>cannot</b> be used to match the initial period, <span class="char">.</span> ...</li>
+        <li>in a hidden filename</li>
+        <li>But you can list all the hidden file in a directory using *
+            <pre>
+    $ echo <span class="red">.*</span>
+    . .. .addressbook .addressbook.lu .bash_history .cache .cshrc .login .msgsrc .pinerc .ssh</pre>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="[]_meta_char">The <span class="char">[</span> and <span class="char">]</span> Meta-characters</h4>
+    <ul class="flat">
+        <li>The square brackets, <span class="char">[</span> and <span class="char">]</span>, are also meta-characters</li>
+        <li>They work somewhat like the <span class="char">?</span></li>
+        <li>They only match a <b>single</b> character in a pathname ...</li>
+        <li>but the pathname character must match <b>one</b> of the characters ...</li>
+        <li>within the brackets</li>
+        <li>If I wanted a long listing of directories named <span class="path">dir1</span> 
+            <span class="path">dir2</span> and <span class="path">dir3</span> ...
+        </li>
+        <li>but wanted to omit <span class="path">dir4</span> </li>
+        <li>I could use
+            <pre>
+    ls -ld dir<span class="red">[123]</span>
+    drwxrwxrwx 2 it244gh libuuid 512 2011-09-30 15:26 dir<span class="red">1</span>
+    drwxr--r-- 2 it244gh libuuid 512 2011-09-30 15:26 dir<span class="red">2</span>
+    drwxrw---- 2 it244gh libuuid 512 2011-09-30 15:29 dir<span class="red">3</span></pre>
+        </li>
+        <li>No matter how many characters are within the brackets ...</li>
+        <li>the pattern can match only a <b>single character</b></li>
+        <li>You can use the bracket meta-characters with any program
+            <pre>
+    $ echo dir<span class="red">[123]</span>
+    dir1 dir2 dir3</pre>
+        </li>
+        <li>You can use a range to avoid explicitly listing all characters</li>
+        <li>A range is specified by listing the first and last characters ...</li>
+        <li>of a sequence ...</li>
+        <li>separated by a dash, <span class="char">-</span></li>
+        <li>The sequence is specified by alphabetical order
+            <pre>
+    ls -ld dir<span class="red">[1-3]</span>
+    drwxrwxrwx 2 it244gh libuuid 512 2011-09-30 15:26 dir<span class="red">1</span>
+    drwxr--r-- 2 it244gh libuuid 512 2011-09-30 15:26 dir<span class="red">2</span>
+    drwxrw---- 2 it244gh libuuid 512 2011-09-30 15:29 dir<span class="red">3</span></pre>
+        </li>
+        <li>The square brackets provide another shortcut</li>
+        <li>If you insert an exclamation mark, <span class="char">!</span> , or a caret, 
+            <span class="char">^</span> ...
+        </li>
+        <li>immediately after the opening bracket ...</li>
+        <li>the shell will match any single character ...</li>
+        <li>NOT included within the brackets
+            <pre>
+    $ echo foo<span class="red">[!46]</span>
+    foo<span class="red">1</span> foo<span class="red">2</span> foo<span class="red">3</span> foo<span class="red">5</span> foo<span class="red">7</span> foo<span class="red">8</span> foo<span class="red">9</span></pre>
+        </li>
+    </ul>
+	
+    <h4 class="topic" id="built-ins">Built-ins</h4>
+    <ul class="flat">       
+        <li>Not all commands can be found on disk ...</li>
+        <li>as executable files</li>
+        <li>Some are actually contained in the shell itself</li>
+        <li>Such commands are called <a class="def" href="../definitions.html#built-in_command">built-ins</a></li>
+        <li>When you run a built-in ...</li>
+        <li>the shell does not have to create a new process</li>
+        <li>Instead, the shell calls a procedure in its own code ...</li>
+        <li>to perform the task ...</li>
+        <li>so no subprocess is created</li>
+        <li>This makes execution faster</li>
+        <li>If there is an executable file with the same name as a built-in ...</li>
+        <li>the shell will run the built-in instead of the file</li>
+        <li><code>echo</code> is a built-in</li>
+        <li>There is also an executable version of <code>echo</code> on the disk
+            <pre>
+    $ which echo
+    /bin/echo</pre>    
+        </li>
+        <li>If you want to run the disk version of <code>echo</code> ...</li>
+        <li>you have to specify the pathname
+        		<pre>
+    $ <span class="red">/bin/echo</span> foo
+    foo</pre></li>
+        <li>Most built-ins have no executable counterpart on disk </li>
+        <li>Running <code>which</code> on such a command will find nothing
+            <pre>
+    $ which bg
+    $</pre>
+    		</li>
+    		<li>The <code>type</code> command will confirm this
+    			<pre>
+    $ type bg
+    bg is a shell builtin</pre>
+    		</li>
+    		<li><code>type</code> is also a built-in
+    			<pre>
+    $ type type
+    type is a shell builtin</pre>
+    		</li>
+    </ul>
+    
+    <h4 class="topic" id="help-built-in">Help for Built-ins</h4>
+    <ul class="flat">       
+        <li>If you run <code>man</code> on a built-in command ...</li>
+        <li>you will get nothing
+        		<pre>
+$ man bg
+No manual entry for bg</pre>
+        </li>
+        <li><code>info</code> also has no information about built-ins</li>
+        <li>But there is a command that you can use with built-ins ...</li>
+        <li>to learn something about the commands</li>
+        <li>The command is <code>help</code> ...</li>
+        <li>and it is itself a built-in</li>
+        <li>If you follow <code>help</code> with the name of a built-in ...</li>
+        <li>it will display some information on that command
+        		<pre>
+$ help bg
+bg: bg [job_spec ...]
+    Move jobs to the background.
+    
+    Place the jobs identified by each JOB_SPEC in the background, as if they
+    had been started with `&amp;".  If JOB_SPEC is not present, the shell"s notion
+    of the current job is used.
+    
+    Exit Status:
+    Returns success unless job control is not enabled or an error occurs.</pre>        
+        </li>
+        <li><code>help</code> <b>does not work</b> for normal commands
+        		<pre>
+$ help ls
+-bash: help: no help topics match `ls".  Try `help help" or `man -k ls" or `info ls".</pre>
+        </li>
+        <li>If you run <code>help</code> with no argument ...</li>
+        <li>it will show all the built-in commands ...</li>
+        <li>for which it can provide information
+        		<pre>
+$ help 
+GNU bash, version 4.3.11(1)-release (x86_64-pc-linux-gnu)
+These shell commands are defined internally.  Type `help" to see this list.
+Type `help name" to find out more about the function `name".
+Use `info bash" to find out more about the shell in general.
+Use `man -k" or `info" to find out more about commands not in this list.
+
+A star (*) next to a name means that the command is disabled.
+
+ job_spec [&amp;]                                               history [-c] [-d offset] [n] or history -anrw [filename>
+ (( expression ))                                           if COMMANDS; then COMMANDS; [ elif COMMANDS; then COMMA>
+ . filename [arguments]                                     jobs [-lnprs] [jobspec ...] or jobs -x command [args]
+ :                                                          kill [-s sigspec | -n signum | -sigspec] pid | jobspec >
+ [ arg... ]                                                 let arg [arg ...]
+ [[ expression ]]                                           local [option] name[=value] ...
+ alias [-p] [name[=value] ... ]                             logout [n]
+ bg [job_spec ...]                                          mapfile [-n count] [-O origin] [-s count] [-t] [-u fd] >
+...</pre>
+        </li>
+    </ul>
+
+    <h4 class="topic" id="different_shell_versions">Different Shell Versions</h4>
+    <ul class="flat">       
+        <li>The shell we have been using is Bash</li>
+        <li>Bash stands for <b>B</b>ourne <b>a</b>gain <b>sh</b>ell</li>
+        <li>The original Bourne shell was written by Steve Bourne ...</li>
+        <li>at AT&amp;T's Bell Laboratories</li>
+        <li>The original Bourne shell ...</li>
+        <li>also called the <code>sh</code> shell ...</li>
+        <li>is still with us</li>
+        <li>Many scripts are needed to set up and maintain Linux and Unix</li>
+        <li>Many of these scripts are quite old ...</li>
+        <li>and were written before the Bash shell</li>
+        <li>Those scripts are still in use</li>
+        <li>There are subtle differences between different shells</li>
+        <li>It's best to run a script in the shell for which it was written</li>
+        <li>Debian Linux and its derivatives use a striped down version of Bash ...</li>
+        <li>called Dash</li>
+        <li>Dash is much smaller than Bash</li>
+        <li>Dash is designed only to run scripts ...</li>
+        <li>and has fewer features</li>
+        <li>Its memory footprint is small ...</li>
+        <li>so it loads and executes scripts faster than Bash</li>
+        <li>System V Unix introduced the Korn shell, <code>ksh</code> ...</li>
+        <li>which was written by David Korn</li>
+        <li>It introduced aliases and 
+            <a class="def" href="../definitions.html#command_line_editing">command line editing</a>
+        </li>
+        <li>It also introduced other features that are now found in Bash</li>
+        <li>Another popular shell is the C shell ...</li>
+        <li>which is popular with C programmers ...</li>
+        <li>because it"s scripting language looks like C</li>
+        <li>There are two versions of this shell
+        		<ul class="flat">       
+        			<li class="flat"><code>csh</code></li>
+        			<li class="flat"><code>tcsh</code></li>
+    			</ul>
+        </li>
+        <li>But the difference between them is slight</li>
+        <li>Both the Korn and C shells cannot run <code>bash</code> scripts</li>       
+        <li>Our version of Ubuntu stores different shell versions in 
+        		<span class="path">/bin</span>
+        </li>
+        <li>We will only concern ourselves with <code>bash</code> ...</li>
+        <li>and to a lesser extent <code>sh</code></li>
+    </ul>
+  
+
+	<h4 class="topic" id="posix">POSIX</h4>
+	<ul class="flat">       
+        <li>A standard exists for how shells should run on Unix</li>
+        <li>that specifies how they must work</li>
+        <li>It was created by Portable Application Standards Committee ...</li>
+        <li>of the IEEE (<b>I</b>nstitute of <b>E</b>lectrical and <b>E</b>lectronics <b>E</b>ngineers ) </li>
+        <li>It is called POSIX (Portable Operating System Interface) 1003.2</li>
+        <li>The GNU community is working on making Bash fully compliant with POSIX</li>
+        <li>Until then you can run <code>bash</code> with the <code>--posix</code> option</li>
+        <li>This will make <code>bash</code> run in a way more compatible with the POSIX standard</li>
+    </ul>
+    
+    <h4 class="topic" id="ways_shell_can_be_created">Ways a Shell Can Be Created</h4>
+    <ul class="flat">       
+        <li>There are three ways a user can run a shell
+		    <ul class="flat">
+		        <li class="flat">Login shell</li>
+		        <li class="flat">Interactive non-login shell</li>
+		        <li class="flat">Non-interactive shell</li>
+		    </ul>
+        </li>
+        <li>There are subtle differences between these three types of shells</li>
+        <li>We'll concentrate on login shells in this course</li>
+        <li>But you should be aware of the existence of the other shell types</li>
+    </ul>
+    
+    <h4 class="topic" id="your_login_shell">Your Login Shell</h4>
+    <ul class="flat">
+        <li>When you first login to Unix, you are running a shell</li>
+        <li>This shell is your login shell</li>
+        <li>Which shell version you run is determined by the <span class="iden">SHELL</span> system variable
+            <pre>
+    $ echo $SHELL
+    /bin/bash</pre>
+        </li>
+        <li>In Ubuntu, the default shell version is Bash</li>
+        <li>When your login shell starts up ...</li>
+        <li>it runs the commands found in <span class="path">/etc/profile</span></li>
+        <li>This is a file customized by the system administrator ...</li>
+        <li>for all users</li>
+        <li>You can create your own customizations ...</li>
+        <li>in a <a class="def" href="../definitions.html#startup_file">startup file</a> in you home directory</li>
+        <li>That file must have one of these names
+            <ul class="flat">       
+                <li class="flat"><span class="path">.bash_profile</span></li>
+                <li class="flat"><span class="path">.bash_login</span></li>
+                <li class="flat"><span class="path">.profile</span></li>
+            </ul>
+        </li>
+        <li>If there is more than one of these files ...</li>
+        <li>in your home directory...</li>
+        <li>bash will each execute them ...</li>
+        <li>in the order given above</li>
+        <li>We will use <span class="path">.bash_profile</span></li>
+    </ul>
+    
+    <h4 class="topic" id="interactive_non-login_shells">Interactive Non-login Shells</h4>
+    <ul class="flat">       
+        <li>The shell is a program, just like <code>cat</code> or <code>ls</code></li>
+        <li>You can run another shell ...</li>
+        <li>as a sub-shell of your current shell ...</li>
+        <li>by typing the name of the shell at the command line
+            <pre>
+    $ ps
+      PID TTY          TIME CMD
+    12778 pts/1    00:00:00 bash
+    12969 pts/1    00:00:00 ps
+    
+    $ <span class="red">bash</span>
+    
+    $ ps
+      PID TTY          TIME CMD
+    12778 pts/1    00:00:00 bash
+    12970 pts/1    00:00:00 <span class="red">bash</span>
+    12973 pts/1    00:00:00 ps
+    $</pre>
+        </li>
+        <li>Notice that there are two <code>bash</code> processes</li>
+        <li>Your login <code>bash </code>shell is still running ...</li>
+        <li>but you are now runnin a second <code>bash</code> ...</li>
+        <li>which is running inside your login <code>bash</code> shell ...</li>
+        <li>as a sub-shell</li>
+        <li>This sub-shell is the second type of shell</li>
+        <li>It is <b>not</b> a login shell ...</li>
+        <li>because you ran this shell from the command line ...</li>
+        <li>when you were already logged in</li>
+        <li>It is an interactive non-login shell</li>
+        <li>When you run <code>script</code> to generate a typescript file ...</li>
+        <li>you are working inside an interactive non-login shell</li>
+        <li>It is interactive because you can type commands to it through the keyboard ...</li>
+        <li>but it is not the shell you got when you logged in</li>
+        <li>A non-login interactive shell is a shell that you create ...</li>
+        <li>without having to enter a password </li>
+        <li>The commands in the startup files named above
+            <ul class="flat">       
+                <li class="flat"><span class="path">.bash_profile</span></li>
+                <li class="flat"><span class="path">.bash_login</span></li>
+                <li class="flat"><span class="path">.profile</span></li>
+            </ul>
+        </li>
+        <li>are <b>NOT</b> run before starting this kind of shell</li>
+        <li>Instead, the commands found in <span class="path">.bashrc</span> are run ...</li>
+        <li>for a non-login interactive shell</li>
+        <li>You are not limited to running Bash</li>
+        <li>You can also run <code>sh</code> in a sub-shell
+            <pre>
+    $ ps
+      PID TTY          TIME CMD
+    19874 pts/27   00:00:00 bash
+    20500 pts/27   00:00:00 ps
+    
+    $ <span class="red">sh</span>
+    
+    $ ps
+      PID TTY          TIME CMD
+    19874 pts/27   00:00:00 bash
+    20510 pts/27   00:00:00 <span class="red">sh</span>
+    20526 pts/27   00:00:00 ps</pre>
+        </li>
+        <li>You leave a interactive login shell by typing <code>exit</code>
+            <pre>
+    $ ps
+      PID TTY          TIME CMD
+    19874 pts/27   00:00:00 bash
+    20737 pts/27   00:00:00 ps
+    
+    $ <span class="red">sh</span>
+    
+    $ ps
+      PID TTY          TIME CMD
+    19874 pts/27   00:00:00 bash
+    20743 pts/27   00:00:00 <span class="red">sh</span>
+    20751 pts/27   00:00:00 ps
+    
+    $ <span class="red">exit</span>
+    exit
+    
+    $ ps
+      PID TTY          TIME CMD
+    19874 pts/27   00:00:00 bash
+    20771 pts/27   00:00:00 ps</pre>
+        </li>
+    </ul>
+    
+    <h4 class="topic" id="non-interactive_shells">Non-interactive Shells</h4>
+    <ul class="flat">
+        <li>When you create a file of Linux commands ...</li>
+        <li>you have created a shell script</li>
+        <li>This is what you have been doing in the Class Exercises</li>
+        <li>A shell script contains Unix commands ...</li>
+        <li>which only a shell can understand ...</li>
+        <li>but your current shell goes to sleep ...</li>
+        <li>when you run a program ...</li>
+        <li>so your shell has to create a sub-shell to run the commands</li>
+        <li>Such a shell is called a non-interactive shell</li>
+        <li>There is no standard startup file for such a shell</li>
+        <li>You can create a startup file for non-interactive shells ...</li>
+        <li>if you put name of the file in the shell variable <span class="iden">BASH_ENV</span></li>
+    </ul>
+    
+    <h4 class="topic" id="creating_startup_files">Creating Startup Files</h4>
+    <ul class="flat">       
+        <li>A startup file contains Unix commands ...</li>
+        <li>that are run just before you get a prompt</li>
+        <li>Bash normally uses two startup files
+            <ul class="flat">       
+                <li class="flat"><span class="path">.bash_profile</span></li>
+                <li class="flat"><span class="path">.bashrc</span></li>
+            </ul>
+        </li>
+        <li><span class="path">.bash_profile</span> commands are run ...</li>
+        <li>before you get a prompt in a login shell</li>
+        <li><span class="path">.bashrc</span> commands are run ...</li>
+        <li>before you get a prompt in an interactive non-login shell</li>
+        <li><span class="path">.bash_profile</span> is where you define variables</li>
+        <li>We will not be talking much about <span class="path">.bashrc</span></li>
+        <li>Most Ubuntu installations only use <span class="path">.bashrc</span> ...</li>
+        <li>when running a GUI</li>
+        <li>Every time you open a window in a Linux GUI ...</li>
+        <li>you are creating an interactive non-login shell ...</li>
+        <li>which can be customized in <span class="path">.bashrc</span></li>
+    </ul>
+    
+    <h3 class="section">Attendance</h3>
+    
+    <h3 class="section">Class Quiz</h3>
+    
+
+	<footer>
+		<a href="class_notes_it244.html" class="spacer">Class Notes</a>
+		<a href="class_notes_index_it244.html" class="spacer">Class Notes Index</a>
+	</footer>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/16_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:39 GMT -->
+</html>

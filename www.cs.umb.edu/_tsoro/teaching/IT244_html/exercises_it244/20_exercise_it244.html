@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/20_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title> IT 244: Introduction to Linux/Unix - Class 19 Exercise</title>
+</head>
+<body>
+	<header>
+		<h2>IT 244: Introduction to Linux/Unix <br>
+		    Class 19 Exercise
+		</h2>	
+	</header>
+
+	<h3>Log in to <span class="host">users3.cs.umb.edu</span></h3>
+    <ul>
+    	<li><span class="under">Run the ssh client</span><br><br>
+        	Connect to <span class="host">users3.cs.umb.edu</span>.
+        </li>
+    </ul>
+	
+	<h3>Directory for This Exercise</h3>
+    <ul>
+        <li><span class="under">Go to your <span class="path">ex</span> directory</span>
+            <pre>
+    cd  ~/it244/ex</pre>
+        </li>
+        <li><span class="under">Create an <span class="path">ex19</span> directory</span><br>
+            <pre>
+    mkdir  ex19</pre>
+        </li>       
+        <li><span class="under">Go to your <span class="path">ex19</span> directory</span><br>
+            <pre>
+    cd  ex19</pre>
+        </li>
+    </ul>
+	
+    <h3>The <code>history</code> mechanism</h3>
+    <ul>
+        <li><span class="under">Run <code>history</code></span><br>
+            <pre>
+    history</pre>
+            The list you see here is every one of your last 500 command lines.
+        </li>
+        <li><span class="under">Display your last 10 command lines</span><br>
+            <pre>
+    history 10</pre>
+            When you give <code>history</code> a numeric argument, it lists only
+            that number of commands.
+        </li>
+        <li><span class="under">Execute again some previous command using the event number</span><br>
+            <pre>
+    !EVENT_NUMBER</pre>
+            where EVENT_NUMBER is a number you obtained from the <code>history</code> command.
+            <br><br>
+            Notice that the old command line appears first, and then the output that 
+            the command line produced.
+        </li>
+        <li><span class="under">Execute again some previous command using the first letter of that command line</span><br>
+            <pre>
+    !h</pre><br><br>
+        </li>
+    </ul>
+    
+    
+    <h3>Look at the Values of the <code>history</code> Variables</h3>
+    <ul>
+        <li><span class="under">Display <span class="iden">HISTFILE</span></span><br>
+            <pre>
+    echo $HISTFILE</pre>
+            This is the file that contains your history record.
+        </li>
+        <li><span class="under">Examine the most recent contents of your history file</span><br>
+            <pre>
+    tail $HISTFILE</pre>
+        </li>
+        <li><span class="under">Display <span class="iden">HISTFILESIZE</span></span><br>
+            <pre>
+    echo $HISTFILESIZE</pre>
+            This is the maximum number of command lines the history mechanism will
+            record in <span class="path">~/.bash_history</span> when you quit
+        </li>
+        <li><span class="under">Count the number of lines in your history file</span><br>
+            <pre>
+    cat $HISTFILE | wc -l </pre>
+            The <code>wc</code> (<b>w</b>ord <b>c</b>ount) command with the -l option 
+            counts the number of lines in the file
+            given to it as an argument.
+            <br><br>
+            The number this command returns should be less than our equal to the value
+            of <span class="iden">HISTFILE</span>.
+        </li>
+        <li><span class="under">Display <span class="iden">HISTFILESIZE</span></span><br>
+            <pre>
+    echo $HISTSIZE</pre>
+            The value of this variable sets the maximum number of command lines saved
+            by the history mechanism between individual terminal sessions.
+        </li>
+    </ul>
+    
+    <h3>Using <code>fc</code> to Edit a Command</h3>
+    <ul>
+        <li><span class="under">Go to my home directory and execute <code>pwd</code> on the same line</span><br>
+            <pre>
+    cd ~tsoro ; pwd</pre>
+        </li>
+        <li><span class="under">Run <code>fc</code></span><br>
+            <pre>
+    fc</pre>
+        The command line you just entered appears in an editing window.
+        </li>
+        <li><span class="under">Edit the command line</span><br><br>
+            Make it read like this:
+            <pre>
+    cd ~; pwd; ls</pre>
+        </li>
+        <li><span class="under">Save changes  and quit </span><br><br>
+            Save these changes (Control O) and quit (control X), using the key combinations 
+            you see at the bottom of the editing window.
+            <br><br>
+            The command line you just edited should appear first, followed by the output
+            of the edited command.
+            <br><br>
+            The edited command line has taken you to <b>your</b> home directory, run <code>pwd</code>
+            and list the contents of that directory.
+        </li>
+        <li><span class="under">Look at your last 16 command lines</span><br>
+            <pre>
+    fc -l</pre>
+        </li>
+        <li><span class="under">Edit some command line using its event number</span><br>
+            <pre>
+    fc EVENT_NUMBER</pre>
+        Make some changes save and quit.
+        </li>
+        <li><span class="under">Edit the last call to <code>history</code></span><br>
+            <pre>
+    fc h</pre>
+        Change the command to read
+        <pre>
+    history 5</pre>
+        </li>
+        <li><span class="under">Save these changes and quit</span><br>
+            The edited command will now run.
+        </li>
+    </ul>
+    
+    <h3>Command Line Editing</h3>
+    <ul>
+        <li><span class="under">Enter a long command line</span><br>
+            <pre>
+    echo foo; echo bar; echo bletch</pre>
+        </li>
+        <li><span class="under">Recover this last command line but <b>do not hit Enter</b></span><br>
+            <pre>
+    &uarr;</pre>
+        </li>
+        <li><span class="under">Go to the beginning of the command line</span><br>
+            <pre>
+    Control A</pre>
+        </li>
+        <li><span class="under">Go to the end of the command line</span><br>
+            <pre>
+    Control E</pre>
+        </li>
+        <li><span class="under">Go back to <b>just before</b> the last <code>echo</code> command</span><br><br>
+            Use the left arrow key (&larr;) to do this.
+        </li>
+        <li><span class="under">Remove the last <code>echo</code> command</span><br>
+            <pre>
+    Control K</pre>
+        </li>
+        <li><span class="under">Remove the command line completely</span><br>
+            <pre>
+    Control U</pre>
+        </li>
+    </ul>
+    
+    
+    <h3>Command Completion</h3>
+    <ul>
+        <li><span class="under">Go back to your <span class="path">ex19</span> directory</span><br>
+            <pre>
+    cd ~/it244/ex/ex19</pre>
+        </li>
+        <li><span class="under">Enter the first two letters of the <code>mkdir</code> command then hit Tab</span><br>
+            <pre>
+    mk[Tab]</pre>
+            The terminal should beep.
+        </li>
+        <li><span class="under">Hit Tab a second time</span><br>
+            <pre>
+    [Tab]</pre>
+            You should now see a list of all commands that begin with "mk".
+        </li>
+        <li><span class="under">Type "di" after "mk" and hit Tab</span><br><br>
+            The <code>mkdir</code> command is complete.
+        </li>
+        <li><span class="under">Create the directory <span class="path">dir1</span></span><br><br>
+            Add the argument "dir1" after <code>mkdir</code>.
+        </li>
+    </ul>
+    
+    
+    <h3>Pathname Completion</h3>
+    <ul>
+        <li><span class="under">Go to your <span class="path">it244</span> directory using pathname completion</span><br>
+            <pre>
+    cd  ~/it2[Tab]  [Enter]</pre>
+            You should now be in your <span class="path">it244</span> directory.
+        </li>
+        <li><span class="under">Show your current directory and it's contents</span><br>
+            <pre>
+    pwd ; ls</pre>
+        </li>
+        <li><span class="under">Enter the first few letters of a pathname, then hit Tab</span><br>
+            <pre>
+    cd ~/it244/e[Tab]</pre>
+            The Readline library adds an "x"
+        </li>
+        <li><span class="under">Hit Tab again</span><br><br>
+            The Readline library adds "ex" to the pathname.
+        </li>
+        <li><span class="under">Hit the Tab twice more</span><br><br>
+            The Readline library lists the example directories.
+        </li>
+        <li><span class="under">Add "20" and hit Return</span><br><br>
+            This will take you back to your <span class="path">ex19</span> directory.
+        </li>
+    </ul>
+    
+    
+    <h3>Variable Completion</h3>
+    <ul>
+        <li><span class="under">Create the variable <span class="iden">team</span></span><br>
+            <pre>
+    team='Red Sox'</pre>
+        </li>
+        <li><span class="under">Use variable completion to print the value of this variable</span><br>
+            <pre>
+    echo $t[Tab][Enter]</pre>
+        </li>
+        <li><span class="under">Create two new variables</span><br>
+            <pre>
+    blar=green ; bletch=red</pre>
+        </li>
+        <li><span class="under">Use variable name completion</span><br>
+            <pre>
+    echo $b[Tab]</pre>
+            Readline completion adds an l.
+        </li>
+        <li><span class="under">Use variable completion to see your choices</span><br>
+            <pre>
+[Tab][Tab]</pre>
+            Completion shows you the variables that match.
+        </li>
+        <li><span class="under">Complete the command</span><br>
+			<pre>
+r[Enter]</pre>
+		</li>
+    </ul>
+    
+    <h3>Aliases</h3>
+    <ul>
+        <li><span class="under">Go to your home directory</span><br>
+            <pre>
+    cd</pre>
+        </li>
+        <li><span class="under">Make sure you are in your home directory</span><br>
+            <pre>
+    pwd</pre>
+        </li>
+        <li><span class="under">Edit <span class="path">.bash_profile</span> using an editor</span><br>
+            <pre>
+    nano .bash_profile</pre>
+        </li>
+        <li><span class="under">Create the global variable <span class="iden">ex</span> in <span class="path">.bash_profile</span></span><br>
+            <pre>
+    export ex=it244/ex</pre>
+        </li>
+        <li><span class="under">Create an alias using your <span class="iden">ex</span> variable</span><br>
+            <pre>
+    alias ex='cd $ex'</pre>
+        </li>
+        <li><span class="under">Save these changes and quit</span><br>
+            <br>
+        </li>
+        <li><span class="under">Make this change take effect</span><br>
+            <pre>
+    source ~/.bash_profile</pre>
+        </li>
+        <li><span class="under">Use this alias</span><br>
+            <pre>
+    ex</pre>
+        </li>
+        <li><span class="under">Show your current directory</span><br>
+            <pre>
+    pwd</pre>
+    			You should be in your <span class="path">ex</span> directory inside your 
+    			<span class="path">it244</span> directory.
+        </li>
+        <li><span class="under">Go back to your home directory</span><br>
+            <pre>
+    cd</pre>
+        </li><li>Open <span class="path">.bash_profile</span> in an editor<span class="under"></span><br>
+            <pre>
+    nano .bash_profile</pre>
+        </li>
+        <li><span class="under">Create two new aliases</span><br>
+            <pre>
+    alias h='history 10'
+    alias hg='history | grep '</pre>
+        </li>
+        <li><span class="under">Save these changes and quit</span><br>
+            <br>
+        </li>
+        <li><span class="under">Make this change take effect</span><br>
+            <pre>
+    source .bash_profile</pre>
+        </li>
+        <li><span class="under">Run the first alias</span><br>
+            <pre>
+    h</pre>
+            You should see your last 10 command lines.
+        </li>
+        <li><span class="under">Run the second alias</span><br>
+            <pre>
+    hg cd</pre>
+        You should see every time you have run <code>cd</code> in the last
+        500 command lines.
+        </li>
+    </ul>
+    
+    <h3>Single and Double Quotes</h3>
+    <ul>
+        <li><span class="under">Create a variable</span><br>
+            <pre>
+    city=Boston</pre>
+        </li>
+        <li><span class="under">Display the value of this variable</span><br>
+            <pre>
+    echo $city</pre>
+        </li>
+        <li><span class="under">Define another variable using <b>single</b> quotes</span><br>
+            <pre>
+    capitol='$city is the capitol of Massachusetts'</pre><br><br><br>
+        </li>
+        <li><span class="under">Display the value of this variable</span><br>
+            <pre>
+    echo $capitol</pre>
+            The variable <span class="iden">city</span> is not evaluated because it was enclosed in
+            single quotes when defined.
+        </li>
+        <li><span class="under">Redefine <span class="iden">city</span> using <b>double</b> quotes</span><br>
+            <pre>
+    capitol="$city is the capitol of Massachusetts"</pre>
+        </li>
+        <li><span class="under">Display this redefined variable</span><br>
+            <pre>
+    echo $capitol</pre>
+            The double quotes permitted the shell to evaluate <span class="iden">city</span> when
+            assigning a value to <span class="iden">capitol</span>.
+        </li>
+        <li><span class="under">Make sure you are in your home directory</span><br>
+            <pre>
+    cd</pre>
+        </li>
+        <li><span class="under">Display the value of <span class="iden">PWD</span></span><br>
+            <pre>
+    echo $PWD</pre>
+            <span class="iden">PWD</span> has the address of your home directory.
+        </li>
+        <li><span class="under">Go to my home directory</span><br>
+            <pre>
+    cd ~tsoro</pre>
+        </li>
+    <li><span class="under">Display the value of <span class="iden">PWD</span></span><br>
+            <pre>
+    echo $PWD</pre>
+            <span class="iden">PWD</span> is now set to the address of my home directory.
+        </li>
+        <li><span class="under">Create an alias using this variable in <b>double</b> quotes</span><br>
+            <pre>
+    alias new_pwd="echo $PWD"</pre>
+        </li>
+        <li><span class="under">Use this alias in your current location</span><br>
+            <pre>
+    new_pwd</pre>
+            It displays the address of my home directory.
+        </li>
+        <li><span class="under">Return to your home directory</span><br>
+            <pre>
+    cd</pre>
+        </li>
+        <li><span class="under">Make sure you are in your home directory</span><br>
+            <pre>
+    pwd</pre>
+        </li>
+        <li><span class="under">Use the alias in this new location</span><br>
+            <pre>
+    new_pwd</pre>
+            The alias again returns the address of <b>my</b> home directory.
+            <br><br>
+            Since you created the alias in my home directory, and used double
+            quotes, the value of <span class="iden">PWD</span> at the time of definition was used in creating
+            the alias.
+            <br><br>
+             But you want alias to use the value of <span class="iden">PWD</span> at the time the alias is used.
+        </li>
+        <li><span class="under">Redefine the alias using <b>single</b> quotes</span><br>
+            <pre>
+    alias new_pwd='echo $PWD'</pre>
+        </li>
+        <li><span class="under">Use the newly redefined alias</span><br>
+            <pre>
+    new_pwd</pre>
+            It displays the address of your home directory.
+        </li>
+        <li><span class="under">Go to <b>my</b> home directory</span><br>
+            <pre>
+    cd ~tsoro</pre>
+        </li>
+        <li><span class="under">Use the redefined alias again</span><br>
+            <pre>
+    new_pwd</pre>
+            It displays the address of my home directory.
+            <br><br>
+            Since you defined the alias using single quotes, <span class="iden">PWD </span> was
+            not evaluated when it was defined, but instead, when it
+            is used.
+        </li>
+    </ul>
+    
+    <h3>Functions</h3>
+    <ul>
+        <li><span class="under">Go to your home directory</span><br>
+            <pre>
+    cd</pre>
+        </li>
+        <li><span class="under">Open <span class="path">.bash_profile</span> using <code>nano</code></span><br>
+            <pre>
+    nano  .bash_profile</pre>
+        </li>
+        <li><span class="under">Define a function</span><br>
+            <pre>
+    cheer ()
+    {
+        echo Go $1'!'
+    }</pre>
+        </li>
+        <li><span class="under">Define another function</span><br>
+            <pre>
+    print_args ()
+    {
+        echo "arg1: $1"
+        echo "arg2: $2"
+        echo "arg3: $3"
+    }</pre><br><br><br>
+        </li>
+        <li><span class="under">Save and quit</span><br>
+        </li>
+        <li><span class="under">Make these functions available in your login shell</span><br>
+            <pre>
+    source  ~/.bash_profile</pre>
+        </li>
+        <li><span class="under">Use the first  function</span><br>
+            <pre>
+    cheer 'Red Sox'</pre>
+        </li>
+        <li><span class="under">Use the second function</span><br>
+            <pre>
+    print_args  foo  bar  bletch</pre>
+        </li>
+    </ul>
+    
+    <h3>Checking Your Work</h3>
+    <ul>
+        <li><span class="under">Tell the instructor you have finished making changes to <span class="path">.bash_profile</span></span><br><br>
+            There is no Bash script for this Class Exercise.
+        </li>
+    </ul>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/exercises_it244/20_exercise_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:44 GMT -->
+</html>

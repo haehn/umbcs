@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_quiz_answers_it244/21_class_quiz_answers_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:57 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title>IT 244: Introduction to Linux/Unix - Answers to Class 21 Ungraded Quiz</title>
+</head>
+<body>
+	<header>
+		<h2>
+		    IT 244: Introduction to Linux/Unix <br>
+		    Answers to Class 21 Ungraded Quiz
+		</h2>	
+	</header>
+
+
+	<ol>
+        <li><!-- 21.1.0 -->
+            What does Bash do when it performs history expansion?
+            <pre><span class="answer">it reruns an old command line which it retrieves from the history list</span></pre>
+        </li>
+        <li><!-- 21.2.0 -->
+            What does Bash do when it performs alias substitution?
+            <pre><span class="answer">is substitutes the value of an alias for the name of the alias when it appears on the command line</span></pre>
+        </li>
+        <li><!-- 21.3.0 -->
+            Write the command you would use to create the files <span class="path">foo1.txt</span> to <span class="path">foo5.txt</span>
+            using brace expansion and the <code>touch</code> command.
+            <pre><span class="answer">touch  foo{1,2,3,4,5}.txt</span></pre>
+        </li>
+        <li><!-- 21.4.0 -->
+            What does Bash do when it performs tilde (~) expansion?
+            <pre><span class="answer">replaces ~ with the absolute address of your home directory or replaces 
+~UNIX_USERNAME with the absolute address of the home directory of UNIX_USERNAME</span></pre>
+        </li>
+        <li><!-- 21.5.0 -->
+            What does Bash do when it performs parameter and variable expansion?
+            <pre><span class="answer">substitutes the value of a variable or a parameter for the 
+name of the variable or parameter when preceded by a $</span></pre>
+        </li>
+        <li><!-- 21.6.0 -->
+            What does Bash do when it performs arithmetic expansion?
+            <pre><span class="answer">treats the digits inside double parentheses as numbers, performs arithmetic operations 
+on them and substitutes the result of that calculation for the expansion expression</span></pre>
+        </li>
+        <li><!-- 21.7.0 -->
+            What does Bash do when it performs command substitution?
+            <pre><span class="answer">runs the commands inside the parentheses in a subshell and substitutes the output from 
+those commands for the substitution expression</span></pre>
+        </li>
+        <li><!-- 21.8.0 -->
+            What would you write at the command line to define the alias ll whose value was ls -l ?
+            <pre><span class="answer">alias ll='ls -l'</span></pre>
+        </li>
+        <li><!-- 21.9.0 -->
+            Can an alias be mode global?
+            <pre><span class="answer">no</span></pre>
+        </li>
+        <li><!-- 21.10.0 -->
+            Can a function be made global?
+            <pre><span class="answer">no</span></pre>
+        </li>
+	</ol>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_quiz_answers_it244/21_class_quiz_answers_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:57 GMT -->
+</html>
+

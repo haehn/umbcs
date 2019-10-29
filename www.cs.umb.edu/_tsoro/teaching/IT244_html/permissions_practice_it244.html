@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/permissions_practice_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:22 GMT -->
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="../class_notes.html" media="screen" />
+	<title>IT 244: Introduction to Linux/Unix - Practice with Permissions</title>
+</head>
+<body>
+	<header>
+		<h2>
+		    IT 244: Introduction to Linux/Unix <br>
+		    Practice with Permissions
+		</h2>	
+	</header>
+
+	<p>	Print this page and write the <code>chmod</code> command to 
+		create the permissions required.
+	</p>
+	<p>	For the answers, click on 
+		<a href="permissions_practice_answers_it244.html">this link</a>.
+	</p>
+
+	<ul class="flat">
+    	<li>The file notes.txt
+    		<ul class="flat">
+    			<li class="flat">Owner - read, write</li>
+    			<li class="flat">Group - read, write</li>
+    			<li class="flat">Everyone - read, write</li>
+    		</ul>
+    	</li>
+    	<li>The file work/notes.txt
+    		<ul class="flat">
+    			<li class="flat">Owner - read, write</li>
+    			<li class="flat">Group - read</li>
+    			<li class="flat">Everyone - read</li>
+    		</ul>
+    	</li>
+    	<li>The file it244/work/notes.txt
+    		<ul class="flat">
+    			<li class="flat">Owner - read, write</li>
+    			<li class="flat">Group - read</li>
+    			<li class="flat">Everyone - no permissions</li>
+    		</ul>
+    	</li>
+    	<li>The file work/label_now.sh
+            <ul class="flat">
+                <li class="flat">Owner - read, write, execute</li>
+                <li class="flat">Group - read, execute</li>
+                <li class="flat">Everyone - read, execute</li>
+            </ul>
+        </li>
+        <li>The file it244/work/label_now.sh
+            <ul class="flat">
+                <li class="flat">Owner - all permissions</li>
+                <li class="flat">Group - read, execute</li>
+                <li class="flat">Everyone - no permissions</li>
+            </ul>
+        </li>
+        <li>The file work/label
+            <ul class="flat">
+                <li class="flat">Owner - write, execute</li>
+                <li class="flat">Group - execute</li>
+                <li class="flat">Everyone - execute</li>
+            </ul>
+        </li>
+        <li>The file it244/work/label
+            <ul class="flat">
+                <li class="flat">Owner - all permissions</li>
+                <li class="flat">Group - execute</li>
+                <li class="flat">Everyone - execute</li>
+            </ul>
+        </li>
+        <li>The file ~ghoffman/it244/work/label
+            <ul class="flat">
+                <li class="flat">Owner - read, execute</li>
+                <li class="flat">Group - execute</li>
+                <li class="flat">Everyone - no permisions</li>
+            </ul>
+        </li>
+        <li>The directory dir1
+            <ul class="flat">
+                <li class="flat">Owner - all permissions</li>
+                <li class="flat">Group - all permissions</li>
+                <li class="flat">Everyone - all permissions</li>
+            </ul>
+        </li>
+        <li>The directory dir1/dir2
+            <ul class="flat">
+                <li class="flat">Owner - <code>ls</code>, create &amp; delete files &amp; directories <code>cd</code> permissions</li>
+                <li class="flat">Group - <code>ls</code>, <code>cd</code> permissions</li>
+                <li class="flat">Everyone - <code>ls</code> permissions</li>
+            </ul>
+        </li>
+        <li>The directory ~ghoffman/dir3
+            <ul class="flat">
+                <li class="flat">Owner - <code>ls</code>, <code>cd</code> permissions</li>
+                <li class="flat">Group - <code>ls</code>, <code>cd</code> permissions</li>
+                <li class="flat">Everyone - no permissions</li>
+            </ul>
+        </li>
+        <li>The directory dir5
+            <ul class="flat">
+                <li class="flat">Owner - <code>ls</code>, <code>cd</code> permissions</li>
+                <li class="flat">Group - <code>cd</code> permissions</li>
+                <li class="flat">Everyone - <code>ls</code> permissions</li>
+            </ul>
+        </li>
+
+    </ul>
+<h5> Copyright : Glenn Hoffman, Director of the IT program, Umass-Boston</h5>
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/permissions_practice_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:23 GMT -->
+</html>
+

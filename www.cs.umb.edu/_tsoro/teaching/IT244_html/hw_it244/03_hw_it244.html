@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/hw_it244/03_hw_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:57 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title>IT 244: Introduction to Linux/Unix - Homework 3</title>
+</head>
+<body>
+<h2>
+    IT 244: Introduction to Linux/Unix <br>
+    Homework 3
+</h2>
+
+	<h3 class="section">Due Sunday, February 11th at 11:59 PM</h3>
+	
+	<h3 class="section">Deliverables</h3>
+	All this work should be done on <span class="host">users3.cs.umb.edu</span>.
+	<ol>
+		<li>
+			A <span class="path">.plan</span> file in your home directory
+			<br><br>
+		</li>
+		<li>
+	        A shell script named <span class="path">hw3.sh</span> that performs the operations listed below.<br>
+	        This file should be in an <span class="path">hw3</span> directory inside your 
+			<span class="path">hw</span> directory inside your <span class="path">it244</span> directory.<br>
+			See this <a href="../shell_scripts_homework.html">document</a> for instructions on creating this script.
+	    </li>
+	</ol>
+	
+	<h3 class="section">Details</h3>
+		<h4><span class="path">.plan</span></h4>
+		Go to your home directory and create a text file with the name<span class="path">.plan</span>. <br>
+		Put some information about yourself in this file. <br>
+		The text in this file will be printed	to the terminal when <code>finger</code> is run on your Unix ID or name. <br>
+		Use <code>nano</code> or any other Unix text editor to create this file.
+		<br><br>
+		20 points
+	
+	<h4>The shell script named <span class="path">hw3.sh</span></h4>
+		Create an <span class="path">hw3</span> directory in your <span class="path">hw</span> directory 
+	    inside your <span class="path">it244</span> directory. 
+		<br><br>
+		Go to this <span class="path">hw3</span> directory.
+		<br><br>
+		Run Unix commands that will execute the steps below. 
+		<br><br>
+		When you have a command line that does what the step asks you to do, copy it from the 
+		command line and paste it into <span class="path">hw3.sh</span> using <code>nano</code> or any other text editor.
+	    <br><br>
+	    When you have completed all the steps, create an echo statement before the commands for each step,
+	    that will print the step number to the terminal.
+	    <br><br>
+	    Make sure that your script meets all of the requirements mentioned
+		<a href="../shell_scripts_homework.html">here</a>.
+		<br><br>
+		<br><br>
+		80 points
+	<ol>
+	    <li> <!-- Step 1 -->
+	        Print to the terminal the contents of the file <span class="path">red_sox.txt</span> in <span class="path">/home/tsoro/course_files/it244_files</span> 
+	    </li>
+	    <li> <!-- Step 2 -->
+	        Using grep and pipes, <span class="char">|</span> , select all the Red Sox away games where they won, except
+	        for the games they played against the Orioles <br>
+	        Away games are indicated by the <span class="char">@</span> symbol
+		</li>
+		<li> <!-- Step 3 -->
+			Select all the Red Sox away games where they won, except
+			for the games they played against the Orioles, sorted by date in reverse order
+		</li>
+		<li> <!-- Step 4 -->
+			Print the contents of the file <span class="path">foo.txt</span> in <span class="path">/home/tsoro/course_files/it244_files</span> to the
+			terminal
+		</li>
+		<li> <!-- Step 5 -->
+			Print to the terminal the contents of <span class="path">foo.txt</span>, 
+			selecting only those lines with the word "foo" as a whole word <br>
+			In other words, "foo" must <b>NOT</b> appear as part of another string,
+			like "foobbbbbbbb". <br>
+			There is an option for <code>grep</code> that tells it to only match the string when it
+			appears as a word, not as part of a bigger string <br>
+			Check the <code>man</code> page for <code>grep</code> to find this option
+			<br>
+			Don't call the <code>man</code> page from within your shell script.
+		</li>
+		<li> <!-- Step 6 -->
+			Print to the terminal the lines in <span class="path">foo.txt</span> that have the string ### in them
+		</li>
+		<li> <!-- Step 7 -->
+			Print the contents of the file <span class="path">numbers1.txt</span> in <span class="path">/home/tsoro/course_files/it244_files</span> to
+			the terminal
+		</li>
+		<li> <!-- Step 8 -->
+			Use head and tail to print to the terminal lines 6 through 13 in <span class="path">numbers1.txt</span>
+		</li>
+		<li> <!-- Step 9 -->
+			Use sort to print to the terminal the contents of <span class="path">numbers1.txt</span> in reverse numerical order
+		</li>
+		<li> <!-- Step 10 -->
+			Use diff to print to the terminal the differences between <span class="path">numbers1.txt</span> and <span class="path">numbers2.txt</span> in a human
+			readable format
+		</li>
+		<li> <!-- Step 11 -->
+			Print to the terminal the name of the host to which you are connected
+		</li>
+		<li> <!-- Step 12-->
+			Consult the <code>man</code> page for date, then use this command to print to the terminal the date in the format
+			yyyy-mm-dd. 
+			<br>
+			Don't call the <code>man</code> page from within your shell script. 
+		</li>
+		<li> <!-- Step 13 -->
+			Print to the terminal the location of the executable file for <code>perl</code>, a scripting language. The command
+			you use should only work for executable files
+		</li>
+		<li> <!-- Step 14 -->
+			Find all files that have the string "nano" in their filename
+		</li>
+		<li> <!-- Step 15 -->
+			List all the users currently logged in to <span class="host">users3</span>
+		</li>
+		<li> <!-- Step 16 -->
+			Run <code>finger</code> on your Unix username to print to the terminal the information you entered
+			in your <span class="path">.plan</span> file
+		</li>
+	</ol>
+
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/hw_it244/03_hw_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:57 GMT -->
+</html>

@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/06_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:23 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../class_notes.css">
+    <title> IT 244: Introduction to Linux/Unix - Class 6</title>
+</head>
+<body>
+	<header>
+		<h2> 
+		    IT 244: Introduction to Linux/Unix <br>
+		    Class 6
+		</h2>	
+	</header>
+	
+	<!-- MOVE COMPRESSION & tar TO NEXT CLASS NOTES -->
+
+    <h3 class="section">Today's Topics</h3>
+    
+    <h4 class="flat_under">Tips and Examples</h4>
+    <ul class="flat">       
+        <li class="flat"><a href="#copying_pasting_at_command_line">Copying and Pasting at the Command Line</a></li>
+        <li class="flat"><a href="#space_in_wrong_place">A Space in the Wrong Place</a></li>
+        <li class="flat"><a href="#finding_errors_in_script">Finding Errors in a Script</a></li>
+    </ul>
+    <br>
+    <h4 class="flat_under">Review</h4>
+    <ul class="flat_top">
+        <li class="flat"><a href="#echo"><code>echo</code> - Print Text to the Terminal</a></li>
+        <li class="flat"><a href="#hostname"><code>hostname</code> - Print the Name of Your Host Machine</a></li>
+        <li class="flat"><a href="#pagers">Pagers - View a File One Screen at a Time</a></li>
+        <li class="flat"><a href="#pathname_completion">Pathname Completion</a></li>
+        <li class="flat"><a href="#grep"><code>grep</code> - Finding Strings inside Files</a></li>
+        <li class="flat"><a href="#head"><code>head</code> - View the Top of a File</a></li>
+        <li class="flat"><a href="#tail"><code>tail</code> - View the Bottom of a File</a></li>
+        <li class="flat"><a href="#sort"><code>sort</code> - Print a File in Sorted Order</a></li>
+    </ul>
+    <br>
+    <h4 class="flat_under">New Material</h4>
+    <ul class="flat_top">
+    		<li class="flat"><a href="#uniq"><code>uniq</code> - Eliminate Duplicate Lines</a></li>
+        <li class="flat"><a href="#diff"><code>diff</code> - Differences between Files</a></li>
+        <li class="flat"><a href="#shell_prompt">The Shell Prompt</a></li>
+        <li class="flat"><a href="#file"><code>file</code> - Show the File Type</a></li>
+        <li class="flat"><a href="#pipes">Pipes - Stringing Programs Together</a></li>
+        <li class="flat"><a href="#date"><code>date</code> - Get the Date and Time</a></li>
+        <li class="flat"><a href="#text_file_conversion">Text File Conversion Programs</a></li>
+        <li class="flat"><a href="#bzip2">Compressing Files with <code>bzip2</code></a></li>
+        <li class="flat"><a href="#gzip"><code>gzip</code> - the GNU Compression Utility</a></li>
+        <li class="flat"><a href="#tar"><code>tar</code> - Packaging Files for Transfer or Storage</a></li>
+        <li class="flat"><a href="#which"><code>which</code> - Finding a Program File</a></li>
+        <li class="flat"><a href="#whereis"><code>whereis</code> - Finding Files Used by a Program</a></li>
+        <li class="flat"><a href="#locate"><code>locate</code> - Search for Any File</a></li>
+        <li class="flat"><a href="#find"><code>find</code> - Search for Files Using Different Criteria</a></li>
+        <li class="flat"><a href="#who"><code>who</code> - See Users Logged On</a></li>
+        <li class="flat"><a href="#finger"><code>finger</code> - Get information on Users</a></li>
+    </ul>
+    
+    <h3 class="section">Reading Assignment</h3>
+    <p class="flat">The reading assignment for this week is chapter 3 of Sobell, <i>The Utilities</i>.</p>
+    <p>You will find a list of all reading assignments <a href="../readings_it244.html">here</a>.</p>
+    <p>There is a link to this page on the class web page.</p>
+    
+    <h3 class="section">Homework 3</h3>
+    <p class="flat">I have posted Homework 3 <a href="../hw_it244/03_hw_it244.html"> here</a>.</p>
+    <p>As usual, it will be due next Sunday at 11:59 PM.</p>
+    <p>The is the first homework assignment that will require you to write a script.</p>
+	<p>Your script <b>must</b> meet certain requirements that I mentioned in the last class.</p>
+	<p>Let's review the 
+	   <a href="../shell_scripts_homework.html">requirements for homework scripts</a>.
+	</p>
+    
+    <h3 class="section">Tips and Examples</h3>
+    
+    <h4 class="topic" id="copying_pasting_at_command_line">Copying and Pasting at the Command Line</h4>
+    <ul class="flat">
+    		<li>You can have many 
+    			<a class="def" href="../definitions.html#ssh">ssh</a> windows open ...
+    		</li>
+    		<li>at the same time</li>
+    		<li>Each of these windows runs inside an
+    			<a class="def" href="../definitions.html#ssh_client">ssh client</a>
+    		</li>
+    		<li>These programs allow you to copy from one window ...</li>
+    		<li>and paste into another</li>
+        <li>On my Mac I log into <span class="host">users3</span> ...</li>
+        <li>using the MacOS Terminal application ...</li>
+        <li>where I can copy text by selection it ...</li>
+        <li>holding down the Apple Command key ...</li>
+        <li>and pressing the C key</li>
+        <li>Similarly, if I have already copied something ...</li>
+        <li>I can paste it into the Terminal command line ...</li>
+        <li>by holding down the Apple Command key ...</li>
+        <li>and pressing the C key</li>
+        <li>In PuTTY simply selecting text will copy it</li>
+        <li>You do not have to use Control C</li>
+        <li>To paste into PuTTY simply click the left mouse button ...</li>
+        <li>or use select Paste from the Edit menu</li>
+    </ul>
+
+    <h4 class="topic" id="space_in_wrong_place">A Space in the Wrong Place</h4>
+    <ul class="flat">       
+        <li>I have often said that a mistake of a single character on the Unix command line ...</li>
+        <li>can cause a command to fail</li>
+        <li>I discovered a great example of this some semesters ago  ...</li>
+        <li>while helping a student with a <span class="path">ex5.sh</span> script</li>
+        <li>The problem involved two lines of the script
+        	<pre>
+...
+cd   /home/tsoro/course_files/it244_files
+...
+grep  -r  foo  .
+...</pre>
+        </li>
+        <li>The idea was to go to my <span class="path">it244_files</span> directory</li>
+        <li>and search for lines that had "foo' in them ...</li>
+        <li>in all the files and subdirectories</li>
+        <li>The error was caused by putting a single space ...</li>
+        <li>in the wrong place in the <code>cd</code> command</li>
+        <li>Instead of typing the <code>cd</code> command given above ...</li>
+        <li>the student typed
+        	<pre>
+cd   / home/tsoro/course_files/it244_files</pre>
+        </li>
+        <li>Notice the space between the <span class="char">/</span> and "home"</li>
+        <li>Because of this extra space ...</li>
+        <li>the <code>cd</code> command changed the directory to <span class="char">/</span> ...</li>
+        <li>which is the top of the filesystem</li>
+        <li>The text after the space was ignored ...</li>
+        <li>because <code>cd takes only one argument</code></li>
+        <li>The <code>-r</code> option to <code>grep</code> causes it to search files ...</li>
+        <li>in all subdirectories</li>
+        <li>This command will print all lines containing "foo" ...</li>
+        <li>in the <b>entire filesystem</b></li>
+        <li>The only way to stop this is to use Control C</li>
+    </ul>
+    
+    <h4 class="topic" id="finding_errors_in_script">Finding Errors in a Script</h4>
+    <ul class="flat">       
+        <li>Shell scripts are small programs</li>
+        <li>If a script contains a command that makes no sense ...</li>
+        <li>You will get an error when you run the script</li>
+        <li>The following script contains an error
+        		<pre>
+$ cat go_home_bad.sh
+# this script contains an error
+cd /home/ghofman
+pwd</pre>
+        </li>
+        <li>When I run it I get
+        		<pre>
+$ bash go_home_bad.sh
+<span class="red">go_home_bad.sh: line 2: cd: /home/tsoro: No such file or directory</span>
+/home/tsoro/course_files/it244_file</pre>
+        </li>
+        <li>Notice that even though there was an error on the first line ...</li>
+        <li>the script continued to run</li>
+        <li>In this case the error was a spelling mistake</li>
+        <li>The name of my home directory is <span class="path">tsoro</span> ...</li>
+        <li>not <span class="path">ghofman</span></li>
+        <li>But what if after the error message appeared ...</li>
+        <li>there were several lines of output ...</li>
+        <li>which made it hard to see the error message?</li>
+        <li>The following script produces many lines of output ...</li>
+        <li>but it has the same error on the first line
+			<pre>
+$ cat go_home_bad_2.sh
+# this script contains an error which is 
+# hard to see in the output
+cd /home/ghofman
+ls -l</pre>        
+        </li>
+        <li>When I run this script it prints an error message ...</li>
+        <li>but that message is hard to see ...</li>
+        <li>because it scrools by fast off the top of the screen
+        		<pre>
+$ bash go_home_bad_2.sh
+<span class="red">go_home_bad_2.sh: line 3: cd: /home/ghofman: No such file or directory</span>
+-rw-rw-r-- 1 ghoffman faculty   51 Jun  8 11:54 numbers1.txt
+-rw-rw-r-- 1 ghoffman faculty   51 Jun  8 10:55 numbers2.txt
+-rw-rw-r-- 1 ghoffman faculty   50 Jun  8 10:55 numbers.txt
+-rwxrwxr-x 1 ghoffman faculty   94 Jun  8 10:55 print_arg_numbers.sh
+-rwxrwxr-x 1 ghoffman faculty  156 Jun  8 10:55 print_foo_bar.sh
+-rwxrwxr-x 1 ghoffman faculty   71 Jun  8 10:55 print_foo.sh
+-rwxrwxr-x 1 ghoffman faculty  132 Jun  8 10:55 print_positionals.sh
+-rwxrwxr-x 1 ghoffman faculty  122 Jun  8 10:55 read_1.sh
+-rwxrwxr-x 1 ghoffman faculty  141 Jun  8 10:55 read_2.sh
+-rw-rw-r-- 1 ghoffman faculty 1214 Jun  9 10:35 red_sox.txt
+-rwxrwxr-x 1 ghoffman faculty  260 Jun  8 10:55 repeat.sh
+....</pre>
+        </li>
+        <li>There is a trick that you can use ...</li>
+        <li>to see <b>only</b> the error messages
+        		<pre>
+$ bash go_home_bad_2.sh <span class="red">> /dev/null</span>
+go_home_bad_2.sh: line 3: cd: /home/ghofman: No such file or directory</pre>
+        </li>
+        <li>When I follow the command with
+        		<pre>
+> /dev/null</pre>
+        </li>
+        <li>Unix throws away everything <b>except</b> the error messages</li>
+        <li>You'll see why this works when we discuss redirection ...</li>
+        <li>in a future class</li>       
+    </ul>
+
+    <h3 class="section">Review</h3>
+    
+    <h4 class="topic" id="echo"><code>echo</code> - Print Text to the Terminal</h4>
+    <ul class="flat">       
+        <li><code>echo</code> prints text to the screen
+            <pre>
+$ echo Hello
+Hello</pre>
+        </li>
+        <li>You can use <code>echo</code> to print the value of a system variable ...</li>
+        <li>if your precede the variable name with a <span class="char">$</span>
+            <pre>
+$ echo $SHELL
+/bin/bash</pre>
+        </li>
+    </ul>
+        
+    <h4 class="topic" id="hostname"><code>hostname</code> - Print the Name of Your Host Machine</h4>
+    <ul class="flat">       
+        <li><code>hostname</code> prints the network name of the machine that you have logged on to
+            <pre>
+$ hostname
+itserver6</pre></li>
+        <li>When used with the <code>-i</code> option ...</li>
+        <li><code>hostname</code> will print the IP address of the machine
+            <pre>
+hostname -i
+192.168.107.136</pre></li>
+    </ul>
+        
+    <h4 class="topic" id="pagers">Pagers - View a File One Screen at a Time</h4>
+    <ul class="flat">       
+        <li>Pagers are programs that display the contents of a file ...</li>
+        <li>one screenful at a time</li>
+        <li>The two pagers that Unix supplies are <code>more</code> and <code>less</code></li>
+        <li>Hitting the Space bar advances to the next screen</li>
+        <li>Hitting the Enter or Return key takes you down one line</li>
+        <li><code>less</code>, just to be confusing, has more features than <code>more</code></li>
+    </ul>
+    
+    <h4 class="topic" id="pathname_completion">Pathname Completion</h4>
+    <ul class="flat">       
+        <li>When typing a long file name it is easy to make a mistake</li>
+        <li>To make life easier, Unix provides a feature called
+            <a class="def" href="../definitions.html#pathname_completion">pathname completion</a>
+        </li>
+        <li>You type a few characters ...</li>
+        <li>then hit the Tab key ...</li>
+        <li>and Unix will try to supply the rest</li>
+        <li>If there is only one file or directory that matches ...</li>
+        <li>Unix will fill in the rest of the name</li>
+        <li>If there is more than one match ...</li>
+        <li>Unix will supply as much as it can and then beep</li>
+        <li>If you hit Tab again it will show you the possible matches</li>
+        <li>If there is no match, it will also beep</li>
+    </ul>
+    
+    <h4 class="topic" id="grep"><code>grep</code> - Finding Strings inside Files</h4>
+    <ul class="flat">  
+        <li><code>grep</code> is used to find all lines in a file ...</li>
+        <li>that contain a certain <a class="def" href="../definitions.html#string">string</a></li>     
+        <li><code>grep</code> takes two arguments
+            <ul class="flat">       
+                <li class="flat">The string you are searching for</li>
+                <li>The file or files in which to search</li>
+            </ul>
+        </li>
+        <li><code>grep</code> has the following format
+            <pre>
+<span class="format">grep STRING FILE [FILE ...]</span></pre>
+        </li>
+        <li>To run <code>grep</code> on the files in a directory ...</li>
+        <li>use the -r (<b>r</b>ecursive) option</li>
+        <li><code>grep -r</code> will search through all files in a directory ...</li>
+        <li>and in all subdirectories</li>
+        <li><code>grep</code>, like Unix, is case sensitive</li>
+        <li>It thinks of "foo" and "FOO" as two different strings</li>
+        <li>To have <code>grep</code> ignore case ...</li>
+        <li>run it with the -i option</li>
+        <li>To have <code>grep</code> find all lines that <b>do not</b> match a string ...</li>
+        <li>run it with the -v option</li>
+    </ul>
+    
+    <h4 class="topic" id="head"><code>head</code> - View the Top of a File</h4>
+    <ul class="flat">       
+        <li><code>head</code> prints the first 10 lines of any file</li>
+        <li>If you want a different number of lines ...</li>
+        <li>follow <code>head</code> with a dash, <span class="char">-</span>, and a number
+            <pre>
+head <span class="red">-20</span> foo.txt</pre></li>
+    </ul>
+
+	<h4 class="topic" id="tail"><code>tail</code> - View the Bottom of a File</h4>
+	<ul class="flat">       
+        <li><code>tail</code> prints the last 10 lines of any file</li>
+        <li>If you want a different number of lines ...</li>
+        <li>follow <code>tail</code> with a dash, <span class="char">-</span>, and a number
+            <pre>
+tail <span class="red">-5</span> foo.txt</pre></li>
+    </ul>
+	
+	<h4 class="topic" id="sort"><code>sort</code> - Print a File in Sorted Order</h4>
+	<ul class="flat">       
+        <li><code>sort</code> prints all the lines in a file ...</li>
+        <li>in sorted order</li>
+        <li><code>sort</code> <b>does not</b> change the file</li>
+        <li>To sort in reverse order use the <span class="char">-r</span> option</li>
+        <li><code>sort</code>, by default, sorts in alphabetical order</li>
+        <li>This is a problem when the first characters on a line are numbers</li>
+        <li>That's because 11 will sort before 2</li>
+        <li>To sort in numerical order use <code>sort -n</code></li>
+        <li>To sort in reverse numerical order use <code>sort -nr</code></li>
+    </ul>
+	
+	<h3 class="section">New Material</h3>
+	
+	<h4 class="topic" id="uniq"><code>uniq</code> - Eliminate Duplicate Lines</h4>
+	<ul class="flat">       
+		<li><code>uniq</code> prints the lines in a file</li>
+        <li>removing <b>adjacent</b> identical lines
+            <pre>
+$ cat numbers2.txt 
+4
+5
+6
+7
+8
+9
+10
+11
+11
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+	
+$ uniq numbers2.txt 
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20</pre></li>
+	   <li>Note, the duplicate lines must be <b>adjacent</b> ...</li>
+	   <li>for <code>uniq</code> to work</li>
+	   <li>For this reason, it's good to use <code>sort</code> along with <code>uniq</code></li>
+	   <li><code>uniq -i</code> ignores case when looking for duplicate lines</li>
+    </ul>
+
+	<h4 class="topic" id="diff"><code>diff</code> - Differences between Files</h4>
+	<ul class="flat">       
+        <li><code>diff</code> compares two files ...</li>
+        <li>and displays the lines that are different</li>
+        <li>The default output format of <code>diff</code> is confusing 
+            <pre>
+$ cat numbers1.txt 
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+	
+$ cat numbers2.txt 
+4
+5
+6
+7
+8
+9
+10
+11
+11
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+	
+$ diff  numbers1.txt  numbers2.txt 
+1,3d0
+&lt; 1
+&lt; 2
+&lt; 3
+10a8,9
+&gt; 11
+&gt; 11</pre></li>
+	   <li><code>diff</code> was created for use with the Unix <code>patch</code> utility ...</li>
+	   <li>which creates a new version of a file ...</li>
+	   <li>from the changes given by <code>diff</code></li>
+	    <li>This output was never meant to be read by people</li>
+        <li>The most readable output is obtained by using the -y option
+            <pre>
+$ diff  <span class="red">-y</span>  numbers1.txt numbers2.txt 
+<span class="red">1                                 &lt;
+2                                 &lt;
+3                                 &lt;</span>
+4                               4
+5                               5
+6                               6
+7                               7
+8                               8
+9                               9
+10                              10
+<span class="red">                                &gt;  11
+                                &gt;  11</span>
+11                              11
+12                              12
+13                              13
+14                              14
+15                              15
+16                              16
+17                              17
+18                              18
+19                              19
+20                              20</pre></li>
+        <li><code>diff -i</code> ignores case when looking for differences.</li>
+    </ul>
+    
+    <h4 class="topic" id="shell_prompt">The Shell Prompt</h4>
+    <ul class="flat">
+        <li>In the last class I mentioned <a class="def" href="../definitions.html#shell_variable">shell variables</a></li>
+        <li>We'll talk a lot more about them in a few weeks</li>
+        <li>But right now I'd like to say a few words about one particular variable</li>
+        <li><span class="iden">PS1</span> is the variable that determines your Unix prompt</li>
+        <li>This variable can be customized in many ways ...</li>
+        <li>to provide all sorts of useful information</li>
+        <li>By default <span class="iden">PS1</span> tells you three things
+            <ul class="flat">       
+                <li class="flat">Your Unix username</li>
+                <li class="flat">The machine to which you are connected</li>
+                <li class="flat">The location of your current directory</li>
+            </ul>
+        </li>
+        <li>Some of you may have noticed that my prompt ...</li>
+        <li>looks different from yours</li>
+        <li>That's because I have customized the value of <span class="iden">PS1</span> ...</li>
+        <li>for my Unix account</li>
+        <li>But before I did this, my prompt looked like this
+            <pre>
+tsoro<span class="red">@</span>vm74<span class="red">:</span>~/it244/work<span class="red">$</span></pre>   
+        </li>
+        <li>The characters before the <span class="char">@</span> show my Unix username ...</li>
+        <li>the characters between <span class="char">@</span> and <span class="char">:</span>
+            are the <a class="def" href="../definitions.html#hostname">hostname</a> 
+        </li>
+        <li>of the machine I am using ...</li>
+        <li>and the characters from <span class="char">:</span> to 
+        		<span class="char">$</span> show my current directory
+        </li>
+        <li>The <span class="char">~</span> indicates my home directory</li>
+        <li>We'll talk more about this in a future class</li>
+        <li>So when I got this prompt, I was in the directory
+            <pre>
+/home/tsoro/it244/work</pre>
+        </li>
+        <li>If you look carefully at your prompt ...</li>
+        <li>you can always see where you are in the Unix filesystem</li>
+    </ul>
+    
+    <h4 class="topic" id="file"><code>file</code> - Show the File Type</h4>
+    <ul class="flat">
+        <li>The <code>file</code> utility takes an argument of one or more files ...</li>
+        <li>and shows the type of each
+            <pre>
+$ file *
+bin:                 directory
+cars.txt:            ASCII text
+cmds:                directory
+dead.letter:         ASCII news text
+downloads:           directory
+exercises_it244:     directory
+f11_it244_class_web: directory
+hw_it244:            directory
+it244:               symbolic link to `/courses/it244/s12/ghoffman/'
+java:                directory
+...     </pre>
+		</li>
+		<li>You can also run <code>file</code> on individual files
+			<pre>
+$ file break.sh
+break.sh: Bourne-Again shell script, ASCII text executable
+
+$ file make_upper.py 
+make_upper.py: Python script, ASCII text executable
+
+$ file index.html 
+index.html: HTML document, ASCII text</pre>
+		</li>
+    </ul>
+    
+    <h4 class="topic" id="pipes">Pipes - Stringing Programs Together</h4>
+    <ul class="flat">       
+        <li><a class="def" href="../definitions.html#pipe">Pipes</a> are one of the most powerful features of Unix</li>
+        <li>A pipe takes the output of one Unix command ...</li>
+        <li>and feeds it into the input of another</li>
+        <li>Using pipes you can string programs together ...</li>
+        <li>so they can perform a task ...</li>
+        <li>that none of them could do separately</li>
+        <li>A pipe consists of two or more Unix commands ...</li>
+        <li>each one separated from the one that came before by <span class="char">|</span></li>
+        <li>Using a pipe, we can build up a string of commands ...</li>
+        <li>to get exactly what we want</li>
+        <li>Let's say we want to find all Red Sox wins against the Rays ...</li>
+        <li>sorted in reverse order by date ...</li>
+        <li>from the following file
+            <pre>
+$ cat <span class="red">red_sox.txt</span> 
+2011-07-02      Red Sox @  Astros       Win 7-5
+2011-07-03      Red Sox @  Astros       Win 2-1
+2011-07-04      Red Sox vs Blue Jays    Loss 7-9
+2011-07-05      Red Sox vs Blue Jays    Win 3-2
+2011-07-06      Red Sox vs Blue Jays    Win 6-4
+2011-07-07      Red Sox vs Orioles      Win 10-4
+2011-07-08      Red Sox vs Orioles      Win 10-3
+2011-07-09      Red Sox vs Orioles      Win 4-0
+2011-07-10      Red Sox vs Orioles      Win 8-6
+2011-07-15      Red Sox @  Rays         Loss 6-9
+2011-07-16      Red Sox @  Rays         Win 9-5
+2011-07-17      Red Sox @  Rays         Win 1-0
+2011-07-18      Red Sox @  Orioles      Win 15-10
+2011-07-19      Red Sox @  Orioles      Loss 2-6
+2011-07-20      Red Sox @  Orioles      Win 4-0
+2011-07-22      Red Sox vs Mariners     Win 7-4
+2011-07-23      Red Sox vs Mariners     Win 3-1
+2011-07-24      Red Sox vs Mariners     Win 12-8
+2011-07-25      Red Sox vs Royals       Loss 1-3
+2011-07-26      Red Sox vs Royals       Win 13-9
+2011-07-27      Red Sox vs Royals       Win 12-5
+2011-07-28      Red Sox vs Royals       Loss 3-4
+2011-07-29      Red Sox @  White Sox    Loss 1-3
+2011-07-30      Red Sox @  White Sox    Win 10-2
+2011-07-31      Red Sox @  White Sox    Win 5-3</pre></li>
+        <li>First let's find all games against the Rays
+        <pre>
+$ grep <span class="red">Rays</span> red_sox.txt
+2011-07-15      Red Sox @  Rays         Loss 6-9
+2011-07-16      Red Sox @  Rays         Win 9-5
+2011-07-17      Red Sox @  Rays         Win 1-0</pre>
+		</li>
+        <li>Now let's feed this into another command that selects the games the Sox won
+        <pre>
+$ grep Rays red_sox.txt <span class="red">| grep Win</span>
+2011-07-16      Red Sox @  Rays         Win 9-5
+2011-07-17      Red Sox @  Rays         Win 1-0</pre>
+		</li>
+        <li>Now we can use <code>sort</code> to get the results in the order we want
+        <pre>
+$ grep Rays red_sox.txt | grep Win <span class="red">| sort -r</span>
+2011-07-17      Red Sox @  Rays         Win 1-0
+2011-07-16      Red Sox @  Rays         Win 9-5</pre>
+		</li>
+        <li>The Unix tool philosophy is simple programs  doing one thing well</li>
+        <li>Pipes are an essential element in making this philosophy work</li>
+       <li>As we progress through this course ...</li>
+       <li>you will have many opportunities to use pipes</li>
+    </ul>
+
+    <h4 class="topic" id="date"><code>date</code> - Get the Date and Time</h4>
+    <ul class="flat">       
+        <li><code>date</code> displays the time and date
+            <pre>
+$ date
+Tue Aug  7 20:02:48 EDT 2012</pre>
+        </li>
+        <li>You can change the way the date is displayed ...</li>
+        <li> by following <code>date</code> with a <span class="char">+</span> and a format string
+           <pre>
+$ date <span class="red">+"%Y-%m-%d %r"</span>
+2012-08-07 08:19:44 PM</pre>
+    	</li>
+        <li>The format string consists mostly of pairs of character pairs ...</li>
+        <li>the first character of which is a <span class="char">%</span></li>
+        <li>In the string above, %Y stands for the four digit year</li>
+        <li>To get more information on the various formatting options use
+        <pre>
+info date</pre></li>
+    <li>Now move the cursor down to the line that reads
+        <pre>
+* Date conversion specifiers::     %[aAbBcCdDeFgGhjmuUVwWxyY]</pre>
+    </li>
+    <li>Then hit the Enter key</li>
+    </ul>
+    
+    <h4 class="topic" id="text_file_conversion">Text File Conversion Programs</h4>
+    <ul class="flat">       
+        <li>Text files on Unix differ from those on Windows machines ...</li>
+        <li>by the characters used to mark the end of a line</li>
+        <li>There are two packages that provide software ...</li>
+        <li>to convert between these two formats
+            <ul class="flat">       
+                <li class="flat"><code>tofrodos</code></li>
+                <li class="flat"><code>unix2dos</code></li>
+            </ul>
+        </li>
+        <li>We won't be using either of them in this course ...</li>
+        <li>but you should know about them</li>
+        <li>The <code>tofrodos</code> package provides <code>todos</code> ...</li>
+        <li>to convert Unix files to Windows format</li>
+        <li>The same package has <code>fromdos</code> to go the other way</li>
+        <li>The <code>unix2dos</code> package uses <code>unix2dos</code> ...</li>
+        <li>to convert Unix text files to Windows text</li>
+        <li>It also provides <code>dos2unix</code> to go the other way</li>
+        <li>You will not be expected to know this ...</li>
+        <li>for a quiz or exam</li>
+    </ul>
+    
+    <h4 class="topic" id="bzip2">Compressing Files with <code>bzip2</code></h4>
+    <ul class="flat">       
+        <li>On the Internet there are many files ...</li>
+        <li>which are free for the taking</li>
+        <li>Many of these files are huge ...</li>
+        <li>and copying them to a machine can take a long time</li>
+        <li>To speed up the process, big files are usually compressed</li>
+        <li>Compression utilities are used to do this</li>
+        <li><code>bzip2</code> is one such utility</li>
+        <li>It achieves the highest compression ratio ...</li>
+        <li>of all common compression utilities</li>
+        <li>You run <code>bzip2</code> like this
+            <pre>
+<span class="format">bzip2 FILENAME</span></pre>
+        </li>
+        <li><code>bzip2</code> compresses the file ...</li>
+        <li>creating a new file with the extension <span class="char">.bz2</span> ...</li>
+        <li>and deletes the original file</li>
+        <li>If you need to keep the original file ...</li>
+        <li>run <code>bzip2</code> with the <code>-k</code> (for keep) option</li>
+        <li>To decompress a file created by <code>bzip2</code> ...</li>
+        <li>use <code>bunzip2</code> like this
+            <pre>
+<span class="format">bunzip2 FILENAME.bz2</span></pre>
+        </li>
+        <li><code>bunzip2</code> decompresses the <span class="char">.bz2</span> file ...</li>
+        <li>and create a new file ...</li>
+        <li>with the <span class="char">.bz2</span> extension removed</li>
+        <li>The compressed file is also deleted</li>
+        <li>A file that <code>bunzip2</code> has compressed is unreadable</li>
+        <li>If you want to look at the contents of a <span class="char">.bz2</span> compressed file ...</li>
+        <li>without uncompressing it ...</li>
+        <li>use <code>bzcat</code></li>
+        <li><code>bzcat</code>, will print the uncompressed contents of a file to the screen</li>
+        <li><code>bzcat</code> does not alter the original, compressed file</li>
+    </ul>
+    
+    <h4 class="topic" id="gzip"><code>gzip</code> - the GNU Compression Utility</h4>
+    <ul class="flat">       
+        <li>The GNU project created <code>gzip</code> to compress files</li>
+        <li>It is older, and less efficient, than <code>bzip2</code></li>
+        <li>But many open source packages are compressed with this program</li>
+        <li>It is similar in operation to <code>bzip2</code></li>
+        <li>The compressed files <code>gzip</code> creates have a <span class="char">.gz</span> extension</li>
+        <li>To show the contents of a <span class="char"></span> file without converting it ...</li>
+        <li>use <code>zcat</code></li>
+        <li>To decompress a gzipped file, use <code>gunzip</code></li>
+        <li>These utilities have nothing to do with the zip and unzip programs ...</li>
+        <li>that are frequently used on Wintel machines</li>
+    </ul>
+    
+    <h4 class="topic" id="tar"><code>tar</code> - Packaging Files for Transfer or Storage</h4>
+    <ul class="flat">
+        <li>Most software packages consist of many files</li>
+        <li>But to distribute the package efficiently ...</li>
+        <li>you really want to turn these many files ...</li>
+        <li>into a single file</li>
+        <li>This also needs to be done when backing up a directory</li>
+        <li><code>tar</code> (<b>t</b>ape <b>ar</b>chive) is the Unix utility used for this purpose</li>
+        <li><code>tar</code> does not compress files</li>
+        <li>it stuffs multiple files into a single file ...</li>
+        <li>often called a <a class="def" href="../definitions.html#tarball">tarball</a></li>
+        <li><code>tar</code> is usually used along with a compression program</li>
+        <li>First you run <code>tar</code> to create a single file ...</li>
+        <li>then you run another utility to compress the file</li>
+        <li>You also use <code>tar</code> to unpack the files</li>
+        <li>You run <code>tar</code> with different options ...</li>
+        <li>to pack, or unpack, a set of files</li>
+        <li>To "tar up" a set of files, run
+            <pre>
+<span class="format">tar cvf ARCHIVE_NAME.tar DIRECTORY_NAME</span></pre> </li>
+        <li>The options stand for <b>c</b>reate, <b>v</b>erbose, <b>f</b>ile</li>
+        <li>The <span class="char">.tar</span> extension is a convention</li>
+        <li>Though you do not have to use this extension ...</li>
+        <li>you would be foolish not to</li>
+        <li>To see the files contained in a tar file ...</li>
+        <li>without unpacking them use
+            <pre>
+<span class="format">tar -tvf ARCHIVE_FILE</span></pre></li>
+        <li>To unpack a tarball use
+            <pre>
+<span class="format">tar -xvf ARCHIVE_FILE</span></pre></li>
+        <li>The <code>-x</code> option stands for e<b>x</b>tract</li>
+        <li>Normally, you create a tarball ...</li>
+        <li>and then run a compression program on the archive file</li>
+        <li>If <code>bzip2</code> is used for compression ...</li>
+        <li>the new file will often have a <span class="char">.tar.bz2 </span>
+        		or <span class="char">.tbz</span> extension
+        </li>
+        <li>If <code>gzip</code> is used ...</li>
+        <li>the extensions usually are <span class="char">.tar.gz</span>, <span class="char">.tgz</span>, </li>
+        <li>or sometimes simply <span class="char">.gz</span></li>
+        <li>Again, these are simply conventions</li>
+        <li>But don't violate these conventions ...</li>
+        <li>unless you have a <b>very</b> good reason</li>
+        <li>Life is complicated enough as it is</li>
+    </ul>
+    
+    <h4 class="topic" id="which"><code>which</code> - Finding a Program File</h4>
+    <ul class="flat">
+        <li>Unix commands are programs ...</li>
+        <li>which exist as binary files ...</li>
+        <li>containing numeric codes that the computer's processor understands</li>
+        <li>that are located somewhere in the filesystem</li>
+        <li>You can use the Unix utility <code>which</code> ...</li>
+        <li>to find the exact location of any binary program file</li>
+        <li>To find the location of the <code>tar</code> program file we would run
+            <pre>
+$ which tar
+/bin/tar</pre>
+		</li>
+        <li><code>which</code> shows that the executable file for <code>tar</code> ...</li>
+        <li>is located in the <span class="path">/bin</span> directory</li>
+        <li><code>which</code> uses the <span class="iden">PATH</span> system variable ...</li>
+        <li>to find the location of the file</li>
+        <li>We'll discuss <span class="iden">PATH</span> in a future class</li>
+    </ul>
+    
+    <h4 class="topic" id="whereis"><code>whereis</code> - Finding Files Used by a Program</h4>
+    <ul class="flat">       
+        <li><code>whereis</code> is another program that can be used to locate program files</li>
+        <li><code>whereis</code> takes an approach different from that of <code>which</code></li>
+        <li>Every Unix or Linux system has certain standard places ...</li>
+        <li>where it stores programs and the files they use</li>
+        <li><code>whereis</code> searches these locations</li>
+        <li>It returns a list of all files associated with a program</li>
+        <li>The list gives the name of the file as well as it's location</li>
+        <li>When we run <code>whereis</code> on <code>tar</code></li>
+        <li>we get more information than <code>which</code> returned
+            <pre>
+$ whereis tar
+tar: /bin/tar /usr/include/tar.h /usr/share/man/man1/tar.1.gz</pre>
+		</li>
+		<li>The first entry is the executable file <span class="path">/bin/tar</span></li>
+		<li>The second entry is a header file <span class="path">/usr/include/tar.h</span></li>
+		<li>The program needs the header file to get certain information</li>
+		<li>The third entry is the file that <code>man</code> uses ...</li>
+		<li>to provide information about <code>tar</code></li>
+		<li>A word of caution about using <code>which</code> and <code>whereis</code></li>
+		<li>Some commands are actually built into the shell itself</li>
+		<li>These command are called built-ins ...</li>
+		<li>and we will talk about them in a future class</li>
+		<li>If you run <code>which</code> or <code>whereis</code> on these programs ...</li>
+		<li>you will get nothing back
+		<pre>
+$ which cd
+$</pre>
+		</li>
+    </ul>
+    
+    <h4 class="topic" id="locate"><code>locate</code> - Search for Any File</h4>
+    <ul class="flat">       
+        <li><code>which</code> and <code>whereis</code> only work on programs</li>
+        <li><code>locate</code> can be used to find any file</li>
+        <li>You don't need to know the full name of a file to use <code>locate</code></li>
+        <li><code>locate</code> will search on a partial file name
+        <pre>
+$ locate foot
+/etc/update-motd.d/99-footer
+/usr/share/doc/java-common/debian-java-faq/footnotes.html
+/usr/share/emacs/23.3/lisp/mail/footnote.elc
+/usr/share/emacs/23.3/lisp/org/org-footnote.elc
+/usr/share/libparse-debianchangelog-perl/footer.tmpl
+/usr/share/xml-core/catalog.footer
+/usr/src/linux-headers-3.0.0-12/arch/arm/mach-footbridge
+/usr/src/linux-headers-3.0.0-12/arch/arm/mach-footbridge/Kconfig
+/usr/src/linux-headers-3.0.0-12/arch/arm/mach-footbridge/Makefile
+/usr/src/linux-headers-3.0.0-12/arch/arm/mach-footbridge/Makefile.boot
+/usr/src/linux-headers-3.0.0-12/arch/arm/mach-footbridge/include
+/usr/src/linux-headers-3.0.0-12/arch/arm/mach-footbridge/include/mach
+/usr/src/linux-headers-3.0.0-12/arch/arm/mach-footbridge/include/mach/debug-macro.S
+/usr/src/linux-headers-3.0.0-12/arch/arm/mach-footbridge/include/mach/entry-macro.S
+/usr/src/linux-headers-3.0.0-12/arch/arm/mach-footbridge/include/mach/hardware.h
+/usr/src/linux-headers-3.0.0-12/arch/arm/mach-footbridge/include/mach/io.h
+/usr/src/linux-headers-3.0.0-12/arch/arm/mach-footbridge/include/mach/irqs.h
+/usr/src/linux-headers-3.0.0-12/arch/arm/mach-footbridge/include/mach/isa-dma.h
+/usr/src/linux-headers-3.0.0-12/arch/arm/mach-footbridge/include/mach/memory.h
+/usr/src/linux-headers-3.0.0-12/arch/arm/mach-footbridge/include/mach/system.h
+/usr/src/linux-headers-3.0.0-12/arch/arm/mach-footbridge/include/mach/timex.h
+/usr/src/linux-headers-3.0.0-12/arch/arm/mach-footbridge/include/mach/uncompress.h
+/usr/src/linux-headers-3.0.0-12/arch/arm/mach-footbridge/include/mach/vmalloc.h</pre>
+		</li>
+        <li><code>locate</code> does not actually search the file system itself</li>
+        <li>That would take too long</li>
+        <li>Instead it uses a database of all files on the system</li>
+        <li>This database is created by another program <code>updatedb</code></li>
+        <li><code>updatedb</code> is usually run automatically in the background to update the database</li>
+        <li>It will not work on any other machine</li>
+    </ul>
+    
+    <h4 class="topic" id="find"><code>find</code> - Search for Files Using Different Criteria</h4>
+    <ul class="flat">       
+        <li>The most powerful Linux/Unix command for finding files is <code>find</code></li>
+        <li>Unfortunately, it's power makes it harder to use that <code>locate</code></li>
+        <li><code>find</code> can be used to search for a file based on many different things such as
+            <ul class="flat">       
+                <li class="flat">The name of the file</li>
+                <li class="flat">The last time the file was used</li>
+                <li class="flat">The last time the file was changed</li>
+                <li class="flat">The access permissions on the file</li>
+            </ul>
+        </li>
+        <li>An in-depth discussion of <code>find</code> is beyond the scope of this course</li>
+        <li>The simplest way to use <code>find</code> is searching for files by name</li>
+        <li>You do this using the following format
+            <pre>
+<span class="format">find DIRECTORY -name FILENAME</span></pre>
+        </li>
+        <li>Here is an example
+            <pre>
+$ find  /home/tsoro  -name red_sox.txt
+/home/tsoro/course_files/it244_files/red_sox.txt
+/home/tsoro/course_files/it441_files/red_sox.txt</pre>
+        </li>
+        <li>Unlike <code>locate</code>, <code>find</code> will not accept a partial file name
+            <pre>
+$ find  /home/tsoro  -name red
+
+$</pre>
+        </li>
+        <li>You can get the effect of searching on a part of a filename ...</li>
+        <li>by using the <span class="char">*</span> character</li>
+        <li>But since <span class="char">*</span> has special meaning on the command line ...</li>
+        <li>you have to escape it
+            <pre>
+$ find /home/tsoro -name memo.<span class="red">\*</span>
+/home/tsoro/memo.bak
+/home/tsoro/memo.txt
+/home/tsoro/tmp/memo.bak
+/home/tsoro/tmp/memo.txt
+/home/tsoro/tmp/memo.backup</pre>
+        </li>
+    </ul>
+
+    <h4 class="topic" id="who"><code>who</code> - See Users Logged On</h4>
+    <ul class="flat">       
+        <li><code>who</code> prints a list of all users currently logged on to the machine
+            <pre>
+$ who
+tsoro  pts/0        2012-08-12 13:41 (dsl092-066-161.bos1.dsl.speakeasy.net)
+rouilj   pts/1        2012-08-12 04:25 (pool-74-104-161-40.bstnma.fios.verizon.net)
+eb       pts/2        2012-08-12 08:19 (pool-96-237-251-11.bstnma.fios.verizon.net)</pre>
+		</li>
+	   <li><code>who</code> also provides information about each user's login session</li>
+	   <li>It shows the time they logged in </li>
+	   <li>It also shows the machine from which the user connected</li>
+	   <li><code>who am i</code> will show the user who is logged into a specific terminal
+	       <pre>
+$ who am i
+tsoro  pts/0        2012-08-12 13:41 (dsl092-066-161.bos1.dsl.speakeasy.net)</pre>
+		</li>
+	   <li>This can be useful if you find an unattended terminal</li>
+	   <li>You can run the same command without the spaces ...</li>
+	   <li>but it gives less information
+	       <pre>
+$ whoami
+tsoro</pre>
+	   </li>
+    </ul>
+
+    <h4 class="topic" id="finger"><code>finger</code> - Get information on Users</h4>
+    <ul class="flat">       
+        <li><code>finger</code> provides information about Unix accounts
+            <pre>
+$ finger tsoro
+Login: ghoffman       			Name: Glenn Hoffman
+Directory: /home/tsoro           	Shell: /bin/bash
+On since Thu Sep 24 11:43 (EDT) on pts/5 from 158.121.249.7
+   5 seconds idle
+Mail forwarded to tsoros@gmail.com
+New mail received Fri Sep 18 14:00 2015 (EDT)
+     Unread since Fri Sep 18 07:43 2015 (EDT)
+Plan:
+Office:        Science 3-92A (Pterosaur poster on door)           
+Office Hours:  Tuesday &amp; Thursday, 12:30 - 1:30 PM and 5:30 - 6:30 PM 
+On Campus:     Wednesday 1 - 6PM Appointment needed on Wednesday
+Classes:       IT 244-01   Introduction to Linux/Unix             TuTh 2:00 - 3:15 PM  Science S3-143 (IT Lab)
+               IT 244-02   Introduction to Linux/Unix             TuTh 4:00 - 5:15 PM  Science S3-028 (Web Lab)  
+               IT 341_02   Introduction to System Administration  TuTh 7:00 - 8:15 PM  Science S3-143 (IT Lab)
+Home Address:  40 Central Street     617-821-3936 (home; 9am - 9pm only)
+               Somerville, MA 02143</pre>
+        </li>
+        <li><code>finger</code>, like <code>mv</code>, has two functions</li>
+        <li>When used without an argument ...</li>
+        <li><code>finger</code> shows every user currently logged in
+            <pre>
+$ finger
+Login     Name            Tty      Idle  Login Time   Office     Office Phone
+eb        Ethan Bolker    pts/4    3:35  Sep 22 19:19 (pool-108-26-203-122.bstnma.fios.verizon.net)
+ghoffman  Glenn Hoffman   pts/5          Sep 24 11:43 (158.121.249.7)
+root      root           *tty1      52d  Mar 11  2015</pre>
+		</li>
+        <li>You can also use a last name with <code>finger</code>
+        <pre>
+$ finger hoffman
+Login: ghoffman       			Name: Glenn Hoffman
+Directory: /home/ghoffman           	Shell: /bin/bash
+On since Thu Sep 24 11:43 (EDT) on pts/5 from 158.121.249.7
+   2 seconds idle
+Mail forwarded to glennhoffman@mac.com
+New mail received Fri Sep 18 14:00 2015 (EDT)
+     Unread since Fri Sep 18 07:43 2015 (EDT)
+Plan:
+Office:        Science 3-92A (Pterosaur poster on door)           
+Office Hours:  Tuesday &amp; Thursday, 12:30 - 1:30 PM and 5:30 - 6:30 PM 
+On Campus:     Wednesday 1 - 6PM Appointment needed on Wednesday
+Classes:       IT 244-01   Introduction to Linux/Unix             TuTh 2:00 - 3:15 PM  Science S3-143 (IT Lab)
+               IT 244-02   Introduction to Linux/Unix             TuTh 4:00 - 5:15 PM  Science S3-028 (Web Lab)  
+               IT 341_02   Introduction to System Administration  TuTh 7:00 - 8:15 PM  Science S3-143 (IT Lab)
+Home Address:  40 Central Street     617-821-3936 (home; 9am - 9pm only)
+               Somerville, MA 02143
+               
+
+Login: ghoffmn        			Name: Glenn Legacy Hoffman
+Directory: /home/ghoffmn            	Shell: /bin/bash
+Last login Mon Jul 13 13:14 (EDT) on pts/5 from dsl092-066-161.bos1.dsl.speakeasy.net
+Mail forwarded to glennhoffman@mac.com
+Mail last read Thu May 28 18:30 2015 (EDT)
+Plan:
+Office:         McCormack M-3-607                 Fall 2014
+Office Hours:   Tuesday &amp; Thursday, 10:00 - 12:00 PM and by appointment
+Classes:        
+	IT 341-2  Introduction to System Administration  TuTh  12:30-1:45  S3-148  (IT Lab)
+	IT 244-1  Introduction to Linux/Unix             TuTh   2:00-3:15  S3-028  (Web Lab)
+	IT 244-3  Introduction to Linux/Unix             TuTh   4:00-5:15  S3-148  (IT Lab)
+	IT 244-2  Introduction to Linux/Unix             TuTh   5:30-6:45  S3-028  (Web Lab)
+Home Address:   40 Central Street     617-821-3936 (home; 9am - 9pm only)
+                Somerville, MA 02143
+
+
+Login: it244gh        			Name: Glenn Hoffman Dummy
+Directory: /home/it244gh            	Shell: /users/nologin
+Never logged in.
+Mail forwarded to glennhoffman@mac.com
+No mail.
+Plan:
+This account is a test account for Glenn Hoffman teaching it244</pre>
+        </li>
+    </ul>
+    
+    <h3 class="section">Attendance</h3>
+    
+    <h3 class="section">Class Quiz</h3>
+
+	<footer>
+		<a href="class_notes_it244.html" class="spacer">Class Notes</a>
+		<a href="class_notes_index_it244.html" class="spacer">Class Notes Index</a>
+	</footer>
+</body>
+
+<!-- Mirrored from www.cs.umb.edu/~tsoro/teaching/IT244_html/class_notes_it244/06_class_notes_it244.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 29 Oct 2019 15:54:23 GMT -->
+</html>

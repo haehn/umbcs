@@ -1,0 +1,48 @@
+body {
+	background-color: #ffffff;
+}
+
+.text-grey-dark {
+	color: #8795a1;
+}
+
+.nav-menu {
+	list-style: none;
+	padding: 20px;
+}
+
+.nav-menu a {
+	text-decoration: none;
+}
+
+.nav-menu .small {
+	font-size: 10pt;
+	font-weight: 200;
+}
+
+.avatar-container {
+	width: 100%;
+}
+
+.avatar-container .avatar {
+	display: block;
+	width: 100%;
+	height: auto;
+	border-radius: 50%;
+	object-fit: cover;
+}
+
+.row-middle {
+	line-height: 1;
+	text-indent: 0;
+	word-spacing: 0;
+	margin: 0;
+}
+
+.notes-table td p {
+	margin: 0;
+}
+
+.notes-table td.pl-15 {
+	padding-left: 15px;
+}
